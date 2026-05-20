@@ -4,6 +4,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import {
   ClipboardList,
+  Bot,
   Gauge,
   Layers3,
   Menu,
@@ -22,6 +23,7 @@ import { cn } from "@/lib/utils"
 const navItems = [
   { name: "대시보드", href: "/dashboard", icon: Gauge },
   { name: "새 주문", href: "/orders/new", icon: PlusCircle },
+  { name: "관리자 오더", href: "/admin-orders", icon: Bot },
   { name: "주문내역", href: "/orders", icon: ClipboardList },
   { name: "서비스", href: "/services", icon: Layers3 },
   { name: "설정", href: "/settings", icon: Settings },
