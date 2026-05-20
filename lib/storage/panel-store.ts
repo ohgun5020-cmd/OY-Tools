@@ -1,4 +1,13 @@
-import type { CreateOrderInput, PanelOrder, PanelOrderStatus, PanelService, PanelSettings } from "@/types/panel"
+import type {
+  AdminOrderCandidate,
+  AdminOrderItem,
+  AdminOrderStatus,
+  CreateOrderInput,
+  PanelOrder,
+  PanelOrderStatus,
+  PanelService,
+  PanelSettings,
+} from "@/types/panel"
 import { estimateCharge } from "@/features/panel/format"
 import { defaultPanelSettings, demoOrders, demoServices } from "@/features/panel/mock-data"
 import { createSmmOrder, getSmmOrderStatus, listSmmServices, normalizeStatus } from "@/lib/smm/client"
@@ -6,6 +15,7 @@ import { isPostgresConfigured, queryPostgres } from "@/lib/storage/postgres"
 import { getSupabaseAdmin } from "@/lib/storage/supabase"
 
 type MemoryStore = {
+  adminOrders: AdminOrderCandidate[]
   orders: PanelOrder[]
   services: PanelService[]
   settings: PanelSettings
@@ -15,13 +25,385 @@ const globalStore = globalThis as typeof globalThis & {
   __oyPanelMemoryStore?: MemoryStore
 }
 
+type CreateAdminOrderCandidateInput = {
+  targetUrl: string
+  source?: AdminOrderCandidate["source"]
+  profileUrl?: string | null
+  mediaId?: string | null
+  mediaType?: string | null
+  caption?: string | null
+  detectedAt?: string | null
+  items?: AdminOrderItem[]
+  raw?: Record<string, unknown> | null
+}
+
 const memoryStore =
   globalStore.__oyPanelMemoryStore ||
   (globalStore.__oyPanelMemoryStore = {
+    adminOrders: [],
     orders: [...demoOrders],
     services: [...demoServices],
     settings: { ...defaultPanelSettings },
   })
+
+export async function getAdminOrderCandidates() {
+  if (isPostgresConfigured()) {
+    try {
+      const result = await queryPostgres(
+        `
+        select *
+        from public.oy_panel_admin_orders
+        order by created_at desc
+        `,
+      )
+
+      if (result) {
+        return result.rows.map(mapAdminOrderFromRow)
+      }
+    } catch (error) {
+      console.error("Postgres admin order query failed", error)
+      return memoryStore.adminOrders
+    }
+  }
+
+  const supabase = getSupabaseAdmin()
+
+  if (!supabase) {
+    return memoryStore.adminOrders
+  }
+
+  const { data, error } = await supabase
+    .from("oy_panel_admin_orders")
+    .select("*")
+    .order("created_at", { ascending: false })
+
+  if (error) {
+    console.error("Supabase admin order query failed", error.message)
+    return memoryStore.adminOrders
+  }
+
+  return (data || []).map(mapAdminOrderFromRow)
+}
+
+export async function getAdminOrderCandidate(id: string) {
+  if (isPostgresConfigured()) {
+    try {
+      const result = await queryPostgres(
+        `
+        select *
+        from public.oy_panel_admin_orders
+        where id = $1
+        limit 1
+        `,
+        [id],
+      )
+
+      if (result) {
+        return result.rows[0] ? mapAdminOrderFromRow(result.rows[0]) : null
+      }
+    } catch (error) {
+      console.error("Postgres single admin order query failed", error)
+      return memoryStore.adminOrders.find((candidate) => candidate.id === id) || null
+    }
+  }
+
+  const supabase = getSupabaseAdmin()
+
+  if (!supabase) {
+    return memoryStore.adminOrders.find((candidate) => candidate.id === id) || null
+  }
+
+  const { data, error } = await supabase.from("oy_panel_admin_orders").select("*").eq("id", id).maybeSingle()
+
+  if (error) {
+    console.error("Supabase single admin order query failed", error.message)
+    return memoryStore.adminOrders.find((candidate) => candidate.id === id) || null
+  }
+
+  return data ? mapAdminOrderFromRow(data) : null
+}
+
+export async function findAdminOrderCandidateByTargetUrl(targetUrl: string) {
+  const normalizedUrl = targetUrl.trim()
+
+  if (isPostgresConfigured()) {
+    try {
+      const result = await queryPostgres(
+        `
+        select *
+        from public.oy_panel_admin_orders
+        where target_url = $1
+        order by created_at desc
+        limit 1
+        `,
+        [normalizedUrl],
+      )
+
+      if (result) {
+        return result.rows[0] ? mapAdminOrderFromRow(result.rows[0]) : null
+      }
+    } catch (error) {
+      console.error("Postgres admin order duplicate query failed", error)
+      return memoryStore.adminOrders.find((candidate) => candidate.targetUrl === normalizedUrl) || null
+    }
+  }
+
+  const supabase = getSupabaseAdmin()
+
+  if (!supabase) {
+    return memoryStore.adminOrders.find((candidate) => candidate.targetUrl === normalizedUrl) || null
+  }
+
+  const { data, error } = await supabase
+    .from("oy_panel_admin_orders")
+    .select("*")
+    .eq("target_url", normalizedUrl)
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle()
+
+  if (error) {
+    console.error("Supabase admin order duplicate query failed", error.message)
+    return memoryStore.adminOrders.find((candidate) => candidate.targetUrl === normalizedUrl) || null
+  }
+
+  return data ? mapAdminOrderFromRow(data) : null
+}
+
+export async function createAdminOrderCandidate(input: CreateAdminOrderCandidateInput) {
+  const now = new Date().toISOString()
+  const candidate: AdminOrderCandidate = {
+    id: crypto.randomUUID(),
+    source: input.source || "manual",
+    targetUrl: input.targetUrl.trim(),
+    profileUrl: input.profileUrl || null,
+    mediaId: input.mediaId || null,
+    mediaType: input.mediaType || null,
+    caption: input.caption || null,
+    detectedAt: input.detectedAt || now,
+    status: "Review",
+    items: input.items || [],
+    createdOrderIds: [],
+    errorMessage: null,
+    createdAt: now,
+    updatedAt: now,
+  }
+
+  if (isPostgresConfigured()) {
+    try {
+      const result = await queryPostgres(
+        `
+        insert into public.oy_panel_admin_orders (
+          id,
+          source,
+          target_url,
+          profile_url,
+          media_id,
+          media_type,
+          caption,
+          detected_at,
+          status,
+          items,
+          created_order_ids,
+          error_message,
+          raw,
+          created_at,
+          updated_at
+        )
+        values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+        returning *
+        `,
+        [
+          candidate.id,
+          candidate.source,
+          candidate.targetUrl,
+          candidate.profileUrl,
+          candidate.mediaId,
+          candidate.mediaType,
+          candidate.caption,
+          candidate.detectedAt,
+          candidate.status,
+          JSON.stringify(candidate.items),
+          JSON.stringify(candidate.createdOrderIds),
+          candidate.errorMessage,
+          JSON.stringify(input.raw || null),
+          candidate.createdAt,
+          candidate.updatedAt,
+        ],
+      )
+
+      if (result?.rows[0]) {
+        return mapAdminOrderFromRow(result.rows[0])
+      }
+    } catch (error) {
+      console.error("Postgres admin order insert failed", error)
+      memoryStore.adminOrders = [candidate, ...memoryStore.adminOrders]
+      return candidate
+    }
+  }
+
+  const supabase = getSupabaseAdmin()
+
+  if (!supabase) {
+    memoryStore.adminOrders = [candidate, ...memoryStore.adminOrders]
+    return candidate
+  }
+
+  const { data, error } = await supabase
+    .from("oy_panel_admin_orders")
+    .insert(mapAdminOrderToRow(candidate, input.raw || null))
+    .select("*")
+    .single()
+
+  if (error) {
+    console.error("Supabase admin order insert failed", error.message)
+    memoryStore.adminOrders = [candidate, ...memoryStore.adminOrders]
+    return candidate
+  }
+
+  return mapAdminOrderFromRow(data)
+}
+
+export async function buildAdminOrderItem(serviceId: string, quantity: number): Promise<AdminOrderItem> {
+  const services = await getPanelServices()
+  const service = services.find((item) => item.providerServiceId === serviceId || item.id === serviceId)
+
+  if (!service) {
+    throw new Error("관리자 오더에 사용할 서비스를 찾을 수 없습니다.")
+  }
+
+  if (!service.isEnabled) {
+    throw new Error("선택한 서비스가 비활성화되어 있습니다.")
+  }
+
+  if (quantity < service.min || quantity > service.max) {
+    throw new Error(`수량은 ${service.min}개 이상 ${service.max}개 이하여야 합니다.`)
+  }
+
+  return {
+    id: crypto.randomUUID(),
+    serviceId: service.providerServiceId,
+    serviceName: service.name,
+    platform: service.platform,
+    quantity,
+    rate: service.rate,
+    currency: service.currency,
+  }
+}
+
+export async function executeAdminOrderCandidate(id: string) {
+  const candidate = await getAdminOrderCandidate(id)
+
+  if (!candidate) {
+    throw new Error("관리자 오더 후보를 찾을 수 없습니다.")
+  }
+
+  if (candidate.status === "Executed") {
+    return { candidate, orders: [] as PanelOrder[] }
+  }
+
+  if (!candidate.items.length) {
+    throw new Error("실행할 주문 항목이 없습니다.")
+  }
+
+  const orders: PanelOrder[] = []
+
+  try {
+    for (const item of candidate.items) {
+      const order = await createPanelOrder({
+        serviceId: item.serviceId,
+        link: candidate.targetUrl,
+        quantity: item.quantity,
+      })
+      orders.push(order)
+    }
+
+    const updated = await updateAdminOrderCandidate(candidate.id, {
+      status: "Executed",
+      createdOrderIds: orders.map((order) => order.id),
+      errorMessage: null,
+    })
+
+    return { candidate: updated, orders }
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "관리자 오더 실행에 실패했습니다."
+    const updated = await updateAdminOrderCandidate(candidate.id, {
+      status: "Failed",
+      createdOrderIds: orders.map((order) => order.id),
+      errorMessage: message,
+    })
+
+    throw new Error(updated.errorMessage || message)
+  }
+}
+
+export async function updateAdminOrderCandidate(
+  id: string,
+  patch: Partial<Pick<AdminOrderCandidate, "status" | "createdOrderIds" | "errorMessage">>,
+) {
+  const updatedAt = new Date().toISOString()
+
+  if (isPostgresConfigured()) {
+    try {
+      const result = await queryPostgres(
+        `
+        update public.oy_panel_admin_orders
+        set
+          status = coalesce($1::text, status),
+          created_order_ids = coalesce($2::jsonb, created_order_ids),
+          error_message = $3,
+          updated_at = $4
+        where id = $5
+        returning *
+        `,
+        [
+          patch.status,
+          patch.createdOrderIds ? JSON.stringify(patch.createdOrderIds) : null,
+          patch.errorMessage ?? null,
+          updatedAt,
+          id,
+        ],
+      )
+
+      if (result?.rows[0]) {
+        return mapAdminOrderFromRow(result.rows[0])
+      }
+    } catch (error) {
+      console.error("Postgres admin order update failed", error)
+    }
+  }
+
+  const supabase = getSupabaseAdmin()
+
+  if (!supabase) {
+    memoryStore.adminOrders = memoryStore.adminOrders.map((candidate) =>
+      candidate.id === id ? { ...candidate, ...patch, updatedAt } : candidate,
+    )
+    return memoryStore.adminOrders.find((candidate) => candidate.id === id)!
+  }
+
+  const { data, error } = await supabase
+    .from("oy_panel_admin_orders")
+    .update({
+      status: patch.status,
+      created_order_ids: patch.createdOrderIds,
+      error_message: patch.errorMessage ?? null,
+      updated_at: updatedAt,
+    })
+    .eq("id", id)
+    .select("*")
+    .single()
+
+  if (error) {
+    console.error("Supabase admin order update failed", error.message)
+    memoryStore.adminOrders = memoryStore.adminOrders.map((candidate) =>
+      candidate.id === id ? { ...candidate, ...patch, updatedAt } : candidate,
+    )
+    return memoryStore.adminOrders.find((candidate) => candidate.id === id)!
+  }
+
+  return mapAdminOrderFromRow(data)
+}
 
 export async function getPanelOrders() {
   if (isPostgresConfigured()) {
@@ -675,6 +1057,45 @@ function mapOrderToRow(order: PanelOrder) {
   }
 }
 
+function mapAdminOrderFromRow(row: Record<string, any>): AdminOrderCandidate {
+  return {
+    id: row.id,
+    source: (row.source || "manual") as AdminOrderCandidate["source"],
+    targetUrl: row.target_url,
+    profileUrl: row.profile_url || null,
+    mediaId: row.media_id || null,
+    mediaType: row.media_type || null,
+    caption: row.caption || null,
+    detectedAt: row.detected_at ? toIsoString(row.detected_at) : null,
+    status: (row.status || "Review") as AdminOrderStatus,
+    items: normalizeJsonArray<AdminOrderItem>(row.items),
+    createdOrderIds: normalizeJsonArray<string>(row.created_order_ids),
+    errorMessage: row.error_message || null,
+    createdAt: toIsoString(row.created_at),
+    updatedAt: toIsoString(row.updated_at),
+  }
+}
+
+function mapAdminOrderToRow(candidate: AdminOrderCandidate, raw: Record<string, unknown> | null = null) {
+  return {
+    id: candidate.id,
+    source: candidate.source,
+    target_url: candidate.targetUrl,
+    profile_url: candidate.profileUrl,
+    media_id: candidate.mediaId,
+    media_type: candidate.mediaType,
+    caption: candidate.caption,
+    detected_at: candidate.detectedAt,
+    status: candidate.status,
+    items: candidate.items,
+    created_order_ids: candidate.createdOrderIds,
+    error_message: candidate.errorMessage,
+    raw,
+    created_at: candidate.createdAt,
+    updated_at: candidate.updatedAt,
+  }
+}
+
 function mapServiceFromRow(row: Record<string, any>): PanelService {
   return {
     id: row.service_id,
@@ -710,6 +1131,23 @@ function mapServiceToRow(service: PanelService) {
     raw: service.raw || null,
     updated_at: service.updatedAt,
   }
+}
+
+function normalizeJsonArray<T>(value: unknown): T[] {
+  if (Array.isArray(value)) {
+    return value as T[]
+  }
+
+  if (typeof value === "string") {
+    try {
+      const parsed = JSON.parse(value)
+      return Array.isArray(parsed) ? (parsed as T[]) : []
+    } catch {
+      return []
+    }
+  }
+
+  return []
 }
 
 function toNullableNumber(value: string | number | undefined | null) {

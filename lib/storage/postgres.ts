@@ -108,6 +108,30 @@ create index if not exists oy_panel_services_platform_idx
 alter table public.oy_panel_services
   alter column rate type numeric(16, 8);
 
+create table if not exists public.oy_panel_admin_orders (
+  id uuid primary key default gen_random_uuid(),
+  source text not null default 'manual',
+  target_url text not null,
+  profile_url text,
+  media_id text,
+  media_type text,
+  caption text,
+  detected_at timestamptz,
+  status text not null default 'Review',
+  items jsonb not null default '[]',
+  created_order_ids jsonb not null default '[]',
+  error_message text,
+  raw jsonb,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists oy_panel_admin_orders_created_at_idx
+  on public.oy_panel_admin_orders (created_at desc);
+
+create index if not exists oy_panel_admin_orders_target_url_idx
+  on public.oy_panel_admin_orders (target_url);
+
 create table if not exists public.oy_panel_settings (
   key text primary key,
   value jsonb not null,

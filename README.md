@@ -15,6 +15,7 @@ The first product is **OY Panel**, a private SMM order management dashboard. It 
 - One-click order status refresh
 - Service favorite/enabled controls
 - Basic internal pricing settings
+- Admin order approval queue for Instagram post-driven orders
 
 Excluded from the first version:
 
@@ -59,6 +60,10 @@ Copy `.env.example` to `.env.local` and fill:
 - `SMM_API_URL`
 - `SMM_API_KEY`
 - `SMM_CURRENCY`
+- `INSTAGRAM_PROFILE_URL`
+- `INSTAGRAM_USERNAME`
+- `INSTAGRAM_USER_ID` for official Instagram API post checks
+- `INSTAGRAM_ACCESS_TOKEN` for official Instagram API post checks
 - `DATABASE_URL` for Railway Postgres
 - `SUPABASE_URL`
 - `SUPABASE_SERVICE_ROLE_KEY`

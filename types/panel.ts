@@ -57,6 +57,35 @@ export type PanelOrder = {
   updatedAt: string
 }
 
+export type AdminOrderStatus = "Review" | "Executed" | "Rejected" | "Failed"
+
+export type AdminOrderItem = {
+  id: string
+  serviceId: string
+  serviceName: string
+  platform: string
+  quantity: number
+  rate: number
+  currency: string
+}
+
+export type AdminOrderCandidate = {
+  id: string
+  source: "manual" | "instagram"
+  targetUrl: string
+  profileUrl: string | null
+  mediaId: string | null
+  mediaType: string | null
+  caption: string | null
+  detectedAt: string | null
+  status: AdminOrderStatus
+  items: AdminOrderItem[]
+  createdOrderIds: string[]
+  errorMessage: string | null
+  createdAt: string
+  updatedAt: string
+}
+
 export type CreateOrderInput = {
   serviceId: string
   link: string
