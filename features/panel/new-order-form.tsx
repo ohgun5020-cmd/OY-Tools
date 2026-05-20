@@ -10,7 +10,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
-import { estimateCharge, formatCurrency, formatNumber } from "@/features/panel/format"
+import { estimateCharge, formatCurrency, formatNumber, formatServiceRate } from "@/features/panel/format"
+import { getServiceDisplay } from "@/features/panel/service-display"
 import type { PanelOrder, PanelService, PanelSettings } from "@/types/panel"
 
 type NewOrderFormProps = {
@@ -29,6 +30,7 @@ export function NewOrderForm({ services, settings }: NewOrderFormProps) {
   const [serviceId, setServiceId] = useState(platformServices[0]?.providerServiceId || enabledServices[0]?.providerServiceId || "")
   const selectedService =
     enabledServices.find((service) => service.providerServiceId === serviceId) || platformServices[0] || enabledServices[0]
+  const selectedDisplay = selectedService ? getServiceDisplay(selectedService) : null
   const [link, setLink] = useState("")
   const [quantity, setQuantity] = useState(selectedService?.min || 100)
   const [error, setError] = useState("")
@@ -119,8 +121,12 @@ export function NewOrderForm({ services, settings }: NewOrderFormProps) {
                   </SelectTrigger>
                   <SelectContent>
                     {platformServices.map((service) => (
-                      <SelectItem key={service.providerServiceId} value={service.providerServiceId}>
-                        {service.name}
+                      <SelectItem
+                        key={service.providerServiceId}
+                        value={service.providerServiceId}
+                        className="min-h-10 whitespace-normal leading-5"
+                      >
+                        {getServiceDisplay(service).name}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -193,14 +199,17 @@ export function NewOrderForm({ services, settings }: NewOrderFormProps) {
           {selectedService ? (
             <>
               <div>
-                <p className="text-sm font-medium">{selectedService.name}</p>
-                <p className="mt-1 text-xs text-muted-foreground">{selectedService.category}</p>
+                <p className="text-sm font-medium">{selectedDisplay?.name}</p>
+                <p className="mt-1 text-xs text-muted-foreground">{selectedDisplay?.category}</p>
+                {selectedDisplay?.originalName !== selectedDisplay?.name ? (
+                  <p className="mt-1 text-xs text-muted-foreground">원문: {selectedDisplay?.originalName}</p>
+                ) : null}
               </div>
               <Separator />
               <div className="grid grid-cols-2 gap-3 text-sm">
                 <div className="rounded-md border border-border/70 bg-secondary/35 p-3">
                   <p className="text-xs text-muted-foreground">1,000개 단가</p>
-                  <p className="mt-1 font-medium">{formatCurrency(selectedService.rate, selectedService.currency)}</p>
+                  <p className="mt-1 font-medium">{formatServiceRate(selectedService.rate, selectedService.currency)}</p>
                 </div>
                 <div className="rounded-md border border-border/70 bg-secondary/35 p-3">
                   <p className="text-xs text-muted-foreground">수량 범위</p>

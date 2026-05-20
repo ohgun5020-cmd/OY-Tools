@@ -9,7 +9,8 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { formatCurrency, formatNumber } from "@/features/panel/format"
+import { formatNumber, formatServiceRate } from "@/features/panel/format"
+import { getServiceDisplay } from "@/features/panel/service-display"
 import { cn } from "@/lib/utils"
 import type { PanelService } from "@/types/panel"
 
@@ -33,10 +34,17 @@ export function ServicesTable({ initialServices, serviceOrderCounts }: ServicesT
 
     return services
       .filter((service) => {
+        const display = getServiceDisplay(service)
         const matchesPlatform = platform === "all" || service.platform === platform
-        const matchesQuery = [service.providerServiceId, service.platform, service.category, service.name].some((value) =>
-          value.toLowerCase().includes(lower),
-        )
+        const matchesQuery = [
+          service.providerServiceId,
+          service.platform,
+          service.category,
+          service.name,
+          display.name,
+          display.category,
+          display.originalName,
+        ].some((value) => value.toLowerCase().includes(lower))
 
         return matchesPlatform && matchesQuery
       })
@@ -123,8 +131,8 @@ export function ServicesTable({ initialServices, serviceOrderCounts }: ServicesT
               <TableHead>즐겨찾기</TableHead>
               <TableHead>ID</TableHead>
               <TableHead>플랫폼</TableHead>
-              <TableHead className="min-w-[280px]">서비스명</TableHead>
-              <TableHead>단가</TableHead>
+              <TableHead className="min-w-[360px]">서비스명</TableHead>
+              <TableHead>1K 단가</TableHead>
               <TableHead>사용횟수</TableHead>
               <TableHead>최소</TableHead>
               <TableHead>최대</TableHead>
@@ -132,53 +140,63 @@ export function ServicesTable({ initialServices, serviceOrderCounts }: ServicesT
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredServices.map((service) => (
-              <TableRow key={service.providerServiceId}>
-                <TableCell>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() =>
-                      updatePreference(service.providerServiceId, {
-                        isFavorite: !service.isFavorite,
-                      })
-                    }
-                  >
-                    <Star
-                      className={cn(
-                        "h-4 w-4",
-                        service.isFavorite ? "fill-amber-300 text-amber-300" : "text-muted-foreground",
-                      )}
+            {filteredServices.map((service) => {
+              const display = getServiceDisplay(service)
+
+              return (
+                <TableRow key={service.providerServiceId}>
+                  <TableCell>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() =>
+                        updatePreference(service.providerServiceId, {
+                          isFavorite: !service.isFavorite,
+                        })
+                      }
+                    >
+                      <Star
+                        className={cn(
+                          "h-4 w-4",
+                          service.isFavorite ? "fill-amber-300 text-amber-300" : "text-muted-foreground",
+                        )}
+                      />
+                      <span className="sr-only">즐겨찾기 전환</span>
+                    </Button>
+                  </TableCell>
+                  <TableCell className="font-mono text-xs">{service.providerServiceId}</TableCell>
+                  <TableCell>
+                    <Badge variant="outline" className="rounded-sm">
+                      {service.platform}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <div className="max-w-[520px] font-medium leading-5">{display.name}</div>
+                    <div className="mt-1 max-w-[520px] truncate text-xs text-muted-foreground">
+                      {display.category}
+                      {display.originalName !== display.name ? ` · 원문: ${display.originalName}` : ""}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="font-mono text-sm">{formatServiceRate(service.rate, service.currency)}</div>
+                    <div className="text-[11px] text-muted-foreground">1,000개 기준</div>
+                  </TableCell>
+                  <TableCell>{formatNumber(serviceOrderCounts[service.providerServiceId] || 0)}</TableCell>
+                  <TableCell>{formatNumber(service.min)}</TableCell>
+                  <TableCell>{formatNumber(service.max)}</TableCell>
+                  <TableCell>
+                    <Switch
+                      checked={service.isEnabled}
+                      onCheckedChange={(checked) =>
+                        updatePreference(service.providerServiceId, {
+                          isEnabled: checked,
+                        })
+                      }
                     />
-                    <span className="sr-only">즐겨찾기 전환</span>
-                  </Button>
-                </TableCell>
-                <TableCell className="font-mono text-xs">{service.providerServiceId}</TableCell>
-                <TableCell>
-                  <Badge variant="outline" className="rounded-sm">
-                    {service.platform}
-                  </Badge>
-                </TableCell>
-                <TableCell>
-                  <div className="max-w-[360px] truncate font-medium">{service.name}</div>
-                  <div className="max-w-[360px] truncate text-xs text-muted-foreground">{service.category}</div>
-                </TableCell>
-                <TableCell>{formatCurrency(service.rate, service.currency)}</TableCell>
-                <TableCell>{formatNumber(serviceOrderCounts[service.providerServiceId] || 0)}</TableCell>
-                <TableCell>{formatNumber(service.min)}</TableCell>
-                <TableCell>{formatNumber(service.max)}</TableCell>
-                <TableCell>
-                  <Switch
-                    checked={service.isEnabled}
-                    onCheckedChange={(checked) =>
-                      updatePreference(service.providerServiceId, {
-                        isEnabled: checked,
-                      })
-                    }
-                  />
-                </TableCell>
-              </TableRow>
-            ))}
+                  </TableCell>
+                </TableRow>
+              )
+            })}
           </TableBody>
         </Table>
       </div>
@@ -200,7 +218,7 @@ function compareServices(
 
   const favoriteDelta = Number(b.isFavorite) - Number(a.isFavorite)
   const popularDelta = (serviceOrderCounts[b.providerServiceId] || 0) - (serviceOrderCounts[a.providerServiceId] || 0)
-  const nameDelta = a.name.localeCompare(b.name)
+  const nameDelta = getServiceDisplay(a).name.localeCompare(getServiceDisplay(b).name)
 
   switch (sortBy) {
     case "price-low":

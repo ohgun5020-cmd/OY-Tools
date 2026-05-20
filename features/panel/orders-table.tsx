@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { formatCurrency, formatDateTime, formatNumber } from "@/features/panel/format"
+import { translateServiceName } from "@/features/panel/service-display"
 import type { PanelOrder } from "@/types/panel"
 
 export function OrdersTable({ initialOrders }: { initialOrders: PanelOrder[] }) {
@@ -19,8 +20,8 @@ export function OrdersTable({ initialOrders }: { initialOrders: PanelOrder[] }) 
     const lower = query.toLowerCase()
 
     return orders.filter((order) =>
-      [order.providerOrderId, order.platform, order.serviceName, order.link, order.status].some((value) =>
-        value.toLowerCase().includes(lower),
+      [order.providerOrderId, order.platform, order.serviceName, translateServiceName(order.serviceName), order.link, order.status].some(
+        (value) => value.toLowerCase().includes(lower),
       ),
     )
   }, [orders, query])
@@ -68,7 +69,7 @@ export function OrdersTable({ initialOrders }: { initialOrders: PanelOrder[] }) 
               <TableRow key={order.id}>
                 <TableCell className="font-mono text-xs">{order.providerOrderId}</TableCell>
                 <TableCell>{order.platform}</TableCell>
-                <TableCell className="max-w-[260px] truncate">{order.serviceName}</TableCell>
+                <TableCell className="max-w-[260px] truncate">{translateServiceName(order.serviceName)}</TableCell>
                 <TableCell className="max-w-[320px] truncate text-muted-foreground">{order.link}</TableCell>
                 <TableCell>{formatNumber(order.quantity)}</TableCell>
                 <TableCell>{formatCurrency(order.charge, order.currency)}</TableCell>

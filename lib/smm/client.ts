@@ -6,11 +6,22 @@ type SmmServiceResponse = {
   name: string
   type?: string
   category?: string
-  rate: string | number
-  min: string | number
-  max: string | number
+  rate?: string | number
+  price?: string | number
+  cost?: string | number
+  price_per_1000?: string | number
+  rate_per_1000?: string | number
+  min?: string | number
+  minimum?: string | number
+  min_order?: string | number
+  min_quantity?: string | number
+  max?: string | number
+  maximum?: string | number
+  max_order?: string | number
+  max_quantity?: string | number
   refill?: boolean
   cancel?: boolean
+  [key: string]: unknown
 }
 
 type SmmStatusResponse = {
@@ -136,6 +147,9 @@ async function callSmmApi<T>(params: Record<string, string>) {
 function mapSmmService(service: SmmServiceResponse): PanelService {
   const category = service.category || "Uncategorized"
   const id = String(service.service)
+  const rate = firstNumber(service.rate, service.price, service.cost, service.price_per_1000, service.rate_per_1000)
+  const min = firstNumber(service.min, service.minimum, service.min_order, service.min_quantity)
+  const max = firstNumber(service.max, service.maximum, service.max_order, service.max_quantity)
 
   return {
     id,
@@ -144,9 +158,9 @@ function mapSmmService(service: SmmServiceResponse): PanelService {
     category,
     name: service.name,
     type: service.type || "Default",
-    rate: toNumber(service.rate),
-    min: toNumber(service.min),
-    max: toNumber(service.max),
+    rate,
+    min,
+    max,
     currency: process.env.SMM_CURRENCY || "USD",
     isFavorite: false,
     isEnabled: true,
@@ -182,7 +196,21 @@ function detectPlatform(value: string) {
 }
 
 function toNumber(value: string | number | undefined | null) {
-  const parsed = Number(value ?? 0)
+  const normalized =
+    typeof value === "string"
+      ? value.replace(/,/g, "").replace(/[^\d.-]/g, "")
+      : value
+  const parsed = Number(normalized ?? 0)
 
   return Number.isFinite(parsed) ? parsed : 0
+}
+
+function firstNumber(...values: Array<string | number | undefined | null>) {
+  for (const value of values) {
+    if (value !== undefined && value !== null && value !== "") {
+      return toNumber(value)
+    }
+  }
+
+  return 0
 }

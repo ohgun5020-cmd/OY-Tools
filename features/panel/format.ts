@@ -1,10 +1,29 @@
 import type { PanelOrderStatus } from "@/types/panel"
 
 export function formatCurrency(value: number, currency = "USD") {
+  const absoluteValue = Math.abs(value)
+  const fractionDigits =
+    absoluteValue > 0 && absoluteValue < 0.01
+      ? { minimumFractionDigits: 4, maximumFractionDigits: 6 }
+      : absoluteValue > 0 && absoluteValue < 1
+        ? { minimumFractionDigits: 2, maximumFractionDigits: 4 }
+        : { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency,
-    maximumFractionDigits: 2,
+    ...fractionDigits,
+  }).format(value)
+}
+
+export function formatServiceRate(value: number, currency = "USD") {
+  const needsPrecision = value === 0 || (value > 0 && value < 0.01)
+
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency,
+    minimumFractionDigits: needsPrecision ? 4 : 2,
+    maximumFractionDigits: needsPrecision ? 6 : 4,
   }).format(value)
 }
 
@@ -42,7 +61,7 @@ export function statusLabel(status: PanelOrderStatus) {
 
 export function estimateCharge(rate: number, quantity: number, marginRate: number) {
   const base = (rate / 1000) * quantity
-  return Number((base * (1 + marginRate / 100)).toFixed(4))
+  return Number((base * (1 + marginRate / 100)).toFixed(6))
 }
 
 export function statusTone(status: PanelOrderStatus) {
