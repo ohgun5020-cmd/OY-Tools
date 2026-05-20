@@ -1,8 +1,11 @@
+import type { ReactNode } from "react"
 import type { LucideIcon } from "lucide-react"
 import {
   ArrowRight,
   Check,
   CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
   ClipboardCheck,
   DollarSign,
   FileText,
@@ -367,35 +370,228 @@ function AiChatSection() {
         <p className="mt-5 text-[17px] leading-7 text-[#60656b]">
           캡처한 화면 기준으로 의도, 흐름, 타이포 피드백을 빠르게 받습니다.
         </p>
-        <div className="mx-auto mt-12 grid max-w-[746px] gap-6 rounded-lg border border-[#e7ecf3] bg-white p-8 text-left shadow-[0_18px_17px_rgba(15,24,42,0.10)] lg:grid-cols-[1fr_178px]">
-          <div>
-            <div className="flex items-center gap-3 text-[#273142]">
-              <Sparkles className="size-7 text-[#006bff]" aria-hidden="true" />
-              <span className="text-[13px] font-bold">DESIGNER PICK</span>
-            </div>
-            <h3 className="mt-8 text-[34px] font-black leading-none text-[#111827]">AI 디자인 채팅</h3>
-            <p className="mt-6 max-w-[414px] text-[17px] leading-7 text-[#4b5563]">
-              선택 화면을 보며 의도, 흐름, 타이포 방향을 바로 묻고 수정 우선순위를 얻습니다.
-            </p>
-            <div className="mt-9 rounded-lg border border-[#cfe0ff] bg-[#f8fbff] p-4">
-              <p className="text-sm font-bold text-[#111827]">질문</p>
-              <p className="mt-2 text-sm leading-6 text-[#4b5563]">
-                이 화면에서 CTA가 약해 보이는 이유를 알려줘.
-              </p>
-              <div className="mt-4 rounded-lg bg-white p-4 text-sm leading-6 text-[#273142] shadow-sm">
-                버튼 대비는 충분하지만 주변 정보가 분산되어 있습니다. 핵심 동사를 먼저 두고 보조 설명을
-                한 줄로 줄이면 전환 흐름이 선명해집니다.
-              </div>
-            </div>
-          </div>
-          <div className="grid content-start gap-3">
-            {aiActions.map((action) => (
-              <ActionButton key={action.title} action={action} />
-            ))}
-          </div>
-        </div>
+        <FeatureCarousel />
       </div>
     </section>
+  )
+}
+
+function FeatureCarousel() {
+  const slides = [
+    {
+      id: "feature-ai-chat",
+      eyebrow: "DESIGNER PICK",
+      title: "AI 디자인 채팅",
+      description: "선택 화면을 보며 의도, 흐름, 타이포 방향을 바로 묻고 수정 우선순위를 얻습니다.",
+      visual: <AiChatVisual />,
+    },
+    {
+      id: "feature-psd-convert",
+      eyebrow: "CONVERT",
+      title: "PSD 자동 변환",
+      description: "원본 파일의 레이어와 효과를 분석해 Figma에서 바로 만질 수 있는 구조로 바꿉니다.",
+      visual: <ConvertVisual />,
+    },
+    {
+      id: "feature-layer-cleanup",
+      eyebrow: "ORGANIZE",
+      title: "레이어와 텍스트 정리",
+      description: "복잡한 그룹, 래스터 텍스트, 이미지 상태를 한 번에 확인하고 정리합니다.",
+      visual: <QualityVisual />,
+    },
+    {
+      id: "feature-image-fix",
+      eyebrow: "REPAIR",
+      title: "이미지 보정",
+      description: "깨진 이미지와 부족한 배경 영역을 검수하고 필요한 보정 작업을 빠르게 잡습니다.",
+      visual: <ImageFixVisual />,
+    },
+    {
+      id: "feature-preset",
+      eyebrow: "PRESET",
+      title: "작업 기준 저장",
+      description: "자주 쓰는 변환 옵션을 저장해서 반복되는 파일 정리 흐름을 줄입니다.",
+      visual: <PresetVisual />,
+    },
+  ]
+
+  return (
+    <div className="relative mt-12">
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden w-20 bg-gradient-to-r from-white to-transparent lg:block" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 hidden w-20 bg-gradient-to-l from-white to-transparent lg:block" />
+      <div className="flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth pb-4 pl-[max(0px,calc((100%-746px)/2))] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {slides.map((slide, index) => (
+          <FeatureSlide key={slide.id} {...slide} index={index + 1} total={slides.length} />
+        ))}
+      </div>
+      <div className="mt-4 flex items-center justify-center gap-3">
+        <a
+          href={`#${slides[0].id}`}
+          className="inline-flex size-9 items-center justify-center rounded-full border border-[#e7ecf3] bg-white text-[#050505] shadow-sm transition hover:border-[#005bff] hover:text-[#005bff]"
+          aria-label="첫 기능 슬라이드로 이동"
+        >
+          <ChevronLeft className="size-4" aria-hidden="true" />
+        </a>
+        <div className="flex items-center gap-2">
+          {slides.map((slide, index) => (
+            <a
+              key={slide.id}
+              href={`#${slide.id}`}
+              className={index === 0 ? "h-2 w-6 rounded-full bg-[#005bff]" : "size-2 rounded-full bg-[#d8dee8]"}
+              aria-label={`${index + 1}번 기능 슬라이드로 이동`}
+            />
+          ))}
+        </div>
+        <a
+          href={`#${slides[slides.length - 1].id}`}
+          className="inline-flex size-9 items-center justify-center rounded-full border border-[#e7ecf3] bg-white text-[#050505] shadow-sm transition hover:border-[#005bff] hover:text-[#005bff]"
+          aria-label="마지막 기능 슬라이드로 이동"
+        >
+          <ChevronRight className="size-4" aria-hidden="true" />
+        </a>
+      </div>
+    </div>
+  )
+}
+
+function FeatureSlide({
+  id,
+  eyebrow,
+  title,
+  description,
+  visual,
+  index,
+  total,
+}: {
+  id: string
+  eyebrow: string
+  title: string
+  description: string
+  visual: ReactNode
+  index: number
+  total: number
+}) {
+  return (
+    <article
+      id={id}
+      className="grid w-[min(86vw,746px)] shrink-0 snap-center gap-6 rounded-lg border border-[#e7ecf3] bg-white p-8 text-left shadow-[0_18px_17px_rgba(15,24,42,0.10)] lg:grid-cols-[1fr_260px]"
+    >
+      <div>
+        <div className="flex items-center gap-3 text-[#273142]">
+          <Sparkles className="size-7 text-[#006bff]" aria-hidden="true" />
+          <span className="text-[13px] font-bold">{eyebrow}</span>
+          <span className="ml-auto text-xs font-bold text-[#9ca3af]">
+            {String(index).padStart(2, "0")} / {String(total).padStart(2, "0")}
+          </span>
+        </div>
+        <h3 className="mt-8 text-[30px] font-black leading-tight text-[#111827] sm:text-[34px]">{title}</h3>
+        <p className="mt-5 max-w-[414px] text-[17px] leading-7 text-[#4b5563]">{description}</p>
+        <div className="mt-8 hidden h-2 w-[92px] rounded-full bg-[#005bff] sm:block" />
+      </div>
+      {visual}
+    </article>
+  )
+}
+
+function AiChatVisual() {
+  return (
+    <div className="grid content-start gap-3">
+      <div className="rounded-lg border border-[#cfe0ff] bg-[#f8fbff] p-4">
+        <p className="text-sm font-bold text-[#111827]">질문</p>
+        <p className="mt-2 text-sm leading-6 text-[#4b5563]">이 화면에서 CTA가 약해 보이는 이유를 알려줘.</p>
+      </div>
+      {aiActions.map((action) => (
+        <ActionButton key={action.title} action={action} />
+      ))}
+    </div>
+  )
+}
+
+function ConvertVisual() {
+  return (
+    <div className="rounded-[14px] bg-[#f3f4f6] p-5">
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <RefreshCw className="size-6 text-[#0a0a0a]" aria-hidden="true" />
+          <strong className="text-lg">자동 변환</strong>
+        </div>
+        <strong className="text-3xl font-black">98%</strong>
+      </div>
+      <div className="mt-5 rounded-full bg-white p-1">
+        <div className="h-1.5 w-[95%] rounded-full bg-[#005bff]" />
+      </div>
+      <div className="mt-5 grid gap-2 text-xs text-[#657082]">
+        {["source.psd 분석", "텍스트 추출", "효과 분리"].map((item) => (
+          <div key={item} className="flex items-center gap-2 rounded bg-white px-3 py-2">
+            <Check className="size-3.5 text-[#005bff]" aria-hidden="true" />
+            {item}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function QualityVisual() {
+  return (
+    <div className="grid content-start gap-3">
+      {qualityPoints.map((point) => {
+        const Icon = point.icon
+
+        return (
+          <div key={point.label} className="flex items-center gap-3 rounded-lg bg-[#f7f9fc] p-4 ring-1 ring-[#e7ecf3]">
+            <Icon className="size-5 shrink-0 text-[#0a0a0a]" aria-hidden="true" />
+            <div>
+              <strong className="block text-sm text-[#333]">{point.label}</strong>
+              <span className="text-xs text-[#5f6368]">{point.value}</span>
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+function ImageFixVisual() {
+  return (
+    <div className="grid content-start gap-3">
+      <div className="rounded-lg border border-[#e7ecf3] bg-[#fafafa] p-4">
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-black text-[#60656b]">BEFORE</span>
+          <ImageIcon className="size-4 text-[#9ca3af]" aria-hidden="true" />
+        </div>
+        <div className="mt-5 h-20 rounded bg-[#e5e7eb]" />
+      </div>
+      <div className="rounded-lg border border-[#dbe7ff] bg-[#f8fbff] p-4">
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-black text-[#005bff]">AFTER</span>
+          <Maximize2 className="size-4 text-[#005bff]" aria-hidden="true" />
+        </div>
+        <div className="mt-5 h-20 rounded bg-white shadow-inner">
+          <div className="h-full w-full rounded bg-[linear-gradient(135deg,#eaf3ff,#ffffff_55%,#dbe7ff)]" />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function PresetVisual() {
+  return (
+    <div className="rounded-[14px] bg-white p-5 ring-1 ring-[#e7ecf3]">
+      <div className="mb-4 flex items-center gap-3">
+        <SlidersHorizontal className="size-5 text-[#005bff]" aria-hidden="true" />
+        <strong className="text-lg">저장된 기준</strong>
+      </div>
+      {["레이어 이름 정리", "이미지 누락 검사", "텍스트 추출", "효과 분리"].map((item) => (
+        <div key={item} className="flex h-[34px] items-center justify-between text-sm text-[#5f6368]">
+          <span>{item}</span>
+          <span className="inline-flex h-[22px] w-[54px] items-center rounded-full bg-[#111] px-1 text-[7px] font-bold text-white">
+            ON
+            <span className="ml-auto size-4 rounded-full bg-white" />
+          </span>
+        </div>
+      ))}
+    </div>
   )
 }
 
