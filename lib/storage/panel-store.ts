@@ -2,6 +2,7 @@ import type { CreateOrderInput, PanelOrder, PanelOrderStatus, PanelService, Pane
 import { estimateCharge } from "@/features/panel/format"
 import { defaultPanelSettings, demoOrders, demoServices } from "@/features/panel/mock-data"
 import { createSmmOrder, getSmmOrderStatus, listSmmServices, normalizeStatus } from "@/lib/smm/client"
+import { isPostgresConfigured, queryPostgres } from "@/lib/storage/postgres"
 import { getSupabaseAdmin } from "@/lib/storage/supabase"
 
 type MemoryStore = {
@@ -23,6 +24,25 @@ const memoryStore =
   })
 
 export async function getPanelOrders() {
+  if (isPostgresConfigured()) {
+    try {
+      const result = await queryPostgres(
+        `
+        select *
+        from public.oy_panel_orders
+        order by created_at desc
+        `,
+      )
+
+      if (result) {
+        return result.rows.map(mapOrderFromRow)
+      }
+    } catch (error) {
+      console.error("Postgres order query failed", error)
+      return memoryStore.orders
+    }
+  }
+
   const supabase = getSupabaseAdmin()
 
   if (!supabase) {
@@ -43,6 +63,27 @@ export async function getPanelOrders() {
 }
 
 export async function getPanelOrder(id: string) {
+  if (isPostgresConfigured()) {
+    try {
+      const result = await queryPostgres(
+        `
+        select *
+        from public.oy_panel_orders
+        where id = $1
+        limit 1
+        `,
+        [id],
+      )
+
+      if (result) {
+        return result.rows[0] ? mapOrderFromRow(result.rows[0]) : null
+      }
+    } catch (error) {
+      console.error("Postgres single order query failed", error)
+      return memoryStore.orders.find((order) => order.id === id) || null
+    }
+  }
+
   const supabase = getSupabaseAdmin()
 
   if (!supabase) {
@@ -100,6 +141,57 @@ export async function createPanelOrder(input: CreateOrderInput) {
     updatedAt: now,
   }
 
+  if (isPostgresConfigured()) {
+    try {
+      const result = await queryPostgres(
+        `
+        insert into public.oy_panel_orders (
+          id,
+          provider_order_id,
+          platform,
+          service_id,
+          service_name,
+          link,
+          quantity,
+          charge,
+          currency,
+          status,
+          remains,
+          start_count,
+          created_at,
+          updated_at
+        )
+        values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+        returning *
+        `,
+        [
+          order.id,
+          order.providerOrderId,
+          order.platform,
+          order.serviceId,
+          order.serviceName,
+          order.link,
+          order.quantity,
+          order.charge,
+          order.currency,
+          order.status,
+          order.remains,
+          order.startCount,
+          order.createdAt,
+          order.updatedAt,
+        ],
+      )
+
+      if (result?.rows[0]) {
+        return mapOrderFromRow(result.rows[0])
+      }
+    } catch (error) {
+      console.error("Postgres order insert failed", error)
+      memoryStore.orders = [order, ...memoryStore.orders]
+      return order
+    }
+  }
+
   const supabase = getSupabaseAdmin()
 
   if (!supabase) {
@@ -134,6 +226,42 @@ export async function refreshPanelOrderStatus(id: string) {
     updatedAt: new Date().toISOString(),
   }
 
+  if (isPostgresConfigured()) {
+    try {
+      const result = await queryPostgres(
+        `
+        update public.oy_panel_orders
+        set
+          status = $1,
+          charge = $2,
+          remains = $3,
+          start_count = $4,
+          raw_status = $5,
+          updated_at = $6
+        where id = $7
+        returning *
+        `,
+        [
+          updated.status,
+          updated.charge,
+          updated.remains,
+          updated.startCount,
+          JSON.stringify(providerStatus),
+          updated.updatedAt,
+          id,
+        ],
+      )
+
+      if (result?.rows[0]) {
+        return mapOrderFromRow(result.rows[0])
+      }
+    } catch (error) {
+      console.error("Postgres order status update failed", error)
+      memoryStore.orders = memoryStore.orders.map((item) => (item.id === id ? { ...item, ...updated } : item))
+      return memoryStore.orders.find((item) => item.id === id)!
+    }
+  }
+
   const supabase = getSupabaseAdmin()
 
   if (!supabase) {
@@ -165,6 +293,27 @@ export async function refreshPanelOrderStatus(id: string) {
 }
 
 export async function getPanelServices() {
+  if (isPostgresConfigured()) {
+    try {
+      const result = await queryPostgres(
+        `
+        select *
+        from public.oy_panel_services
+        order by is_favorite desc, platform asc, name asc
+        `,
+      )
+
+      if (result?.rows.length) {
+        return result.rows.map(mapServiceFromRow)
+      }
+
+      return await syncPanelServices()
+    } catch (error) {
+      console.error("Postgres service query failed", error)
+      return memoryStore.services
+    }
+  }
+
   const supabase = getSupabaseAdmin()
 
   if (!supabase) {
@@ -211,6 +360,68 @@ export async function syncPanelServices() {
     }
   })
 
+  if (isPostgresConfigured()) {
+    try {
+      for (const service of services) {
+        await queryPostgres(
+          `
+          insert into public.oy_panel_services (
+            service_id,
+            name,
+            category,
+            platform,
+            type,
+            rate,
+            min_quantity,
+            max_quantity,
+            currency,
+            is_favorite,
+            is_enabled,
+            raw,
+            updated_at
+          )
+          values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+          on conflict (service_id)
+          do update set
+            name = excluded.name,
+            category = excluded.category,
+            platform = excluded.platform,
+            type = excluded.type,
+            rate = excluded.rate,
+            min_quantity = excluded.min_quantity,
+            max_quantity = excluded.max_quantity,
+            currency = excluded.currency,
+            is_favorite = excluded.is_favorite,
+            is_enabled = excluded.is_enabled,
+            raw = excluded.raw,
+            updated_at = excluded.updated_at
+          `,
+          [
+            service.providerServiceId,
+            service.name,
+            service.category,
+            service.platform,
+            service.type,
+            service.rate,
+            service.min,
+            service.max,
+            service.currency,
+            service.isFavorite,
+            service.isEnabled,
+            JSON.stringify(service.raw || null),
+            service.updatedAt,
+          ],
+        )
+      }
+
+      return services
+    } catch (error) {
+      console.error("Postgres service upsert failed", error)
+      memoryStore.services = services
+      return memoryStore.services
+    }
+  }
+
   const supabase = getSupabaseAdmin()
 
   if (!supabase) {
@@ -236,6 +447,36 @@ export async function updatePanelServicePreference(
   serviceId: string,
   patch: Partial<Pick<PanelService, "isFavorite" | "isEnabled">>,
 ) {
+  if (isPostgresConfigured()) {
+    try {
+      const previous = await getPanelServicesSafely()
+      const current = previous.find((service) => service.providerServiceId === serviceId)
+      const nextFavorite = patch.isFavorite ?? current?.isFavorite ?? false
+      const nextEnabled = patch.isEnabled ?? current?.isEnabled ?? true
+      const result = await queryPostgres(
+        `
+        update public.oy_panel_services
+        set
+          is_favorite = $1,
+          is_enabled = $2,
+          updated_at = $3
+        where service_id = $4
+        returning *
+        `,
+        [nextFavorite, nextEnabled, new Date().toISOString(), serviceId],
+      )
+
+      return result?.rows[0] ? mapServiceFromRow(result.rows[0]) : null
+    } catch (error) {
+      console.error("Postgres service preference update failed", error)
+      memoryStore.services = memoryStore.services.map((service) =>
+        service.providerServiceId === serviceId ? { ...service, ...patch, updatedAt: new Date().toISOString() } : service,
+      )
+
+      return memoryStore.services.find((service) => service.providerServiceId === serviceId) || null
+    }
+  }
+
   const supabase = getSupabaseAdmin()
 
   if (!supabase) {
@@ -270,6 +511,27 @@ export async function updatePanelServicePreference(
 }
 
 export async function getPanelSettings(): Promise<PanelSettings> {
+  if (isPostgresConfigured()) {
+    try {
+      const result = await queryPostgres(
+        `
+        select value
+        from public.oy_panel_settings
+        where key = 'default'
+        limit 1
+        `,
+      )
+
+      return {
+        ...defaultPanelSettings,
+        ...((result?.rows[0]?.value as Partial<PanelSettings> | undefined) || {}),
+      }
+    } catch (error) {
+      console.error("Postgres settings query failed", error)
+      return memoryStore.settings
+    }
+  }
+
   const supabase = getSupabaseAdmin()
 
   if (!supabase) {
@@ -299,6 +561,29 @@ export async function updatePanelSettings(settings: Partial<PanelSettings>) {
     ...settings,
   }
 
+  if (isPostgresConfigured()) {
+    try {
+      const result = await queryPostgres(
+        `
+        insert into public.oy_panel_settings (key, value, updated_at)
+        values ('default', $1, $2)
+        on conflict (key)
+        do update set
+          value = excluded.value,
+          updated_at = excluded.updated_at
+        returning value
+        `,
+        [JSON.stringify(nextSettings), new Date().toISOString()],
+      )
+
+      return (result?.rows[0]?.value as PanelSettings | undefined) || nextSettings
+    } catch (error) {
+      console.error("Postgres settings update failed", error)
+      memoryStore.settings = nextSettings
+      return memoryStore.settings
+    }
+  }
+
   const supabase = getSupabaseAdmin()
 
   if (!supabase) {
@@ -326,6 +611,21 @@ export async function updatePanelSettings(settings: Partial<PanelSettings>) {
 }
 
 async function getPanelServicesSafely() {
+  if (isPostgresConfigured()) {
+    try {
+      const result = await queryPostgres(
+        `
+        select *
+        from public.oy_panel_services
+        `,
+      )
+
+      return result ? result.rows.map(mapServiceFromRow) : memoryStore.services
+    } catch {
+      return memoryStore.services
+    }
+  }
+
   const supabase = getSupabaseAdmin()
 
   if (!supabase) {
@@ -351,8 +651,8 @@ function mapOrderFromRow(row: Record<string, any>): PanelOrder {
     status: row.status as PanelOrderStatus,
     remains: toNullableNumber(row.remains),
     startCount: toNullableNumber(row.start_count),
-    createdAt: row.created_at,
-    updatedAt: row.updated_at,
+    createdAt: toIsoString(row.created_at),
+    updatedAt: toIsoString(row.updated_at),
   }
 }
 
@@ -389,7 +689,7 @@ function mapServiceFromRow(row: Record<string, any>): PanelService {
     currency: row.currency || "USD",
     isFavorite: Boolean(row.is_favorite),
     isEnabled: Boolean(row.is_enabled),
-    updatedAt: row.updated_at,
+    updatedAt: toIsoString(row.updated_at),
     raw: row.raw || undefined,
   }
 }
@@ -420,4 +720,16 @@ function toNullableNumber(value: string | number | undefined | null) {
   const parsed = Number(value)
 
   return Number.isFinite(parsed) ? parsed : null
+}
+
+function toIsoString(value: unknown) {
+  if (value instanceof Date) {
+    return value.toISOString()
+  }
+
+  if (typeof value === "string") {
+    return value
+  }
+
+  return new Date().toISOString()
 }

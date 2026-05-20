@@ -28,10 +28,10 @@ Excluded from the first version:
 
 - Next.js App Router
 - Tailwind CSS and shadcn/ui-style components
-- Supabase for persistent storage
+- Railway Postgres or Supabase for persistent storage
 - Railway for deployment
 
-Without SMM and Supabase environment variables, the app runs in local demo mode with in-memory sample data.
+Without SMM and database environment variables, the app runs in local demo mode with in-memory sample data.
 
 ## Local Development
 
@@ -59,13 +59,16 @@ Copy `.env.example` to `.env.local` and fill:
 - `SMM_API_URL`
 - `SMM_API_KEY`
 - `SMM_CURRENCY`
+- `DATABASE_URL` for Railway Postgres
 - `SUPABASE_URL`
 - `SUPABASE_SERVICE_ROLE_KEY`
 - `NEXT_PUBLIC_APP_URL`
 
-## Supabase
+## Database
 
-Run `supabase/schema.sql` in the Supabase SQL editor. Use the service role key only as a server-side environment variable in Railway.
+Recommended Railway setup: add a PostgreSQL service to the same project, then connect its `DATABASE_URL` variable to the OY-Tools service. The app creates the required tables automatically at runtime.
+
+Supabase is also supported. Run `supabase/schema.sql` in the Supabase SQL editor, then set `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` as server-side Railway variables.
 
 ## GitHub
 

@@ -7,17 +7,21 @@ import { Separator } from "@/components/ui/separator"
 import { getAdminRuntimeConfig } from "@/lib/auth/session"
 import { getSmmConnectionState } from "@/lib/smm/client"
 import { getPanelSettings } from "@/lib/storage/panel-store"
+import { isPostgresConfigured } from "@/lib/storage/postgres"
 import { isSupabaseConfigured } from "@/lib/storage/supabase"
 
 export default async function SettingsPage() {
   const settings = await getPanelSettings()
   const connection = getSmmConnectionState()
   const admin = getAdminRuntimeConfig()
+  const hasPostgres = isPostgresConfigured()
   const hasSupabase = isSupabaseConfigured()
+  const storeName = hasPostgres ? "Postgres" : hasSupabase ? "Supabase" : "Memory"
 
   const checks = [
     { label: "SMM_API_URL", ok: connection.hasApiUrl },
     { label: "SMM_API_KEY", ok: connection.hasApiKey },
+    { label: "DATABASE_URL", ok: hasPostgres },
     { label: "SUPABASE_URL", ok: Boolean(process.env.SUPABASE_URL) },
     { label: "SUPABASE_SERVICE_ROLE_KEY", ok: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY) },
     { label: "ADMIN_EMAIL", ok: admin.hasAdminEmail },
@@ -47,7 +51,7 @@ export default async function SettingsPage() {
         <Card className="panel-card">
           <CardHeader>
             <CardTitle>Runtime status</CardTitle>
-            <CardDescription>Server-side env checks for Railway and Supabase deployment.</CardDescription>
+            <CardDescription>Server-side env checks for Railway deployment.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-5">
             <div className="grid gap-3 sm:grid-cols-3">
@@ -57,7 +61,7 @@ export default async function SettingsPage() {
                 value={connection.configured ? "Live" : "Demo"}
                 ok={connection.configured}
               />
-              <StatusTile icon={KeyRound} label="Order store" value={hasSupabase ? "Supabase" : "Memory"} ok={hasSupabase} />
+              <StatusTile icon={KeyRound} label="Order store" value={storeName} ok={hasPostgres || hasSupabase} />
               <StatusTile icon={LockKeyhole} label="Admin auth" value={admin.hasAdminPassword ? "Env" : "Local"} ok={admin.hasAdminPassword} />
             </div>
 
