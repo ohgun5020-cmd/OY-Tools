@@ -1,23 +1,17 @@
 import type { Metadata } from "next"
 import type React from "react"
-import { Inter } from "next/font/google"
 
 import "./globals.css"
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-})
-
 export const metadata: Metadata = {
-  title: "OY Tools | OY Panel",
-  description: "OY Tools 개인용 SMM 주문 운영 대시보드.",
+  title: "PIGMA | PSD to Figma-ready plugin",
+  description: "PSD, PDF, PPTX 원본을 Figma에서 수정 가능한 구조로 정리하는 PIGMA 플러그인 랜딩 페이지입니다.",
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="ko" className="dark">
-      <body className={inter.className}>{children}</body>
+    <html lang="ko">
+      <body>{children}</body>
     </html>
   )
 }
