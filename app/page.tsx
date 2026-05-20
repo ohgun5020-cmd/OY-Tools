@@ -1,4 +1,6 @@
-import type { ReactNode } from "react"
+"use client"
+
+import { useRef, useState, type ReactNode } from "react"
 import type { LucideIcon } from "lucide-react"
 import {
   ArrowRight,
@@ -204,7 +206,7 @@ const fileTypes = ["PSD", "AI", "PDF", "PPTX", "FIG", "SKETCH"]
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-white text-[#050505]">
+    <main className="min-h-screen overflow-x-hidden bg-white text-[#050505]">
       <SiteHeader />
       <HeroSection />
       <AiChatSection />
@@ -221,15 +223,15 @@ export default function HomePage() {
 function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur-xl">
-      <div className="mx-auto flex h-[88px] max-w-[1440px] items-center justify-between px-6 sm:px-10 lg:px-12">
+      <div className="mx-auto flex h-[88px] max-w-[1440px] items-center justify-between px-6 sm:px-10 md:grid md:h-[104px] md:grid-cols-[148px_1fr_auto] lg:px-12">
         <a
           href="#top"
           className="flex items-center text-black"
           aria-label="PIGMA 홈"
         >
-          <PigmaLogo className="h-[18px] w-[92px]" />
+          <PigmaLogo className="h-[18px] w-[92px] md:h-[19px] md:w-[100px]" />
         </a>
-        <nav className="hidden items-center gap-10 text-base font-bold text-[#0a0a0a] md:flex">
+        <nav className="hidden items-center justify-start gap-14 pl-7 text-base font-bold text-[#0a0a0a] md:flex">
           <a href="#product" className="transition hover:text-[#005bff]">
             제품
           </a>
@@ -240,13 +242,13 @@ function SiteHeader() {
             가격
           </a>
         </nav>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-9">
           <a href="#login" className="hidden font-bold text-[#0a0a0a] transition hover:text-[#005bff] sm:inline-flex">
             로그인
           </a>
           <a
             href="#pricing"
-            className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-[#005bff] px-5 text-sm font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0]"
+            className="inline-flex h-12 min-w-[116px] items-center justify-center gap-2 rounded-xl bg-[#005bff] px-5 text-sm font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0] md:h-14 md:min-w-[132px] md:rounded-2xl md:px-7 md:text-base"
           >
             시작하기
             <ArrowRight className="size-4" aria-hidden="true" />
@@ -316,7 +318,7 @@ function HeroWorkspace() {
   return (
     <div
       id="product"
-      className="mt-[76px] overflow-hidden rounded-2xl bg-white text-left shadow-[0_14px_40px_rgba(0,0,0,0.04)]"
+      className="mt-[76px] w-full overflow-hidden rounded-2xl bg-white text-left shadow-[0_14px_40px_rgba(0,0,0,0.04)]"
     >
       <div className="flex h-11 items-center gap-2 bg-[#090909] px-5 text-white">
         <span className="size-2.5 rounded-full bg-[#ff6b5a]" />
@@ -327,7 +329,7 @@ function HeroWorkspace() {
           source files -&gt; pigma -&gt; figma-ready
         </span>
       </div>
-      <div className="grid gap-5 p-7 lg:grid-cols-[300px_1fr_302px]">
+      <div className="grid min-w-0 gap-5 p-7 lg:grid-cols-[300px_1fr_302px]">
         <div className="rounded-[14px] bg-white p-5 ring-1 ring-black/5">
           <div className="mb-5 flex items-center gap-3 text-[#0a0a0a]">
             <FileText className="size-5" aria-hidden="true" />
@@ -395,6 +397,8 @@ function AiChatSection() {
 }
 
 function FeatureCarousel() {
+  const scrollerRef = useRef<HTMLDivElement>(null)
+  const [activeIndex, setActiveIndex] = useState(0)
   const slides = [
     {
       id: "feature-ai-chat",
@@ -432,41 +436,72 @@ function FeatureCarousel() {
       visual: <PresetVisual />,
     },
   ]
+  const lastIndex = slides.length - 1
+  const canGoPrev = activeIndex > 0
+  const canGoNext = activeIndex < lastIndex
+  const scrollToSlide = (slideIndex: number) => {
+    const nextIndex = Math.max(0, Math.min(lastIndex, slideIndex))
+    const scroller = scrollerRef.current
+
+    setActiveIndex(nextIndex)
+    scroller?.scrollTo({
+      left: scroller.clientWidth * nextIndex,
+      behavior: "smooth",
+    })
+  }
+
+  const syncActiveSlide = () => {
+    const scroller = scrollerRef.current
+
+    if (!scroller) return
+
+    const nextIndex = Math.max(0, Math.min(lastIndex, Math.round(scroller.scrollLeft / scroller.clientWidth)))
+    setActiveIndex(nextIndex)
+  }
 
   return (
-    <div className="relative mt-12">
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden w-20 bg-gradient-to-r from-white to-transparent lg:block" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 hidden w-20 bg-gradient-to-l from-white to-transparent lg:block" />
-      <div className="flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth pb-4 pl-[max(0px,calc((100%-746px)/2))] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        {slides.map((slide, index) => (
-          <FeatureSlide key={slide.id} {...slide} index={index + 1} total={slides.length} />
-        ))}
+    <div className="relative mx-auto mt-12 w-full max-w-[746px]">
+      <div className="overflow-hidden pb-4">
+        <div
+          ref={scrollerRef}
+          className="flex snap-x snap-mandatory overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          onScroll={syncActiveSlide}
+        >
+          {slides.map((slide, index) => (
+            <FeatureSlide key={slide.id} {...slide} index={index + 1} total={slides.length} />
+          ))}
+        </div>
       </div>
-      <div className="mt-4 flex items-center justify-center gap-3">
-        <a
-          href={`#${slides[0].id}`}
-          className="inline-flex size-9 items-center justify-center rounded-full border border-[#e7ecf3] bg-white text-[#050505] shadow-sm transition hover:border-[#005bff] hover:text-[#005bff]"
-          aria-label="첫 기능 슬라이드로 이동"
+      <div className="mt-0 flex items-center justify-center gap-3">
+        <button
+          type="button"
+          onClick={() => scrollToSlide(activeIndex - 1)}
+          disabled={!canGoPrev}
+          className="inline-flex size-9 items-center justify-center rounded-full border border-[#e7ecf3] bg-white text-[#050505] shadow-sm transition hover:border-[#005bff] hover:text-[#005bff] disabled:cursor-default disabled:text-[#c8d0dc] disabled:hover:border-[#e7ecf3]"
+          aria-label="이전 기능 슬라이드로 이동"
         >
           <ChevronLeft className="size-4" aria-hidden="true" />
-        </a>
+        </button>
         <div className="flex items-center gap-2">
           {slides.map((slide, index) => (
-            <a
+            <button
               key={slide.id}
-              href={`#${slide.id}`}
-              className={index === 0 ? "h-2 w-6 rounded-full bg-[#005bff]" : "size-2 rounded-full bg-[#d8dee8]"}
+              type="button"
+              onClick={() => scrollToSlide(index)}
+              className={index === activeIndex ? "h-2 w-6 rounded-full bg-[#005bff]" : "size-2 rounded-full bg-[#d8dee8]"}
               aria-label={`${index + 1}번 기능 슬라이드로 이동`}
             />
           ))}
         </div>
-        <a
-          href={`#${slides[slides.length - 1].id}`}
-          className="inline-flex size-9 items-center justify-center rounded-full border border-[#e7ecf3] bg-white text-[#050505] shadow-sm transition hover:border-[#005bff] hover:text-[#005bff]"
-          aria-label="마지막 기능 슬라이드로 이동"
+        <button
+          type="button"
+          onClick={() => scrollToSlide(activeIndex + 1)}
+          disabled={!canGoNext}
+          className="inline-flex size-9 items-center justify-center rounded-full border border-[#e7ecf3] bg-white text-[#050505] shadow-sm transition hover:border-[#005bff] hover:text-[#005bff] disabled:cursor-default disabled:text-[#c8d0dc] disabled:hover:border-[#e7ecf3]"
+          aria-label="다음 기능 슬라이드로 이동"
         >
           <ChevronRight className="size-4" aria-hidden="true" />
-        </a>
+        </button>
       </div>
     </div>
   )
@@ -492,7 +527,7 @@ function FeatureSlide({
   return (
     <article
       id={id}
-      className="grid w-[min(86vw,746px)] shrink-0 snap-center gap-6 rounded-lg border border-[#e7ecf3] bg-white p-8 text-left shadow-[0_18px_17px_rgba(15,24,42,0.10)] lg:grid-cols-[1fr_260px]"
+      className="grid w-full min-w-full shrink-0 snap-start gap-6 rounded-lg border border-[#e7ecf3] bg-white p-8 text-left shadow-[0_18px_17px_rgba(15,24,42,0.10)] lg:grid-cols-[1fr_260px]"
     >
       <div>
         <div className="flex items-center gap-3 text-[#273142]">
