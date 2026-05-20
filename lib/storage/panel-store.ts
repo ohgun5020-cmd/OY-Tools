@@ -726,11 +726,15 @@ export async function getPanelServices() {
   return data.map(mapServiceFromRow)
 }
 
-export async function syncPanelServices() {
+export async function syncPanelServices(options: { platform?: string } = {}) {
   const previous = await getPanelServicesSafely()
   const previousById = new Map(previous.map((service) => [service.providerServiceId, service]))
+  const orderCounts = await getServiceOrderCountsSafely()
   const incoming = await listSmmServices()
-  const services = incoming.map((service) => {
+  const targetPlatform = options.platform?.trim()
+  const targetIncoming = targetPlatform ? incoming.filter((service) => service.platform === targetPlatform) : incoming
+  const selectedIncoming = selectCuratedServices(targetIncoming, orderCounts)
+  const services = selectedIncoming.map((service) => {
     const existing = previousById.get(service.providerServiceId)
 
     return {
@@ -741,6 +745,8 @@ export async function syncPanelServices() {
       updatedAt: new Date().toISOString(),
     }
   })
+  const selectedIds = services.map((service) => service.providerServiceId)
+  const selectedPlatforms = Array.from(new Set(targetIncoming.map((service) => service.platform)))
 
   if (isPostgresConfigured()) {
     try {
@@ -796,10 +802,12 @@ export async function syncPanelServices() {
         )
       }
 
-      return services
+      await prunePanelServices(selectedPlatforms, selectedIds)
+
+      return sortPanelServices(await getPanelServicesSafely())
     } catch (error) {
       console.error("Postgres service upsert failed", error)
-      memoryStore.services = services
+      memoryStore.services = mergeCuratedServices(memoryStore.services, services, selectedPlatforms)
       return memoryStore.services
     }
   }
@@ -807,7 +815,7 @@ export async function syncPanelServices() {
   const supabase = getSupabaseAdmin()
 
   if (!supabase) {
-    memoryStore.services = services
+    memoryStore.services = mergeCuratedServices(memoryStore.services, services, selectedPlatforms)
     return memoryStore.services
   }
 
@@ -818,11 +826,13 @@ export async function syncPanelServices() {
 
   if (error) {
     console.error("Supabase service upsert failed", error.message)
-    memoryStore.services = services
+    memoryStore.services = mergeCuratedServices(memoryStore.services, services, selectedPlatforms)
     return memoryStore.services
   }
 
-  return (data || []).map(mapServiceFromRow)
+  await pruneSupabaseServices(selectedPlatforms, selectedIds)
+
+  return sortPanelServices(await getPanelServicesSafely())
 }
 
 export async function updatePanelServicePreference(
@@ -1017,6 +1027,178 @@ async function getPanelServicesSafely() {
   const { data } = await supabase.from("oy_panel_services").select("*")
 
   return (data || []).map(mapServiceFromRow)
+}
+
+function selectCuratedServices(services: PanelService[], serviceOrderCounts: Record<string, number>) {
+  const selected = new Map<string, PanelService>()
+  const byPlatform = new Map<string, PanelService[]>()
+
+  for (const service of services) {
+    const group = byPlatform.get(service.platform) || []
+    group.push(service)
+    byPlatform.set(service.platform, group)
+  }
+
+  for (const group of byPlatform.values()) {
+    const priced = group.filter((service) => service.rate > 0)
+    const priceBase = priced.length ? priced : group
+    const lowest = [...priceBase].sort(compareServiceRateAsc).slice(0, 10)
+    const highest = [...priceBase].sort(compareServiceRateDesc).slice(0, 3)
+    const popular = [...group].sort((a, b) => getServicePopularityScore(b, serviceOrderCounts) - getServicePopularityScore(a, serviceOrderCounts)).slice(0, 3)
+
+    for (const service of [...lowest, ...highest, ...popular]) {
+      selected.set(service.providerServiceId, service)
+    }
+
+    const randomPool = group.filter((service) => !selected.has(service.providerServiceId))
+    for (const service of shuffleServices(randomPool).slice(0, 3)) {
+      selected.set(service.providerServiceId, service)
+    }
+  }
+
+  return sortPanelServices(Array.from(selected.values()))
+}
+
+async function prunePanelServices(platforms: string[], selectedIds: string[]) {
+  if (!platforms.length) {
+    return
+  }
+
+  await queryPostgres(
+    `
+    delete from public.oy_panel_services
+    where platform = any($1::text[])
+      and is_favorite = false
+      and not (service_id = any($2::text[]))
+    `,
+    [platforms, selectedIds],
+  )
+}
+
+async function pruneSupabaseServices(platforms: string[], selectedIds: string[]) {
+  if (!platforms.length) {
+    return
+  }
+
+  const supabase = getSupabaseAdmin()
+
+  if (!supabase) {
+    return
+  }
+
+  let query = supabase.from("oy_panel_services").delete().in("platform", platforms).eq("is_favorite", false)
+
+  if (selectedIds.length) {
+    query = query.not("service_id", "in", formatPostgrestInList(selectedIds))
+  }
+
+  const { error } = await query
+
+  if (error) {
+    console.error("Supabase service prune failed", error.message)
+  }
+}
+
+async function getServiceOrderCountsSafely() {
+  const counts: Record<string, number> = {}
+
+  if (isPostgresConfigured()) {
+    try {
+      const result = await queryPostgres<{ service_id: string; count: string }>(
+        `
+        select service_id, count(*)::text as count
+        from public.oy_panel_orders
+        group by service_id
+        `,
+      )
+
+      for (const row of result?.rows || []) {
+        counts[row.service_id] = Number(row.count) || 0
+      }
+
+      return counts
+    } catch (error) {
+      console.error("Postgres service order count query failed", error)
+    }
+  }
+
+  const supabase = getSupabaseAdmin()
+
+  if (supabase) {
+    const { data, error } = await supabase.from("oy_panel_orders").select("service_id")
+
+    if (!error) {
+      for (const row of data || []) {
+        const serviceId = row.service_id as string
+        counts[serviceId] = (counts[serviceId] || 0) + 1
+      }
+
+      return counts
+    }
+  }
+
+  for (const order of memoryStore.orders) {
+    counts[order.serviceId] = (counts[order.serviceId] || 0) + 1
+  }
+
+  return counts
+}
+
+function mergeCuratedServices(previous: PanelService[], incoming: PanelService[], platforms: string[]) {
+  const platformSet = new Set(platforms)
+  const merged = new Map<string, PanelService>()
+
+  for (const service of previous) {
+    if (!platformSet.has(service.platform) || service.isFavorite) {
+      merged.set(service.providerServiceId, service)
+    }
+  }
+
+  for (const service of incoming) {
+    merged.set(service.providerServiceId, service)
+  }
+
+  return sortPanelServices(Array.from(merged.values()))
+}
+
+function sortPanelServices(services: PanelService[]) {
+  return [...services].sort(
+    (a, b) =>
+      Number(b.isFavorite) - Number(a.isFavorite) ||
+      a.platform.localeCompare(b.platform) ||
+      a.rate - b.rate ||
+      a.name.localeCompare(b.name),
+  )
+}
+
+function compareServiceRateAsc(a: PanelService, b: PanelService) {
+  return a.rate - b.rate || a.name.localeCompare(b.name)
+}
+
+function compareServiceRateDesc(a: PanelService, b: PanelService) {
+  return b.rate - a.rate || a.name.localeCompare(b.name)
+}
+
+function getServicePopularityScore(service: PanelService, serviceOrderCounts: Record<string, number>) {
+  const text = `${service.category} ${service.name}`.toLowerCase()
+  const keywordScore =
+    (text.includes("popular") ? 80 : 0) +
+    (text.includes("best") ? 70 : 0) +
+    (text.includes("recommended") ? 60 : 0) +
+    (text.includes("hq") || text.includes("high quality") ? 45 : 0) +
+    (text.includes("real") ? 35 : 0) +
+    (text.includes("refill") ? 30 : 0) +
+    (text.includes("fast") ? 20 : 0)
+
+  return (serviceOrderCounts[service.providerServiceId] || 0) * 1000 + keywordScore
+}
+
+function shuffleServices(services: PanelService[]) {
+  return [...services].sort(() => Math.random() - 0.5)
+}
+
+function formatPostgrestInList(values: string[]) {
+  return `(${values.map((value) => `"${value.replace(/"/g, '\\"')}"`).join(",")})`
 }
 
 function mapOrderFromRow(row: Record<string, any>): PanelOrder {

@@ -53,7 +53,13 @@ export function ServicesTable({ initialServices, serviceOrderCounts }: ServicesT
 
   async function syncServices() {
     setIsSyncing(true)
-    const response = await fetch("/api/panel/services", { method: "POST" })
+    const response = await fetch("/api/panel/services", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        platform: platform === "all" ? undefined : platform,
+      }),
+    })
     const payload = (await response.json().catch(() => null)) as { services?: PanelService[] } | null
     setIsSyncing(false)
 
@@ -120,8 +126,13 @@ export function ServicesTable({ initialServices, serviceOrderCounts }: ServicesT
 
         <Button variant="outline" className="gap-2" onClick={syncServices} disabled={isSyncing}>
           <RefreshCw className={isSyncing ? "h-4 w-4 animate-spin" : "h-4 w-4"} />
-          서비스 동기화
+          {platform === "all" ? "큐레이션 동기화" : `${platform} 동기화`}
         </Button>
+      </div>
+
+      <div className="rounded-md border border-border/70 bg-secondary/30 px-3 py-2 text-xs text-muted-foreground">
+        동기화 시 플랫폼별로 최저가 10개, 최고가 3개, 인기 추정 3개, 랜덤 3개만 저장합니다. 즐겨찾기한 서비스는
+        유지됩니다.
       </div>
 
       <div className="overflow-x-auto rounded-md border border-border/80">

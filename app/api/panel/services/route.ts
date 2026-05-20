@@ -13,7 +13,7 @@ export async function GET() {
   return NextResponse.json({ services: await getPanelServices() })
 }
 
-export async function POST() {
+export async function POST(request: Request) {
   const auth = await requireApiSession()
 
   if (auth.response) {
@@ -21,7 +21,9 @@ export async function POST() {
   }
 
   try {
-    const services = await syncPanelServices()
+    const body = (await request.json().catch(() => null)) as { platform?: string } | null
+    const platform = body?.platform && body.platform !== "all" ? body.platform : undefined
+    const services = await syncPanelServices({ platform })
 
     return NextResponse.json({ services })
   } catch (error) {
