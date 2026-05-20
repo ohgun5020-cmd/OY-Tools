@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { formatDateTime, formatNumber, formatServiceRate } from "@/features/panel/format"
 import { getServiceDisplay, translateServiceName } from "@/features/panel/service-display"
+import { findFirstServiceByCategory, getServiceCategoryOptions, getServiceOptionLabel } from "@/features/panel/service-options"
 import type { AdminOrderCandidate, AdminOrderStatus, PanelOrder, PanelService } from "@/types/panel"
 
 type AdminOrderConsoleProps = {
@@ -44,8 +45,15 @@ export function AdminOrderConsole({ initialCandidates, services, instagramConnec
   )
   const [candidates, setCandidates] = useState(initialCandidates)
   const [targetUrl, setTargetUrl] = useState("")
+  const categories = useMemo(() => getServiceCategoryOptions(enabledServices), [enabledServices])
+  const [category, setCategory] = useState("all")
+  const categoryServices =
+    category === "all"
+      ? enabledServices
+      : enabledServices.filter((service) => getServiceDisplay(service).category === category)
   const [serviceId, setServiceId] = useState(enabledServices[0]?.providerServiceId || "")
-  const selectedService = enabledServices.find((service) => service.providerServiceId === serviceId) || enabledServices[0]
+  const selectedService =
+    enabledServices.find((service) => service.providerServiceId === serviceId) || categoryServices[0] || enabledServices[0]
   const [quantity, setQuantity] = useState(selectedService?.min || 100)
   const [isScanning, setIsScanning] = useState(false)
   const [isCreating, setIsCreating] = useState(false)
@@ -57,6 +65,15 @@ export function AdminOrderConsole({ initialCandidates, services, instagramConnec
     const nextService = enabledServices.find((service) => service.providerServiceId === value)
     setServiceId(value)
     setQuantity(nextService?.min || 100)
+  }
+
+  function handleCategoryChange(value: string) {
+    setCategory(value)
+    const nextService = findFirstServiceByCategory(enabledServices, value)
+    if (nextService) {
+      setServiceId(nextService.providerServiceId)
+      setQuantity(nextService.min)
+    }
   }
 
   async function scanLatestPost() {
@@ -208,7 +225,10 @@ export function AdminOrderConsole({ initialCandidates, services, instagramConnec
           <CardDescription>게시글 URL과 서비스를 골라 검토 큐에 먼저 올립니다.</CardDescription>
         </CardHeader>
         <CardContent>
-          <form className="grid gap-4 lg:grid-cols-[minmax(260px,1fr)_minmax(260px,1fr)_140px_auto]" onSubmit={createManualCandidate}>
+          <form
+            className="grid gap-4 lg:grid-cols-[minmax(240px,1.2fr)_minmax(220px,0.8fr)_minmax(280px,1fr)_140px_auto]"
+            onSubmit={createManualCandidate}
+          >
             <div className="grid gap-2">
               <Label htmlFor="admin-target-url">게시글 URL</Label>
               <Input
@@ -221,19 +241,35 @@ export function AdminOrderConsole({ initialCandidates, services, instagramConnec
               />
             </div>
             <div className="grid gap-2">
+              <Label>카테고리</Label>
+              <Select value={category} onValueChange={handleCategoryChange}>
+                <SelectTrigger>
+                  <SelectValue placeholder="카테고리 선택" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">전체 카테고리</SelectItem>
+                  {categories.map((item) => (
+                    <SelectItem key={item} value={item} className="min-h-10 whitespace-normal leading-5">
+                      {item}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="grid gap-2">
               <Label>서비스</Label>
               <Select value={serviceId} onValueChange={handleServiceChange}>
                 <SelectTrigger>
                   <SelectValue placeholder="서비스 선택" />
                 </SelectTrigger>
                 <SelectContent>
-                  {enabledServices.map((service) => (
+                  {categoryServices.map((service) => (
                     <SelectItem
                       key={service.providerServiceId}
                       value={service.providerServiceId}
                       className="min-h-10 whitespace-normal leading-5"
                     >
-                      {getServiceDisplay(service).name}
+                      {getServiceOptionLabel(service)}
                     </SelectItem>
                   ))}
                 </SelectContent>

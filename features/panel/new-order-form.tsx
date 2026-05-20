@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Separator } from "@/components/ui/separator"
 import { estimateCharge, formatCurrency, formatNumber, formatServiceRate } from "@/features/panel/format"
 import { getServiceDisplay } from "@/features/panel/service-display"
+import { findFirstServiceByCategory, getServiceCategoryOptions, getServiceOptionLabel } from "@/features/panel/service-options"
 import type { PanelOrder, PanelService, PanelSettings } from "@/types/panel"
 
 type NewOrderFormProps = {
@@ -27,9 +28,18 @@ export function NewOrderForm({ services, settings }: NewOrderFormProps) {
   )
   const [platform, setPlatform] = useState(settings.defaultPlatform || platforms[0] || "Instagram")
   const platformServices = enabledServices.filter((service) => service.platform === platform)
+  const categories = useMemo(() => getServiceCategoryOptions(platformServices), [platformServices])
+  const [category, setCategory] = useState("all")
+  const categoryServices =
+    category === "all"
+      ? platformServices
+      : platformServices.filter((service) => getServiceDisplay(service).category === category)
   const [serviceId, setServiceId] = useState(platformServices[0]?.providerServiceId || enabledServices[0]?.providerServiceId || "")
   const selectedService =
-    enabledServices.find((service) => service.providerServiceId === serviceId) || platformServices[0] || enabledServices[0]
+    enabledServices.find((service) => service.providerServiceId === serviceId) ||
+    categoryServices[0] ||
+    platformServices[0] ||
+    enabledServices[0]
   const selectedDisplay = selectedService ? getServiceDisplay(selectedService) : null
   const [link, setLink] = useState("")
   const [quantity, setQuantity] = useState(selectedService?.min || 100)
@@ -41,7 +51,17 @@ export function NewOrderForm({ services, settings }: NewOrderFormProps) {
 
   function handlePlatformChange(value: string) {
     setPlatform(value)
+    setCategory("all")
     const nextService = enabledServices.find((service) => service.platform === value)
+    if (nextService) {
+      setServiceId(nextService.providerServiceId)
+      setQuantity(nextService.min)
+    }
+  }
+
+  function handleCategoryChange(value: string) {
+    setCategory(value)
+    const nextService = findFirstServiceByCategory(platformServices, value)
     if (nextService) {
       setServiceId(nextService.providerServiceId)
       setQuantity(nextService.min)
@@ -96,7 +116,7 @@ export function NewOrderForm({ services, settings }: NewOrderFormProps) {
         </CardHeader>
         <CardContent>
           <form className="grid gap-5" onSubmit={handleSubmit}>
-            <div className="grid gap-5 md:grid-cols-2">
+            <div className="grid gap-5 md:grid-cols-3">
               <div className="grid gap-2">
                 <Label>플랫폼</Label>
                 <Select value={platform} onValueChange={handlePlatformChange}>
@@ -114,19 +134,36 @@ export function NewOrderForm({ services, settings }: NewOrderFormProps) {
               </div>
 
               <div className="grid gap-2">
+                <Label>카테고리</Label>
+                <Select value={category} onValueChange={handleCategoryChange}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="카테고리 선택" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">전체 카테고리</SelectItem>
+                    {categories.map((item) => (
+                      <SelectItem key={item} value={item} className="min-h-10 whitespace-normal leading-5">
+                        {item}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="grid gap-2">
                 <Label>서비스</Label>
                 <Select value={serviceId} onValueChange={handleServiceChange}>
                   <SelectTrigger>
                     <SelectValue placeholder="서비스 선택" />
                   </SelectTrigger>
                   <SelectContent>
-                    {platformServices.map((service) => (
+                    {categoryServices.map((service) => (
                       <SelectItem
                         key={service.providerServiceId}
                         value={service.providerServiceId}
                         className="min-h-10 whitespace-normal leading-5"
                       >
-                        {getServiceDisplay(service).name}
+                        {getServiceOptionLabel(service)}
                       </SelectItem>
                     ))}
                   </SelectContent>
