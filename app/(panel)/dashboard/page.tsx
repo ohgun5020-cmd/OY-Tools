@@ -1,19 +1,33 @@
 import Link from "next/link"
-import { ArrowRight, CheckCircle2, ClipboardList, Database, Layers3, PlusCircle, Wallet } from "lucide-react"
+import { AlertTriangle, ArrowRight, CheckCircle2, ClipboardList, Database, Layers3, PlusCircle, Wallet } from "lucide-react"
 
 import { StatCard } from "@/components/app/stat-card"
 import { StatusBadge } from "@/components/app/status-badge"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { ActivityChart } from "@/features/panel/activity-chart"
 import { formatCurrency, formatDateTime, formatNumber } from "@/features/panel/format"
+import { demoBalance, demoOrders, demoServices } from "@/features/panel/mock-data"
 import { getSmmBalance, getSmmConnectionState } from "@/lib/smm/client"
 import { getPanelOrders, getPanelServices } from "@/lib/storage/panel-store"
 
 export default async function DashboardPage() {
-  const [balance, orders, services] = await Promise.all([getSmmBalance(), getPanelOrders(), getPanelServices()])
+  const [balanceResult, ordersResult, servicesResult] = await Promise.allSettled([
+    getSmmBalance(),
+    getPanelOrders(),
+    getPanelServices(),
+  ])
   const connection = getSmmConnectionState()
+  const balance = balanceResult.status === "fulfilled" ? balanceResult.value : demoBalance
+  const orders = ordersResult.status === "fulfilled" ? ordersResult.value : demoOrders
+  const services = servicesResult.status === "fulfilled" ? servicesResult.value : demoServices
+  const warnings = [
+    balanceResult.status === "rejected" ? "Provider balance check failed. Check SMM_API_URL and SMM_API_KEY." : null,
+    ordersResult.status === "rejected" ? "Order storage query failed. Check Supabase tables or service role key." : null,
+    servicesResult.status === "rejected" ? "Service catalog query failed. Check Supabase schema or SMM provider response." : null,
+  ].filter(Boolean)
   const today = new Date().toDateString()
   const todayOrders = orders.filter((order) => new Date(order.createdAt).toDateString() === today)
   const recentOrders = orders.slice(0, 5)
@@ -35,6 +49,14 @@ export default async function DashboardPage() {
           </Link>
         </Button>
       </div>
+
+      {warnings.length ? (
+        <Alert className="border-amber-500/30 bg-amber-500/10 text-amber-100">
+          <AlertTriangle className="h-4 w-4" />
+          <AlertTitle>Running with fallback data</AlertTitle>
+          <AlertDescription>{warnings.join(" ")}</AlertDescription>
+        </Alert>
+      ) : null}
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard

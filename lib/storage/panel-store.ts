@@ -35,7 +35,8 @@ export async function getPanelOrders() {
     .order("created_at", { ascending: false })
 
   if (error) {
-    throw new Error(error.message)
+    console.error("Supabase order query failed", error.message)
+    return memoryStore.orders
   }
 
   return (data || []).map(mapOrderFromRow)
@@ -51,7 +52,8 @@ export async function getPanelOrder(id: string) {
   const { data, error } = await supabase.from("oy_panel_orders").select("*").eq("id", id).maybeSingle()
 
   if (error) {
-    throw new Error(error.message)
+    console.error("Supabase single order query failed", error.message)
+    return memoryStore.orders.find((order) => order.id === id) || null
   }
 
   return data ? mapOrderFromRow(data) : null
@@ -108,7 +110,9 @@ export async function createPanelOrder(input: CreateOrderInput) {
   const { data, error } = await supabase.from("oy_panel_orders").insert(mapOrderToRow(order)).select("*").single()
 
   if (error) {
-    throw new Error(error.message)
+    console.error("Supabase order insert failed", error.message)
+    memoryStore.orders = [order, ...memoryStore.orders]
+    return order
   }
 
   return mapOrderFromRow(data)
@@ -152,7 +156,9 @@ export async function refreshPanelOrderStatus(id: string) {
     .single()
 
   if (error) {
-    throw new Error(error.message)
+    console.error("Supabase order status update failed", error.message)
+    memoryStore.orders = memoryStore.orders.map((item) => (item.id === id ? { ...item, ...updated } : item))
+    return memoryStore.orders.find((item) => item.id === id)!
   }
 
   return mapOrderFromRow(data)
@@ -173,11 +179,17 @@ export async function getPanelServices() {
     .order("name", { ascending: true })
 
   if (error) {
-    throw new Error(error.message)
+    console.error("Supabase service query failed", error.message)
+    return memoryStore.services
   }
 
   if (!data?.length) {
-    return syncPanelServices()
+    try {
+      return await syncPanelServices()
+    } catch (error) {
+      console.error("Provider service sync failed", error)
+      return memoryStore.services
+    }
   }
 
   return data.map(mapServiceFromRow)
@@ -212,7 +224,9 @@ export async function syncPanelServices() {
     .select("*")
 
   if (error) {
-    throw new Error(error.message)
+    console.error("Supabase service upsert failed", error.message)
+    memoryStore.services = services
+    return memoryStore.services
   }
 
   return (data || []).map(mapServiceFromRow)
@@ -244,7 +258,12 @@ export async function updatePanelServicePreference(
     .maybeSingle()
 
   if (error) {
-    throw new Error(error.message)
+    console.error("Supabase service preference update failed", error.message)
+    memoryStore.services = memoryStore.services.map((service) =>
+      service.providerServiceId === serviceId ? { ...service, ...patch, updatedAt: new Date().toISOString() } : service,
+    )
+
+    return memoryStore.services.find((service) => service.providerServiceId === serviceId) || null
   }
 
   return data ? mapServiceFromRow(data) : null
@@ -264,7 +283,8 @@ export async function getPanelSettings(): Promise<PanelSettings> {
     .maybeSingle()
 
   if (error) {
-    throw new Error(error.message)
+    console.error("Supabase settings query failed", error.message)
+    return memoryStore.settings
   }
 
   return {
@@ -297,7 +317,9 @@ export async function updatePanelSettings(settings: Partial<PanelSettings>) {
     .single()
 
   if (error) {
-    throw new Error(error.message)
+    console.error("Supabase settings update failed", error.message)
+    memoryStore.settings = nextSettings
+    return memoryStore.settings
   }
 
   return data.value as PanelSettings
