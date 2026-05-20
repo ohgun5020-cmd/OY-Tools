@@ -13,25 +13,35 @@ import { formatCurrency, formatNumber } from "@/features/panel/format"
 import { cn } from "@/lib/utils"
 import type { PanelService } from "@/types/panel"
 
-export function ServicesTable({ initialServices }: { initialServices: PanelService[] }) {
+type ServiceSort = "popular" | "price-low" | "price-high" | "favorite" | "name"
+
+type ServicesTableProps = {
+  initialServices: PanelService[]
+  serviceOrderCounts: Record<string, number>
+}
+
+export function ServicesTable({ initialServices, serviceOrderCounts }: ServicesTableProps) {
   const [services, setServices] = useState(initialServices)
   const [query, setQuery] = useState("")
   const [platform, setPlatform] = useState("all")
+  const [sortBy, setSortBy] = useState<ServiceSort>("popular")
   const [isSyncing, setIsSyncing] = useState(false)
 
   const platforms = useMemo(() => Array.from(new Set(services.map((service) => service.platform))).sort(), [services])
   const filteredServices = useMemo(() => {
     const lower = query.toLowerCase()
 
-    return services.filter((service) => {
-      const matchesPlatform = platform === "all" || service.platform === platform
-      const matchesQuery = [service.providerServiceId, service.platform, service.category, service.name].some((value) =>
-        value.toLowerCase().includes(lower),
-      )
+    return services
+      .filter((service) => {
+        const matchesPlatform = platform === "all" || service.platform === platform
+        const matchesQuery = [service.providerServiceId, service.platform, service.category, service.name].some((value) =>
+          value.toLowerCase().includes(lower),
+        )
 
-      return matchesPlatform && matchesQuery
-    })
-  }, [platform, query, services])
+        return matchesPlatform && matchesQuery
+      })
+      .sort((a, b) => compareServices(a, b, sortBy, serviceOrderCounts))
+  }, [platform, query, serviceOrderCounts, services, sortBy])
 
   async function syncServices() {
     setIsSyncing(true)
@@ -86,6 +96,18 @@ export function ServicesTable({ initialServices }: { initialServices: PanelServi
               ))}
             </SelectContent>
           </Select>
+          <Select value={sortBy} onValueChange={(value) => setSortBy(value as ServiceSort)}>
+            <SelectTrigger className="w-full sm:w-[180px]">
+              <SelectValue placeholder="Sort" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="popular">Popular</SelectItem>
+              <SelectItem value="price-low">Lowest price</SelectItem>
+              <SelectItem value="price-high">Highest price</SelectItem>
+              <SelectItem value="favorite">Favorites</SelectItem>
+              <SelectItem value="name">Name A-Z</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         <Button variant="outline" className="gap-2" onClick={syncServices} disabled={isSyncing}>
@@ -103,6 +125,7 @@ export function ServicesTable({ initialServices }: { initialServices: PanelServi
               <TableHead>Platform</TableHead>
               <TableHead className="min-w-[280px]">Name</TableHead>
               <TableHead>Rate</TableHead>
+              <TableHead>Used</TableHead>
               <TableHead>Min</TableHead>
               <TableHead>Max</TableHead>
               <TableHead>Enabled</TableHead>
@@ -141,6 +164,7 @@ export function ServicesTable({ initialServices }: { initialServices: PanelServi
                   <div className="max-w-[360px] truncate text-xs text-muted-foreground">{service.category}</div>
                 </TableCell>
                 <TableCell>{formatCurrency(service.rate, service.currency)}</TableCell>
+                <TableCell>{formatNumber(serviceOrderCounts[service.providerServiceId] || 0)}</TableCell>
                 <TableCell>{formatNumber(service.min)}</TableCell>
                 <TableCell>{formatNumber(service.max)}</TableCell>
                 <TableCell>
@@ -160,4 +184,35 @@ export function ServicesTable({ initialServices }: { initialServices: PanelServi
       </div>
     </div>
   )
+}
+
+function compareServices(
+  a: PanelService,
+  b: PanelService,
+  sortBy: ServiceSort,
+  serviceOrderCounts: Record<string, number>,
+) {
+  const enabledDelta = Number(b.isEnabled) - Number(a.isEnabled)
+
+  if (enabledDelta !== 0) {
+    return enabledDelta
+  }
+
+  const favoriteDelta = Number(b.isFavorite) - Number(a.isFavorite)
+  const popularDelta = (serviceOrderCounts[b.providerServiceId] || 0) - (serviceOrderCounts[a.providerServiceId] || 0)
+  const nameDelta = a.name.localeCompare(b.name)
+
+  switch (sortBy) {
+    case "price-low":
+      return a.rate - b.rate || popularDelta || favoriteDelta || nameDelta
+    case "price-high":
+      return b.rate - a.rate || popularDelta || favoriteDelta || nameDelta
+    case "favorite":
+      return favoriteDelta || popularDelta || nameDelta
+    case "name":
+      return nameDelta
+    case "popular":
+    default:
+      return popularDelta || favoriteDelta || a.rate - b.rate || nameDelta
+  }
 }

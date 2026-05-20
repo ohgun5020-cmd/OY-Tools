@@ -1,9 +1,13 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ServicesTable } from "@/features/panel/services-table"
-import { getPanelServices } from "@/lib/storage/panel-store"
+import { getPanelOrders, getPanelServices } from "@/lib/storage/panel-store"
 
 export default async function ServicesPage() {
-  const services = await getPanelServices()
+  const [services, orders] = await Promise.all([getPanelServices(), getPanelOrders()])
+  const serviceOrderCounts = orders.reduce<Record<string, number>>((counts, order) => {
+    counts[order.serviceId] = (counts[order.serviceId] || 0) + 1
+    return counts
+  }, {})
 
   return (
     <div className="flex flex-col gap-5">
@@ -19,7 +23,7 @@ export default async function ServicesPage() {
           <CardDescription>Service id, name, rate, min/max quantity, favorites, and availability.</CardDescription>
         </CardHeader>
         <CardContent>
-          <ServicesTable initialServices={services} />
+          <ServicesTable initialServices={services} serviceOrderCounts={serviceOrderCounts} />
         </CardContent>
       </Card>
     </div>
