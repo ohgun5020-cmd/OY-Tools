@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  :root {
+    --font-sans: ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    --background: 222 32% 5%;
+    --foreground: 210 40% 98%;
+    --card: 222 28% 7%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 28% 7%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 224 88% 58%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 218 18% 13%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 218 18% 13%;
+    --muted-foreground: 215 15% 68%;
+    --accent: 263 76% 62%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 74% 56%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 217 22% 17%;
+    --input: 217 22% 17%;
+    --ring: 224 88% 58%;
+    --chart-1: 224 88% 58%;
+    --chart-2: 170 72% 45%;
+    --chart-3: 263 76% 62%;
+    --chart-4: 39 92% 55%;
+    --chart-5: 0 74% 56%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply min-h-screen bg-background text-foreground antialiased;
+    background:
+      radial-gradient(circle at top left, hsl(224 88% 58% / 0.14), transparent 28rem),
+      linear-gradient(180deg, hsl(222 34% 7%), hsl(222 32% 5%) 18rem);
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.35);
+  }
+}
+
+@layer components {
+  .panel-card {
+    @apply border-border/80 bg-card/80 shadow-[0_18px_60px_rgba(0,0,0,0.28)] backdrop-blur;
+  }
+
+  .panel-band {
+    @apply border border-border/70 bg-secondary/35;
+  }
+}
