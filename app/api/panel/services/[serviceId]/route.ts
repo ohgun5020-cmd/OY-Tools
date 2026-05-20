@@ -19,7 +19,7 @@ export async function PATCH(request: Request, context: { params: Promise<{ servi
   const parsed = patchSchema.safeParse(await request.json().catch(() => null))
 
   if (!parsed.success) {
-    return NextResponse.json({ error: "Invalid service preference update." }, { status: 400 })
+    return NextResponse.json({ error: "서비스 설정값을 확인해주세요." }, { status: 400 })
   }
 
   const { serviceId } = await context.params

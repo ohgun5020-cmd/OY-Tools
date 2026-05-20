@@ -79,7 +79,7 @@ export async function createSmmOrder(input: CreateOrderInput) {
   })
 
   if (!response.order) {
-    throw new Error("SMM provider did not return an order id.")
+    throw new Error("외부 패널에서 주문번호를 반환하지 않았습니다.")
   }
 
   return {
@@ -107,7 +107,7 @@ async function callSmmApi<T>(params: Record<string, string>) {
   const key = process.env.SMM_API_KEY
 
   if (!url || !key) {
-    throw new Error("SMM_API_URL and SMM_API_KEY are required for live provider calls.")
+    throw new Error("실 API 호출에는 SMM_API_URL과 SMM_API_KEY가 필요합니다.")
   }
 
   const body = new URLSearchParams({
@@ -127,7 +127,7 @@ async function callSmmApi<T>(params: Record<string, string>) {
   const json = (await response.json()) as T & { error?: string }
 
   if (!response.ok || json.error) {
-    throw new Error(json.error || `SMM provider request failed with ${response.status}`)
+    throw new Error(json.error || `외부 패널 요청에 실패했습니다. 상태 코드: ${response.status}`)
   }
 
   return json

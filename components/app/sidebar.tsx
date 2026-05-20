@@ -20,11 +20,11 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
 const navItems = [
-  { name: "Dashboard", href: "/dashboard", icon: Gauge },
-  { name: "New Order", href: "/orders/new", icon: PlusCircle },
-  { name: "Orders", href: "/orders", icon: ClipboardList },
-  { name: "Services", href: "/services", icon: Layers3 },
-  { name: "Settings", href: "/settings", icon: Settings },
+  { name: "대시보드", href: "/dashboard", icon: Gauge },
+  { name: "새 주문", href: "/orders/new", icon: PlusCircle },
+  { name: "주문내역", href: "/orders", icon: ClipboardList },
+  { name: "서비스", href: "/services", icon: Layers3 },
+  { name: "설정", href: "/settings", icon: Settings },
 ]
 
 export function Sidebar() {
@@ -54,7 +54,7 @@ export function Sidebar() {
                 MVP
               </Badge>
             </div>
-            <p className="truncate text-xs text-muted-foreground">OY Panel operations</p>
+            <p className="truncate text-xs text-muted-foreground">SMM 주문 운영툴</p>
           </div>
           <Button variant="ghost" size="icon" className="ml-auto lg:hidden" onClick={toggle}>
             <Menu className="h-5 w-5" />
@@ -88,9 +88,9 @@ export function Sidebar() {
           <div className="mb-2 rounded-md border border-border/70 bg-secondary/35 p-3">
             <div className="flex items-center gap-2 text-xs font-medium text-foreground">
               <ShieldCheck className="h-4 w-4 text-emerald-300" />
-              Server-side API keys
+              API 키 서버 보관
             </div>
-            <p className="mt-1 text-xs leading-5 text-muted-foreground">Provider credentials stay in Railway env.</p>
+            <p className="mt-1 text-xs leading-5 text-muted-foreground">SMM 키는 Railway 환경변수에만 저장됩니다.</p>
           </div>
           <LogoutButton />
         </div>

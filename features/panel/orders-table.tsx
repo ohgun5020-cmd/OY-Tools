@@ -41,7 +41,7 @@ export function OrdersTable({ initialOrders }: { initialOrders: PanelOrder[] }) 
       <div className="relative max-w-sm">
         <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
-          placeholder="Search orders"
+          placeholder="주문 검색"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           className="pl-9"
@@ -52,15 +52,15 @@ export function OrdersTable({ initialOrders }: { initialOrders: PanelOrder[] }) 
         <Table>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
-              <TableHead>Order</TableHead>
-              <TableHead>Platform</TableHead>
-              <TableHead className="min-w-[220px]">Service</TableHead>
-              <TableHead className="min-w-[260px]">Link</TableHead>
-              <TableHead>Qty</TableHead>
-              <TableHead>Amount</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Created</TableHead>
-              <TableHead className="text-right">Action</TableHead>
+              <TableHead>주문번호</TableHead>
+              <TableHead>플랫폼</TableHead>
+              <TableHead className="min-w-[220px]">서비스</TableHead>
+              <TableHead className="min-w-[260px]">링크</TableHead>
+              <TableHead>수량</TableHead>
+              <TableHead>금액</TableHead>
+              <TableHead>상태</TableHead>
+              <TableHead>생성일</TableHead>
+              <TableHead className="text-right">작업</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -84,7 +84,7 @@ export function OrdersTable({ initialOrders }: { initialOrders: PanelOrder[] }) 
                     disabled={refreshingId === order.id}
                   >
                     <RefreshCw className={refreshingId === order.id ? "h-4 w-4 animate-spin" : "h-4 w-4"} />
-                    <span className="sr-only">Refresh status</span>
+                    <span className="sr-only">상태 새로고침</span>
                   </Button>
                 </TableCell>
               </TableRow>

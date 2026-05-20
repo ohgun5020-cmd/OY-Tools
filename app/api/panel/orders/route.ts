@@ -30,7 +30,7 @@ export async function POST(request: Request) {
   const parsed = createOrderSchema.safeParse(await request.json().catch(() => null))
 
   if (!parsed.success) {
-    return NextResponse.json({ error: "Check service, link, and quantity." }, { status: 400 })
+    return NextResponse.json({ error: "서비스, 링크, 수량을 확인해주세요." }, { status: 400 })
   }
 
   try {
@@ -38,6 +38,6 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ order })
   } catch (error) {
-    return NextResponse.json({ error: error instanceof Error ? error.message : "Order failed." }, { status: 500 })
+    return NextResponse.json({ error: error instanceof Error ? error.message : "주문 실행에 실패했습니다." }, { status: 500 })
   }
 }

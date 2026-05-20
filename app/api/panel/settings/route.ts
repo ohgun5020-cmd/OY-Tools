@@ -30,7 +30,7 @@ export async function PATCH(request: Request) {
   const parsed = settingsSchema.safeParse(await request.json().catch(() => null))
 
   if (!parsed.success) {
-    return NextResponse.json({ error: "Invalid settings payload." }, { status: 400 })
+    return NextResponse.json({ error: "설정값을 확인해주세요." }, { status: 400 })
   }
 
   const settings = await updatePanelSettings(parsed.data)

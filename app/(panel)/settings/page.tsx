@@ -16,7 +16,7 @@ export default async function SettingsPage() {
   const admin = getAdminRuntimeConfig()
   const hasPostgres = isPostgresConfigured()
   const hasSupabase = isSupabaseConfigured()
-  const storeName = hasPostgres ? "Postgres" : hasSupabase ? "Supabase" : "Memory"
+  const storeName = hasPostgres ? "Postgres" : hasSupabase ? "Supabase" : "메모리"
 
   const checks = [
     { label: "SMM_API_URL", ok: connection.hasApiUrl },
@@ -32,16 +32,16 @@ export default async function SettingsPage() {
   return (
     <div className="flex flex-col gap-5">
       <div>
-        <p className="text-sm font-medium text-primary">Control</p>
-        <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">Settings</h1>
-        <p className="mt-1 text-sm text-muted-foreground">API connection, margin defaults, and deployment readiness.</p>
+        <p className="text-sm font-medium text-primary">운영 설정</p>
+        <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">설정</h1>
+        <p className="mt-1 text-sm text-muted-foreground">API 연결, 저장소, 로그인 보안, 내부 계산값을 확인합니다.</p>
       </div>
 
       <div className="grid gap-4 xl:grid-cols-[minmax(0,0.9fr)_minmax(360px,1.1fr)]">
         <Card className="panel-card">
           <CardHeader>
-            <CardTitle>Internal calculation</CardTitle>
-            <CardDescription>Used for estimated order amount before execution.</CardDescription>
+            <CardTitle>금액 계산</CardTitle>
+            <CardDescription>주문 실행 전 예상 금액을 계산할 때 사용합니다.</CardDescription>
           </CardHeader>
           <CardContent>
             <SettingsForm settings={settings} />
@@ -50,19 +50,19 @@ export default async function SettingsPage() {
 
         <Card className="panel-card">
           <CardHeader>
-            <CardTitle>Runtime status</CardTitle>
-            <CardDescription>Server-side env checks for Railway deployment.</CardDescription>
+            <CardTitle>연결 상태</CardTitle>
+            <CardDescription>Railway 환경변수와 서버 연결 상태를 확인합니다.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-5">
             <div className="grid gap-3 sm:grid-cols-3">
               <StatusTile
                 icon={Server}
-                label="Provider API"
-                value={connection.configured ? "Live" : "Demo"}
+                label="외부 API"
+                value={connection.configured ? "실연결" : "데모"}
                 ok={connection.configured}
               />
-              <StatusTile icon={KeyRound} label="Order store" value={storeName} ok={hasPostgres || hasSupabase} />
-              <StatusTile icon={LockKeyhole} label="Admin auth" value={admin.hasAdminPassword ? "Env" : "Local"} ok={admin.hasAdminPassword} />
+              <StatusTile icon={KeyRound} label="저장소" value={storeName} ok={hasPostgres || hasSupabase} />
+              <StatusTile icon={LockKeyhole} label="관리자 로그인" value={admin.hasAdminPassword ? "환경변수" : "로컬"} ok={admin.hasAdminPassword} />
             </div>
 
             <Separator />
@@ -82,7 +82,7 @@ export default async function SettingsPage() {
                         : "rounded-sm border-amber-500/30 bg-amber-500/10 text-amber-300"
                     }
                   >
-                    {check.ok ? "Set" : "Missing"}
+                    {check.ok ? "설정됨" : "없음"}
                   </Badge>
                 </div>
               ))}
@@ -91,7 +91,7 @@ export default async function SettingsPage() {
             {admin.devFallbackEnabled ? (
               <div className="flex gap-3 rounded-md border border-amber-500/30 bg-amber-500/10 p-3 text-sm text-amber-100">
                 <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
-                <p>Local fallback credentials are active. Set ADMIN_PASSWORD and AUTH_SECRET before Railway deployment.</p>
+                <p>로컬 기본 로그인 정보가 활성화되어 있습니다. Railway 배포 전 ADMIN_PASSWORD와 AUTH_SECRET을 설정하세요.</p>
               </div>
             ) : null}
           </CardContent>

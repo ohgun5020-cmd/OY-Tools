@@ -77,7 +77,7 @@ export function ServicesTable({ initialServices, serviceOrderCounts }: ServicesT
           <div className="relative max-w-sm flex-1">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
-              placeholder="Search services"
+              placeholder="서비스 검색"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               className="pl-9"
@@ -85,10 +85,10 @@ export function ServicesTable({ initialServices, serviceOrderCounts }: ServicesT
           </div>
           <Select value={platform} onValueChange={setPlatform}>
             <SelectTrigger className="w-full sm:w-[180px]">
-              <SelectValue placeholder="Platform" />
+              <SelectValue placeholder="플랫폼" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All platforms</SelectItem>
+              <SelectItem value="all">전체 플랫폼</SelectItem>
               {platforms.map((item) => (
                 <SelectItem key={item} value={item}>
                   {item}
@@ -98,21 +98,21 @@ export function ServicesTable({ initialServices, serviceOrderCounts }: ServicesT
           </Select>
           <Select value={sortBy} onValueChange={(value) => setSortBy(value as ServiceSort)}>
             <SelectTrigger className="w-full sm:w-[180px]">
-              <SelectValue placeholder="Sort" />
+              <SelectValue placeholder="정렬" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="popular">Popular</SelectItem>
-              <SelectItem value="price-low">Lowest price</SelectItem>
-              <SelectItem value="price-high">Highest price</SelectItem>
-              <SelectItem value="favorite">Favorites</SelectItem>
-              <SelectItem value="name">Name A-Z</SelectItem>
+              <SelectItem value="popular">인기순</SelectItem>
+              <SelectItem value="price-low">최저가순</SelectItem>
+              <SelectItem value="price-high">최고가순</SelectItem>
+              <SelectItem value="favorite">즐겨찾기순</SelectItem>
+              <SelectItem value="name">이름순</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
         <Button variant="outline" className="gap-2" onClick={syncServices} disabled={isSyncing}>
           <RefreshCw className={isSyncing ? "h-4 w-4 animate-spin" : "h-4 w-4"} />
-          Sync provider
+          서비스 동기화
         </Button>
       </div>
 
@@ -120,15 +120,15 @@ export function ServicesTable({ initialServices, serviceOrderCounts }: ServicesT
         <Table>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
-              <TableHead>Fav</TableHead>
+              <TableHead>즐겨찾기</TableHead>
               <TableHead>ID</TableHead>
-              <TableHead>Platform</TableHead>
-              <TableHead className="min-w-[280px]">Name</TableHead>
-              <TableHead>Rate</TableHead>
-              <TableHead>Used</TableHead>
-              <TableHead>Min</TableHead>
-              <TableHead>Max</TableHead>
-              <TableHead>Enabled</TableHead>
+              <TableHead>플랫폼</TableHead>
+              <TableHead className="min-w-[280px]">서비스명</TableHead>
+              <TableHead>단가</TableHead>
+              <TableHead>사용횟수</TableHead>
+              <TableHead>최소</TableHead>
+              <TableHead>최대</TableHead>
+              <TableHead>사용</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -150,7 +150,7 @@ export function ServicesTable({ initialServices, serviceOrderCounts }: ServicesT
                         service.isFavorite ? "fill-amber-300 text-amber-300" : "text-muted-foreground",
                       )}
                     />
-                    <span className="sr-only">Toggle favorite</span>
+                    <span className="sr-only">즐겨찾기 전환</span>
                   </Button>
                 </TableCell>
                 <TableCell className="font-mono text-xs">{service.providerServiceId}</TableCell>

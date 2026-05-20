@@ -39,7 +39,7 @@ export function LoginForm({ defaultEmail, devFallbackEnabled }: LoginFormProps) 
 
     if (!response.ok) {
       const payload = (await response.json().catch(() => null)) as { error?: string } | null
-      setError(payload?.error || "Login failed.")
+      setError(payload?.error || "로그인에 실패했습니다.")
       return
     }
 
@@ -55,7 +55,7 @@ export function LoginForm({ defaultEmail, devFallbackEnabled }: LoginFormProps) 
         </div>
         <div>
           <p className="text-sm font-semibold">OY Tools</p>
-          <p className="text-xs text-muted-foreground">Private operations console</p>
+          <p className="text-xs text-muted-foreground">개인 운영 콘솔</p>
         </div>
       </div>
 
@@ -65,12 +65,12 @@ export function LoginForm({ defaultEmail, devFallbackEnabled }: LoginFormProps) 
             <LockKeyhole className="h-4 w-4 text-primary" />
           </div>
           <CardTitle className="text-2xl">OY Panel</CardTitle>
-          <CardDescription>Single-admin access for SMM orders and service control.</CardDescription>
+          <CardDescription>주문 생성, 상태 확인, 서비스 관리를 한 화면에서 처리합니다.</CardDescription>
         </CardHeader>
         <CardContent>
           <form className="grid gap-5" onSubmit={handleSubmit}>
             <div className="grid gap-2">
-              <Label htmlFor="email">Admin email</Label>
+              <Label htmlFor="email">관리자 이메일</Label>
               <Input
                 id="email"
                 type="email"
@@ -81,7 +81,7 @@ export function LoginForm({ defaultEmail, devFallbackEnabled }: LoginFormProps) 
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">비밀번호</Label>
               <Input
                 id="password"
                 type="password"
@@ -100,12 +100,12 @@ export function LoginForm({ defaultEmail, devFallbackEnabled }: LoginFormProps) 
 
             {devFallbackEnabled ? (
               <Alert className="border-amber-500/30 bg-amber-500/10 text-amber-100">
-                <AlertDescription>Local fallback password is oy-admin. Set env vars before deployment.</AlertDescription>
+                <AlertDescription>로컬 기본 비밀번호는 oy-admin입니다. 배포 전에는 환경변수를 설정하세요.</AlertDescription>
               </Alert>
             ) : null}
 
             <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? "Checking..." : "Enter console"}
+              {isSubmitting ? "확인 중..." : "관리자 화면 들어가기"}
             </Button>
           </form>
         </CardContent>

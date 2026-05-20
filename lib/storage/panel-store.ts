@@ -105,15 +105,15 @@ export async function createPanelOrder(input: CreateOrderInput) {
   const service = services.find((item) => item.providerServiceId === input.serviceId || item.id === input.serviceId)
 
   if (!service) {
-    throw new Error("Selected service was not found.")
+    throw new Error("선택한 서비스를 찾을 수 없습니다.")
   }
 
   if (!service.isEnabled) {
-    throw new Error("Selected service is currently disabled.")
+    throw new Error("선택한 서비스가 비활성화되어 있습니다.")
   }
 
   if (input.quantity < service.min || input.quantity > service.max) {
-    throw new Error(`Quantity must be between ${service.min} and ${service.max}.`)
+    throw new Error(`수량은 ${service.min}개 이상 ${service.max}개 이하여야 합니다.`)
   }
 
   const settings = await getPanelSettings()
@@ -214,7 +214,7 @@ export async function refreshPanelOrderStatus(id: string) {
   const order = await getPanelOrder(id)
 
   if (!order) {
-    throw new Error("Order was not found.")
+    throw new Error("주문을 찾을 수 없습니다.")
   }
 
   const providerStatus = await getSmmOrderStatus(order.providerOrderId)

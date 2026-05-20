@@ -13,6 +13,6 @@ export async function GET() {
   try {
     return NextResponse.json({ balance: await getSmmBalance() })
   } catch (error) {
-    return NextResponse.json({ error: error instanceof Error ? error.message : "Balance check failed." }, { status: 500 })
+    return NextResponse.json({ error: error instanceof Error ? error.message : "잔액 조회에 실패했습니다." }, { status: 500 })
   }
 }

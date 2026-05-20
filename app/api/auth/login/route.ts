@@ -18,11 +18,11 @@ export async function POST(request: Request) {
   const parsed = loginSchema.safeParse(await request.json().catch(() => null))
 
   if (!parsed.success) {
-    return NextResponse.json({ error: "Enter a valid email and password." }, { status: 400 })
+    return NextResponse.json({ error: "이메일과 비밀번호를 확인해주세요." }, { status: 400 })
   }
 
   if (!validateAdminCredentials(parsed.data.email, parsed.data.password)) {
-    return NextResponse.json({ error: "Invalid admin credentials." }, { status: 401 })
+    return NextResponse.json({ error: "관리자 로그인 정보가 올바르지 않습니다." }, { status: 401 })
   }
 
   const config = getAdminRuntimeConfig()

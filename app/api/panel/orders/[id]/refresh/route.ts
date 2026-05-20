@@ -17,6 +17,6 @@ export async function POST(_request: Request, context: { params: Promise<{ id: s
 
     return NextResponse.json({ order })
   } catch (error) {
-    return NextResponse.json({ error: error instanceof Error ? error.message : "Status refresh failed." }, { status: 500 })
+    return NextResponse.json({ error: error instanceof Error ? error.message : "상태 새로고침에 실패했습니다." }, { status: 500 })
   }
 }

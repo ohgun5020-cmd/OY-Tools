@@ -38,7 +38,7 @@ export function SettingsForm({ settings }: { settings: PanelSettings }) {
   return (
     <form className="grid gap-4" onSubmit={handleSubmit}>
       <div className="grid gap-2">
-        <Label htmlFor="marginRate">Internal margin rate (%)</Label>
+        <Label htmlFor="marginRate">내부 마진율 (%)</Label>
         <Input
           id="marginRate"
           type="number"
@@ -49,10 +49,10 @@ export function SettingsForm({ settings }: { settings: PanelSettings }) {
         />
       </div>
       <div className="grid gap-2">
-        <Label>Currency</Label>
+        <Label>통화</Label>
         <Select value={currency} onValueChange={setCurrency}>
           <SelectTrigger>
-            <SelectValue placeholder="Currency" />
+            <SelectValue placeholder="통화" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="USD">USD</SelectItem>
@@ -62,10 +62,10 @@ export function SettingsForm({ settings }: { settings: PanelSettings }) {
         </Select>
       </div>
       <div className="grid gap-2">
-        <Label>Default platform</Label>
+        <Label>기본 플랫폼</Label>
         <Select value={defaultPlatform} onValueChange={setDefaultPlatform}>
           <SelectTrigger>
-            <SelectValue placeholder="Platform" />
+            <SelectValue placeholder="플랫폼" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="Instagram">Instagram</SelectItem>
@@ -79,12 +79,12 @@ export function SettingsForm({ settings }: { settings: PanelSettings }) {
       <div className="flex items-center gap-3">
         <Button type="submit" className="gap-2" disabled={isSaving}>
           <Save className="h-4 w-4" />
-          Save settings
+          설정 저장
         </Button>
         {saved ? (
           <span className="flex items-center gap-1 text-sm text-emerald-300">
             <Check className="h-4 w-4" />
-            Saved
+            저장됨
           </span>
         ) : null}
       </div>

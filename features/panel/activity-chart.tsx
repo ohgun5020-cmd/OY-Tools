@@ -13,7 +13,7 @@ export function ActivityChart({ orders }: { orders: PanelOrder[] }) {
             <div
               className="w-full rounded-sm bg-primary/80 shadow-[0_0_24px_rgba(59,130,246,0.28)]"
               style={{ height: `${Math.max((bucket.total / max) * 100, bucket.count ? 12 : 3)}%` }}
-              title={`${bucket.count} orders, ${formatCurrency(bucket.total)}`}
+              title={`${bucket.count}건, ${formatCurrency(bucket.total)}`}
             />
           </div>
           <div className="truncate text-center text-xs text-muted-foreground">{bucket.label}</div>
@@ -24,7 +24,7 @@ export function ActivityChart({ orders }: { orders: PanelOrder[] }) {
 }
 
 function getDailyBuckets(orders: PanelOrder[]) {
-  const formatter = new Intl.DateTimeFormat("en-US", { weekday: "short" })
+  const formatter = new Intl.DateTimeFormat("ko-KR", { weekday: "short" })
 
   return Array.from({ length: 7 }).map((_, index) => {
     const date = new Date()

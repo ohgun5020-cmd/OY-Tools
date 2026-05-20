@@ -25,6 +25,6 @@ export async function POST() {
 
     return NextResponse.json({ services })
   } catch (error) {
-    return NextResponse.json({ error: error instanceof Error ? error.message : "Service sync failed." }, { status: 500 })
+    return NextResponse.json({ error: error instanceof Error ? error.message : "서비스 동기화에 실패했습니다." }, { status: 500 })
   }
 }

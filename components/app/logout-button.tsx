@@ -19,7 +19,7 @@ export function LogoutButton() {
   return (
     <Button variant="ghost" className="w-full justify-start gap-3 px-3 text-muted-foreground" onClick={handleLogout}>
       <LogOut className="h-4 w-4" />
-      Logout
+      로그아웃
     </Button>
   )
 }

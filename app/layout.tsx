@@ -11,12 +11,12 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "OY Tools | OY Panel",
-  description: "Private SMM order operations dashboard for OY Tools.",
+  description: "OY Tools 개인용 SMM 주문 운영 대시보드.",
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="ko" className="dark">
       <body className={inter.className}>{children}</body>
     </html>
   )

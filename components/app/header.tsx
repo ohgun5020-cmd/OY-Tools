@@ -22,14 +22,14 @@ export function Header({ adminEmail, mode }: HeaderProps) {
       <div className="flex h-16 items-center gap-3 px-4 md:px-6">
         <Button variant="ghost" size="icon" className="lg:hidden" onClick={toggle}>
           <Menu className="h-5 w-5" />
-          <span className="sr-only">Open sidebar</span>
+          <span className="sr-only">사이드바 열기</span>
         </Button>
 
         <div className="relative hidden flex-1 sm:block">
           <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             readOnly
-            value="Command surface: orders, services, status"
+            value="빠른 확인: 주문, 서비스, 상태"
             className="h-9 max-w-md border-border/70 bg-secondary/35 pl-9 text-muted-foreground"
           />
         </div>
@@ -44,7 +44,7 @@ export function Header({ adminEmail, mode }: HeaderProps) {
             }
           >
             {isLive ? <Wifi className="mr-1 h-3 w-3" /> : <WifiOff className="mr-1 h-3 w-3" />}
-            {isLive ? "Live API" : "Demo mode"}
+            {isLive ? "실 API 연결" : "데모 모드"}
           </Badge>
           <div className="hidden items-center gap-2 rounded-md border border-border/70 bg-secondary/35 px-3 py-1.5 text-xs text-muted-foreground md:flex">
             <Shield className="h-3.5 w-3.5 text-primary" />

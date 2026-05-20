@@ -9,16 +9,35 @@ export function formatCurrency(value: number, currency = "USD") {
 }
 
 export function formatNumber(value: number) {
-  return new Intl.NumberFormat("en-US").format(value)
+  return new Intl.NumberFormat("ko-KR").format(value)
 }
 
 export function formatDateTime(value: string) {
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
+  return new Intl.DateTimeFormat("ko-KR", {
+    month: "long",
     day: "numeric",
     hour: "2-digit",
     minute: "2-digit",
   }).format(new Date(value))
+}
+
+export function statusLabel(status: PanelOrderStatus) {
+  switch (status) {
+    case "Completed":
+      return "완료"
+    case "In progress":
+      return "진행 중"
+    case "Processing":
+      return "처리 중"
+    case "Partial":
+      return "부분 완료"
+    case "Canceled":
+      return "취소됨"
+    case "Failed":
+      return "실패"
+    default:
+      return "대기"
+  }
 }
 
 export function estimateCharge(rate: number, quantity: number, marginRate: number) {

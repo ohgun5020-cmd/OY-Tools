@@ -12,15 +12,15 @@ export default async function ServicesPage() {
   return (
     <div className="flex flex-col gap-5">
       <div>
-        <p className="text-sm font-medium text-primary">Catalog</p>
-        <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">Services</h1>
-        <p className="mt-1 text-sm text-muted-foreground">Sync provider services, favorite frequent items, and disable risky services.</p>
+        <p className="text-sm font-medium text-primary">서비스 관리</p>
+        <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">서비스 목록</h1>
+        <p className="mt-1 text-sm text-muted-foreground">외부 패널 서비스를 불러오고 자주 쓰는 서비스만 정리합니다.</p>
       </div>
 
       <Card className="panel-card">
         <CardHeader>
-          <CardTitle>Provider services</CardTitle>
-          <CardDescription>Service id, name, rate, min/max quantity, favorites, and availability.</CardDescription>
+          <CardTitle>외부 패널 서비스</CardTitle>
+          <CardDescription>서비스 ID, 이름, 단가, 최소/최대 수량, 즐겨찾기와 사용 여부를 관리합니다.</CardDescription>
         </CardHeader>
         <CardContent>
           <ServicesTable initialServices={services} serviceOrderCounts={serviceOrderCounts} />
