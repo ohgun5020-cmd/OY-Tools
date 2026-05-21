@@ -44,6 +44,23 @@
     text-rendering: geometricPrecision;
   }
 
+  .material-icons-round {
+    display: inline-block;
+    direction: ltr;
+    font-family: "Material Icons Round";
+    font-feature-settings: "liga";
+    font-size: 1em;
+    font-style: normal;
+    font-weight: normal;
+    letter-spacing: normal;
+    line-height: 1;
+    text-transform: none;
+    white-space: nowrap;
+    word-wrap: normal;
+    -webkit-font-feature-settings: "liga";
+    -webkit-font-smoothing: antialiased;
+  }
+
   ::selection {
     background: rgb(0 91 255 / 18%);
   }

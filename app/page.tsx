@@ -1,44 +1,11 @@
 "use client"
 
 import { useEffect, useRef, useState, type ReactNode } from "react"
-import type { LucideIcon } from "lucide-react"
-import {
-  ArrowRight,
-  Check,
-  CheckCircle2,
-  ChevronLeft,
-  ChevronRight,
-  ClipboardCheck,
-  DollarSign,
-  FileText,
-  FolderOpen,
-  HelpCircle,
-  History,
-  Image as ImageIcon,
-  Layers,
-  LayoutGrid,
-  Maximize2,
-  Megaphone,
-  MessageCircle,
-  MousePointerClick,
-  Palette,
-  Pencil,
-  RefreshCw,
-  Settings,
-  Shuffle,
-  SlidersHorizontal,
-  Sparkles,
-  Store,
-  TextCursorInput,
-  Type,
-  UploadCloud,
-  WandSparkles,
-} from "lucide-react"
 
 type ActionItem = {
   title: string
   description: string
-  icon: LucideIcon
+  icon: string
   primary?: boolean
   badge?: string
 }
@@ -46,26 +13,26 @@ type ActionItem = {
 type UseCase = {
   title: string
   description: string
-  icon: LucideIcon
+  icon: string
 }
 
 const aiActions: ActionItem[] = [
   {
     title: "의도 살리기",
     description: "디자인 방향 질문",
-    icon: HelpCircle,
+    icon: "help_outline",
     primary: true,
     badge: "AI",
   },
   {
     title: "우선 수정 3개",
     description: "바로 고칠 항목 정리",
-    icon: ClipboardCheck,
+    icon: "playlist_add_check",
   },
   {
     title: "카피 톤 맞추기",
     description: "텍스트 흐름 제안",
-    icon: MessageCircle,
+    icon: "chat_bubble_outline",
   },
 ]
 
@@ -93,87 +60,87 @@ const workflowSteps = [
 ]
 
 const qualityPoints = [
-  { label: "레이어", value: "그룹/순서 정리", icon: Layers },
-  { label: "텍스트", value: "편집 가능한 텍스트", icon: TextCursorInput },
-  { label: "이미지", value: "깨진 이미지 보정", icon: ImageIcon },
-  { label: "효과", value: "효과 분리 확인", icon: WandSparkles },
+  { label: "레이어", value: "그룹/순서 정리", icon: "layers" },
+  { label: "텍스트", value: "편집 가능한 텍스트", icon: "text_fields" },
+  { label: "이미지", value: "깨진 이미지 보정", icon: "image" },
+  { label: "효과", value: "효과 분리 확인", icon: "auto_fix_high" },
 ]
 
 const useCases: UseCase[] = [
   {
     title: "오래된 PSD 수정",
     description: "예전 원본을 Figma에서 다시 만질 때",
-    icon: History,
+    icon: "history",
   },
   {
     title: "외주 원본 정리",
     description: "받은 파일을 팀 기준으로 정돈할 때",
-    icon: FolderOpen,
+    icon: "folder_open",
   },
   {
     title: "급한 배너 교체",
     description: "문구와 이미지만 빠르게 바꿔야 할 때",
-    icon: Megaphone,
+    icon: "campaign",
   },
   {
     title: "상세페이지 재편집",
     description: "PSD 산출물을 다시 쪼개고 고칠 때",
-    icon: Store,
+    icon: "storefront",
   },
   {
     title: "브랜드 템플릿 정리",
     description: "반복되는 디자인 기준을 맞출 때",
-    icon: Palette,
+    icon: "palette",
   },
   {
     title: "누락 요소 검수",
     description: "텍스트와 이미지 깨짐을 확인할 때",
-    icon: CheckCircle2,
+    icon: "check_circle",
   },
   {
     title: "레이어 이름 정리",
     description: "복잡한 그룹명을 읽기 쉽게 바꿀 때",
-    icon: Pencil,
+    icon: "edit",
   },
   {
     title: "텍스트 재활용",
     description: "래스터 글자를 편집 가능한 텍스트로",
-    icon: Type,
+    icon: "text_fields",
   },
   {
     title: "이미지 확장",
     description: "부족한 배경 영역을 자연스럽게 늘릴 때",
-    icon: Maximize2,
+    icon: "open_in_full",
   },
   {
     title: "썸네일 변형",
     description: "같은 구조로 여러 사이즈를 만들 때",
-    icon: LayoutGrid,
+    icon: "grid_view",
   },
   {
     title: "PPT/PDF 변환",
     description: "문서형 디자인을 다시 편집할 때",
-    icon: FileText,
+    icon: "description",
   },
   {
     title: "캠페인 소재 교체",
     description: "시즌 문구와 이미지를 빠르게 바꿀 때",
-    icon: Shuffle,
+    icon: "shuffle",
   },
   {
     title: "팀 리뷰 준비",
     description: "공유 전에 기준대로 정리할 때",
-    icon: ClipboardCheck,
+    icon: "playlist_add_check",
   },
   {
     title: "AI 수정 제안",
     description: "화면 기준으로 보정 방향을 물을 때",
-    icon: Sparkles,
+    icon: "auto_awesome",
   },
   {
     title: "반복 작업 자동화",
     description: "자주 쓰는 변환 기준을 저장할 때",
-    icon: SlidersHorizontal,
+    icon: "tune",
   },
 ]
 
@@ -220,6 +187,14 @@ export default function HomePage() {
   )
 }
 
+function MaterialIcon({ name, className = "" }: { name: string; className?: string }) {
+  return (
+    <span className={`material-icons-round select-none ${className}`} aria-hidden="true">
+      {name}
+    </span>
+  )
+}
+
 function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur-xl">
@@ -251,7 +226,7 @@ function SiteHeader() {
             className="inline-flex h-12 min-w-[116px] items-center justify-center gap-2 rounded-xl bg-[#005bff] px-5 text-sm font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0] md:h-14 md:min-w-[132px] md:rounded-2xl md:px-7 md:text-base"
           >
             시작하기
-            <ArrowRight className="size-4" aria-hidden="true" />
+            <MaterialIcon name="arrow_forward" className="text-[16px]" />
           </a>
         </div>
       </div>
@@ -296,13 +271,13 @@ function HeroSection() {
             className="inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-[#005bff] px-6 text-[15px] font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0] sm:w-[170px]"
           >
             무료 시작
-            <ArrowRight className="size-4" aria-hidden="true" />
+            <MaterialIcon name="arrow_forward" className="text-[16px]" />
           </a>
           <a
             href="#pricing"
             className="inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-white px-6 text-[15px] font-bold text-[#0a0a0a] shadow-[0_10px_24px_rgba(0,0,0,0.05)] transition hover:-translate-y-0.5 sm:w-[180px]"
           >
-            <DollarSign className="size-4" aria-hidden="true" />
+            <MaterialIcon name="attach_money" className="text-[16px]" />
             가격 보기
           </a>
         </div>
@@ -336,7 +311,7 @@ function HeroWorkspace() {
       <div className="grid min-w-0 gap-5 p-7 lg:grid-cols-[300px_1fr_302px]">
         <div className="rounded-[14px] bg-white p-5 ring-1 ring-black/5">
           <div className="mb-5 flex items-center gap-3 text-[#0a0a0a]">
-            <FileText className="size-5" aria-hidden="true" />
+            <MaterialIcon name="description" className="text-[20px]" />
             <strong className="text-sm">source.psd</strong>
           </div>
           {["Header / Menu", "Hero / Text", "Button / CTA", "Effects / Shadow"].map((item) => (
@@ -349,7 +324,7 @@ function HeroWorkspace() {
         <div className="rounded-[14px] bg-[#f3f4f6] p-6">
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-center gap-3">
-              <RefreshCw className="size-6 text-[#0a0a0a]" aria-hidden="true" />
+              <MaterialIcon name="autorenew" className="text-[24px] text-[#0a0a0a]" />
               <h2 className="text-[22px] font-black leading-none">자동 변환</h2>
             </div>
             <AnimatedConversionProgressValue progress={conversionProgress} className="text-4xl" />
@@ -361,7 +336,7 @@ function HeroWorkspace() {
         </div>
         <div className="rounded-[14px] bg-white p-5 ring-1 ring-black/5">
           <div className="mb-4 flex items-center gap-3">
-            <Settings className="size-5" aria-hidden="true" />
+            <MaterialIcon name="settings" className="text-[20px]" />
             <strong className="text-lg">가져오기 옵션</strong>
           </div>
           {["레이어 정리", "텍스트 변환", "효과 분리"].map((item) => (
@@ -582,7 +557,7 @@ function FeatureCarousel() {
           className="inline-flex size-9 items-center justify-center rounded-full border border-[#e7ecf3] bg-white text-[#050505] shadow-sm transition hover:border-[#005bff] hover:text-[#005bff] disabled:cursor-default disabled:text-[#c8d0dc] disabled:hover:border-[#e7ecf3]"
           aria-label="이전 기능 슬라이드로 이동"
         >
-          <ChevronLeft className="size-4" aria-hidden="true" />
+          <MaterialIcon name="chevron_left" className="text-[20px]" />
         </button>
         <div className="flex items-center gap-2">
           {slides.map((slide, index) => (
@@ -602,7 +577,7 @@ function FeatureCarousel() {
           className="inline-flex size-9 items-center justify-center rounded-full border border-[#e7ecf3] bg-white text-[#050505] shadow-sm transition hover:border-[#005bff] hover:text-[#005bff] disabled:cursor-default disabled:text-[#c8d0dc] disabled:hover:border-[#e7ecf3]"
           aria-label="다음 기능 슬라이드로 이동"
         >
-          <ChevronRight className="size-4" aria-hidden="true" />
+          <MaterialIcon name="chevron_right" className="text-[20px]" />
         </button>
       </div>
     </div>
@@ -633,7 +608,7 @@ function FeatureSlide({
     >
       <div>
         <div className="flex items-center gap-3 text-[#273142]">
-          <Sparkles className="size-7 text-[#006bff]" aria-hidden="true" />
+          <MaterialIcon name="auto_awesome" className="text-[28px] text-[#006bff]" />
           <span className="text-[13px] font-bold">{eyebrow}</span>
           <span className="ml-auto text-xs font-bold text-[#9ca3af]">
             {String(index).padStart(2, "0")} / {String(total).padStart(2, "0")}
@@ -679,7 +654,7 @@ function AuditVisual() {
         ].map(([label, color]) => (
           <div key={label} className="flex items-center gap-3">
             <span className="flex size-6 items-center justify-center rounded-md bg-[#27b36a] text-white">
-              <Check className="size-3.5" aria-hidden="true" />
+              <MaterialIcon name="check" className="text-[14px]" />
             </span>
             <span className={`h-2 flex-1 rounded-full ${color}`} />
           </div>
@@ -694,7 +669,7 @@ function LayerCleanupVisual() {
     <div className="grid content-center gap-4 rounded-[14px] border border-[#dbe7ff] bg-[#f8fbff] p-5">
       <div className="rounded-xl bg-[#111] px-4 py-6 text-center text-sm font-bold text-white">잠금</div>
       <div className="flex items-center justify-center gap-3">
-        <ArrowRight className="size-6 text-[#006bff]" aria-hidden="true" />
+        <MaterialIcon name="arrow_forward" className="text-[24px] text-[#006bff]" />
         <div className="grid gap-2">
           <span className="rounded-full bg-[#006bff] px-7 py-2 text-center text-sm font-bold text-white">해제</span>
           <span className="rounded-full bg-[#27b36a] px-7 py-2 text-center text-sm font-bold text-white">분리</span>
@@ -722,7 +697,7 @@ function AlignmentVisual() {
       <div className="mt-6 grid gap-3">
         {[80, 100, 72].map((width) => (
           <div key={width} className="flex items-center gap-3">
-            <LayoutGrid className="size-4 text-[#006bff]" aria-hidden="true" />
+            <MaterialIcon name="grid_view" className="text-[16px] text-[#006bff]" />
             <span className="h-2 rounded-full bg-[#c8d0dc]" style={{ width: `${width}%` }} />
           </div>
         ))}
@@ -738,7 +713,7 @@ function TextVisual() {
   return (
     <div className="grid content-start gap-4 rounded-[14px] border border-[#dbe7ff] bg-[#f8fbff] p-5">
       <div className="flex items-center gap-4">
-        <ArrowRight className="size-6 text-[#111]" aria-hidden="true" />
+        <MaterialIcon name="arrow_forward" className="text-[24px] text-[#111]" />
         <div className="grid flex-1 gap-2">
           <span className="rounded-full bg-[#006bff] px-6 py-2 text-sm font-bold text-white">번역</span>
           <span className="rounded-full bg-[#111] px-6 py-2 text-sm font-bold text-white">행간</span>
@@ -759,7 +734,7 @@ function ImageSourceVisual() {
     <div className="grid content-center gap-4 rounded-[14px] border border-[#dbe7ff] bg-[#f8fbff] p-5">
       <div className="flex items-center justify-between gap-3">
         <span className="rounded-full bg-[#006bff] px-5 py-2 text-sm font-bold text-white">이미지 소스</span>
-        <ArrowRight className="size-6 text-[#006bff]" aria-hidden="true" />
+        <MaterialIcon name="arrow_forward" className="text-[24px] text-[#006bff]" />
       </div>
       <div className="rounded-xl bg-white p-4 shadow-sm ring-1 ring-[#e7ecf3]">
         <div className="flex items-center justify-between">
@@ -798,7 +773,7 @@ function ShareVisual() {
     <div className="grid content-start gap-4 rounded-[14px] border border-[#dbe7ff] bg-[#f8fbff] p-5">
       <div className="rounded-full bg-white px-5 py-3 text-sm font-bold text-[#9ca3af] ring-1 ring-[#d7dee8]">URL</div>
       <div className="flex items-center gap-3">
-        <ArrowRight className="size-6 text-[#006bff]" aria-hidden="true" />
+        <MaterialIcon name="arrow_forward" className="text-[24px] text-[#006bff]" />
         <span className="flex-1 rounded-full bg-[#006bff] px-5 py-3 text-center text-sm font-bold text-white">짧은 링크</span>
         <span className="rounded-full bg-[#111] px-5 py-3 text-sm font-bold text-white">복사</span>
       </div>
@@ -833,7 +808,7 @@ function ConvertVisual() {
     <div className="rounded-[14px] bg-[#f3f4f6] p-5">
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-center gap-3">
-          <RefreshCw className="size-6 text-[#0a0a0a]" aria-hidden="true" />
+          <MaterialIcon name="autorenew" className="text-[24px] text-[#0a0a0a]" />
           <strong className="text-lg">자동 변환</strong>
         </div>
         <AnimatedConversionProgressValue progress={conversionProgress} className="text-3xl" />
@@ -842,7 +817,7 @@ function ConvertVisual() {
       <div className="mt-5 grid gap-2 text-xs text-[#657082]">
         {["source.psd 분석", "텍스트 추출", "효과 분리"].map((item) => (
           <div key={item} className="flex items-center gap-2 rounded bg-white px-3 py-2">
-            <Check className="size-3.5 text-[#005bff]" aria-hidden="true" />
+            <MaterialIcon name="check" className="text-[14px] text-[#005bff]" />
             {item}
           </div>
         ))}
@@ -855,11 +830,9 @@ function QualityVisual() {
   return (
     <div className="grid content-start gap-3">
       {qualityPoints.map((point) => {
-        const Icon = point.icon
-
         return (
           <div key={point.label} className="flex items-center gap-3 rounded-lg bg-[#f7f9fc] p-4 ring-1 ring-[#e7ecf3]">
-            <Icon className="size-5 shrink-0 text-[#0a0a0a]" aria-hidden="true" />
+            <MaterialIcon name={point.icon} className="shrink-0 text-[20px] text-[#0a0a0a]" />
             <div>
               <strong className="block text-sm text-[#333]">{point.label}</strong>
               <span className="text-xs text-[#5f6368]">{point.value}</span>
@@ -877,14 +850,14 @@ function ImageFixVisual() {
       <div className="rounded-lg border border-[#e7ecf3] bg-[#fafafa] p-4">
         <div className="flex items-center justify-between">
           <span className="text-xs font-black text-[#60656b]">BEFORE</span>
-          <ImageIcon className="size-4 text-[#9ca3af]" aria-hidden="true" />
+          <MaterialIcon name="image" className="text-[16px] text-[#9ca3af]" />
         </div>
         <div className="mt-5 h-20 rounded bg-[#e5e7eb]" />
       </div>
       <div className="rounded-lg border border-[#dbe7ff] bg-[#f8fbff] p-4">
         <div className="flex items-center justify-between">
           <span className="text-xs font-black text-[#005bff]">AFTER</span>
-          <Maximize2 className="size-4 text-[#005bff]" aria-hidden="true" />
+          <MaterialIcon name="open_in_full" className="text-[16px] text-[#005bff]" />
         </div>
         <div className="mt-5 h-20 rounded bg-white shadow-inner">
           <div className="h-full w-full rounded bg-[linear-gradient(135deg,#eaf3ff,#ffffff_55%,#dbe7ff)]" />
@@ -898,7 +871,7 @@ function PresetVisual() {
   return (
     <div className="rounded-[14px] bg-white p-5 ring-1 ring-[#e7ecf3]">
       <div className="mb-4 flex items-center gap-3">
-        <SlidersHorizontal className="size-5 text-[#005bff]" aria-hidden="true" />
+        <MaterialIcon name="tune" className="text-[20px] text-[#005bff]" />
         <strong className="text-lg">저장된 기준</strong>
       </div>
       {["레이어 이름 정리", "이미지 누락 검사", "텍스트 추출", "효과 분리"].map((item) => (
@@ -915,8 +888,6 @@ function PresetVisual() {
 }
 
 function ActionButton({ action }: { action: ActionItem }) {
-  const Icon = action.icon
-
   return (
     <div
       className={
@@ -926,7 +897,7 @@ function ActionButton({ action }: { action: ActionItem }) {
       }
     >
       <div className="flex items-start gap-3">
-        <Icon className="mt-0.5 size-5 shrink-0" aria-hidden="true" />
+        <MaterialIcon name={action.icon} className="mt-0.5 shrink-0 text-[20px]" />
         <div>
           <div className="flex items-center gap-2">
             <strong className="text-sm">{action.title}</strong>
@@ -979,7 +950,7 @@ function WorkflowSection() {
               <p className="text-xs font-bold text-[#60656b]">source.psd</p>
               <h3 className="mt-1 text-xl font-black">Editable Figma</h3>
             </div>
-            <MousePointerClick className="size-7 text-[#005bff]" aria-hidden="true" />
+            <MaterialIcon name="ads_click" className="text-[28px] text-[#005bff]" />
           </div>
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             <div className="rounded-lg bg-[#f3f6fa] p-4">
@@ -995,24 +966,20 @@ function WorkflowSection() {
               <p className="text-sm font-black">변환 결과</p>
               {["오토레이아웃", "텍스트 편집", "이미지 교체", "효과 분리"].map((item) => (
                 <div key={item} className="mt-3 flex items-center gap-2 text-xs text-[#273142]">
-                  <Check className="size-3.5 text-[#005bff]" aria-hidden="true" />
+                  <MaterialIcon name="check" className="text-[14px] text-[#005bff]" />
                   {item}
                 </div>
               ))}
             </div>
           </div>
           <div className="mt-8 grid gap-3 sm:grid-cols-2">
-            {qualityPoints.map((point) => {
-              const Icon = point.icon
-
-              return (
-                <div key={point.label} className="flex items-center gap-3 rounded-lg bg-white p-4 shadow-sm ring-1 ring-black/5">
-                  <Icon className="size-5 shrink-0 text-[#0a0a0a]" aria-hidden="true" />
-                  <strong className="text-sm">{point.label}</strong>
-                  <span className="text-xs text-[#5f6368]">{point.value}</span>
-                </div>
-              )
-            })}
+            {qualityPoints.map((point) => (
+              <div key={point.label} className="flex items-center gap-3 rounded-lg bg-white p-4 shadow-sm ring-1 ring-black/5">
+                <MaterialIcon name={point.icon} className="shrink-0 text-[20px] text-[#0a0a0a]" />
+                <strong className="text-sm">{point.label}</strong>
+                <span className="text-xs text-[#5f6368]">{point.value}</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -1035,7 +1002,7 @@ function FileImportSection() {
         </p>
         <div className="mt-12 overflow-hidden rounded-lg bg-white shadow-[0_18px_40px_rgba(15,24,42,0.08)] ring-1 ring-[#e7ecf3]">
           <div className="flex h-11 items-center bg-[#050505] px-5 text-sm text-white">
-            <UploadCloud className="mr-3 size-5" aria-hidden="true" />
+            <MaterialIcon name="cloud_upload" className="mr-3 text-[20px]" />
             import queue
             <span className="ml-auto text-xs text-white/70">drag files here</span>
           </div>
@@ -1056,7 +1023,7 @@ function FileImportSection() {
               </div>
               {["레이어 이름 정리", "이미지 누락 검사", "텍스트 추출", "효과 분리"].map((item) => (
                 <div key={item} className="mt-4 flex items-center gap-2 text-sm text-[#4b5563]">
-                  <CheckCircle2 className="size-4 text-[#005bff]" aria-hidden="true" />
+                  <MaterialIcon name="check_circle" className="text-[16px] text-[#005bff]" />
                   {item}
                 </div>
               ))}
@@ -1082,19 +1049,15 @@ function UseCasesSection() {
           기능 설명보다 실제 작업 상황에 바로 꽂히는 15가지입니다.
         </p>
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
-          {useCases.map((item) => {
-            const Icon = item.icon
-
-            return (
-              <article key={item.title} className="rounded-2xl bg-[#171717] p-5">
-                <div className="flex size-[34px] items-center justify-center rounded-[10px] bg-white text-[#050505]">
-                  <Icon className="size-5" aria-hidden="true" />
-                </div>
-                <h3 className="mt-4 text-lg font-bold">{item.title}</h3>
-                <p className="mt-2 text-[12.5px] leading-[18px] text-[#bdbdbd]">{item.description}</p>
-              </article>
-            )
-          })}
+          {useCases.map((item) => (
+            <article key={item.title} className="rounded-2xl bg-[#171717] p-5">
+              <div className="flex size-[34px] items-center justify-center rounded-[10px] bg-white text-[#050505]">
+                <MaterialIcon name={item.icon} className="text-[20px]" />
+              </div>
+              <h3 className="mt-4 text-lg font-bold">{item.title}</h3>
+              <p className="mt-2 text-[12.5px] leading-[18px] text-[#bdbdbd]">{item.description}</p>
+            </article>
+          ))}
         </div>
       </div>
     </section>
@@ -1123,7 +1086,7 @@ function PricingSection() {
             >
               <div className="flex items-center justify-between">
                 <h3 className="font-black">{plan.name}</h3>
-                <ArrowRight className="size-4" aria-hidden="true" />
+                <MaterialIcon name="arrow_forward" className="text-[16px]" />
               </div>
               <p className="mt-6 text-4xl font-black">{plan.price}</p>
               <p className={plan.featured ? "mt-3 text-sm text-white/70" : "mt-3 text-sm text-[#60656b]"}>
@@ -1132,7 +1095,7 @@ function PricingSection() {
               <ul className="mt-6 space-y-3">
                 {plan.features.map((feature) => (
                   <li key={feature} className="flex items-center gap-2 text-sm">
-                    <Check className={plan.featured ? "size-4 text-white" : "size-4 text-[#005bff]"} aria-hidden="true" />
+                    <MaterialIcon name="check" className={plan.featured ? "text-[16px] text-white" : "text-[16px] text-[#005bff]"} />
                     {feature}
                   </li>
                 ))}
@@ -1175,7 +1138,7 @@ function FinalCta() {
           className="inline-flex h-[52px] items-center justify-center gap-2 rounded-xl bg-[#005bff] px-6 text-[15px] font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0]"
         >
           무료 시작
-          <ArrowRight className="size-4" aria-hidden="true" />
+          <MaterialIcon name="arrow_forward" className="text-[16px]" />
         </a>
       </div>
     </section>
