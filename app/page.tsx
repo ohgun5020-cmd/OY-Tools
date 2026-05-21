@@ -218,11 +218,11 @@ function SiteHeader() {
           </a>
         </nav>
         <div className="flex items-center gap-9">
-          <a href="#login" className="hidden font-bold text-[#0a0a0a] transition hover:text-[#005bff] sm:inline-flex">
+          <a href="/login" className="hidden font-bold text-[#0a0a0a] transition hover:text-[#005bff] sm:inline-flex">
             로그인
           </a>
           <a
-            href="#pricing"
+            href="/signup"
             className="inline-flex h-12 min-w-[116px] items-center justify-center gap-2 rounded-xl bg-[#005bff] px-5 text-sm font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0] md:h-14 md:min-w-[132px] md:rounded-2xl md:px-7 md:text-base"
           >
             시작하기
@@ -267,7 +267,7 @@ function HeroSection() {
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <a
-            href="#pricing"
+            href="/signup"
             className="inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-[#005bff] px-6 text-[15px] font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0] sm:w-[170px]"
           >
             무료 시작
@@ -1101,7 +1101,7 @@ function PricingSection() {
                 ))}
               </ul>
               <a
-                href="#top"
+                href="/signup"
                 className={
                   plan.featured
                     ? "mt-7 inline-flex h-11 w-full items-center justify-center rounded-lg bg-white text-sm font-bold text-[#050505] transition hover:bg-[#f2f2f2]"
@@ -1134,7 +1134,7 @@ function FinalCta() {
           </h2>
         </div>
         <a
-          href="#pricing"
+          href="/signup"
           className="inline-flex h-[52px] items-center justify-center gap-2 rounded-xl bg-[#005bff] px-6 text-[15px] font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0]"
         >
           무료 시작
@@ -1162,6 +1162,12 @@ function SiteFooter() {
           </a>
           <a href="#pricing" className="transition hover:text-white">
             가격
+          </a>
+          <a href="/login" className="transition hover:text-white">
+            로그인
+          </a>
+          <a href="/signup" className="transition hover:text-white">
+            회원가입
           </a>
         </div>
       </div>
