@@ -261,19 +261,13 @@ function SiteHeader() {
 
 function PigmaLogo({ className = "" }: { className?: string }) {
   return (
-    <svg
+    <img
+      src="/assets/pigma-wordmark.svg"
+      alt="PIGMA"
       className={className}
-      viewBox="0 0 91.487 17.766"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      role="img"
-      aria-label="PIGMA"
-    >
-      <path
-        fill="currentColor"
-        d="M0 0.293H9.354Q12.409 0.293 13.931 1.664Q15.453 3.035 15.453 5.566Q15.453 8.168 13.794 9.633Q12.136 11.098 8.733 11.098H5.652V17.473H0ZM5.652 7.617H7.031Q8.658 7.617 9.316 7.084Q9.975 6.551 9.975 5.719Q9.975 4.91 9.403 4.348Q8.832 3.785 7.254 3.785H5.652Z M18.62 0.293H24.26V17.473H18.62Z M37.452 11.25V7.676H46.147V15Q43.65 16.605 41.731 17.186Q39.812 17.766 37.179 17.766Q33.937 17.766 31.893 16.723Q29.85 15.68 28.726 13.617Q27.601 11.555 27.601 8.883Q27.601 6.07 28.831 3.99Q30.061 1.91 32.434 0.832Q34.284 0 37.415 0Q40.433 0 41.93 0.516Q43.427 1.031 44.414 2.115Q45.402 3.199 45.899 4.863L40.47 5.777Q40.135 4.805 39.334 4.289Q38.533 3.773 37.29 3.773Q35.44 3.773 34.34 4.986Q33.241 6.199 33.241 8.824Q33.241 11.613 34.353 12.809Q35.464 14.004 37.452 14.004Q38.396 14.004 39.253 13.746Q40.11 13.488 41.216 12.867V11.25Z M49.427 0.293H56.83L59.687 10.746L62.532 0.293H69.91V17.473H65.314V4.371L61.749 17.473H57.588L54.035 4.371V17.473H49.427Z M84.705 14.637H78.295L77.413 17.473H71.662L78.506 0.293H84.643L91.487 17.473H85.599ZM83.525 10.922 81.512 4.746 79.512 10.922Z"
-      />
-    </svg>
+      width={100}
+      height={18}
+    />
   )
 }
 
@@ -919,7 +913,7 @@ function SiteFooter() {
     <footer className="bg-[#050505] px-6 pb-10 text-white sm:px-10 lg:px-12">
       <div className="mx-auto flex max-w-[1120px] flex-col gap-6 border-t border-white/10 pt-8 text-sm text-white/60 md:flex-row md:items-center md:justify-between">
         <div>
-          <PigmaLogo className="h-[18px] w-[92px] text-white" />
+          <PigmaLogo className="h-[18px] w-[100px] brightness-0 invert" />
           <span>PSD를 Figma-ready 구조로 바꾸는 플러그인</span>
         </div>
         <div className="flex gap-6">
