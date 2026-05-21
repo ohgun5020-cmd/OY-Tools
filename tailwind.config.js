@@ -59,6 +59,7 @@ module.exports = {
       },
       fontFamily: {
         sans: [
+          "Mona Sans Expanded",
           "Pretendard",
           "Noto Sans KR",
           "Apple SD Gothic Neo",

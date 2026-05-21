@@ -1,12 +1,20 @@
+"use client"
+
+import { useActionState } from "react"
+import { useFormStatus } from "react-dom"
+
+import { loginAction, signupAction, type AuthFormState } from "../auth/actions"
+
 type AuthScreenProps = {
   mode: "login" | "signup"
+  notice?: string
 }
 
-const benefits = [
-  "PSD 변환 기록 저장",
-  "팀 리뷰 링크 관리",
-  "AI 수정 제안 이어서 보기",
-]
+const initialState: AuthFormState = {
+  message: "",
+}
+
+const benefits = ["변환 기록 저장", "팀 리뷰 링크 관리", "AI 수정 제안 이어서 보기"]
 
 function MaterialIcon({ name, className = "" }: { name: string; className?: string }) {
   return (
@@ -40,23 +48,39 @@ function GoogleIcon({ className = "" }: { className?: string }) {
 }
 
 function PigmaLogo({ className = "" }: { className?: string }) {
+  return <img src="/assets/pigma-wordmark.svg" alt="PIGMA" className={className} width={100} height={18} />
+}
+
+function SubmitButton({ label }: { label: string }) {
+  const { pending } = useFormStatus()
+
   return (
-    <img
-      src="/assets/pigma-wordmark.svg"
-      alt="PIGMA"
-      className={className}
-      width={100}
-      height={18}
-    />
+    <button
+      type="submit"
+      disabled={pending}
+      className="mt-3 inline-flex h-[54px] items-center justify-center gap-2 rounded-xl bg-[#005bff] px-6 text-[15px] font-black text-white shadow-[0_12px_18px_rgba(0,91,255,0.18)] transition hover:-translate-y-0.5 hover:bg-[#004de0] disabled:cursor-default disabled:bg-[#8fb9ff] disabled:shadow-none disabled:hover:translate-y-0"
+    >
+      {pending ? "처리 중" : label}
+      <MaterialIcon name={pending ? "progress_activity" : "arrow_forward"} className="text-[18px]" />
+    </button>
   )
 }
 
-export function AuthScreen({ mode }: AuthScreenProps) {
+function FieldError({ message }: { message?: string }) {
+  if (!message) {
+    return null
+  }
+
+  return <span className="text-xs font-bold text-[#ff4d55]">{message}</span>
+}
+
+export function AuthScreen({ mode, notice }: AuthScreenProps) {
   const isSignup = mode === "signup"
+  const [state, formAction] = useActionState(isSignup ? signupAction : loginAction, initialState)
   const title = isSignup ? "PIGMA 시작하기" : "PIGMA 로그인"
   const description = isSignup
     ? "작업 파일을 연결하고 AI 변환 흐름을 바로 저장하세요."
-    : "저장된 변환 작업과 팀 리뷰 링크로 돌아갑니다."
+    : "저장된 변환 작업과 팀 리뷰 링크를 이어서 관리하세요."
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-[#f6f7f9] py-6 text-[#050505] sm:py-8 lg:py-10">
@@ -73,14 +97,17 @@ export function AuthScreen({ mode }: AuthScreenProps) {
               <br />
               이어서 관리하세요.
             </h1>
-            <p className="mt-6 text-[15px] leading-7 text-white/64 sm:text-[16px]">
+            <p className="mt-6 text-[15px] leading-7 text-white/60 sm:text-[16px]">
               PIGMA 계정으로 변환 상태, 옵션, 리뷰 링크를 한 곳에 모아둘 수 있습니다.
             </p>
           </div>
 
           <div className="grid w-full max-w-[320px] gap-3 sm:max-w-none">
             {benefits.map((benefit) => (
-              <div key={benefit} className="flex min-w-0 items-center gap-3 rounded-lg bg-white/[0.07] px-4 py-3 text-sm font-bold text-white/82">
+              <div
+                key={benefit}
+                className="flex min-w-0 items-center gap-3 rounded-lg bg-white/[0.07] px-4 py-3 text-sm font-bold text-white/80"
+              >
                 <MaterialIcon name="check_circle" className="text-[18px] text-[#0b74ff]" />
                 {benefit}
               </div>
@@ -102,8 +129,8 @@ export function AuthScreen({ mode }: AuthScreenProps) {
             </div>
 
             <div className="mt-8 grid gap-5">
-              <button
-                type="button"
+              <a
+                href={`/auth/google?mode=${mode}`}
                 className="group inline-flex h-[54px] w-full items-center justify-between rounded-xl border border-[#dfe5ee] bg-white px-4 text-[15px] font-black text-[#14171a] shadow-[0_10px_24px_rgba(15,24,42,0.05)] transition hover:-translate-y-0.5 hover:border-[#c8d1df] hover:bg-[#fbfcff] hover:shadow-[0_16px_30px_rgba(15,24,42,0.10)]"
                 aria-label={isSignup ? "Google 계정으로 회원가입" : "Google 계정으로 로그인"}
               >
@@ -114,7 +141,7 @@ export function AuthScreen({ mode }: AuthScreenProps) {
                   {isSignup ? "Google로 시작하기" : "Google로 로그인"}
                 </span>
                 <MaterialIcon name="arrow_forward" className="text-[18px] text-[#9aa3af] transition group-hover:text-[#005bff]" />
-              </button>
+              </a>
 
               <div className="flex items-center gap-3">
                 <span className="h-px flex-1 bg-[#e7ecf3]" />
@@ -123,16 +150,31 @@ export function AuthScreen({ mode }: AuthScreenProps) {
               </div>
             </div>
 
-            <form className="mt-5 grid gap-4">
+            {notice ? (
+              <p className="mt-5 rounded-xl bg-[#eef5ff] px-4 py-3 text-sm font-bold leading-5 text-[#005bff] ring-1 ring-[#dbe7ff]">
+                {notice}
+              </p>
+            ) : null}
+
+            {state.message ? (
+              <p aria-live="polite" className="mt-5 rounded-xl bg-[#fff1f2] px-4 py-3 text-sm font-bold leading-5 text-[#ff4d55] ring-1 ring-[#ffd6db]">
+                {state.message}
+              </p>
+            ) : null}
+
+            <form action={formAction} className="mt-5 grid gap-4" noValidate>
               {isSignup ? (
                 <label className="grid gap-2 text-sm font-bold text-[#14171a]">
                   이름
                   <input
                     type="text"
                     name="name"
+                    autoComplete="name"
                     placeholder="홍길동"
+                    required
                     className="h-[52px] rounded-xl border border-[#dfe5ee] bg-white px-4 text-[15px] font-medium outline-none transition placeholder:text-[#a2aab5] focus:border-[#005bff] focus:ring-4 focus:ring-[#005bff]/10"
                   />
+                  <FieldError message={state.fieldErrors?.name} />
                 </label>
               ) : null}
 
@@ -141,9 +183,12 @@ export function AuthScreen({ mode }: AuthScreenProps) {
                 <input
                   type="email"
                   name="email"
+                  autoComplete="email"
                   placeholder="hello@pigma.app"
+                  required
                   className="h-[52px] rounded-xl border border-[#dfe5ee] bg-white px-4 text-[15px] font-medium outline-none transition placeholder:text-[#a2aab5] focus:border-[#005bff] focus:ring-4 focus:ring-[#005bff]/10"
                 />
+                <FieldError message={state.fieldErrors?.email} />
               </label>
 
               <label className="grid gap-2 text-sm font-bold text-[#14171a]">
@@ -151,14 +196,18 @@ export function AuthScreen({ mode }: AuthScreenProps) {
                 <input
                   type="password"
                   name="password"
+                  autoComplete={isSignup ? "new-password" : "current-password"}
                   placeholder={isSignup ? "8자 이상 입력" : "비밀번호 입력"}
+                  minLength={8}
+                  required
                   className="h-[52px] rounded-xl border border-[#dfe5ee] bg-white px-4 text-[15px] font-medium outline-none transition placeholder:text-[#a2aab5] focus:border-[#005bff] focus:ring-4 focus:ring-[#005bff]/10"
                 />
+                <FieldError message={state.fieldErrors?.password} />
               </label>
 
               {isSignup ? (
                 <label className="grid gap-2 text-sm font-bold text-[#14171a]">
-                  플랜
+                  요금제
                   <select
                     name="plan"
                     defaultValue="free"
@@ -172,7 +221,7 @@ export function AuthScreen({ mode }: AuthScreenProps) {
               ) : (
                 <div className="flex items-center justify-between text-sm">
                   <label className="inline-flex items-center gap-2 font-bold text-[#60656b]">
-                    <input type="checkbox" className="size-4 rounded border-[#cbd3dd] accent-[#005bff]" />
+                    <input name="remember" value="yes" type="checkbox" className="size-4 rounded border-[#cbd3dd] accent-[#005bff]" />
                     로그인 유지
                   </label>
                   <a href="/signup" className="font-bold text-[#005bff]">
@@ -181,13 +230,7 @@ export function AuthScreen({ mode }: AuthScreenProps) {
                 </div>
               )}
 
-              <button
-                type="button"
-                className="mt-3 inline-flex h-[54px] items-center justify-center gap-2 rounded-xl bg-[#005bff] px-6 text-[15px] font-black text-white shadow-[0_12px_18px_rgba(0,91,255,0.18)] transition hover:-translate-y-0.5 hover:bg-[#004de0]"
-              >
-                {isSignup ? "회원가입" : "로그인"}
-                <MaterialIcon name="arrow_forward" className="text-[18px]" />
-              </button>
+              <SubmitButton label={isSignup ? "회원가입" : "로그인"} />
             </form>
 
             <div className="mt-7 rounded-xl bg-[#f7f9fc] px-5 py-4 text-center text-sm text-[#60656b] ring-1 ring-[#e7ecf3]">

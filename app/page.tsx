@@ -40,23 +40,36 @@ const workflowSteps = [
   {
     number: "01",
     title: "가져오기",
-    description: "PSD, PDF, PPTX 같은 원본 파일을 드롭합니다.",
+    description: "PSD, AI, EPS, PDF, PPT, SVG를 불러옵니다.",
+    icon: "file_upload",
+    active: true,
   },
   {
     number: "02",
-    title: "분석",
-    description: "레이어, 텍스트, 이미지, 효과를 분리합니다.",
+    title: "정리",
+    description: "레이어와 텍스트를 다루기 쉽게 정돈합니다.",
+    icon: "layers",
   },
   {
     number: "03",
     title: "보정",
-    description: "깨진 이미지와 누락 요소를 빠르게 확인합니다.",
+    description: "검수, 오타, 이미지 보정을 필요한 만큼 적용합니다.",
+    icon: "tune",
   },
   {
     number: "04",
-    title: "전달",
-    description: "Figma에서 바로 수정 가능한 구조로 넘깁니다.",
+    title: "공유",
+    description: "링크로 공유하고 반복 기준을 저장합니다.",
+    icon: "share",
   },
+]
+
+const workflowLayerRows = [
+  { number: "01", label: "Header / nav", color: "bg-[#111]", width: "w-[170px]" },
+  { number: "02", label: "Hero text", color: "bg-[#4b5563]", width: "w-[134px]" },
+  { number: "03", label: "CTA button", color: "bg-[#006bff]", width: "w-[150px]", active: true },
+  { number: "04", label: "Images", color: "bg-[#7a828b]", width: "w-[118px]" },
+  { number: "05", label: "Plugin notes", color: "bg-[#a6adb5]", width: "w-[150px]" },
 ]
 
 const qualityPoints = [
@@ -168,7 +181,14 @@ const plans = [
   },
 ]
 
-const fileTypes = ["PSD", "AI", "PDF", "PPTX", "FIG", "SKETCH"]
+const fileTypes = ["PSD", "AI", "EPS", "PDF", "PPT", "SVG"]
+
+const conversionAfterItems = [
+  { title: "레이어 구조 유지", body: "Header / Hero / CTA" },
+  { title: "편집 가능한 텍스트", body: "글자 수정 가능" },
+  { title: "이미지와 효과 정리", body: "보정 포인트 분리" },
+  { title: "플러그인 보정 연결", body: "검수와 정리 바로 실행" },
+]
 
 export default function HomePage() {
   return (
@@ -355,17 +375,25 @@ function ConversionOptionToggle({ enabled }: { enabled: boolean }) {
     <span
       className={
         enabled
-          ? "inline-flex h-[22px] w-[54px] items-center rounded-full bg-[#111] px-1 text-[7px] font-bold text-white transition-colors duration-200"
-          : "inline-flex h-[22px] w-[54px] items-center justify-end rounded-full bg-[#d8dee8] px-1 text-[7px] font-bold text-[#657082] transition-colors duration-200"
+          ? "relative inline-flex h-[22px] w-[54px] shrink-0 items-center rounded-full bg-[#111] text-[6.5px] font-black text-white transition-colors duration-200"
+          : "relative inline-flex h-[22px] w-[54px] shrink-0 items-center rounded-full bg-[#d8dee8] text-[6.5px] font-black text-[#657082] transition-colors duration-200"
       }
       aria-label={enabled ? "ON" : "OFF"}
     >
-      {enabled ? "ON" : "OFF"}
       <span
         className={
           enabled
-            ? "ml-auto size-4 rounded-full bg-white transition-all duration-200"
-            : "order-first mr-auto size-4 rounded-full bg-white transition-all duration-200"
+            ? "absolute left-[3px] flex w-[32px] items-center justify-center leading-none"
+            : "absolute right-[3px] flex w-[32px] items-center justify-center leading-none"
+        }
+      >
+        {enabled ? "ON" : "OFF"}
+      </span>
+      <span
+        className={
+          enabled
+            ? "absolute right-[3px] size-4 rounded-full bg-white transition-all duration-200"
+            : "absolute left-[3px] size-4 rounded-full bg-white transition-all duration-200"
         }
       />
     </span>
@@ -624,7 +652,7 @@ function FeatureSlide({
   return (
     <article
       id={id}
-      className="grid w-full min-w-full shrink-0 snap-start gap-6 rounded-lg border border-[#e7ecf3] bg-white p-8 text-left shadow-[0_18px_17px_rgba(15,24,42,0.10)] lg:grid-cols-[1fr_260px]"
+      className="grid w-full min-w-full shrink-0 snap-start gap-6 rounded-lg border border-[#e7ecf3] bg-white p-8 text-left lg:grid-cols-[1fr_260px]"
     >
       <div>
         <div className="flex items-center gap-3 text-[#273142]">
@@ -897,10 +925,7 @@ function PresetVisual() {
       {["레이어 이름 정리", "이미지 누락 검사", "텍스트 추출", "효과 분리"].map((item) => (
         <div key={item} className="flex h-[34px] items-center justify-between text-sm text-[#5f6368]">
           <span>{item}</span>
-          <span className="inline-flex h-[22px] w-[54px] items-center rounded-full bg-[#111] px-1 text-[7px] font-bold text-white">
-            ON
-            <span className="ml-auto size-4 rounded-full bg-white" />
-          </span>
+          <ConversionOptionToggle enabled />
         </div>
       ))}
     </div>
@@ -938,68 +963,60 @@ function ActionButton({ action }: { action: ActionItem }) {
 
 function WorkflowSection() {
   return (
-    <section className="bg-[#f6f7f9] px-6 py-24 sm:px-10 lg:px-12">
-      <div className="mx-auto grid max-w-[1120px] items-center gap-14 lg:grid-cols-[440px_1fr]">
-        <div>
-          <p className="text-[13px] font-black text-[#60656b]">WORKFLOW</p>
-          <h2 className="mt-7 text-[34px] font-black leading-[1.22] sm:text-[40px]">
+    <section className="bg-[#fafafa] px-6 pb-[52px] pt-24 sm:px-10 lg:px-12">
+      <div className="mx-auto max-w-[1248px]">
+        <div className="text-center">
+          <p className="inline-flex h-10 items-center justify-center text-[13px] font-black leading-5 text-[#0a0a0a]">HOW IT WORKS</p>
+          <h2 className="mt-5 text-[34px] font-black leading-[1.22] text-[#0a0a0a] sm:text-[46px] sm:leading-[56px]">
             PSD가 수정 가능한
             <br />
             화면이 되는 4단계
           </h2>
-          <p className="mt-5 text-[17px] leading-7 text-[#60656b]">
-            가져오기, 분석, 보정, 전달까지 작업 흐름이 한 화면에서 끝납니다.
+          <p className="mt-6 text-[18px] leading-8 text-[#5f6368] sm:text-[22px]">
+            가져오고, 정리하고, 필요한 보정만 펼쳐 씁니다.
           </p>
-          <div className="mt-10 grid gap-3">
+        </div>
+
+        <div className="mt-[52px] grid gap-8 lg:grid-cols-[552px_620px] lg:items-start lg:justify-between">
+          <div className="grid gap-[14px]">
             {workflowSteps.map((step) => (
-              <div key={step.number} className="grid grid-cols-[44px_1fr] gap-4 rounded-lg bg-white p-4 shadow-sm">
-                <span className="flex size-9 items-center justify-center rounded bg-[#050505] text-xs font-black text-white">
+              <div
+                key={step.number}
+                className="grid min-h-[76px] grid-cols-[56px_1fr_24px] items-center gap-5 rounded-2xl bg-white px-[18px] py-3 shadow-[0_14px_20px_rgba(0,0,0,0.04)]"
+              >
+                <span
+                  className={
+                    step.active
+                      ? "flex h-[50px] w-14 items-center justify-center rounded-xl bg-[#111] text-[17px] font-black leading-[22px] text-white"
+                      : "flex h-[50px] w-14 items-center justify-center rounded-xl bg-[#f1f2f4] text-[17px] font-black leading-[22px] text-[#111]"
+                  }
+                >
                   {step.number}
                 </span>
-                <div>
-                  <h3 className="font-black">{step.title}</h3>
-                  <p className="mt-1 text-sm leading-6 text-[#60656b]">{step.description}</p>
+                <div className="min-w-0">
+                  <h3 className="text-[21px] font-black leading-7 text-[#0a0a0a]">{step.title}</h3>
+                  <p className="mt-1 truncate text-sm leading-[22px] text-[#5e5e5e]">{step.description}</p>
                 </div>
+                <MaterialIcon name={step.icon} className="text-[24px] text-[#5f6368]" />
               </div>
             ))}
           </div>
-        </div>
-        <div className="rounded-lg bg-white p-6 shadow-[0_18px_40px_rgba(15,24,42,0.08)]">
-          <div className="flex items-center justify-between border-b border-[#e7ecf3] pb-5">
-            <div>
-              <p className="text-xs font-bold text-[#60656b]">source.psd</p>
-              <h3 className="mt-1 text-xl font-black">Editable Figma</h3>
+
+          <div className="overflow-hidden rounded-2xl bg-[#f1f2f4] shadow-[0_14px_40px_rgba(0,0,0,0.04)]">
+            <div className="flex h-[42px] items-center bg-[#090909] px-[18px]">
+              <span className="size-2.5 rounded-full bg-[#ff5f56]" />
+              <span className="ml-2 size-2.5 rounded-full bg-[#ffbd2e]" />
+              <span className="ml-2 size-2.5 rounded-full bg-[#27c93f]" />
+              <span className="ml-5 text-[11px] font-black leading-4 text-white">
+                source.psd&nbsp; -&gt;&nbsp; pigma&nbsp; -&gt;&nbsp; team-ready figma
+              </span>
             </div>
-            <MaterialIcon name="ads_click" className="text-[28px] text-[#005bff]" />
-          </div>
-          <div className="mt-6 grid gap-4 sm:grid-cols-2">
-            <div className="rounded-lg bg-[#f3f6fa] p-4">
-              <p className="text-sm font-black">소스 레이어</p>
-              {["hero title", "button group", "image mask", "shadow effect"].map((item) => (
-                <div key={item} className="mt-3 flex items-center gap-2 text-xs text-[#657082]">
-                  <span className="size-2 rounded-full bg-[#c8d0dc]" />
-                  {item}
-                </div>
-              ))}
+
+            <div className="grid gap-5 px-7 pb-[50px] pt-[30px] md:grid-cols-[246px_30px_246px] md:items-center md:gap-9">
+              <WorkflowLayerPanel variant="source" />
+              <MaterialIcon name="arrow_forward" className="mx-auto hidden text-[30px] text-[#111] md:block" />
+              <WorkflowLayerPanel variant="ready" />
             </div>
-            <div className="rounded-lg border border-[#dbe7ff] bg-[#f8fbff] p-4">
-              <p className="text-sm font-black">변환 결과</p>
-              {["오토레이아웃", "텍스트 편집", "이미지 교체", "효과 분리"].map((item) => (
-                <div key={item} className="mt-3 flex items-center gap-2 text-xs text-[#273142]">
-                  <MaterialIcon name="check" className="text-[14px] text-[#005bff]" />
-                  {item}
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="mt-8 grid gap-3 sm:grid-cols-2">
-            {qualityPoints.map((point) => (
-              <div key={point.label} className="flex items-center gap-3 rounded-lg bg-white p-4 shadow-sm ring-1 ring-black/5">
-                <MaterialIcon name={point.icon} className="shrink-0 text-[20px] text-[#0a0a0a]" />
-                <strong className="text-sm">{point.label}</strong>
-                <span className="text-xs text-[#5f6368]">{point.value}</span>
-              </div>
-            ))}
           </div>
         </div>
       </div>
@@ -1007,48 +1024,164 @@ function WorkflowSection() {
   )
 }
 
+function WorkflowLayerPanel({ variant }: { variant: "source" | "ready" }) {
+  const isReady = variant === "ready"
+
+  return (
+    <div className="h-[282px] rounded-[14px] bg-white px-5 py-6">
+      <h3 className="text-[18px] font-black leading-[22px] text-[#0a0a0a]">
+        {isReady ? "team-ready figma" : "source.psd"}
+      </h3>
+      <p className="mt-0.5 text-xs leading-[18px] text-[#7a7f85]">
+        {isReady ? "editable · shared · reviewed" : "48 layers · mixed effects"}
+      </p>
+
+      <div className="mt-4 grid gap-2">
+        {workflowLayerRows.map((row) => (
+          <div
+            key={`${variant}-${row.number}`}
+            className={
+              isReady
+                ? `grid h-[26px] grid-cols-[22px_1fr_18px] items-center gap-2 rounded-[7px] px-1.5 ${row.active ? "bg-[#eef5ff]" : "bg-[#f5f6f8]"}`
+                : "flex h-6 items-center gap-2"
+            }
+          >
+            <span
+              className={
+                isReady
+                  ? `flex h-4 w-[22px] items-center justify-center rounded-[5px] text-[7px] font-black leading-none text-white ${row.color}`
+                  : `flex size-[18px] items-center justify-center rounded-[5px] text-[7px] font-black leading-none text-white ${row.color}`
+              }
+            >
+              {row.number}
+            </span>
+            {isReady ? (
+              <>
+                <span className="text-sm leading-[18px] text-[#111]">{row.label.replace(" / nav", "")}</span>
+                <span className={row.active ? "text-center text-sm font-bold text-[#006bff]" : "text-center text-sm font-bold text-[#6f747b]"}>
+                  ✓
+                </span>
+              </>
+            ) : (
+              <span className={`${row.width} rounded-md bg-[#e4e7ea] px-2.5 text-[13px] leading-6 text-[#111] ${row.active ? "bg-[#ddebff]" : ""}`}>
+                {row.label}
+              </span>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {isReady ? (
+        <div className="mt-3 flex h-6 items-center justify-center rounded-[7px] bg-[#111] text-xs font-bold text-white">
+          팀 공유 준비 완료
+        </div>
+      ) : null}
+    </div>
+  )
+}
+
 function FileImportSection() {
   return (
-    <section className="px-6 py-24 sm:px-10 lg:px-12">
-      <div className="mx-auto max-w-[1120px] text-center">
-        <p className="text-[13px] font-black text-[#60656b]">IMPORT FLOW</p>
-        <h2 className="mt-7 text-[34px] font-black leading-[1.22] sm:text-[40px]">
+    <section className="bg-white px-6 pb-[62px] pt-[94px] sm:px-10 lg:px-12">
+      <div className="mx-auto max-w-[1184px] text-center">
+        <p className="inline-flex h-10 items-center justify-center text-[13px] font-black leading-5 text-[#0a0a0a]">
+          CONVERSION QUALITY
+        </p>
+        <h2 className="mt-5 text-[34px] font-black leading-[1.22] text-[#0a0a0a] sm:text-[46px] sm:leading-[56px]">
           PSD뿐만 아니라
           <br />
           다양한 파일을 가져옵니다
         </h2>
-        <p className="mx-auto mt-5 max-w-[700px] text-[17px] leading-7 text-[#60656b]">
-          PSD, AI, PDF, PPTX처럼 흩어진 원본을 Figma-ready 구조로 정리합니다.
+        <p className="mx-auto mt-6 max-w-[960px] text-[17px] leading-[30px] text-[#5f6368] sm:text-[20px]">
+          PSD, AI, EPS, PDF, PPT, SVG까지 가져오고, 레이어와 텍스트를 Figma에서 다시 만질 수 있게 정리합니다.
         </p>
-        <div className="mt-12 overflow-hidden rounded-lg bg-white shadow-[0_18px_40px_rgba(15,24,42,0.08)] ring-1 ring-[#e7ecf3]">
-          <div className="flex h-11 items-center bg-[#050505] px-5 text-sm text-white">
-            <MaterialIcon name="cloud_upload" className="mr-3 text-[20px]" />
-            import queue
-            <span className="ml-auto text-xs text-white/70">drag files here</span>
+
+        <div className="mt-[52px] overflow-hidden rounded-2xl bg-white text-left shadow-[0_14px_40px_rgba(0,0,0,0.04)]">
+          <div className="flex h-11 items-center bg-[#090909] px-[22px] text-white">
+            <span className="size-2.5 rounded-full bg-[#ff6b5f]" />
+            <span className="ml-2 size-2.5 rounded-full bg-[#ffca4b]" />
+            <span className="ml-2 size-2.5 rounded-full bg-[#32d074]" />
+            <span className="ml-8 text-[13px] leading-4">source files&nbsp; -&gt;&nbsp; pigma&nbsp; -&gt;&nbsp; editable figma</span>
           </div>
-          <div className="grid gap-6 p-6 lg:grid-cols-[1fr_280px]">
-            <div className="grid gap-3 sm:grid-cols-3">
+
+          <div className="bg-[#fbfbfb] px-[34px] pb-5 pt-5">
+            <div className="flex min-h-[54px] flex-wrap items-center gap-2 rounded-2xl bg-[#f4f5f6] px-6 py-3">
+              <span className="mr-5 text-[10px] font-bold leading-[14px] text-[#5f6368]">SUPPORTED IMPORTS</span>
               {fileTypes.map((type) => (
-                <div key={type} className="rounded-lg border border-[#e7ecf3] bg-[#fafafa] p-5 text-left">
-                  <span className="text-xs font-black text-[#60656b]">{type}</span>
-                  <p className="mt-8 h-2 rounded-full bg-[#d9dde1]" />
-                  <p className="mt-3 h-2 w-2/3 rounded-full bg-[#edf0f4]" />
-                </div>
+                <span
+                  key={type}
+                  className={
+                    type === "PSD"
+                      ? "inline-flex h-[30px] min-w-[62px] items-center justify-center rounded-full bg-[#0b0b0b] px-5 text-[11px] font-bold text-white"
+                      : "inline-flex h-[30px] min-w-[52px] items-center justify-center rounded-full bg-white px-5 text-[11px] font-bold text-[#111]"
+                  }
+                >
+                  {type}
+                </span>
               ))}
+              <span className="ml-auto inline-flex items-center gap-2 text-[13px] font-bold text-[#111]">
+                <span className="size-2 rounded-full bg-[#006bff]" />
+                계속 업데이트 중
+              </span>
             </div>
-            <div className="rounded-lg bg-[#f3f6fa] p-5 text-left">
-              <div className="flex items-center justify-between">
-                <strong className="text-sm">변환 기준</strong>
-                <span className="rounded-full bg-[#005bff] px-2 py-1 text-[10px] font-bold text-white">SAVED</span>
-              </div>
-              {["레이어 이름 정리", "이미지 누락 검사", "텍스트 추출", "효과 분리"].map((item) => (
-                <div key={item} className="mt-4 flex items-center gap-2 text-sm text-[#4b5563]">
-                  <MaterialIcon name="check_circle" className="text-[16px] text-[#005bff]" />
-                  {item}
+
+            <div className="mt-[22px] grid gap-8 lg:grid-cols-[340px_84px_608px] lg:items-center">
+              <div className="h-[206px] rounded-[14px] bg-white p-6">
+                <p className="text-[11px] font-black leading-4 text-[#4d5157]">BEFORE</p>
+                <h3 className="mt-1.5 text-[24px] font-black leading-[30px] text-black">source files</h3>
+                <p className="mt-0.5 text-[13px] leading-[18px] text-[#9aa0a6]">psd · ai · eps · pdf · ppt · svg</p>
+                <div className="mt-4 grid gap-1">
+                  {[
+                    ["Hero copy merged", "w-[190px]", "bg-[#d8dce0]"],
+                    ["Text raster 02", "w-[172px]", "bg-[#d8dce0]"],
+                    ["Layer 144", "w-[154px]", "bg-[#d8dce0]"],
+                    ["Shadow merged", "w-[136px]", "bg-[#8c9298]"],
+                  ].map(([label, width, color], index) => (
+                    <div key={label} className="flex h-[18px] items-center gap-2">
+                      <span className={index === 3 ? "size-2 rounded-[3px] bg-[#7a8086]" : "size-2 rounded-[3px] bg-[#c8cdd2]"} />
+                      <span className={`${width} ${color} rounded-[5px] px-2.5 text-[11px] leading-[18px] text-[#5f6368]`}>
+                        {label}
+                      </span>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+
+              <div className="hidden h-16 w-[84px] items-center justify-center rounded-full bg-[#fafafa] text-[28px] font-black leading-[30px] text-[#4f545a] lg:flex">
+                -&gt;
+              </div>
+
+              <div className="h-[206px] rounded-[14px] bg-white p-6">
+                <p className="text-[11px] font-black leading-4 text-[#4f545a]">AFTER</p>
+                <h3 className="mt-1.5 text-[24px] font-black leading-[30px] text-black">editable figma</h3>
+                <p className="mt-0.5 text-xs leading-[18px] text-[#737373]">layers · text · images · effects are ready to edit</p>
+                <div className="mt-4 grid grid-cols-1 gap-x-8 gap-y-2 sm:grid-cols-2">
+                  {conversionAfterItems.map((item) => (
+                    <div key={item.title} className="grid grid-cols-[12px_1fr] gap-2.5">
+                      <span className="mt-1 size-3 rounded bg-[#8a9097]" />
+                      <div>
+                        <strong className="block text-[13px] leading-[18px] text-[#111]">{item.title}</strong>
+                        <span className="text-xs leading-[17px] text-[#7a828b]">{item.body}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
+        </div>
+
+        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {qualityPoints.map((point) => (
+            <div
+              key={point.label}
+              className="flex h-12 items-center gap-3 rounded-2xl bg-white px-[18px] text-left shadow-[0_14px_40px_rgba(0,0,0,0.04)]"
+            >
+              <MaterialIcon name={point.icon} className="text-[20px] text-[#0a0a0a]" />
+              <strong className="text-[15px] font-black leading-5 text-[#333]">{point.label}</strong>
+              <span className="text-[13px] text-[#5f6368]">{point.value}</span>
+            </div>
+          ))}
         </div>
       </div>
     </section>
