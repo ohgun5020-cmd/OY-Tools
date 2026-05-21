@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState, type ReactNode } from "react"
+import { useEffect, useRef, useState, type ReactNode } from "react"
 import type { LucideIcon } from "lucide-react"
 import {
   ArrowRight,
@@ -313,6 +313,8 @@ function HeroSection() {
 }
 
 function HeroWorkspace() {
+  const conversionProgress = useAnimatedConversionProgress()
+
   return (
     <div
       id="product"
@@ -349,11 +351,9 @@ function HeroWorkspace() {
               <RefreshCw className="size-6 text-[#0a0a0a]" aria-hidden="true" />
               <h2 className="text-[22px] font-black leading-none">자동 변환</h2>
             </div>
-            <strong className="text-4xl font-black">98%</strong>
+            <AnimatedConversionProgressValue progress={conversionProgress} className="text-4xl" />
           </div>
-          <div className="mt-5 rounded-full bg-white p-1">
-            <div className="h-1.5 w-[95%] rounded-full bg-[#005bff]" />
-          </div>
+          <AnimatedConversionProgressBar progress={conversionProgress} className="mt-5" />
           <p className="mt-4 text-[13px] font-medium text-[#0a0a0a]">
             텍스트, 효과, 레이어를 바로 편집 가능한 구조로 정리
           </p>
@@ -374,6 +374,59 @@ function HeroWorkspace() {
           ))}
         </div>
       </div>
+    </div>
+  )
+}
+
+function useAnimatedConversionProgress() {
+  const [progress, setProgress] = useState(0)
+
+  useEffect(() => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+
+    if (reduceMotion) {
+      setProgress(100)
+      return
+    }
+
+    const fillDuration = 3000
+    const holdDuration = 1000
+    const cycleDuration = fillDuration + holdDuration
+    let frame = 0
+    let cycleStart = performance.now()
+
+    const tick = (now: number) => {
+      const elapsed = (now - cycleStart) % cycleDuration
+      const nextProgress = elapsed <= fillDuration ? Math.round((elapsed / fillDuration) * 100) : 100
+
+      setProgress(nextProgress)
+
+      if (elapsed < 16 && now - cycleStart > cycleDuration) {
+        cycleStart = now
+      }
+
+      frame = window.requestAnimationFrame(tick)
+    }
+
+    frame = window.requestAnimationFrame(tick)
+
+    return () => window.cancelAnimationFrame(frame)
+  }, [])
+
+  return progress
+}
+
+function AnimatedConversionProgressValue({ progress, className = "" }: { progress: number; className?: string }) {
+  return <strong className={`${className} font-black tabular-nums`}>{progress}%</strong>
+}
+
+function AnimatedConversionProgressBar({ progress, className = "" }: { progress: number; className?: string }) {
+  return (
+    <div className={`${className} rounded-full bg-white p-1`}>
+      <div
+        className="h-1.5 rounded-full bg-[#005bff]"
+        style={{ width: `${progress}%` }}
+      />
     </div>
   )
 }
@@ -754,6 +807,8 @@ function VideoVisual() {
 }
 
 function ConvertVisual() {
+  const conversionProgress = useAnimatedConversionProgress()
+
   return (
     <div className="rounded-[14px] bg-[#f3f4f6] p-5">
       <div className="flex items-start justify-between gap-4">
@@ -761,11 +816,9 @@ function ConvertVisual() {
           <RefreshCw className="size-6 text-[#0a0a0a]" aria-hidden="true" />
           <strong className="text-lg">자동 변환</strong>
         </div>
-        <strong className="text-3xl font-black">98%</strong>
+        <AnimatedConversionProgressValue progress={conversionProgress} className="text-3xl" />
       </div>
-      <div className="mt-5 rounded-full bg-white p-1">
-        <div className="h-1.5 w-[95%] rounded-full bg-[#005bff]" />
-      </div>
+      <AnimatedConversionProgressBar progress={conversionProgress} className="mt-5" />
       <div className="mt-5 grid gap-2 text-xs text-[#657082]">
         {["source.psd 분석", "텍스트 추출", "효과 분리"].map((item) => (
           <div key={item} className="flex items-center gap-2 rounded bg-white px-3 py-2">
