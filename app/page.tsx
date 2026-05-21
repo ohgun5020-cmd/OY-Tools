@@ -314,6 +314,7 @@ function HeroSection() {
 
 function HeroWorkspace() {
   const conversionProgress = useAnimatedConversionProgress()
+  const importOptionsEnabled = conversionProgress === 100
 
   return (
     <div
@@ -366,15 +367,34 @@ function HeroWorkspace() {
           {["레이어 정리", "텍스트 변환", "효과 분리"].map((item) => (
             <div key={item} className="flex h-[30px] items-center justify-between text-[15px] text-[#5f6368]">
               <span>{item}</span>
-              <span className="inline-flex h-[22px] w-[54px] items-center rounded-full bg-[#111] px-1 text-[7px] font-bold text-white">
-                ON
-                <span className="ml-auto size-4 rounded-full bg-white" />
-              </span>
+              <ConversionOptionToggle enabled={importOptionsEnabled} />
             </div>
           ))}
         </div>
       </div>
     </div>
+  )
+}
+
+function ConversionOptionToggle({ enabled }: { enabled: boolean }) {
+  return (
+    <span
+      className={
+        enabled
+          ? "inline-flex h-[22px] w-[54px] items-center rounded-full bg-[#111] px-1 text-[7px] font-bold text-white transition-colors duration-200"
+          : "inline-flex h-[22px] w-[54px] items-center justify-end rounded-full bg-[#d8dee8] px-1 text-[7px] font-bold text-[#657082] transition-colors duration-200"
+      }
+      aria-label={enabled ? "ON" : "OFF"}
+    >
+      {enabled ? "ON" : "OFF"}
+      <span
+        className={
+          enabled
+            ? "ml-auto size-4 rounded-full bg-white transition-all duration-200"
+            : "order-first mr-auto size-4 rounded-full bg-white transition-all duration-200"
+        }
+      />
+    </span>
   )
 }
 
