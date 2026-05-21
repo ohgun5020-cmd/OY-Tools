@@ -410,7 +410,7 @@ function useAnimatedConversionProgress() {
     }
 
     const fillDuration = 3000
-    const holdDuration = 1000
+    const holdDuration = 5000
     const cycleDuration = fillDuration + holdDuration
     let frame = 0
     let cycleStart = performance.now()
