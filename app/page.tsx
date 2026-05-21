@@ -229,7 +229,7 @@ function SiteHeader() {
           className="flex items-center text-black"
           aria-label="PIGMA 홈"
         >
-          <PigmaLogo className="h-[18px] w-[92px] md:h-[19px] md:w-[100px]" />
+          <PigmaLogo className="h-[18px] w-[100px] md:h-[19px]" />
         </a>
         <nav className="hidden items-center justify-start gap-14 pl-7 text-base font-bold text-[#0a0a0a] md:flex">
           <a href="#product" className="transition hover:text-[#005bff]">
@@ -275,11 +275,15 @@ function HeroSection() {
   return (
     <section id="top" className="bg-[#fafafa] px-6 pb-24 pt-16 sm:px-10 lg:px-12">
       <div className="mx-auto max-w-[1120px] text-center">
-        <p className="mx-auto mb-7 flex h-10 w-[220px] items-center justify-center rounded-[10px] text-[13px] font-black text-[#0a0a0a]">
-          PSD TO PIGMA
+        <p className="mx-auto mb-7 flex h-10 w-[220px] items-center justify-center gap-2 rounded-[10px] text-[13px] font-black text-[#0a0a0a]">
+          <span>PSD TO</span>
+          <PigmaLogo className="h-[10px] w-auto" />
         </p>
         <h1 className="mx-auto max-w-[1120px] text-[42px] font-black leading-[1.08] text-black sm:text-[56px] lg:text-[72px]">
-          PIGMA로
+          <span className="inline-flex items-center justify-center gap-2 sm:gap-3 lg:gap-4">
+            <PigmaLogo className="h-[38px] w-auto sm:h-[50px] lg:h-[64px]" />
+            <span>로</span>
+          </span>
           <br />
           PSD를 바로 싹싹
         </h1>
@@ -318,9 +322,12 @@ function HeroWorkspace() {
         <span className="size-2.5 rounded-full bg-[#ff6b5a]" />
         <span className="size-2.5 rounded-full bg-[#ffd166]" />
         <span className="size-2.5 rounded-full bg-[#21c55d]" />
-        <span className="ml-3 text-sm">pigma convert workspace</span>
+        <span className="ml-3 inline-flex items-center gap-2 text-sm">
+          <PigmaLogo className="h-[10px] w-auto brightness-0 invert" />
+          convert workspace
+        </span>
         <span className="ml-auto hidden text-[11px] text-white/80 md:inline">
-          source files -&gt; pigma -&gt; figma-ready
+          source files -&gt; <PigmaLogo className="inline-block h-[8px] w-auto brightness-0 invert" /> -&gt; figma-ready
         </span>
       </div>
       <div className="grid min-w-0 gap-5 p-7 lg:grid-cols-[300px_1fr_302px]">
@@ -801,8 +808,10 @@ function UseCasesSection() {
     <section className="bg-[#050505] px-6 py-24 text-white sm:px-10 lg:px-12">
       <div className="mx-auto max-w-[1216px]">
         <p className="text-[15px] font-bold text-[#9a9a9a]">USE CASES</p>
-        <h2 className="mt-5 text-[32px] font-black leading-[1.25] sm:text-[36px]">
-          이럴 때 PIGMA가 빠릅니다
+        <h2 className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 text-[32px] font-black leading-[1.25] sm:text-[36px]">
+          <span>이럴 때</span>
+          <PigmaLogo className="h-[28px] w-auto brightness-0 invert sm:h-[31px]" />
+          <span>가 빠릅니다</span>
         </h2>
         <p className="mt-4 text-[17px] leading-7 text-[#b8b8b8]">
           기능 설명보다 실제 작업 상황에 바로 꽂히는 15가지입니다.
