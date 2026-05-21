@@ -158,7 +158,6 @@ const plans = [
     description: "개인 작업자가 자주 쓰기 좋은 구성입니다.",
     features: ["월 30회 변환", "텍스트 추출", "AI 디자인 질문"],
     cta: "Basic 선택",
-    featured: true,
   },
   {
     name: "Pro",
@@ -431,14 +430,6 @@ function AiChatSection() {
     <section id="features" className="px-6 py-24 sm:px-10 lg:px-12">
       <div className="mx-auto max-w-[1120px] text-center">
         <p className="text-[13px] font-black text-[#111]">PLUGIN MENU</p>
-        <h2 className="mt-8 text-[34px] font-black leading-[1.25] text-[#050505] sm:text-[40px]">
-          시안 방향을
-          <br />
-          AI에게 바로 묻기
-        </h2>
-        <p className="mt-5 text-[17px] leading-7 text-[#60656b]">
-          캡처한 화면 기준으로 의도, 흐름, 타이포 피드백을 빠르게 받습니다.
-        </p>
         <FeatureCarousel />
       </div>
     </section>
@@ -451,6 +442,8 @@ function FeatureCarousel() {
   const slides = [
     {
       id: "feature-ai-chat",
+      sectionTitle: ["시안 방향을", "AI에게 바로 묻기"],
+      sectionLead: "캡처한 화면 기준으로 의도, 흐름, 타이포 피드백을 빠르게 받습니다.",
       eyebrow: "DESIGNER PICK",
       title: "AI 디자인 채팅",
       description: "선택 화면을 보며 의도, 흐름, 타이포 방향을 바로 묻고 수정 우선순위를 얻습니다.",
@@ -458,6 +451,8 @@ function FeatureCarousel() {
     },
     {
       id: "feature-audit",
+      sectionTitle: ["오타 걱정은", "배포 전에 끝내기"],
+      sectionLead: "상세페이지와 캠페인 카피의 실수를 주석으로 남겨 바로 수정합니다.",
       eyebrow: "DESIGNER PICK",
       title: "검수",
       description: "상세페이지와 캠페인 카피에서 민망한 오타를 배포 전에 잡아줍니다.",
@@ -465,13 +460,17 @@ function FeatureCarousel() {
     },
     {
       id: "feature-layer-cleanup",
+      sectionTitle: ["복잡한 파일도", "작업하기 쉽게 정리"],
+      sectionLead: "잠김, 컴포넌트, 긴 프레임을 정리해 넘겨받은 파일을 바로 손봅니다.",
       eyebrow: "DESIGNER PICK",
-      title: "레이어와 텍스트 정리",
+      title: "레이어 정리",
       description: "외주·PSD·복잡한 파일을 넘겨받았을 때 정리 시간을 크게 줄입니다.",
       visual: <LayerCleanupVisual />,
     },
     {
       id: "feature-align",
+      sectionTitle: ["반픽셀까지", "깔끔하게 맞추기"],
+      sectionLead: "정수 픽셀, 버튼 크기, 모서리 값을 한 번에 정돈합니다.",
       eyebrow: "DESIGNER PICK",
       title: "정렬/교정",
       description: "반픽셀, 들쭉날쭉한 버튼, 기울어진 요소를 한 번에 깔끔하게 맞춥니다.",
@@ -479,6 +478,8 @@ function FeatureCarousel() {
     },
     {
       id: "feature-text",
+      sectionTitle: ["카피 수정과 번역을", "시안 안에서 바로"],
+      sectionLead: "번역, 오타 수정, 하이라이트, 행간 조정을 왕복 없이 처리합니다.",
       eyebrow: "DESIGNER PICK",
       title: "텍스트",
       description: "카피 수정, 번역, 하이라이트, 행간 조정을 시안 안에서 바로 끝냅니다.",
@@ -486,6 +487,8 @@ function FeatureCarousel() {
     },
     {
       id: "feature-image-fix",
+      sectionTitle: ["이미지 소스와 색을", "작업 중 바로 꺼내기"],
+      sectionLead: "원본 저장, 팔레트 추출, 보이는 영역 맞춤을 디자인 화면에서 끝냅니다.",
       eyebrow: "DESIGNER PICK",
       title: "이미지 보정",
       description: "원본 이미지 추출, 색상 팔레트, 크롭 정리를 디자인 작업 안에서 바로 처리합니다.",
@@ -493,6 +496,8 @@ function FeatureCarousel() {
     },
     {
       id: "feature-image-generate",
+      sectionTitle: ["잘린 배경도", "자연스럽게 확장"],
+      sectionLead: "이미지 확장, 해상도 향상, 텍스트 추출로 시안 완성도를 끌어올립니다.",
       eyebrow: "DESIGNER PICK",
       title: "이미지 생성/확장",
       description: "잘린 배경을 자연스럽게 늘리고, 저해상도 이미지를 시안용으로 끌어올립니다.",
@@ -500,6 +505,8 @@ function FeatureCarousel() {
     },
     {
       id: "feature-share",
+      sectionTitle: ["공유 링크를", "깔끔하게 준비"],
+      sectionLead: "긴 URL과 프로토타입 링크를 클라이언트에게 보내기 좋게 정리합니다.",
       eyebrow: "DESIGNER PICK",
       title: "공유/기타",
       description: "길고 복잡한 Figma 링크와 프로토타입 공유를 몇 초 안에 정리합니다.",
@@ -507,12 +514,15 @@ function FeatureCarousel() {
     },
     {
       id: "feature-video",
+      sectionTitle: ["정적인 시안을", "움직이는 결과물로"],
+      sectionLead: "AI 영상 생성과 GIF/APNG 변환으로 모션 시안을 빠르게 준비합니다.",
       eyebrow: "DESIGNER PICK",
       title: "영상",
       description: "움직이는 배너와 숏폼 시안을 위해 AI 영상 생성과 GIF/APNG 변환을 준비합니다.",
       visual: <VideoVisual />,
     },
   ]
+  const activeSlide = slides[activeIndex]
   const lastIndex = slides.length - 1
   const canGoPrev = activeIndex > 0
   const canGoNext = activeIndex < lastIndex
@@ -537,50 +547,60 @@ function FeatureCarousel() {
   }
 
   return (
-    <div className="relative mx-auto mt-12 w-full max-w-[746px]">
-      <div className="overflow-hidden pb-4">
-        <div
-          ref={scrollerRef}
-          className="flex snap-x snap-mandatory overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-          onScroll={syncActiveSlide}
-        >
-          {slides.map((slide, index) => (
-            <FeatureSlide key={slide.id} {...slide} index={index + 1} total={slides.length} />
-          ))}
+    <>
+      <h2 className="mt-8 text-[34px] font-black leading-[1.25] text-[#050505] sm:text-[40px]">
+        {activeSlide.sectionTitle.map((line) => (
+          <span key={line} className="block">
+            {line}
+          </span>
+        ))}
+      </h2>
+      <p className="mt-5 text-[17px] leading-7 text-[#60656b]">{activeSlide.sectionLead}</p>
+      <div className="relative mx-auto mt-12 w-full max-w-[746px]">
+        <div className="overflow-hidden pb-4">
+          <div
+            ref={scrollerRef}
+            className="flex snap-x snap-mandatory overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            onScroll={syncActiveSlide}
+          >
+            {slides.map((slide, index) => (
+              <FeatureSlide key={slide.id} {...slide} index={index + 1} total={slides.length} />
+            ))}
+          </div>
+        </div>
+        <div className="mt-0 flex items-center justify-center gap-3">
+          <button
+            type="button"
+            onClick={() => scrollToSlide(activeIndex - 1)}
+            disabled={!canGoPrev}
+            className="inline-flex size-9 items-center justify-center rounded-full border border-[#e7ecf3] bg-white text-[#050505] shadow-sm transition hover:border-[#005bff] hover:text-[#005bff] disabled:cursor-default disabled:text-[#c8d0dc] disabled:hover:border-[#e7ecf3]"
+            aria-label="이전 기능 슬라이드로 이동"
+          >
+            <MaterialIcon name="chevron_left" className="text-[20px]" />
+          </button>
+          <div className="flex items-center gap-2">
+            {slides.map((slide, index) => (
+              <button
+                key={slide.id}
+                type="button"
+                onClick={() => scrollToSlide(index)}
+                className={index === activeIndex ? "h-2 w-6 rounded-full bg-[#005bff]" : "size-2 rounded-full bg-[#d8dee8]"}
+                aria-label={`${index + 1}번 기능 슬라이드로 이동`}
+              />
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={() => scrollToSlide(activeIndex + 1)}
+            disabled={!canGoNext}
+            className="inline-flex size-9 items-center justify-center rounded-full border border-[#e7ecf3] bg-white text-[#050505] shadow-sm transition hover:border-[#005bff] hover:text-[#005bff] disabled:cursor-default disabled:text-[#c8d0dc] disabled:hover:border-[#e7ecf3]"
+            aria-label="다음 기능 슬라이드로 이동"
+          >
+            <MaterialIcon name="chevron_right" className="text-[20px]" />
+          </button>
         </div>
       </div>
-      <div className="mt-0 flex items-center justify-center gap-3">
-        <button
-          type="button"
-          onClick={() => scrollToSlide(activeIndex - 1)}
-          disabled={!canGoPrev}
-          className="inline-flex size-9 items-center justify-center rounded-full border border-[#e7ecf3] bg-white text-[#050505] shadow-sm transition hover:border-[#005bff] hover:text-[#005bff] disabled:cursor-default disabled:text-[#c8d0dc] disabled:hover:border-[#e7ecf3]"
-          aria-label="이전 기능 슬라이드로 이동"
-        >
-          <MaterialIcon name="chevron_left" className="text-[20px]" />
-        </button>
-        <div className="flex items-center gap-2">
-          {slides.map((slide, index) => (
-            <button
-              key={slide.id}
-              type="button"
-              onClick={() => scrollToSlide(index)}
-              className={index === activeIndex ? "h-2 w-6 rounded-full bg-[#005bff]" : "size-2 rounded-full bg-[#d8dee8]"}
-              aria-label={`${index + 1}번 기능 슬라이드로 이동`}
-            />
-          ))}
-        </div>
-        <button
-          type="button"
-          onClick={() => scrollToSlide(activeIndex + 1)}
-          disabled={!canGoNext}
-          className="inline-flex size-9 items-center justify-center rounded-full border border-[#e7ecf3] bg-white text-[#050505] shadow-sm transition hover:border-[#005bff] hover:text-[#005bff] disabled:cursor-default disabled:text-[#c8d0dc] disabled:hover:border-[#e7ecf3]"
-          aria-label="다음 기능 슬라이드로 이동"
-        >
-          <MaterialIcon name="chevron_right" className="text-[20px]" />
-        </button>
-      </div>
-    </div>
+    </>
   )
 }
 
@@ -1078,35 +1098,25 @@ function PricingSection() {
           {plans.map((plan) => (
             <article
               key={plan.name}
-              className={
-                plan.featured
-                  ? "rounded-lg bg-[#050505] p-6 text-white shadow-[0_18px_40px_rgba(15,24,42,0.16)]"
-                  : "rounded-lg bg-white p-6 text-[#050505] shadow-[0_18px_40px_rgba(15,24,42,0.08)] ring-1 ring-[#e7ecf3]"
-              }
+              className="group rounded-lg bg-white p-6 text-[#050505] shadow-[0_18px_40px_rgba(15,24,42,0.08)] ring-1 ring-[#e7ecf3] transition duration-200 hover:-translate-y-1 hover:bg-[#050505] hover:text-white hover:ring-[#050505] hover:shadow-[0_18px_40px_rgba(15,24,42,0.16)]"
             >
               <div className="flex items-center justify-between">
                 <h3 className="font-black">{plan.name}</h3>
                 <MaterialIcon name="arrow_forward" className="text-[16px]" />
               </div>
               <p className="mt-6 text-4xl font-black">{plan.price}</p>
-              <p className={plan.featured ? "mt-3 text-sm text-white/70" : "mt-3 text-sm text-[#60656b]"}>
-                {plan.description}
-              </p>
+              <p className="mt-3 text-sm text-[#60656b] transition group-hover:text-white/70">{plan.description}</p>
               <ul className="mt-6 space-y-3">
                 {plan.features.map((feature) => (
                   <li key={feature} className="flex items-center gap-2 text-sm">
-                    <MaterialIcon name="check" className={plan.featured ? "text-[16px] text-white" : "text-[16px] text-[#005bff]"} />
+                    <MaterialIcon name="check" className="text-[16px] text-[#005bff] transition group-hover:text-white" />
                     {feature}
                   </li>
                 ))}
               </ul>
               <a
                 href="/signup"
-                className={
-                  plan.featured
-                    ? "mt-7 inline-flex h-11 w-full items-center justify-center rounded-lg bg-white text-sm font-bold text-[#050505] transition hover:bg-[#f2f2f2]"
-                    : "mt-7 inline-flex h-11 w-full items-center justify-center rounded-lg bg-[#050505] text-sm font-bold text-white transition hover:bg-[#222]"
-                }
+                className="mt-7 inline-flex h-11 w-full items-center justify-center rounded-lg bg-[#050505] text-sm font-bold text-white transition group-hover:bg-white group-hover:text-[#050505]"
               >
                 {plan.cta}
               </a>
