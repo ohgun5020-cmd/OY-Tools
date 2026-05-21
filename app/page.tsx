@@ -409,32 +409,60 @@ function FeatureCarousel() {
       visual: <AiChatVisual />,
     },
     {
-      id: "feature-psd-convert",
-      eyebrow: "CONVERT",
-      title: "PSD 자동 변환",
-      description: "원본 파일의 레이어와 효과를 분석해 Figma에서 바로 만질 수 있는 구조로 바꿉니다.",
-      visual: <ConvertVisual />,
+      id: "feature-audit",
+      eyebrow: "DESIGNER PICK",
+      title: "검수",
+      description: "상세페이지와 캠페인 카피에서 민망한 오타를 배포 전에 잡아줍니다.",
+      visual: <AuditVisual />,
     },
     {
       id: "feature-layer-cleanup",
-      eyebrow: "ORGANIZE",
+      eyebrow: "DESIGNER PICK",
       title: "레이어와 텍스트 정리",
-      description: "복잡한 그룹, 래스터 텍스트, 이미지 상태를 한 번에 확인하고 정리합니다.",
-      visual: <QualityVisual />,
+      description: "외주·PSD·복잡한 파일을 넘겨받았을 때 정리 시간을 크게 줄입니다.",
+      visual: <LayerCleanupVisual />,
+    },
+    {
+      id: "feature-align",
+      eyebrow: "DESIGNER PICK",
+      title: "정렬/교정",
+      description: "반픽셀, 들쭉날쭉한 버튼, 기울어진 요소를 한 번에 깔끔하게 맞춥니다.",
+      visual: <AlignmentVisual />,
+    },
+    {
+      id: "feature-text",
+      eyebrow: "DESIGNER PICK",
+      title: "텍스트",
+      description: "카피 수정, 번역, 하이라이트, 행간 조정을 시안 안에서 바로 끝냅니다.",
+      visual: <TextVisual />,
     },
     {
       id: "feature-image-fix",
-      eyebrow: "REPAIR",
+      eyebrow: "DESIGNER PICK",
       title: "이미지 보정",
-      description: "깨진 이미지와 부족한 배경 영역을 검수하고 필요한 보정 작업을 빠르게 잡습니다.",
-      visual: <ImageFixVisual />,
+      description: "원본 이미지 추출, 색상 팔레트, 크롭 정리를 디자인 작업 안에서 바로 처리합니다.",
+      visual: <ImageSourceVisual />,
     },
     {
-      id: "feature-preset",
-      eyebrow: "PRESET",
-      title: "작업 기준 저장",
-      description: "자주 쓰는 변환 옵션을 저장해서 반복되는 파일 정리 흐름을 줄입니다.",
-      visual: <PresetVisual />,
+      id: "feature-image-generate",
+      eyebrow: "DESIGNER PICK",
+      title: "이미지 생성/확장",
+      description: "잘린 배경을 자연스럽게 늘리고, 저해상도 이미지를 시안용으로 끌어올립니다.",
+      visual: <ImageGenerateVisual />,
+    },
+    {
+      id: "feature-share",
+      eyebrow: "DESIGNER PICK",
+      title: "공유/기타",
+      description: "길고 복잡한 Figma 링크와 프로토타입 공유를 몇 초 안에 정리합니다.",
+      visual: <ShareVisual />,
+    },
+    {
+      id: "feature-video",
+      eyebrow: "DESIGNER PICK",
+      title: "영상",
+      description: "움직이는 배너와 숏폼 시안을 위해 AI 영상 생성과 GIF/APNG 변환을 준비합니다.",
+      visual: <VideoVisual />,
     },
   ]
   const lastIndex = slides.length - 1
@@ -557,6 +585,170 @@ function AiChatVisual() {
       {aiActions.map((action) => (
         <ActionButton key={action.title} action={action} />
       ))}
+    </div>
+  )
+}
+
+function AuditVisual() {
+  return (
+    <div className="grid content-start gap-3 rounded-[14px] border border-[#dbe7ff] bg-[#f8fbff] p-5">
+      <div className="flex items-center justify-between">
+        <strong className="text-lg">오타 후보</strong>
+        <span className="inline-flex h-10 min-w-14 items-center justify-center rounded-full bg-[#006bff] px-5 text-lg font-black text-white">
+          3
+        </span>
+      </div>
+      <div className="mt-1 grid gap-3">
+        {[
+          ["오타 검수", "bg-[#ff4d55]"],
+          ["주석으로 공유", "bg-[#c8d0dc]"],
+          ["결과 패널", "bg-[#c8d0dc]"],
+        ].map(([label, color]) => (
+          <div key={label} className="flex items-center gap-3">
+            <span className="flex size-6 items-center justify-center rounded-md bg-[#27b36a] text-white">
+              <Check className="size-3.5" aria-hidden="true" />
+            </span>
+            <span className={`h-2 flex-1 rounded-full ${color}`} />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function LayerCleanupVisual() {
+  return (
+    <div className="grid content-center gap-4 rounded-[14px] border border-[#dbe7ff] bg-[#f8fbff] p-5">
+      <div className="rounded-xl bg-[#111] px-4 py-6 text-center text-sm font-bold text-white">잠금</div>
+      <div className="flex items-center justify-center gap-3">
+        <ArrowRight className="size-6 text-[#006bff]" aria-hidden="true" />
+        <div className="grid gap-2">
+          <span className="rounded-full bg-[#006bff] px-7 py-2 text-center text-sm font-bold text-white">해제</span>
+          <span className="rounded-full bg-[#27b36a] px-7 py-2 text-center text-sm font-bold text-white">분리</span>
+        </div>
+      </div>
+      <div className="rounded-xl bg-white p-4 shadow-sm ring-1 ring-[#e7ecf3]">
+        <strong className="text-sm">정리된 레이어</strong>
+        <div className="mt-3 grid gap-2">
+          <span className="h-2 w-4/5 rounded-full bg-[#006bff]" />
+          <span className="h-2 rounded-full bg-[#c8d0dc]" />
+          <span className="h-2 w-3/4 rounded-full bg-[#c8d0dc]" />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function AlignmentVisual() {
+  return (
+    <div className="rounded-[14px] border border-[#dbe7ff] bg-[#f8fbff] p-5">
+      <div className="flex items-center justify-between">
+        <strong className="text-lg">픽셀 교정</strong>
+        <span className="rounded-full bg-[#006bff] px-5 py-2 text-sm font-black text-white">1px</span>
+      </div>
+      <div className="mt-6 grid gap-3">
+        {[80, 100, 72].map((width) => (
+          <div key={width} className="flex items-center gap-3">
+            <LayoutGrid className="size-4 text-[#006bff]" aria-hidden="true" />
+            <span className="h-2 rounded-full bg-[#c8d0dc]" style={{ width: `${width}%` }} />
+          </div>
+        ))}
+      </div>
+      <div className="mt-8 rounded-full bg-[#006bff] px-5 py-3 text-center text-sm font-bold text-white">
+        버튼 자동 맞춤
+      </div>
+    </div>
+  )
+}
+
+function TextVisual() {
+  return (
+    <div className="grid content-start gap-4 rounded-[14px] border border-[#dbe7ff] bg-[#f8fbff] p-5">
+      <div className="flex items-center gap-4">
+        <ArrowRight className="size-6 text-[#111]" aria-hidden="true" />
+        <div className="grid flex-1 gap-2">
+          <span className="rounded-full bg-[#006bff] px-6 py-2 text-sm font-bold text-white">번역</span>
+          <span className="rounded-full bg-[#111] px-6 py-2 text-sm font-bold text-white">행간</span>
+        </div>
+      </div>
+      <div className="rounded-xl bg-white p-4 shadow-sm ring-1 ring-[#e7ecf3]">
+        <strong className="text-sm text-[#006bff]">EN</strong>
+        <span className="mt-4 block h-2 rounded-full bg-[#111]" />
+        <span className="mt-2 block h-2 rounded-full bg-[#ffd45a]" />
+        <span className="mt-2 block h-2 w-2/3 rounded-full bg-[#c8d0dc]" />
+      </div>
+    </div>
+  )
+}
+
+function ImageSourceVisual() {
+  return (
+    <div className="grid content-center gap-4 rounded-[14px] border border-[#dbe7ff] bg-[#f8fbff] p-5">
+      <div className="flex items-center justify-between gap-3">
+        <span className="rounded-full bg-[#006bff] px-5 py-2 text-sm font-bold text-white">이미지 소스</span>
+        <ArrowRight className="size-6 text-[#006bff]" aria-hidden="true" />
+      </div>
+      <div className="rounded-xl bg-white p-4 shadow-sm ring-1 ring-[#e7ecf3]">
+        <div className="flex items-center justify-between">
+          <strong className="text-sm">원본 + 팔레트</strong>
+          <span className="rounded-full bg-[#111] px-3 py-1 text-[10px] font-bold text-white">PNG</span>
+        </div>
+        <div className="mt-4 flex gap-2">
+          {["#006bff", "#27b36a", "#ffd45a", "#111"].map((color) => (
+            <span key={color} className="size-8 rounded" style={{ backgroundColor: color }} />
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function ImageGenerateVisual() {
+  return (
+    <div className="rounded-[14px] border border-[#dbe7ff] bg-[#f8fbff] p-5">
+      <strong className="text-lg">업스케일 / OCR</strong>
+      <div className="mt-5 grid grid-cols-[90px_1fr] gap-3">
+        <span className="rounded-full bg-[#006bff] px-5 py-2 text-center text-sm font-black text-white">2x</span>
+        <span className="h-3 self-center rounded-full bg-[#c8d0dc]" />
+        <span className="rounded-full bg-[#111] px-5 py-2 text-center text-sm font-black text-white">TEXT</span>
+        <span className="h-3 self-center rounded-full bg-[#c8d0dc]" />
+      </div>
+      <div className="mt-6 rounded-xl bg-white p-4 text-sm shadow-sm ring-1 ring-[#e7ecf3]">
+        잘린 배경 자연 확장
+      </div>
+    </div>
+  )
+}
+
+function ShareVisual() {
+  return (
+    <div className="grid content-start gap-4 rounded-[14px] border border-[#dbe7ff] bg-[#f8fbff] p-5">
+      <div className="rounded-full bg-white px-5 py-3 text-sm font-bold text-[#9ca3af] ring-1 ring-[#d7dee8]">URL</div>
+      <div className="flex items-center gap-3">
+        <ArrowRight className="size-6 text-[#006bff]" aria-hidden="true" />
+        <span className="flex-1 rounded-full bg-[#006bff] px-5 py-3 text-center text-sm font-bold text-white">짧은 링크</span>
+        <span className="rounded-full bg-[#111] px-5 py-3 text-sm font-bold text-white">복사</span>
+      </div>
+      <div className="mt-2 h-4 overflow-hidden rounded-full bg-[#111]">
+        <div className="h-full w-2/3 rounded-full bg-[#27b36a]" />
+      </div>
+    </div>
+  )
+}
+
+function VideoVisual() {
+  return (
+    <div className="grid content-start gap-4 rounded-[14px] border border-[#dbe7ff] bg-[#f8fbff] p-5">
+      <div className="rounded-xl bg-[#111] p-5 text-white">
+        <div className="flex items-center gap-4">
+          <span className="flex size-11 items-center justify-center rounded-lg bg-[#006bff] text-xl">▶</span>
+          <span className="rounded-full bg-[#006bff] px-5 py-2 text-sm font-bold">AI 생성</span>
+        </div>
+      </div>
+      <div className="grid gap-3">
+        <span className="rounded-full bg-[#ffd45a] px-5 py-2 text-sm font-black text-[#111]">GIF</span>
+        <span className="rounded-full bg-[#7c55f6] px-5 py-2 text-sm font-black text-white">APNG</span>
+      </div>
     </div>
   )
 }
