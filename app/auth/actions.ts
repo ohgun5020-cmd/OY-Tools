@@ -37,7 +37,7 @@ export async function signupAction(_prevState: AuthFormState, formData: FormData
     throw error
   }
 
-  redirect("/dashboard")
+  redirect("/")
 }
 
 export async function loginAction(_prevState: AuthFormState, formData: FormData): Promise<AuthFormState> {
@@ -60,10 +60,10 @@ export async function loginAction(_prevState: AuthFormState, formData: FormData)
     throw error
   }
 
-  redirect("/dashboard")
+  redirect("/")
 }
 
 export async function logoutAction() {
   await deleteCurrentSession()
-  redirect("/login?signedOut=1")
+  redirect("/")
 }

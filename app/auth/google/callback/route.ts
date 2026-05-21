@@ -67,5 +67,5 @@ export async function GET(request: Request) {
   const userId = upsertGoogleUser(profile)
   await createSessionCookie(userId, true)
 
-  redirect("/dashboard")
+  redirect("/")
 }

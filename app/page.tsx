@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState, type ReactNode } from "react"
+import { useEffect, useState, type ReactNode } from "react"
 
 type ActionItem = {
   title: string
@@ -15,6 +15,163 @@ type UseCase = {
   description: string
   icon: string
 }
+
+type HeaderUser = {
+  name: string
+  email: string
+  plan: string
+}
+
+type FeatureMiniKind = "chat" | "audit" | "layers" | "align" | "text" | "image" | "generate" | "share" | "video"
+
+type FeatureSlideConfig = {
+  id: string
+  sectionTitle: string[]
+  sectionLead: string
+  eyebrow: string
+  icon: string
+  title: string
+  description: string
+  actions: ActionItem[]
+  mini: FeatureMiniKind
+}
+
+const featureSlides: FeatureSlideConfig[] = [
+  {
+    id: "feature-ai-chat",
+    sectionTitle: ["시안 방향을", "AI에게 바로 묻기"],
+    sectionLead: "캡처한 화면 기준으로 의도, 흐름, 타이포 피드백을 빠르게 받습니다.",
+    eyebrow: "DESIGNER PICK",
+    icon: "auto_awesome",
+    title: "AI 디자인 채팅",
+    description: "선택 화면을 보며 의도, 흐름, 타이포 방향을 바로 묻고 수정 우선순위를 얻습니다.",
+    actions: [
+      { title: "의도 살리기", description: "디자인 방향 질문", icon: "help_outline", badge: "AI" },
+      { title: "우선 수정 3개", description: "핵심만 골라 보기", icon: "playlist_add_check" },
+      { title: "타이포 방향", description: "강조 체계 정리", icon: "format_size" },
+    ],
+    mini: "chat",
+  },
+  {
+    id: "feature-audit",
+    sectionTitle: ["오타 걱정은", "배포 전에 끝내기"],
+    sectionLead: "상세페이지와 캠페인 카피의 실수를 주석으로 남겨 바로 수정합니다.",
+    eyebrow: "DESIGNER PICK",
+    icon: "check_circle",
+    title: "검수",
+    description: "상세페이지와 캠페인 카피에서 민망한 오타를 배포 전에 잡아줍니다.",
+    actions: [
+      { title: "오타 검수", description: "카피 실수 찾기", icon: "spellcheck", badge: "AI" },
+      { title: "주석으로 공유", description: "수정 지점 전달", icon: "rate_review" },
+      { title: "결과 패널", description: "후보만 빠르게 확인", icon: "fact_check" },
+    ],
+    mini: "audit",
+  },
+  {
+    id: "feature-layer-cleanup",
+    sectionTitle: ["복잡한 파일도", "작업하기 쉽게 정리"],
+    sectionLead: "잠김, 컴포넌트, 긴 프레임을 정리해 넘겨받은 파일을 바로 손봅니다.",
+    eyebrow: "DESIGNER PICK",
+    icon: "layers",
+    title: "레이어 정리",
+    description: "외주·PSD·복잡한 파일을 넘겨받았을 때 정리 시간을 크게 줄입니다.",
+    actions: [
+      { title: "잠긴 레이어 해제", description: "편집 막힘 해결", icon: "lock_open" },
+      { title: "컴포넌트 해제", description: "수정 가능한 상태로", icon: "link_off" },
+      { title: "긴 프레임 나누기", description: "작업 구간 분리", icon: "splitscreen" },
+    ],
+    mini: "layers",
+  },
+  {
+    id: "feature-align",
+    sectionTitle: ["반픽셀까지", "깔끔하게 맞추기"],
+    sectionLead: "정수 픽셀, 버튼 크기, 모서리 값을 한 번에 정돈합니다.",
+    eyebrow: "DESIGNER PICK",
+    icon: "tune",
+    title: "정렬/교정",
+    description: "반픽셀, 들쭉날쭉한 버튼, 기울어진 요소를 한 번에 깔끔하게 맞춥니다.",
+    actions: [
+      { title: "정수 픽셀 정렬", description: "흐릿한 선 정리", icon: "grid_4x4" },
+      { title: "버튼 사이즈 맞춤", description: "텍스트에 자동 맞춤", icon: "fit_screen" },
+      { title: "모서리 값 정리", description: "둥글기 일괄 조정", icon: "rounded_corner" },
+    ],
+    mini: "align",
+  },
+  {
+    id: "feature-text",
+    sectionTitle: ["카피 수정과 번역을", "시안 안에서 바로"],
+    sectionLead: "번역, 오타 수정, 하이라이트, 행간 조정을 왕복 없이 처리합니다.",
+    eyebrow: "DESIGNER PICK",
+    icon: "text_fields",
+    title: "텍스트",
+    description: "카피 수정, 번역, 하이라이트, 행간 조정을 시안 안에서 바로 끝냅니다.",
+    actions: [
+      { title: "텍스트 번역", description: "다국어 시안 빠르게", icon: "translate", badge: "AI" },
+      { title: "오타 직접 수정", description: "수정안 바로 반영", icon: "edit_note" },
+      { title: "하이라이트", description: "중요 문구 강조", icon: "border_color" },
+    ],
+    mini: "text",
+  },
+  {
+    id: "feature-image-fix",
+    sectionTitle: ["이미지 소스와 색을", "작업 중 바로 꺼내기"],
+    sectionLead: "원본 저장, 팔레트 추출, 보이는 영역 맞춤을 디자인 화면에서 끝냅니다.",
+    eyebrow: "DESIGNER PICK",
+    icon: "image",
+    title: "이미지 보정",
+    description: "원본 이미지 추출, 색상 팔레트, 크롭 정리를 디자인 작업 안에서 바로 처리합니다.",
+    actions: [
+      { title: "원본 이미지 저장", description: "소스 파일 바로 추출", icon: "download" },
+      { title: "색상 추출", description: "팔레트 참고", icon: "palette" },
+      { title: "보이는 영역 맞춤", description: "크롭·위치 정리", icon: "crop_free" },
+    ],
+    mini: "image",
+  },
+  {
+    id: "feature-image-generate",
+    sectionTitle: ["잘린 배경도", "자연스럽게 확장"],
+    sectionLead: "이미지 확장, 해상도 향상, 텍스트 추출로 시안 완성도를 끌어올립니다.",
+    eyebrow: "DESIGNER PICK",
+    icon: "auto_awesome",
+    title: "이미지 생성/확장",
+    description: "잘린 배경을 자연스럽게 늘리고, 저해상도 이미지를 시안용으로 끌어올립니다.",
+    actions: [
+      { title: "이미지 영역 확장", description: "잘린 배경 자연 확장", icon: "crop_free", badge: "AI" },
+      { title: "해상도 높이기", description: "디테일 복원", icon: "high_quality", badge: "AI" },
+      { title: "이미지 텍스트 추출", description: "글자 레이어화 준비", icon: "text_fields", badge: "AI" },
+    ],
+    mini: "generate",
+  },
+  {
+    id: "feature-share",
+    sectionTitle: ["공유 링크를", "깔끔하게 준비"],
+    sectionLead: "긴 URL과 프로토타입 링크를 클라이언트에게 보내기 좋게 정리합니다.",
+    eyebrow: "DESIGNER PICK",
+    icon: "share",
+    title: "공유/기타",
+    description: "길고 복잡한 Figma 링크와 프로토타입 공유를 몇 초 안에 정리합니다.",
+    actions: [
+      { title: "링크 짧게 만들기", description: "공유용 URL 생성", icon: "link" },
+      { title: "프로토타입 링크", description: "리뷰 링크 바로 복사", icon: "content_copy" },
+    ],
+    mini: "share",
+  },
+  {
+    id: "feature-video",
+    sectionTitle: ["정적인 시안을", "움직이는 결과물로"],
+    sectionLead: "AI 영상 생성과 GIF/APNG 변환으로 모션 시안을 빠르게 준비합니다.",
+    eyebrow: "DESIGNER PICK",
+    icon: "auto_awesome",
+    title: "영상",
+    description: "움직이는 배너와 숏폼 시안을 위해 AI 영상 생성과 GIF/APNG 변환을 준비합니다.",
+    actions: [
+      { title: "AI 영상 생성", description: "시안용 영상 만들기", icon: "movie", badge: "AI" },
+      { title: "영상 GIF 변환", description: "가벼운 모션 공유", icon: "gif_box" },
+      { title: "영상 APNG 변환", description: "투명 모션 에셋", icon: "animation" },
+    ],
+    mini: "video",
+  },
+]
 
 const aiActions: ActionItem[] = [
   {
@@ -33,6 +190,26 @@ const aiActions: ActionItem[] = [
     title: "카피 톤 맞추기",
     description: "텍스트 흐름 제안",
     icon: "chat_bubble_outline",
+  },
+]
+
+const aiChatActions: ActionItem[] = [
+  {
+    title: "의도 살리기",
+    description: "디자인 방향 질문",
+    icon: "help_outline",
+    primary: true,
+    badge: "AI",
+  },
+  {
+    title: "우선 수정 3개",
+    description: "바로 고칠 항목 정리",
+    icon: "playlist_add_check",
+  },
+  {
+    title: "타이포 방향",
+    description: "강조 체계 정리",
+    icon: "format_size",
   },
 ]
 
@@ -193,7 +370,7 @@ const conversionAfterItems = [
 export default function HomePage() {
   return (
     <main className="min-h-screen overflow-x-hidden bg-white text-[#050505]">
-      <SiteHeader />
+      <SiteHeaderAuthenticated />
       <HeroSection />
       <AiChatSection />
       <WorkflowSection />
@@ -247,6 +424,85 @@ function SiteHeader() {
             시작하기
             <MaterialIcon name="arrow_forward" className="text-[16px]" />
           </a>
+        </div>
+      </div>
+    </header>
+  )
+}
+
+function SiteHeaderAuthenticated() {
+  const [user, setUser] = useState<HeaderUser | null>(null)
+
+  useEffect(() => {
+    let active = true
+
+    fetch("/auth/session", { cache: "no-store" })
+      .then((response) => (response.ok ? response.json() : { user: null }))
+      .then((data: { user?: HeaderUser | null }) => {
+        if (active) {
+          setUser(data.user || null)
+        }
+      })
+      .catch(() => {
+        if (active) {
+          setUser(null)
+        }
+      })
+
+    return () => {
+      active = false
+    }
+  }, [])
+
+  return (
+    <header className="sticky top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur-xl">
+      <div className="mx-auto flex h-[88px] max-w-[1440px] items-center justify-between px-6 sm:px-10 md:grid md:h-[104px] md:grid-cols-[148px_1fr_auto] lg:px-12">
+        <a href="#top" className="flex items-center text-black" aria-label="PIGMA 홈">
+          <PigmaLogo className="h-[18px] w-[100px] md:h-[19px]" />
+        </a>
+
+        <nav className="hidden items-center justify-start gap-14 pl-7 text-base font-bold text-[#0a0a0a] md:flex">
+          <a href="#product" className="transition hover:text-[#005bff]">
+            제품
+          </a>
+          <a href="#features" className="transition hover:text-[#005bff]">
+            기능
+          </a>
+          <a href="#pricing" className="transition hover:text-[#005bff]">
+            가격
+          </a>
+        </nav>
+
+        <div className="flex items-center gap-9">
+          {user ? (
+            <>
+              <a href="/dashboard" className="hidden font-bold text-[#0a0a0a] transition hover:text-[#005bff] sm:inline-flex">
+                {user.name}님
+              </a>
+              <form action="/auth/logout" method="post">
+                <button
+                  type="submit"
+                  className="inline-flex h-12 min-w-[116px] items-center justify-center gap-2 rounded-xl bg-[#050505] px-5 text-sm font-bold text-white shadow-[0_10px_14px_rgba(0,0,0,0.12)] transition hover:-translate-y-0.5 hover:bg-[#1c1c1c] md:h-14 md:min-w-[132px] md:rounded-2xl md:px-7 md:text-base"
+                >
+                  로그아웃
+                  <MaterialIcon name="logout" className="text-[16px]" />
+                </button>
+              </form>
+            </>
+          ) : (
+            <>
+              <a href="/login" className="hidden font-bold text-[#0a0a0a] transition hover:text-[#005bff] sm:inline-flex">
+                로그인
+              </a>
+              <a
+                href="/signup"
+                className="inline-flex h-12 min-w-[116px] items-center justify-center gap-2 rounded-xl bg-[#005bff] px-5 text-sm font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0] md:h-14 md:min-w-[132px] md:rounded-2xl md:px-7 md:text-base"
+              >
+                시작하기
+                <MaterialIcon name="arrow_forward" className="text-[16px]" />
+              </a>
+            </>
+          )}
         </div>
       </div>
     </header>
@@ -455,7 +711,7 @@ function AnimatedConversionProgressBar({ progress, className = "" }: { progress:
 
 function AiChatSection() {
   return (
-    <section id="features" className="px-6 py-24 sm:px-10 lg:px-12">
+    <section id="features" className="px-6 pb-24 pt-[5px] sm:px-10 lg:px-12">
       <div className="mx-auto max-w-[1120px] text-center">
         <p className="text-[13px] font-black text-[#111]">PLUGIN MENU</p>
         <FeatureCarousel />
@@ -465,9 +721,9 @@ function AiChatSection() {
 }
 
 function FeatureCarousel() {
-  const scrollerRef = useRef<HTMLDivElement>(null)
   const [activeIndex, setActiveIndex] = useState(0)
-  const slides = [
+  const slides = featureSlides
+  const legacySlides = [
     {
       id: "feature-ai-chat",
       sectionTitle: ["시안 방향을", "AI에게 바로 묻기"],
@@ -551,68 +807,58 @@ function FeatureCarousel() {
     },
   ]
   const activeSlide = slides[activeIndex]
+  const sectionTitle = activeSlide.id === "feature-ai-chat" ? ["시안 방향을", "AI에게 바로 묻기"] : activeSlide.sectionTitle
+  const sectionLead =
+    activeSlide.id === "feature-ai-chat"
+      ? "캡처한 화면 기준으로 의도, 흐름, 타이포 피드백을 빠르게 받습니다."
+      : activeSlide.sectionLead
   const lastIndex = slides.length - 1
   const canGoPrev = activeIndex > 0
   const canGoNext = activeIndex < lastIndex
   const scrollToSlide = (slideIndex: number) => {
     const nextIndex = Math.max(0, Math.min(lastIndex, slideIndex))
-    const scroller = scrollerRef.current
 
-    setActiveIndex(nextIndex)
-    scroller?.scrollTo({
-      left: scroller.clientWidth * nextIndex,
-      behavior: "smooth",
-    })
-  }
-
-  const syncActiveSlide = () => {
-    const scroller = scrollerRef.current
-
-    if (!scroller) return
-
-    const nextIndex = Math.max(0, Math.min(lastIndex, Math.round(scroller.scrollLeft / scroller.clientWidth)))
     setActiveIndex(nextIndex)
   }
 
   return (
     <>
-      <h2 className="mt-8 text-[34px] font-black leading-[1.25] text-[#050505] sm:text-[40px]">
-        {activeSlide.sectionTitle.map((line) => (
+      <h2 className="mt-[18px] text-[34px] font-black leading-[1.25] text-[#050505] sm:text-[40px] sm:leading-[53px]">
+        {sectionTitle.map((line) => (
           <span key={line} className="block">
             {line}
           </span>
         ))}
       </h2>
-      <p className="mt-5 text-[17px] leading-7 text-[#60656b]">{activeSlide.sectionLead}</p>
-      <div className="relative mx-auto mt-12 w-full max-w-[746px]">
-        <div className="overflow-hidden pb-4">
+      <p className="mt-5 text-[17px] leading-7 text-[#60656b]">{sectionLead}</p>
+      <div className="relative mx-auto mt-[52px] w-full max-w-[746px]">
+        <div className="overflow-hidden pb-8">
           <div
-            ref={scrollerRef}
-            className="flex snap-x snap-mandatory overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-            onScroll={syncActiveSlide}
+            className="flex transition-transform duration-500 ease-out"
+            style={{ transform: `translateX(-${activeIndex * 100}%)` }}
           >
             {slides.map((slide, index) => (
               <FeatureSlide key={slide.id} {...slide} index={index + 1} total={slides.length} />
             ))}
           </div>
         </div>
-        <div className="mt-0 flex items-center justify-center gap-3">
+        <div className="mt-0 flex items-center justify-center gap-[23px]">
           <button
             type="button"
             onClick={() => scrollToSlide(activeIndex - 1)}
             disabled={!canGoPrev}
-            className="inline-flex size-9 items-center justify-center rounded-full border border-[#e7ecf3] bg-white text-[#050505] shadow-sm transition hover:border-[#005bff] hover:text-[#005bff] disabled:cursor-default disabled:text-[#c8d0dc] disabled:hover:border-[#e7ecf3]"
+            className="inline-flex size-6 items-center justify-center text-[#050505] transition hover:text-[#005bff] disabled:cursor-default disabled:text-[#c8d0dc]"
             aria-label="이전 기능 슬라이드로 이동"
           >
-            <MaterialIcon name="chevron_left" className="text-[20px]" />
+            <MaterialIcon name="chevron_left" className="text-[24px]" />
           </button>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             {slides.map((slide, index) => (
               <button
                 key={slide.id}
                 type="button"
                 onClick={() => scrollToSlide(index)}
-                className={index === activeIndex ? "h-2 w-6 rounded-full bg-[#005bff]" : "size-2 rounded-full bg-[#d8dee8]"}
+                className={index === activeIndex ? "h-2 w-7 rounded-full bg-[#005bff]" : "size-2 rounded-full bg-[#d8dee8]"}
                 aria-label={`${index + 1}번 기능 슬라이드로 이동`}
               />
             ))}
@@ -621,10 +867,10 @@ function FeatureCarousel() {
             type="button"
             onClick={() => scrollToSlide(activeIndex + 1)}
             disabled={!canGoNext}
-            className="inline-flex size-9 items-center justify-center rounded-full border border-[#e7ecf3] bg-white text-[#050505] shadow-sm transition hover:border-[#005bff] hover:text-[#005bff] disabled:cursor-default disabled:text-[#c8d0dc] disabled:hover:border-[#e7ecf3]"
+            className="inline-flex size-6 items-center justify-center text-[#050505] transition hover:text-[#005bff] disabled:cursor-default disabled:text-[#c8d0dc]"
             aria-label="다음 기능 슬라이드로 이동"
           >
-            <MaterialIcon name="chevron_right" className="text-[20px]" />
+            <MaterialIcon name="chevron_right" className="text-[24px]" />
           </button>
         </div>
       </div>
@@ -635,53 +881,364 @@ function FeatureCarousel() {
 function FeatureSlide({
   id,
   eyebrow,
+  icon,
   title,
   description,
-  visual,
+  actions,
+  mini,
   index,
   total,
-}: {
-  id: string
-  eyebrow: string
-  title: string
-  description: string
-  visual: ReactNode
-  index: number
-  total: number
-}) {
+}: FeatureSlideConfig & { index: number; total: number }) {
   return (
     <article
       id={id}
-      className="grid w-full min-w-full shrink-0 snap-start gap-6 rounded-lg border border-[#e7ecf3] bg-white p-8 text-left lg:grid-cols-[1fr_260px]"
+      className="relative h-[406px] w-full min-w-full shrink-0 overflow-hidden rounded-lg border border-[#e7ecf3] bg-white text-left shadow-[0_18px_34px_-18px_rgba(15,24,42,0.10)]"
     >
-      <div>
-        <div className="flex items-center gap-3 text-[#273142]">
-          <MaterialIcon name="auto_awesome" className="text-[28px] text-[#006bff]" />
-          <span className="text-[13px] font-bold">{eyebrow}</span>
-          <span className="ml-auto text-xs font-bold text-[#9ca3af]">
-            {String(index).padStart(2, "0")} / {String(total).padStart(2, "0")}
-          </span>
-        </div>
-        <h3 className="mt-8 text-[30px] font-black leading-tight text-[#111827] sm:text-[34px]">{title}</h3>
-        <p className="mt-5 max-w-[414px] text-[17px] leading-7 text-[#4b5563]">{description}</p>
-        <div className="mt-8 hidden h-2 w-[92px] rounded-full bg-[#005bff] sm:block" />
+      <MaterialIcon name={icon} className="absolute left-10 top-11 text-[28px] leading-7 text-[#006bff]" />
+      <div className="absolute left-[78px] top-[50px] text-[13px] font-medium leading-4 text-[#273142]">{eyebrow}</div>
+      <div className="absolute left-[412px] top-[50px] w-[74px] text-right text-[12px] font-bold leading-4 text-[#9ca3af]">
+        {String(index).padStart(2, "0")} / {String(total).padStart(2, "0")}
       </div>
-      {visual}
+      <h3 className="absolute left-10 top-24 h-[46px] w-[340px] text-[34px] font-black leading-[42px] text-[#111827]">
+        {title}
+      </h3>
+      <p className="absolute left-10 top-[158px] h-[62px] w-[414px] text-[17px] leading-7 text-[#4b5563]">
+        {description}
+      </p>
+
+      <div className="absolute left-[524px] top-[54px] grid w-[178px] gap-[10px]">
+        {actions.map((action, actionIndex) => (
+          <ActionButton key={`${id}-${action.title}`} action={{ ...action, primary: action.primary ?? actionIndex === 0 }} />
+        ))}
+      </div>
+      <FeatureMiniPreview kind={mini} />
     </article>
   )
 }
 
+function FeatureMiniPreview({ kind }: { kind: FeatureMiniKind }) {
+  switch (kind) {
+    case "chat":
+      return <AiChatMiniPreview />
+    case "audit":
+      return <AuditMiniPreview />
+    case "layers":
+      return <LayerMiniPreview />
+    case "align":
+      return <AlignMiniPreview />
+    case "text":
+      return <TextMiniPreview />
+    case "image":
+      return <ImageMiniPreview />
+    case "generate":
+      return <GenerateMiniPreview />
+    case "share":
+      return <ShareMiniPreview />
+    case "video":
+      return <VideoMiniPreview />
+  }
+}
+
 function AiChatVisual() {
   return (
-    <div className="grid content-start gap-3">
-      <div className="rounded-lg border border-[#cfe0ff] bg-[#f8fbff] p-4">
+    <div className="grid content-start gap-[10px]">
+      <div className="hidden rounded-lg border border-[#cfe0ff] bg-[#f8fbff] p-4">
         <p className="text-sm font-bold text-[#111827]">질문</p>
         <p className="mt-2 text-sm leading-6 text-[#4b5563]">이 화면에서 CTA가 약해 보이는 이유를 알려줘.</p>
       </div>
-      {aiActions.map((action) => (
+      {aiChatActions.map((action) => (
         <ActionButton key={action.title} action={action} />
       ))}
     </div>
+  )
+}
+
+function AiChatMiniPreview() {
+  return (
+    <div className="absolute left-[68px] top-[264px] h-[132px] w-[610px] rounded-[10px] border border-[#d8e3ef] bg-[#f8fafc]">
+      <p className="absolute left-6 top-[15px] text-[12px] font-bold leading-4 text-[#111827]">디자인 질문</p>
+
+      <div className="absolute left-[440px] top-[13px] h-[22px] w-[126px] rounded-full border border-[#d6e8ff] bg-[#eef6ff]">
+        <span className="absolute left-2 top-[7px] size-[5px] rounded-full bg-[#006bff]" />
+        <span className="absolute left-5 top-1 text-[10px] font-bold leading-3 text-[#006bff]">선택 화면 기준 분석</span>
+      </div>
+
+      <div className="absolute left-6 top-11 h-[70px] w-[212px] rounded-[5px] border-2 border-[#006bff] bg-white">
+        <div className="absolute -left-[1px] top-[-7px] size-3 rounded-[2px] bg-[#006bff]" />
+        <div className="absolute bottom-[-5px] right-[-6px] size-3 rounded-[2px] bg-[#006bff]" />
+        <div className="absolute left-2.5 top-0 h-[14px] w-[200px] rounded-[7px] bg-[#111]">
+          <span className="absolute left-2.5 top-[3px] text-[7px] font-bold leading-[9px] text-white">Hero section</span>
+        </div>
+        <span className="absolute left-7 top-6 h-2 w-[76px] rounded-full bg-[#c8d0dc]" />
+        <span className="absolute left-7 top-10 h-2 w-[116px] rounded-full bg-[#c8d0dc]" />
+        <span className="absolute left-7 top-14 h-2 w-[94px] rounded-full bg-[#006bff]" />
+        <div className="absolute left-[146px] top-5 h-[22px] w-[58px] rounded-full bg-[#eef5ff]">
+          <span className="absolute left-2 top-[7px] text-[7px] font-bold leading-2 text-[#006bff]">선택 분석</span>
+        </div>
+      </div>
+      <p className="absolute left-6 top-[118px] text-[10px] leading-[10px] text-[#657082]">1. 화면에서 수정할 영역을 선택</p>
+
+      <div className="absolute left-[242px] top-[75px] h-[3px] w-[38px] rounded-full bg-[#c8d0dc]" />
+      <MaterialIcon name="arrow_forward" className="absolute left-[257px] top-16 text-[18px] leading-[18px] text-[#8fa0b3]" />
+
+      <div className="absolute left-[282px] top-[54px] h-12 w-24 rounded-lg bg-[#111] text-center text-white">
+        <div className="absolute left-6 top-[-10px] h-[18px] w-12 rounded-full border border-[#cfe0ff] bg-[#eef5ff]">
+          <span className="absolute left-[10px] top-0.5 text-[8px] font-bold leading-[9px] text-[#006bff]">2 질문</span>
+        </div>
+        <strong className="absolute left-0 top-[13px] w-24 text-[13px] font-black leading-[14px]">의도?</strong>
+        <span className="absolute left-0 top-[29px] w-24 text-[8px] leading-[10px] text-white/80">방향 확인</span>
+      </div>
+
+      <div className="absolute left-[380px] top-[75px] h-[3px] w-[38px] rounded-full bg-[#c8d0dc]" />
+      <MaterialIcon name="arrow_forward" className="absolute left-[395px] top-16 text-[18px] leading-[18px] text-[#8fa0b3]" />
+
+      <div className="absolute left-[420px] top-10 h-[78px] w-[166px] rounded-lg bg-[#006bff] text-white">
+        <strong className="absolute left-5 top-[9px] text-[13px] font-black leading-[14px]">우선 수정 3개</strong>
+        <span className="absolute left-[132px] top-[9px] inline-flex h-[13px] w-5 items-center justify-center rounded-full bg-white text-[7px] font-bold leading-2 text-[#006bff]">
+          AI
+        </span>
+        {[
+          ["1", "핵심 문구 강조", 42],
+          ["2", "CTA 대비 높임", 34],
+          ["3", "여백 재정렬", 28],
+        ].map(([rank, label, width], rowIndex) => (
+          <div key={rank} className="absolute left-[22px] flex h-3 items-center" style={{ top: `${30 + rowIndex * 15}px` }}>
+            <span className="inline-flex size-3 items-center justify-center rounded-full bg-white text-[7px] font-black leading-2 text-[#006bff]">
+              {rank}
+            </span>
+            <span className="ml-1.5 w-[72px] text-[8px] font-bold leading-[10px]">{label}</span>
+            <span className="ml-1 h-1 rounded-full bg-[#cfe0ff]" style={{ width: `${width}px` }} />
+          </div>
+        ))}
+      </div>
+      <p className="absolute left-[420px] top-[120px] text-[10px] leading-[10px] text-[#657082]">3. AI가 수정 우선순위를 정리</p>
+    </div>
+  )
+}
+
+function MiniPreviewShell({ children }: { children: ReactNode }) {
+  return (
+    <div className="absolute left-[68px] top-[264px] h-[124px] w-[610px] rounded-[10px] border border-[#d8e3ef] bg-[#f8fafc]">
+      {children}
+    </div>
+  )
+}
+
+function MiniHeading({ children }: { children: ReactNode }) {
+  return <p className="absolute left-6 top-[17px] text-[12px] font-bold leading-[14px] text-[#111827]">{children}</p>
+}
+
+function AuditMiniPreview() {
+  return (
+    <MiniPreviewShell>
+      <MiniHeading>카피 검수</MiniHeading>
+      <div className="absolute left-[42px] top-[43px] h-[66px] w-[260px] rounded-lg border border-[#d8e3ef] bg-white">
+        <span className="absolute left-[22px] top-[13px] h-[6px] w-[92px] rounded-full bg-[#111]" />
+        <span className="absolute left-[22px] top-[28px] h-[5px] w-[170px] rounded-full bg-[#c6d0da]" />
+        <span className="absolute left-[22px] top-[42px] h-[5px] w-[156px] rounded-full bg-[#c6d0da]" />
+        <span className="absolute left-[111px] top-[40px] h-2.5 w-[69px] rounded-full bg-[#ffe2e5]" />
+        <span className="absolute left-[111px] top-[53px] h-1 w-[69px] rounded-full bg-[#ff4d55]" />
+      </div>
+      <span className="absolute left-[283px] top-[58px] flex h-[19px] w-[25px] items-center justify-center rounded-full bg-[#ff4d55] text-[12px] font-black leading-none text-white">
+        !
+      </span>
+      <div className="absolute left-[330px] top-[45px] h-16 w-[238px] rounded-lg border border-[#cfe0ff] bg-white">
+        <strong className="absolute left-5 top-[10px] text-[11px] leading-[11px] text-[#111827]">오타 후보</strong>
+        <span className="absolute left-[108px] top-2 flex h-[17px] w-[30px] items-center justify-center rounded-full bg-[#006bff] text-[9px] font-black text-white">
+          3
+        </span>
+        {[0, 1, 2].map((row) => (
+          <div key={row} className="absolute left-[25px] flex h-3 items-center gap-3" style={{ top: `${28 + row * 11}px` }}>
+            <span className={row < 2 ? "flex size-[11px] items-center justify-center rounded-[3px] bg-[#27b36a] text-white" : "size-[11px] rounded-[3px] border border-[#c6d0da]"}>{row < 2 ? <MaterialIcon name="check" className="text-[8px]" /> : null}</span>
+            <span className="h-1 rounded-full bg-[#c6d0da]" style={{ width: `${114 - row * 17}px` }} />
+          </div>
+        ))}
+      </div>
+    </MiniPreviewShell>
+  )
+}
+
+function LayerMiniPreview() {
+  return (
+    <MiniPreviewShell>
+      <MiniHeading>레이어 정리</MiniHeading>
+      <div className="absolute left-[42px] top-[43px] h-[66px] w-[208px] rounded-lg bg-[#111]">
+        <strong className="absolute left-5 top-[10px] text-[8px] leading-[10px] text-white">복잡한 파일</strong>
+        <span className="absolute left-[22px] top-[28px] size-2 rounded-full bg-[#c6d0da]" />
+        <span className="absolute left-[38px] top-[30px] h-1.5 w-[96px] rounded-full bg-[#c6d0da]" />
+        <span className="absolute left-[22px] top-[44px] size-2 rounded-full bg-[#c6d0da]" />
+        <span className="absolute left-[38px] top-[46px] h-1.5 w-[128px] rounded-full bg-[#c6d0da]" />
+        <span className="absolute left-[60px] top-[56px] size-2 rounded-full bg-[#006bff]" />
+        <span className="absolute left-[76px] top-[58px] h-1.5 w-[104px] rounded-full bg-[#006bff]" />
+        <span className="absolute right-5 top-[38px] text-[8px] text-[#c6d0da]">잠금</span>
+      </div>
+      <MaterialIcon name="arrow_forward" className="absolute left-[270px] top-[69px] text-[18px] text-[#006bff]" />
+      <div className="absolute left-[292px] top-[51px] grid gap-2">
+        <span className="flex h-[18px] w-12 items-center justify-center rounded-full bg-[#006bff] text-[8px] font-bold text-white">해제</span>
+        <span className="flex h-[18px] w-12 items-center justify-center rounded-full bg-[#27b36a] text-[8px] font-bold text-white">분리</span>
+      </div>
+      <div className="absolute left-[367px] top-[43px] h-[66px] w-[201px] rounded-lg border border-[#cfe0ff] bg-white">
+        <strong className="absolute left-5 top-[10px] text-[8px] leading-[10px] text-[#111827]">정리된 레이어</strong>
+        <span className="absolute left-5 top-[27px] h-1.5 w-[118px] rounded-full bg-[#006bff]" />
+        <span className="absolute left-[145px] top-[27px] h-1.5 w-6 rounded-full bg-[#27b36a]" />
+        {[0, 1, 2].map((row) => (
+          <span key={row} className="absolute left-5 h-1.5 rounded-full bg-[#c6d0da]" style={{ top: `${38 + row * 10}px`, width: `${98 - row * 14}px` }} />
+        ))}
+        {[0, 1, 2].map((row) => (
+          <span key={row} className="absolute left-[145px] h-1.5 w-6 rounded-full bg-[#c6d0da]" style={{ top: `${38 + row * 10}px` }} />
+        ))}
+      </div>
+    </MiniPreviewShell>
+  )
+}
+
+function AlignMiniPreview() {
+  return (
+    <MiniPreviewShell>
+      <MiniHeading>픽셀 교정</MiniHeading>
+      <div className="absolute left-[42px] top-[43px] h-[66px] w-[318px] rounded-lg border border-[#d8e3ef] bg-white">
+        {[36, 88, 140, 192, 244].map((left) => (
+          <span key={left} className="absolute top-2 h-[50px] w-px bg-[#d8e3ef]" style={{ left }} />
+        ))}
+        {[17, 34, 51].map((top) => (
+          <span key={top} className="absolute left-0 h-px w-full bg-[#e7ecf3]" style={{ top }} />
+        ))}
+        <span className="absolute left-9 top-[20px] h-5 w-[54px] rounded bg-[#cfd7df]" />
+        <span className="absolute left-[122px] top-8 h-5 w-[54px] rounded bg-[#cfd7df]" />
+        <span className="absolute left-[204px] top-[23px] h-[22px] w-[52px] rounded-md bg-[#111]" />
+        <span className="absolute left-[268px] top-[23px] h-[22px] w-[52px] rounded-md bg-[#006bff]" />
+      </div>
+      <span className="absolute left-[370px] top-[66px] text-[8px] font-bold text-[#006bff]">1px</span>
+      <div className="absolute left-[402px] top-[51px] h-11 w-[166px] rounded-lg border border-[#cfe0ff] bg-white">
+        <strong className="absolute left-4 top-2.5 text-[8px] leading-[10px] text-[#111827]">버튼 자동 맞춤</strong>
+        <span className="absolute left-4 top-[28px] size-2 rounded-[2px] bg-[#27b36a]" />
+        <span className="absolute left-[30px] top-[30px] h-1.5 w-[98px] rounded-full bg-[#006bff]" />
+        <span className="absolute left-[136px] top-[28px] size-2 rounded-[2px] bg-[#27b36a]" />
+      </div>
+    </MiniPreviewShell>
+  )
+}
+
+function TextMiniPreview() {
+  return (
+    <MiniPreviewShell>
+      <MiniHeading>텍스트 정리</MiniHeading>
+      <div className="absolute left-[42px] top-[43px] h-[66px] w-[205px] rounded-lg border border-[#d8e3ef] bg-white">
+        <span className="absolute left-[18px] top-[12px] text-[7px] font-bold text-[#9ca3af]">KR</span>
+        <span className="absolute left-[18px] top-[28px] h-1.5 w-[108px] rounded-full bg-[#c6d0da]" />
+        <span className="absolute left-[18px] top-[43px] h-1.5 w-[132px] rounded-full bg-[#ffe2e5]" />
+        <span className="absolute left-[18px] top-[55px] h-[3px] w-[132px] rounded-full bg-[#ff4d55]" />
+      </div>
+      <MaterialIcon name="arrow_forward" className="absolute left-[268px] top-[68px] text-[18px] text-[#111]" />
+      <div className="absolute left-[291px] top-[50px] grid gap-2">
+        <span className="flex h-[18px] w-[58px] items-center justify-center rounded-full bg-[#006bff] text-[8px] font-bold text-white">번역</span>
+        <span className="flex h-[18px] w-[58px] items-center justify-center rounded-full bg-[#111] text-[8px] font-bold text-white">행간</span>
+      </div>
+      <div className="absolute left-[367px] top-[43px] h-[66px] w-[201px] rounded-lg border border-[#cfe0ff] bg-white">
+        <span className="absolute left-5 top-[13px] text-[7px] font-bold text-[#006bff]">EN</span>
+        <span className="absolute left-5 top-[28px] h-1.5 w-[128px] rounded-full bg-[#111]" />
+        <span className="absolute left-5 top-[40px] h-1.5 w-[148px] rounded-full bg-[#ffd45a]" />
+        <span className="absolute left-5 top-[52px] h-1.5 w-[92px] rounded-full bg-[#c6d0da]" />
+        <span className="absolute right-[28px] top-[19px] h-[42px] w-[3px] rounded-full bg-[#006bff]" />
+      </div>
+    </MiniPreviewShell>
+  )
+}
+
+function ImageMiniPreview() {
+  return (
+    <MiniPreviewShell>
+      <MiniHeading>이미지 소스</MiniHeading>
+      <div className="absolute left-[42px] top-[43px] h-[66px] w-[178px] rounded-lg border-2 border-[#006bff] bg-[#eaf3ff]">
+        <div className="absolute left-[16px] top-[11px] h-6 w-[144px] rounded bg-[#d7ecff]" />
+        <div className="absolute left-[16px] top-[34px] h-5 w-[144px] rounded bg-[#d7f8df]" />
+        <span className="absolute left-[47px] top-[18px] h-[36px] w-[46px] rounded bg-[#1f2328]" />
+        <span className="absolute right-[18px] top-[15px] size-3 rounded-full bg-[#ffd45a]" />
+      </div>
+      <MaterialIcon name="arrow_forward" className="absolute left-[252px] top-[68px] text-[18px] text-[#006bff]" />
+      <div className="absolute left-[350px] top-[45px] h-[62px] w-[218px] rounded-lg border border-[#d8e3ef] bg-white">
+        <strong className="absolute left-5 top-3 text-[8px] leading-[10px] text-[#111827]">원본 + 팔레트</strong>
+        <span className="absolute right-[28px] top-2 flex h-[17px] w-12 items-center justify-center rounded-full bg-[#111] text-[8px] font-black text-white">PNG</span>
+        {["#006bff", "#27b36a", "#ffd45a"].map((color, index) => (
+          <span key={color} className="absolute top-[34px] size-[18px] rounded-full" style={{ left: `${25 + index * 31}px`, backgroundColor: color }} />
+        ))}
+        <span className="absolute left-[128px] top-[39px] h-1.5 w-[74px] rounded-full bg-[#c6d0da]" />
+      </div>
+    </MiniPreviewShell>
+  )
+}
+
+function GenerateMiniPreview() {
+  return (
+    <MiniPreviewShell>
+      <MiniHeading>AI 이미지 확장</MiniHeading>
+      <div className="absolute left-[42px] top-[43px] h-[66px] w-[302px] rounded-lg border border-[#cfe0ff] bg-white">
+        <div className="absolute left-4 top-3 h-9 w-[112px] rounded bg-[#eef6ff]">
+          {[0, 1, 2, 3].map((dot) => (
+            <span key={dot} className="absolute size-[5px] rounded-full bg-[#d8eaff]" style={{ left: `${18 + dot * 32}px`, top: dot % 2 ? 25 : 10 }} />
+          ))}
+        </div>
+        <span className="absolute left-[93px] top-3 h-9 w-[94px] rounded bg-[#111]" />
+        <span className="absolute left-[89px] top-3 h-9 w-1 rounded-full bg-[#006bff]" />
+        <span className="absolute left-[190px] top-3 h-9 w-1 rounded-full bg-[#006bff]" />
+        <div className="absolute left-[196px] top-3 h-9 w-[88px] rounded bg-[#eef6ff]">
+          {[0, 1, 2].map((dot) => (
+            <span key={dot} className="absolute size-[5px] rounded-full bg-[#d8eaff]" style={{ left: `${18 + dot * 28}px`, top: dot % 2 ? 25 : 10 }} />
+          ))}
+        </div>
+      </div>
+      <div className="absolute left-[374px] top-[45px] h-[62px] w-[194px] rounded-lg border border-[#d8e3ef] bg-white">
+        <strong className="absolute left-5 top-3 text-[8px] leading-[10px] text-[#111827]">업스케일 / OCR</strong>
+        <span className="absolute left-5 top-[28px] flex h-[17px] w-12 items-center justify-center rounded-full bg-[#006bff] text-[8px] font-black text-white">2x</span>
+        <span className="absolute left-[78px] top-[34px] h-1.5 w-[88px] rounded-full bg-[#c6d0da]" />
+        <span className="absolute left-5 top-[47px] flex h-[17px] w-14 items-center justify-center rounded-full bg-[#111] text-[8px] font-black text-white">TEXT</span>
+        <span className="absolute left-[86px] top-[53px] h-1.5 w-[72px] rounded-full bg-[#c6d0da]" />
+      </div>
+    </MiniPreviewShell>
+  )
+}
+
+function ShareMiniPreview() {
+  return (
+    <MiniPreviewShell>
+      <MiniHeading>공유 준비</MiniHeading>
+      <div className="absolute left-[42px] top-[45px] h-[30px] w-[225px] rounded-full border border-[#d7dee8] bg-white">
+        <span className="absolute left-[18px] top-[10px] text-[7px] font-bold text-[#9ca3af]">URL</span>
+        <span className="absolute left-[55px] top-[13px] h-1 w-[134px] rounded-full bg-[#c6d0da]" />
+      </div>
+      <MaterialIcon name="arrow_forward" className="absolute left-[280px] top-[51px] text-[20px] text-[#006bff]" />
+      <span className="absolute left-[340px] top-[43px] flex h-[34px] w-[156px] items-center justify-center rounded-xl bg-[#006bff] text-[11px] font-bold text-white">짧은 링크</span>
+      <span className="absolute left-[510px] top-[47px] flex h-[26px] w-[58px] items-center justify-center rounded-full bg-[#111] text-[10px] font-bold text-white">복사</span>
+      <div className="absolute left-[86px] top-[88px] h-[15px] w-[373px] rounded-full bg-[#111]">
+        <div className="h-full w-[66%] rounded-full bg-[#27b36a]" />
+        <span className="absolute left-[74px] top-[3px] text-[7px] font-bold leading-[9px] text-white">프로토타입 리뷰 준비</span>
+      </div>
+      <span className="absolute left-[473px] top-[88px] flex h-[9px] w-[11px] items-center justify-center rounded-[3px] bg-[#27b36a] text-white">
+        <MaterialIcon name="check" className="text-[7px]" />
+      </span>
+    </MiniPreviewShell>
+  )
+}
+
+function VideoMiniPreview() {
+  return (
+    <MiniPreviewShell>
+      <MiniHeading>모션 변환</MiniHeading>
+      <div className="absolute left-[42px] top-[43px] h-[66px] w-[202px] rounded-lg bg-[#111]">
+        <span className="absolute left-[85px] top-[24px] flex h-5 w-7 items-center justify-center rounded bg-[#006bff] text-[10px] text-white">▶</span>
+        <span className="absolute left-[126px] top-2 flex h-[18px] w-[65px] items-center justify-center rounded-full bg-[#006bff] text-[8px] font-bold text-white">AI 생성</span>
+      </div>
+      <div className="absolute left-[281px] top-[45px] h-[38px] w-[179px] rounded-lg border border-[#d8e3ef] bg-white">
+        {[0, 1, 2, 3, 4].map((frame) => (
+          <span key={frame} className={frame === 2 ? "absolute top-[11px] h-[17px] w-[23px] rounded bg-[#006bff]" : "absolute top-[11px] h-[17px] w-[23px] rounded bg-[#d1d7df]"} style={{ left: `${17 + frame * 30}px` }} />
+        ))}
+      </div>
+      <div className="absolute left-[295px] top-[94px] h-[5px] w-[213px] rounded-full bg-[#c6d0da]">
+        <div className="h-full w-[56%] rounded-full bg-[#111]" />
+      </div>
+      <span className="absolute left-[491px] top-[52px] flex h-[17px] w-[60px] items-center justify-center rounded-full bg-[#ffd45a] text-[8px] font-bold text-[#111]">GIF</span>
+      <span className="absolute left-[491px] top-[81px] flex h-[17px] w-[77px] items-center justify-center rounded-full bg-[#7c55f6] text-[8px] font-bold text-white">APNG</span>
+    </MiniPreviewShell>
   )
 }
 
@@ -937,22 +1494,22 @@ function ActionButton({ action }: { action: ActionItem }) {
     <div
       className={
         action.primary
-          ? "rounded-lg bg-[#006bff] p-4 text-white"
-          : "rounded-lg border border-[#e3e9f1] bg-[#f3f6fa] p-4 text-[#111827]"
+          ? "h-[58px] w-[178px] rounded-lg bg-[#006bff] px-4 py-[11px] text-white"
+          : "h-[58px] w-[178px] rounded-lg border border-[#e3e9f1] bg-[#f3f6fa] px-4 py-[11px] text-[#111827]"
       }
     >
-      <div className="flex items-start gap-3">
-        <MaterialIcon name={action.icon} className="mt-0.5 shrink-0 text-[20px]" />
-        <div>
-          <div className="flex items-center gap-2">
-            <strong className="text-sm">{action.title}</strong>
+      <div className="flex items-center gap-2">
+        <MaterialIcon name={action.icon} className="shrink-0 text-[22px] leading-[22px]" />
+        <div className="min-w-0 flex-1">
+          <div className="flex min-w-0 items-center gap-1.5">
+            <strong className="min-w-0 whitespace-nowrap text-[13px] leading-[18px]">{action.title}</strong>
             {action.badge ? (
-              <span className="rounded-full border border-[#d5e6ff] bg-white px-1.5 py-0.5 text-[7px] font-bold text-[#006bff]">
+              <span className="inline-flex h-3 min-w-[18px] items-center justify-center rounded-full border border-[#d5e6ff] bg-white px-1 text-[7px] font-bold leading-[9px] text-[#006bff]">
                 {action.badge}
               </span>
             ) : null}
           </div>
-          <p className={action.primary ? "mt-1 text-[10.5px] text-[#eaf3ff]" : "mt-1 text-[10.5px] text-[#657082]"}>
+          <p className={action.primary ? "mt-1 text-[10.5px] leading-[14px] text-[#eaf3ff]" : "mt-1 text-[10.5px] leading-[14px] text-[#657082]"}>
             {action.description}
           </p>
         </div>
