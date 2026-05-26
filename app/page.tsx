@@ -22,7 +22,7 @@ type HeaderUser = {
   plan: string
 }
 
-type FeatureMiniKind = "chat" | "audit" | "layers" | "align" | "text" | "image" | "generate" | "share" | "video"
+type FeatureMiniKind = "audit" | "layers" | "align" | "text" | "image" | "generate" | "share" | "video"
 
 type FeatureSlideConfig = {
   id: string
@@ -37,21 +37,6 @@ type FeatureSlideConfig = {
 }
 
 const featureSlides: FeatureSlideConfig[] = [
-  {
-    id: "feature-ai-chat",
-    sectionTitle: ["시안 방향을", "AI에게 바로 묻기"],
-    sectionLead: "캡처한 화면 기준으로 의도, 흐름, 타이포 피드백을 빠르게 받습니다.",
-    eyebrow: "DESIGNER PICK",
-    icon: "auto_awesome",
-    title: "AI 디자인 채팅",
-    description: "선택 화면을 보며 의도, 흐름, 타이포 방향을 바로 묻고 수정 우선순위를 얻습니다.",
-    actions: [
-      { title: "의도 살리기", description: "디자인 방향 질문", icon: "help_outline", badge: "AI" },
-      { title: "우선 수정 3개", description: "핵심만 골라 보기", icon: "playlist_add_check" },
-      { title: "타이포 방향", description: "강조 체계 정리", icon: "format_size" },
-    ],
-    mini: "chat",
-  },
   {
     id: "feature-audit",
     sectionTitle: ["오타 걱정은", "배포 전에 끝내기"],
@@ -190,26 +175,6 @@ const aiActions: ActionItem[] = [
     title: "카피 톤 맞추기",
     description: "텍스트 흐름 제안",
     icon: "chat_bubble_outline",
-  },
-]
-
-const aiChatActions: ActionItem[] = [
-  {
-    title: "의도 살리기",
-    description: "디자인 방향 질문",
-    icon: "help_outline",
-    primary: true,
-    badge: "AI",
-  },
-  {
-    title: "우선 수정 3개",
-    description: "바로 고칠 항목 정리",
-    icon: "playlist_add_check",
-  },
-  {
-    title: "타이포 방향",
-    description: "강조 체계 정리",
-    icon: "format_size",
   },
 ]
 
@@ -714,95 +679,9 @@ function AiChatSection() {
 function FeatureCarousel() {
   const [activeIndex, setActiveIndex] = useState(0)
   const slides = featureSlides
-  const legacySlides = [
-    {
-      id: "feature-ai-chat",
-      sectionTitle: ["시안 방향을", "AI에게 바로 묻기"],
-      sectionLead: "캡처한 화면 기준으로 의도, 흐름, 타이포 피드백을 빠르게 받습니다.",
-      eyebrow: "DESIGNER PICK",
-      title: "AI 디자인 채팅",
-      description: "선택 화면을 보며 의도, 흐름, 타이포 방향을 바로 묻고 수정 우선순위를 얻습니다.",
-      visual: <AiChatVisual />,
-    },
-    {
-      id: "feature-audit",
-      sectionTitle: ["오타 걱정은", "배포 전에 끝내기"],
-      sectionLead: "상세페이지와 캠페인 카피의 실수를 주석으로 남겨 바로 수정합니다.",
-      eyebrow: "DESIGNER PICK",
-      title: "검수",
-      description: "상세페이지와 캠페인 카피에서 민망한 오타를 배포 전에 잡아줍니다.",
-      visual: <AuditVisual />,
-    },
-    {
-      id: "feature-layer-cleanup",
-      sectionTitle: ["복잡한 파일도", "작업하기 쉽게 정리"],
-      sectionLead: "잠김, 컴포넌트, 긴 프레임을 정리해 넘겨받은 파일을 바로 손봅니다.",
-      eyebrow: "DESIGNER PICK",
-      title: "레이어 정리",
-      description: "외주·PSD·복잡한 파일을 넘겨받았을 때 정리 시간을 크게 줄입니다.",
-      visual: <LayerCleanupVisual />,
-    },
-    {
-      id: "feature-align",
-      sectionTitle: ["반픽셀까지", "깔끔하게 맞추기"],
-      sectionLead: "정수 픽셀, 버튼 크기, 모서리 값을 한 번에 정돈합니다.",
-      eyebrow: "DESIGNER PICK",
-      title: "정렬/교정",
-      description: "반픽셀, 들쭉날쭉한 버튼, 기울어진 요소를 한 번에 깔끔하게 맞춥니다.",
-      visual: <AlignmentVisual />,
-    },
-    {
-      id: "feature-text",
-      sectionTitle: ["카피 수정과 번역을", "시안 안에서 바로"],
-      sectionLead: "번역, 오타 수정, 하이라이트, 행간 조정을 왕복 없이 처리합니다.",
-      eyebrow: "DESIGNER PICK",
-      title: "텍스트",
-      description: "카피 수정, 번역, 하이라이트, 행간 조정을 시안 안에서 바로 끝냅니다.",
-      visual: <TextVisual />,
-    },
-    {
-      id: "feature-image-fix",
-      sectionTitle: ["이미지 소스와 색을", "작업 중 바로 꺼내기"],
-      sectionLead: "원본 저장, 팔레트 추출, 보이는 영역 맞춤을 디자인 화면에서 끝냅니다.",
-      eyebrow: "DESIGNER PICK",
-      title: "이미지 보정",
-      description: "원본 이미지 추출, 색상 팔레트, 크롭 정리를 디자인 작업 안에서 바로 처리합니다.",
-      visual: <ImageSourceVisual />,
-    },
-    {
-      id: "feature-image-generate",
-      sectionTitle: ["잘린 배경도", "자연스럽게 확장"],
-      sectionLead: "이미지 확장, 해상도 향상, 텍스트 추출로 시안 완성도를 끌어올립니다.",
-      eyebrow: "DESIGNER PICK",
-      title: "이미지 생성/확장",
-      description: "잘린 배경을 자연스럽게 늘리고, 저해상도 이미지를 시안용으로 끌어올립니다.",
-      visual: <ImageGenerateVisual />,
-    },
-    {
-      id: "feature-share",
-      sectionTitle: ["공유 링크를", "깔끔하게 준비"],
-      sectionLead: "긴 URL과 프로토타입 링크를 클라이언트에게 보내기 좋게 정리합니다.",
-      eyebrow: "DESIGNER PICK",
-      title: "공유/기타",
-      description: "길고 복잡한 Figma 링크와 프로토타입 공유를 몇 초 안에 정리합니다.",
-      visual: <ShareVisual />,
-    },
-    {
-      id: "feature-video",
-      sectionTitle: ["정적인 시안을", "움직이는 결과물로"],
-      sectionLead: "AI 영상 생성과 GIF/APNG 변환으로 모션 시안을 빠르게 준비합니다.",
-      eyebrow: "DESIGNER PICK",
-      title: "영상",
-      description: "움직이는 배너와 숏폼 시안을 위해 AI 영상 생성과 GIF/APNG 변환을 준비합니다.",
-      visual: <VideoVisual />,
-    },
-  ]
   const activeSlide = slides[activeIndex]
-  const sectionTitle = activeSlide.id === "feature-ai-chat" ? ["시안 방향을", "AI에게 바로 묻기"] : activeSlide.sectionTitle
-  const sectionLead =
-    activeSlide.id === "feature-ai-chat"
-      ? "캡처한 화면 기준으로 의도, 흐름, 타이포 피드백을 빠르게 받습니다."
-      : activeSlide.sectionLead
+  const sectionTitle = activeSlide.sectionTitle
+  const sectionLead = activeSlide.sectionLead
   const lastIndex = slides.length - 1
   const canGoPrev = activeIndex > 0
   const canGoNext = activeIndex < lastIndex
@@ -909,8 +788,6 @@ function FeatureSlide({
 
 function FeatureMiniPreview({ kind }: { kind: FeatureMiniKind }) {
   switch (kind) {
-    case "chat":
-      return <AiChatMiniPreview />
     case "audit":
       return <AuditMiniPreview />
     case "layers":
@@ -928,83 +805,6 @@ function FeatureMiniPreview({ kind }: { kind: FeatureMiniKind }) {
     case "video":
       return <VideoMiniPreview />
   }
-}
-
-function AiChatVisual() {
-  return (
-    <div className="grid content-start gap-[10px]">
-      <div className="hidden rounded-lg border border-[#cfe0ff] bg-[#f8fbff] p-4">
-        <p className="text-sm font-bold text-[#111827]">질문</p>
-        <p className="mt-2 text-sm leading-6 text-[#4b5563]">이 화면에서 CTA가 약해 보이는 이유를 알려줘.</p>
-      </div>
-      {aiChatActions.map((action) => (
-        <ActionButton key={action.title} action={action} />
-      ))}
-    </div>
-  )
-}
-
-function AiChatMiniPreview() {
-  return (
-    <div className="absolute left-[68px] top-[264px] h-[132px] w-[610px] rounded-[10px] border border-[#d8e3ef] bg-[#f8fafc]">
-      <p className="absolute left-6 top-[15px] text-[12px] font-bold leading-4 text-[#111827]">디자인 질문</p>
-
-      <div className="absolute left-[440px] top-[13px] h-[22px] w-[126px] rounded-full border border-[#d6e8ff] bg-[#eef6ff]">
-        <span className="absolute left-2 top-[7px] size-[5px] rounded-full bg-[#006bff]" />
-        <span className="absolute left-5 top-1 text-[10px] font-bold leading-3 text-[#006bff]">선택 화면 기준 분석</span>
-      </div>
-
-      <div className="absolute left-6 top-11 h-[70px] w-[212px] rounded-[5px] border-2 border-[#006bff] bg-white">
-        <div className="absolute -left-[1px] top-[-7px] size-3 rounded-[2px] bg-[#006bff]" />
-        <div className="absolute bottom-[-5px] right-[-6px] size-3 rounded-[2px] bg-[#006bff]" />
-        <div className="absolute left-2.5 top-0 h-[14px] w-[200px] rounded-[7px] bg-[#111]">
-          <span className="absolute left-2.5 top-[3px] text-[7px] font-bold leading-[9px] text-white">Hero section</span>
-        </div>
-        <span className="absolute left-7 top-6 h-2 w-[76px] rounded-full bg-[#c8d0dc]" />
-        <span className="absolute left-7 top-10 h-2 w-[116px] rounded-full bg-[#c8d0dc]" />
-        <span className="absolute left-7 top-14 h-2 w-[94px] rounded-full bg-[#006bff]" />
-        <div className="absolute left-[146px] top-5 h-[22px] w-[58px] rounded-full bg-[#eef5ff]">
-          <span className="absolute left-2 top-[7px] text-[7px] font-bold leading-2 text-[#006bff]">선택 분석</span>
-        </div>
-      </div>
-      <p className="absolute left-6 top-[118px] text-[10px] leading-[10px] text-[#657082]">1. 화면에서 수정할 영역을 선택</p>
-
-      <div className="absolute left-[242px] top-[75px] h-[3px] w-[38px] rounded-full bg-[#c8d0dc]" />
-      <MaterialIcon name="arrow_forward" className="absolute left-[257px] top-16 text-[18px] leading-[18px] text-[#8fa0b3]" />
-
-      <div className="absolute left-[282px] top-[54px] h-12 w-24 rounded-lg bg-[#111] text-center text-white">
-        <div className="absolute left-6 top-[-10px] h-[18px] w-12 rounded-full border border-[#cfe0ff] bg-[#eef5ff]">
-          <span className="absolute left-[10px] top-0.5 text-[8px] font-bold leading-[9px] text-[#006bff]">2 질문</span>
-        </div>
-        <strong className="absolute left-0 top-[13px] w-24 text-[13px] font-black leading-[14px]">의도?</strong>
-        <span className="absolute left-0 top-[29px] w-24 text-[8px] leading-[10px] text-white/80">방향 확인</span>
-      </div>
-
-      <div className="absolute left-[380px] top-[75px] h-[3px] w-[38px] rounded-full bg-[#c8d0dc]" />
-      <MaterialIcon name="arrow_forward" className="absolute left-[395px] top-16 text-[18px] leading-[18px] text-[#8fa0b3]" />
-
-      <div className="absolute left-[420px] top-10 h-[78px] w-[166px] rounded-lg bg-[#006bff] text-white">
-        <strong className="absolute left-5 top-[9px] text-[13px] font-black leading-[14px]">우선 수정 3개</strong>
-        <span className="absolute left-[132px] top-[9px] inline-flex h-[13px] w-5 items-center justify-center rounded-full bg-white text-[7px] font-bold leading-2 text-[#006bff]">
-          AI
-        </span>
-        {[
-          ["1", "핵심 문구 강조", 42],
-          ["2", "CTA 대비 높임", 34],
-          ["3", "여백 재정렬", 28],
-        ].map(([rank, label, width], rowIndex) => (
-          <div key={rank} className="absolute left-[22px] flex h-3 items-center" style={{ top: `${30 + rowIndex * 15}px` }}>
-            <span className="inline-flex size-3 items-center justify-center rounded-full bg-white text-[7px] font-black leading-2 text-[#006bff]">
-              {rank}
-            </span>
-            <span className="ml-1.5 w-[72px] text-[8px] font-bold leading-[10px]">{label}</span>
-            <span className="ml-1 h-1 rounded-full bg-[#cfe0ff]" style={{ width: `${width}px` }} />
-          </div>
-        ))}
-      </div>
-      <p className="absolute left-[420px] top-[120px] text-[10px] leading-[10px] text-[#657082]">3. AI가 수정 우선순위를 정리</p>
-    </div>
-  )
 }
 
 function MiniPreviewShell({ children }: { children: ReactNode }) {
