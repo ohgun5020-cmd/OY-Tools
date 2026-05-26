@@ -106,13 +106,13 @@ export default function PrivacyPage() {
             <p>
               Depending on where you live, you may have rights to access, correct, delete, restrict, or export your
               personal information. You may also have the right to object to certain processing. To make a request,
-              contact us at support@pigma.app.
+              contact us at min.ai.labs@gmail.com.
             </p>
           ),
         },
         {
           title: "9. Contact",
-          children: <p>Questions about this Privacy Policy can be sent to support@pigma.app.</p>,
+          children: <p>Questions about this Privacy Policy can be sent to min.ai.labs@gmail.com.</p>,
         },
       ]}
     />

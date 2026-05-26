@@ -114,7 +114,7 @@ export default function TermsPage() {
         },
         {
           title: "8. Contact",
-          children: <p>Questions about these terms can be sent to support@pigma.app.</p>,
+          children: <p>Questions about these terms can be sent to min.ai.labs@gmail.com.</p>,
         },
       ]}
     />

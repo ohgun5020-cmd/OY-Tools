@@ -57,7 +57,7 @@ export default function RefundPolicyPage() {
           title: "4. How to request a refund",
           children: (
             <p>
-              To request a refund, contact support@pigma.app with the email address used for purchase, the order or
+              To request a refund, contact min.ai.labs@gmail.com with the email address used for purchase, the order or
               invoice number if available, and a short explanation of the issue. We may ask for additional details to
               verify the request.
             </p>
@@ -74,7 +74,7 @@ export default function RefundPolicyPage() {
         },
         {
           title: "6. Contact",
-          children: <p>Questions about refunds or cancellations can be sent to support@pigma.app.</p>,
+          children: <p>Questions about refunds or cancellations can be sent to min.ai.labs@gmail.com.</p>,
         },
       ]}
     />
