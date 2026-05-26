@@ -206,18 +206,9 @@ export function AuthScreen({ mode, notice }: AuthScreenProps) {
               </label>
 
               {isSignup ? (
-                <label className="grid gap-2 text-sm font-bold text-[#14171a]">
-                  요금제
-                  <select
-                    name="plan"
-                    defaultValue="free"
-                    className="h-[52px] rounded-xl border border-[#dfe5ee] bg-white px-4 text-[15px] font-bold outline-none transition focus:border-[#005bff] focus:ring-4 focus:ring-[#005bff]/10"
-                  >
-                    <option value="free">Free</option>
-                    <option value="basic">Basic</option>
-                    <option value="pro">Pro</option>
-                  </select>
-                </label>
+                <p className="rounded-xl bg-[#f7f9fc] px-4 py-3 text-sm font-bold leading-5 text-[#60656b] ring-1 ring-[#e7ecf3]">
+                  회원가입은 Free로 시작하고, Basic/Pro는 결제 완료 후 자동 적용됩니다.
+                </p>
               ) : (
                 <div className="flex items-center justify-between text-sm">
                   <label className="inline-flex items-center gap-2 font-bold text-[#60656b]">

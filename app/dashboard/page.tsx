@@ -59,9 +59,10 @@ export default async function DashboardPage() {
               결제 플랜 상태를 차례로 연결하면 됩니다.
             </p>
 
-            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {[
                 ["현재 플랜", user.plan.toUpperCase(), "workspace_premium"],
+                ["결제 상태", user.planStatus.toUpperCase(), "receipt_long"],
                 ["로그인 방식", user.provider.toUpperCase(), "verified_user"],
                 ["활성 세션", `${stats.activeSessions}개`, "key"],
               ].map(([label, value, icon]) => (
@@ -89,6 +90,12 @@ export default async function DashboardPage() {
                 <dd className="mt-1 font-bold">{joinedAt}</dd>
               </div>
             </dl>
+            <form action="/api/billing/portal" method="post" className="mt-5">
+              <button className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-white px-5 text-sm font-black text-[#050505] transition hover:-translate-y-0.5 hover:bg-[#eef5ff]">
+                결제 관리
+                <MaterialIcon name="open_in_new" className="text-[17px]" />
+              </button>
+            </form>
           </aside>
         </section>
       </div>

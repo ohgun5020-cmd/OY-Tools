@@ -23,7 +23,7 @@ export async function signupAction(_prevState: AuthFormState, formData: FormData
       name: String(formData.get("name") || ""),
       email: String(formData.get("email") || ""),
       password: String(formData.get("password") || ""),
-      plan: String(formData.get("plan") || "free"),
+      plan: "free",
     })
     await createSessionCookie(userId, true)
   } catch (error) {

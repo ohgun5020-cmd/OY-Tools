@@ -22,6 +22,15 @@ type HeaderUser = {
   plan: string
 }
 
+type PricingPlan = {
+  key: "free" | "basic" | "pro"
+  name: string
+  price: string
+  description: string
+  features: string[]
+  cta: string
+}
+
 type FeatureMiniKind = "audit" | "layers" | "align" | "text" | "image" | "generate" | "share" | "video"
 
 type FeatureSlideConfig = {
@@ -299,8 +308,9 @@ const useCases: UseCase[] = [
   },
 ]
 
-const plans = [
+const plans: PricingPlan[] = [
   {
+    key: "free",
     name: "Free",
     price: "$0",
     description: "가볍게 파일 구조를 확인합니다.",
@@ -308,15 +318,17 @@ const plans = [
     cta: "무료 시작",
   },
   {
+    key: "basic",
     name: "Basic",
-    price: "$2",
+    price: "$2/mo",
     description: "개인 작업자가 자주 쓰기 좋은 구성입니다.",
     features: ["월 30회 변환", "텍스트 추출", "AI 디자인 질문"],
     cta: "Basic 선택",
   },
   {
+    key: "pro",
     name: "Pro",
-    price: "$5",
+    price: "$5/mo",
     description: "외주와 반복 작업을 함께 처리합니다.",
     features: ["무제한 큐", "효과 분리", "팀 전달용 리포트"],
     cta: "Pro 선택",
@@ -1595,12 +1607,7 @@ function PricingSection() {
                   </li>
                 ))}
               </ul>
-              <a
-                href="/signup"
-                className="mt-7 inline-flex h-11 w-full items-center justify-center rounded-lg bg-[#050505] text-sm font-bold text-white transition group-hover:bg-white group-hover:text-[#050505]"
-              >
-                {plan.cta}
-              </a>
+              <PricingPlanButton plan={plan} />
             </article>
           ))}
         </div>
@@ -1609,6 +1616,57 @@ function PricingSection() {
         </p>
       </div>
     </section>
+  )
+}
+
+function PricingPlanButton({ plan }: { plan: PricingPlan }) {
+  const [pending, setPending] = useState(false)
+  const className =
+    "mt-7 inline-flex h-11 w-full items-center justify-center rounded-lg bg-[#050505] text-sm font-bold text-white transition group-hover:bg-white group-hover:text-[#050505] disabled:cursor-wait disabled:opacity-70"
+
+  if (plan.key === "free") {
+    return (
+      <a href="/signup" className={className}>
+        {plan.cta}
+      </a>
+    )
+  }
+
+  async function startCheckout() {
+    setPending(true)
+
+    try {
+      const response = await fetch("/api/billing/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ plan: plan.key }),
+      })
+
+      if (response.status === 401) {
+        window.location.href = "/signup"
+        return
+      }
+
+      const data = (await response.json().catch(() => null)) as { url?: string; error?: string } | null
+      if (!response.ok || !data?.url) {
+        window.alert(data?.error || "결제 페이지를 여는 중 문제가 발생했습니다.")
+        setPending(false)
+        return
+      }
+
+      window.location.href = data.url
+    } catch {
+      window.alert("결제 페이지를 여는 중 문제가 발생했습니다.")
+      setPending(false)
+    }
+  }
+
+  return (
+    <button type="button" onClick={startCheckout} disabled={pending} className={className}>
+      {pending ? "결제창 이동 중" : plan.cta}
+    </button>
   )
 }
 
@@ -1644,7 +1702,7 @@ function SiteFooter() {
           <PigmaLogo className="h-[18px] w-[100px] brightness-0 invert" />
           <span>PSD를 Figma-ready 구조로 바꾸는 플러그인</span>
         </div>
-        <div className="flex gap-6">
+        <div className="flex flex-wrap gap-6">
           <a href="#product" className="transition hover:text-white">
             제품
           </a>
@@ -1659,6 +1717,15 @@ function SiteFooter() {
           </a>
           <a href="/signup" className="transition hover:text-white">
             회원가입
+          </a>
+          <a href="/terms" className="transition hover:text-white">
+            Terms
+          </a>
+          <a href="/privacy" className="transition hover:text-white">
+            Privacy
+          </a>
+          <a href="/refund-policy" className="transition hover:text-white">
+            Refunds
           </a>
         </div>
       </div>
