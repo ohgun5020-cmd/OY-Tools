@@ -62,7 +62,7 @@ class AuthInputError extends Error {
 let db: DatabaseSync | null = null
 
 function dataDir() {
-  return process.env.PIGMA_DATA_DIR || path.join(process.cwd(), "data")
+  return process.env.PIGMA_DATA_DIR || process.env.RAILWAY_VOLUME_MOUNT_PATH || path.join(process.cwd(), "data")
 }
 
 function databasePath() {
@@ -74,7 +74,7 @@ function getDb() {
     return db
   }
 
-  const dir = dataDir()
+  const dir = path.dirname(databasePath())
   if (!existsSync(dir)) {
     mkdirSync(dir, { recursive: true })
   }
