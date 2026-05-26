@@ -639,15 +639,6 @@ function ConversionOptionToggle({ enabled }: { enabled: boolean }) {
       <span
         className={
           enabled
-            ? "absolute left-[3px] flex w-[32px] items-center justify-center leading-none"
-            : "absolute right-[3px] flex w-[32px] items-center justify-center leading-none"
-        }
-      >
-        {enabled ? "ON" : "OFF"}
-      </span>
-      <span
-        className={
-          enabled
             ? "absolute right-[3px] size-4 rounded-full bg-white transition-all duration-200"
             : "absolute left-[3px] size-4 rounded-full bg-white transition-all duration-200"
         }
