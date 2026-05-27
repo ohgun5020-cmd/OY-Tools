@@ -202,21 +202,23 @@ function verifyPassword(password: string, storedHash: string) {
 }
 
 function toUser(row: UserRow): AuthUser {
+  const plan = row.plan || "free"
+
   return {
     id: row.id,
-    name: row.name,
+    name: row.name || row.email?.split("@")[0] || "User",
     email: row.email,
-    plan: row.plan,
-    provider: row.provider,
-    avatarUrl: row.avatar_url,
-    billingProvider: row.billing_provider,
-    billingCustomerId: row.billing_customer_id,
-    billingSubscriptionId: row.billing_subscription_id,
-    billingVariantId: row.billing_variant_id,
-    billingPortalUrl: row.billing_portal_url,
-    planStatus: row.plan_status,
-    planRenewsAt: row.plan_renews_at,
-    createdAt: row.created_at,
+    plan,
+    provider: row.provider || "email",
+    avatarUrl: row.avatar_url || null,
+    billingProvider: row.billing_provider || null,
+    billingCustomerId: row.billing_customer_id || null,
+    billingSubscriptionId: row.billing_subscription_id || null,
+    billingVariantId: row.billing_variant_id || null,
+    billingPortalUrl: row.billing_portal_url || null,
+    planStatus: row.plan_status || plan,
+    planRenewsAt: row.plan_renews_at || null,
+    createdAt: row.created_at || nowIso(),
   }
 }
 
