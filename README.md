@@ -29,12 +29,15 @@ Create Basic and Pro prices in Paddle, then set these variables in Railway:
 ```bash
 NEXT_PUBLIC_APP_URL=https://oy-tools-production.up.railway.app
 NEXT_PUBLIC_PADDLE_CLIENT_TOKEN=...
+PADDLE_API_KEY=...
 PADDLE_ENVIRONMENT=production
 PADDLE_WEBHOOK_SECRET=...
 PADDLE_BASIC_PRICE_ID=pri_01ksktfy8dsq6zjj4nq29hwz2x
 PADDLE_PRO_PRICE_ID=pri_01ksktgy40nsef59aed9s4g24p
 PADDLE_CUSTOMER_PORTAL_URL=...
 ```
+
+Give the Paddle API key `customer_portal_session.write` permission so the dashboard can create authenticated customer portal links for payment method updates, invoices, and subscription cancellation.
 
 In Paddle > Checkout > Checkout settings, set the default payment link to your production domain:
 

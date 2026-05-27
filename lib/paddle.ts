@@ -3,6 +3,7 @@ import { createHmac, timingSafeEqual } from "node:crypto"
 import { getAppUrl } from "@/lib/app-url"
 
 export type BillingPlan = "basic" | "pro"
+export type PaddlePortalAction = "overview" | "update-payment" | "cancel"
 
 const paddlePriceEnv: Record<BillingPlan, string> = {
   basic: "PADDLE_BASIC_PRICE_ID",
@@ -28,6 +29,14 @@ export function getPaddleEnvironment() {
 
 export function getPaddleClientToken() {
   return process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN || process.env.PADDLE_CLIENT_TOKEN || null
+}
+
+export function getPaddleApiKey() {
+  return process.env.PADDLE_API_KEY || null
+}
+
+export function getPaddleApiBaseUrl() {
+  return getPaddleEnvironment() === "sandbox" ? "https://sandbox-api.paddle.com" : "https://api.paddle.com"
 }
 
 export function getPriceIdForPlan(plan: BillingPlan) {
@@ -110,4 +119,62 @@ export function verifyPaddleSignature(body: string, signatureHeader: string, sec
     const signatureBuffer = Buffer.from(signature, "hex")
     return signatureBuffer.length === expectedBuffer.length && timingSafeEqual(signatureBuffer, expectedBuffer)
   })
+}
+
+type PaddlePortalSessionResponse = {
+  data?: {
+    urls?: {
+      general?: {
+        overview?: string
+      }
+      subscriptions?: Array<{
+        id?: string
+        cancel_subscription?: string
+        update_subscription_payment_method?: string
+      }>
+    }
+  }
+}
+
+export async function createPaddlePortalLink(input: {
+  customerId: string
+  subscriptionId: string | null
+  action: PaddlePortalAction
+}) {
+  const apiKey = getPaddleApiKey()
+  if (!apiKey) {
+    throw new Error("PADDLE_API_KEY is not configured.")
+  }
+
+  const body = input.subscriptionId ? { subscription_ids: [input.subscriptionId] } : {}
+  const response = await fetch(`${getPaddleApiBaseUrl()}/customers/${input.customerId}/portal-sessions`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  })
+
+  if (!response.ok) {
+    throw new Error(`Paddle portal session failed with ${response.status}.`)
+  }
+
+  const payload = (await response.json()) as PaddlePortalSessionResponse
+  const subscriptionUrl = payload.data?.urls?.subscriptions?.find((subscription) => subscription.id === input.subscriptionId)
+
+  if (input.action === "cancel" && subscriptionUrl?.cancel_subscription) {
+    return subscriptionUrl.cancel_subscription
+  }
+
+  if (input.action === "update-payment" && subscriptionUrl?.update_subscription_payment_method) {
+    return subscriptionUrl.update_subscription_payment_method
+  }
+
+  const overviewUrl = payload.data?.urls?.general?.overview
+  if (!overviewUrl) {
+    throw new Error("Paddle portal session did not include an overview URL.")
+  }
+
+  return overviewUrl
 }
