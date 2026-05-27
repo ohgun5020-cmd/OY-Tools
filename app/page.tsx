@@ -746,30 +746,32 @@ function FeatureActionGrid() {
         <article
           key={`${item.sourceId}-${item.title}`}
           tabIndex={0}
-          className="group min-h-[162px] rounded-lg border border-white/10 bg-white/[0.075] p-[18px] text-left outline-none transition duration-200 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.12] focus:-translate-y-1 focus:border-white/20 focus:bg-white/[0.12]"
+          className="group relative min-h-[162px] overflow-hidden rounded-lg border border-white/10 bg-white/[0.075] p-[18px] text-left outline-none transition duration-200 hover:-translate-y-1 hover:border-white hover:bg-white focus:-translate-y-1 focus:border-white focus:bg-white"
         >
-          <div className="flex items-start justify-between gap-3">
-            <span className="flex size-9 shrink-0 items-center justify-center rounded-[10px] bg-white text-[#050505]">
-              <MaterialIcon name={item.icon} className="text-[21px]" />
-            </span>
-            {item.badge ? (
-              <span className="inline-flex h-5 items-center rounded-full bg-[#005bff] px-2 text-[10px] font-black leading-none text-white">
-                {item.badge}
+          <div className="transition duration-200 group-hover:-translate-y-2 group-hover:opacity-0 group-focus:-translate-y-2 group-focus:opacity-0">
+            <div className="flex items-start">
+              <span className="flex size-9 shrink-0 items-center justify-center rounded-[10px] bg-white text-[#050505]">
+                <MaterialIcon name={item.icon} className="text-[21px]" />
               </span>
-            ) : (
-              <span className="text-[10px] font-black leading-none text-white/30">{String(index + 1).padStart(2, "0")}</span>
-            )}
+            </div>
+            <p className="mt-4 text-[11px] font-black leading-4 text-[#6ea8ff]">{item.category}</p>
+            <div className="mt-1 flex min-w-0 items-center gap-2">
+              <h3 className="min-w-0 break-keep text-[17px] font-black leading-6 text-white">{item.title}</h3>
+              {item.badge ? (
+                <span className="inline-flex h-5 shrink-0 items-center rounded-full bg-[#005bff] px-2 text-[10px] font-black leading-none text-white">
+                  {item.badge}
+                </span>
+              ) : (
+                <span className="shrink-0 text-[10px] font-black leading-none text-white/30">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+              )}
+            </div>
+            <p className="mt-2 break-keep text-[12.5px] leading-5 text-white/62">{item.description}</p>
           </div>
-          <p className="mt-4 text-[11px] font-black leading-4 text-[#6ea8ff]">{item.category}</p>
-          <h3 className="mt-1 break-keep text-[17px] font-black leading-6 text-white">{item.title}</h3>
-          <div className="relative mt-2 h-[56px] overflow-hidden">
-            <p className="absolute inset-0 break-keep text-[12.5px] leading-5 text-white/62 transition duration-200 group-hover:-translate-y-1 group-hover:opacity-0 group-focus:-translate-y-1 group-focus:opacity-0">
-              {item.description}
-            </p>
-            <p className="absolute inset-0 translate-y-2 break-keep text-[12px] leading-[18px] text-white/72 opacity-0 transition duration-200 group-hover:translate-y-0 group-hover:opacity-100 group-focus:translate-y-0 group-focus:opacity-100">
-              {featureActionDetails[item.title] || item.description}
-            </p>
-          </div>
+          <p className="pointer-events-none absolute inset-0 flex translate-y-3 items-center px-5 text-[14px] font-bold leading-6 text-[#050505] opacity-0 transition duration-200 group-hover:translate-y-0 group-hover:opacity-100 group-focus:translate-y-0 group-focus:opacity-100">
+            {featureActionDetails[item.title] || item.description}
+          </p>
         </article>
       ))}
     </div>
