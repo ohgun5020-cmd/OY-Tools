@@ -1,6 +1,8 @@
 import type { Metadata } from "next"
+import { redirect } from "next/navigation"
 
 import { AuthScreen } from "../_components/AuthScreen"
+import { getCurrentUser } from "@/lib/auth"
 
 export const metadata: Metadata = {
   title: "회원가입 | PIGMA",
@@ -26,6 +28,11 @@ function getNotice(params: Awaited<SignupPageProps["searchParams"]>) {
 }
 
 export default async function SignupPage({ searchParams }: SignupPageProps) {
+  const user = await getCurrentUser()
+  if (user) {
+    redirect("/dashboard")
+  }
+
   const params = await searchParams
   return <AuthScreen mode="signup" notice={getNotice(params)} />
 }
