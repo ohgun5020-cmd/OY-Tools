@@ -554,8 +554,8 @@ function HeroSection() {
   return (
     <section id="top" className="bg-[#fafafa] px-6 pb-24 pt-16 sm:px-10 lg:px-12">
       <div className="mx-auto max-w-[1120px] text-center">
-        <p className="mx-auto mb-7 flex h-10 w-[220px] items-center justify-center gap-2 rounded-[10px] text-[13px] font-black text-[#0a0a0a]">
-          <span>PSD TO</span>
+        <p className="mx-auto mb-7 flex h-10 w-[240px] items-center justify-center gap-2 rounded-[10px] text-[13px] font-black text-[#0a0a0a]">
+          <span>PSD EXPORT TO</span>
           <PigmaLogo className="h-[10px] w-auto" />
         </p>
         <h1 className="mx-auto max-w-[1120px] text-[42px] font-black leading-[1.08] text-black sm:text-[56px] lg:text-[72px]">
@@ -564,10 +564,10 @@ function HeroSection() {
             <span>로</span>
           </span>
           <br />
-          PSD를 바로 싹싹
+          PSD를 바로 내보내기
         </h1>
         <p className="mx-auto mt-7 max-w-[760px] text-[17px] leading-8 text-[#5f6368] sm:text-[19px]">
-          레이어와 텍스트를 살리고, 필요한 보정만 플러그인처럼 펼쳐 씁니다.
+          가져오는 과정보다, Figma에서 바로 만질 수 있는 결과물로 내보내는 데 집중합니다.
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <a
@@ -593,7 +593,7 @@ function HeroSection() {
 
 function HeroWorkspace() {
   const conversionProgress = useAnimatedConversionProgress()
-  const importOptionsEnabled = conversionProgress === 100
+  const exportOptionsReady = conversionProgress === 100
 
   return (
     <div
@@ -609,7 +609,7 @@ function HeroWorkspace() {
           convert workspace
         </span>
         <span className="ml-auto hidden text-[11px] text-white/80 md:inline">
-          source files -&gt; <PigmaLogo className="inline-block h-[8px] w-auto brightness-0 invert" /> -&gt; figma-ready
+          source.psd -&gt; <PigmaLogo className="inline-block h-[8px] w-auto brightness-0 invert" /> -&gt; exported figma
         </span>
       </div>
       <div className="grid min-w-0 gap-5 p-7 lg:grid-cols-[300px_1fr_302px]">
@@ -629,24 +629,24 @@ function HeroWorkspace() {
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-center gap-3">
               <MaterialIcon name="autorenew" className="text-[24px] text-[#0a0a0a]" />
-              <h2 className="text-[22px] font-black leading-none">자동 변환</h2>
+              <h2 className="text-[22px] font-black leading-none">자동 내보내기</h2>
             </div>
             <AnimatedConversionProgressValue progress={conversionProgress} className="text-4xl" />
           </div>
           <AnimatedConversionProgressBar progress={conversionProgress} className="mt-5" />
           <p className="mt-4 text-[13px] font-medium text-[#0a0a0a]">
-            텍스트, 효과, 레이어를 바로 편집 가능한 구조로 정리
+            레이어, 텍스트, 효과를 Figma-ready 결과물로 정리
           </p>
         </div>
         <div className="rounded-[14px] bg-white p-5 ring-1 ring-black/5">
           <div className="mb-4 flex items-center gap-3">
-            <MaterialIcon name="settings" className="text-[20px]" />
-            <strong className="text-lg">가져오기 옵션</strong>
+            <MaterialIcon name="ios_share" className="text-[20px]" />
+            <strong className="text-lg">내보내기 준비</strong>
           </div>
-          {["레이어 정리", "텍스트 변환", "효과 분리"].map((item) => (
+          {["레이어 유지", "텍스트 편집", "팀 공유 준비"].map((item) => (
             <div key={item} className="flex h-[30px] items-center justify-between text-[15px] text-[#5f6368]">
               <span>{item}</span>
-              <ConversionOptionToggle enabled={importOptionsEnabled} />
+              <ConversionOptionToggle enabled={exportOptionsReady} />
             </div>
           ))}
         </div>
@@ -1393,8 +1393,8 @@ function WorkflowSection() {
                 aria-current={isActive ? "step" : undefined}
                 className={
                   isActive
-                    ? "grid min-h-[88px] grid-cols-[62px_1fr_24px] items-center gap-5 rounded-2xl bg-white px-5 py-4 text-left shadow-[0_22px_42px_rgba(15,24,42,0.10)] ring-2 ring-[#005bff]/15 transition duration-500 lg:min-h-0"
-                    : "grid min-h-[88px] grid-cols-[62px_1fr_24px] items-center gap-5 rounded-2xl bg-white px-5 py-4 text-left shadow-[0_14px_20px_rgba(0,0,0,0.04)] transition duration-500 hover:-translate-y-0.5 hover:shadow-[0_18px_30px_rgba(15,24,42,0.08)] lg:min-h-0"
+                    ? "grid min-h-[88px] grid-cols-[62px_1fr_24px] items-center gap-5 rounded-2xl bg-white px-5 py-4 text-left ring-2 ring-[#005bff]/15 transition duration-500 lg:min-h-0"
+                    : "grid min-h-[88px] grid-cols-[62px_1fr_24px] items-center gap-5 rounded-2xl bg-white px-5 py-4 text-left transition duration-500 hover:-translate-y-0.5 lg:min-h-0"
                 }
               >
                 <span
