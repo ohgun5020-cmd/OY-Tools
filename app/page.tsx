@@ -690,15 +690,13 @@ function AiChatSection() {
   return (
     <section id="features" className="bg-[#050505] px-6 py-20 text-white sm:px-10 sm:py-24 lg:px-12">
       <div className="mx-auto max-w-[1248px]">
-        <p className="text-[13px] font-black tracking-[0.18em] text-white/45">PLUGIN MENU</p>
-        <div className="mt-5 grid gap-5 lg:grid-cols-[minmax(0,680px)_minmax(280px,390px)] lg:items-end lg:justify-between">
-          <h2 className="max-w-[680px] text-[34px] font-black leading-[1.2] sm:text-[46px]">
-            자주 쓰는 PIGMA 도구를 한눈에
-          </h2>
-          <p className="max-w-[390px] text-[15px] leading-7 text-white/62 lg:justify-self-end">
-            검수, 정리, 보정, 공유까지 작업 중 바로 꺼내 쓰는 메뉴를 격자로 모았습니다.
-          </p>
-        </div>
+        <p className="text-center text-[13px] font-black tracking-[0.18em] text-white/45">PLUGIN MENU</p>
+        <h2 className="mx-auto mt-5 max-w-[760px] text-center text-[34px] font-black leading-[1.2] sm:text-[46px]">
+          자주 쓰는 PIGMA 도구를 한눈에
+        </h2>
+        <p className="mx-auto mt-5 max-w-[620px] text-center text-[15px] leading-7 text-white/62">
+          검수, 정리, 보정, 공유까지 작업 중 바로 꺼내 쓰는 메뉴를 격자로 모았습니다.
+        </p>
         <FeatureActionGrid />
       </div>
     </section>
@@ -1392,17 +1390,12 @@ function WorkflowSection() {
 
 function WorkflowTransferIndicator() {
   return (
-    <div className="hidden h-[116px] flex-col items-center justify-center gap-2 md:flex">
-      <div className="flex size-12 items-center justify-center rounded-full bg-white text-[#005bff] shadow-[0_12px_24px_rgba(15,24,42,0.08)] ring-1 ring-[#dbe7ff]">
-        <MaterialIcon name="sync" className="animate-spin text-[24px]" />
-      </div>
-      <span className="rounded-full bg-[#005bff] px-3 py-1 text-[10px] font-black leading-none text-white">
-        변환 중
-      </span>
-      <div className="flex items-center gap-1">
-        <span className="size-1.5 rounded-full bg-[#005bff]" />
-        <span className="size-1.5 rounded-full bg-[#8fb9ff]" />
-        <span className="size-1.5 rounded-full bg-[#cfe0ff]" />
+    <div className="hidden h-[116px] items-center justify-center md:flex" aria-label="변환 중">
+      <div className="relative flex h-12 w-full items-center justify-center">
+        <span className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-[#d5dde8]" />
+        <span className="relative flex size-9 items-center justify-center rounded-full bg-white text-[#005bff] shadow-[0_10px_22px_rgba(15,24,42,0.08)] ring-1 ring-[#dbe7ff]">
+          <MaterialIcon name="sync" className="animate-spin text-[19px]" />
+        </span>
       </div>
     </div>
   )
@@ -1607,13 +1600,13 @@ function UseCasesSection() {
   return (
     <section className="bg-[#050505] px-6 py-24 text-white sm:px-10 lg:px-12">
       <div className="mx-auto max-w-[1216px]">
-        <p className="text-[15px] font-bold text-[#9a9a9a]">USE CASES</p>
-        <h2 className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 text-[32px] font-black leading-[1.25] sm:text-[36px]">
+        <p className="text-center text-[15px] font-bold text-[#9a9a9a]">USE CASES</p>
+        <h2 className="mt-5 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-center text-[32px] font-black leading-[1.25] sm:text-[36px]">
           <span>이럴 때</span>
           <PigmaLogo className="h-[28px] w-auto brightness-0 invert sm:h-[31px]" />
           <span>가 빠릅니다</span>
         </h2>
-        <p className="mt-4 text-[17px] leading-7 text-[#b8b8b8]">
+        <p className="mt-4 text-center text-[17px] leading-7 text-[#b8b8b8]">
           기능 설명보다 실제 작업 상황에 바로 꽂히는 15가지입니다.
         </p>
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
