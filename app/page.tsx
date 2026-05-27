@@ -20,6 +20,7 @@ type HeaderUser = {
   name: string
   email: string
   plan: string
+  avatarUrl: string | null
 }
 
 type PricingPlan = {
@@ -491,7 +492,21 @@ function SiteHeaderAuthenticated() {
           {user ? (
             <>
               <a href="/dashboard" className="hidden font-bold text-[#0a0a0a] transition hover:text-[#005bff] sm:inline-flex">
-                {user.name}님
+                <span className="inline-flex items-center gap-2.5">
+                  {user.avatarUrl ? (
+                    <img
+                      src={user.avatarUrl}
+                      alt="Profile photo"
+                      className="size-8 rounded-full object-cover ring-1 ring-black/5"
+                      referrerPolicy="no-referrer"
+                    />
+                  ) : (
+                    <span className="inline-flex size-8 items-center justify-center rounded-full bg-[#eef5ff] text-xs font-black text-[#005bff] ring-1 ring-[#d5e6ff]">
+                      {user.name.slice(0, 1).toUpperCase()}
+                    </span>
+                  )}
+                  <span>{user.name}님</span>
+                </span>
               </a>
               <form action="/auth/logout" method="post">
                 <button
@@ -1744,6 +1759,7 @@ function PricingSection() {
 
 function PricingPlanButton({ plan }: { plan: PricingPlan }) {
   const [pending, setPending] = useState(false)
+  const [checkoutError, setCheckoutError] = useState<string | null>(null)
   const className =
     "mt-7 inline-flex h-11 w-full items-center justify-center rounded-lg bg-[#050505] text-sm font-bold text-white transition group-hover:bg-white group-hover:text-[#050505] disabled:cursor-wait disabled:opacity-70"
 
@@ -1757,6 +1773,7 @@ function PricingPlanButton({ plan }: { plan: PricingPlan }) {
 
   async function startCheckout() {
     setPending(true)
+    setCheckoutError(null)
 
     try {
       const response = await fetch("/api/billing/checkout", {
@@ -1772,24 +1789,31 @@ function PricingPlanButton({ plan }: { plan: PricingPlan }) {
         return
       }
 
-      const data = (await response.json().catch(() => null)) as { url?: string; error?: string } | null
+      const data = (await response.json().catch(() => null)) as { url?: string; error?: string; code?: string } | null
       if (!response.ok || !data?.url) {
-        window.alert(data?.error || "결제 페이지를 여는 중 문제가 발생했습니다.")
+        setCheckoutError(data?.error || "결제 페이지를 여는 중 문제가 발생했습니다.")
         setPending(false)
         return
       }
 
       window.location.href = data.url
     } catch {
-      window.alert("결제 페이지를 여는 중 문제가 발생했습니다.")
+      setCheckoutError("결제 페이지를 여는 중 문제가 발생했습니다.")
       setPending(false)
     }
   }
 
   return (
-    <button type="button" onClick={startCheckout} disabled={pending} className={className}>
-      {pending ? "결제창 이동 중" : plan.cta}
-    </button>
+    <>
+      <button type="button" onClick={startCheckout} disabled={pending} className={className}>
+        {pending ? "결제창 이동 중" : plan.cta}
+      </button>
+      {checkoutError ? (
+        <p className="mt-3 rounded-lg bg-[#fff4f4] px-3 py-2 text-center text-xs font-bold leading-5 text-[#d92d20] transition group-hover:bg-white/10 group-hover:text-[#ffd6db]">
+          {checkoutError}
+        </p>
+      ) : null}
+    </>
   )
 }
 

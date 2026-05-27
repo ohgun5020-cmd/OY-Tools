@@ -15,6 +15,7 @@ export async function GET() {
             name: user.name,
             email: user.email,
             plan: user.plan,
+            avatarUrl: user.avatarUrl,
           }
         : null,
     },

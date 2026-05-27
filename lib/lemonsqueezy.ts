@@ -7,6 +7,8 @@ const planVariantEnv: Record<BillingPlan, string> = {
   pro: "LEMON_SQUEEZY_PRO_VARIANT_ID",
 }
 
+const billingSetupMessage = "결제 설정이 아직 완료되지 않았습니다. 잠시 후 다시 시도해 주세요."
+
 type LemonSqueezyCheckoutResponse = {
   data?: {
     attributes?: {
@@ -22,6 +24,18 @@ export function isBillingPlan(value: unknown): value is BillingPlan {
 
 export function getVariantIdForPlan(plan: BillingPlan) {
   return process.env[planVariantEnv[plan]] || null
+}
+
+export function getBillingSetupError(plan?: BillingPlan) {
+  if (!process.env.LEMON_SQUEEZY_API_KEY || !process.env.LEMON_SQUEEZY_STORE_ID) {
+    return billingSetupMessage
+  }
+
+  if (plan && !getVariantIdForPlan(plan)) {
+    return billingSetupMessage
+  }
+
+  return null
 }
 
 export function getPlanForVariantId(variantId: string | number | null | undefined): BillingPlan | null {
@@ -50,15 +64,15 @@ export async function createLemonSqueezyCheckout(input: {
   const variantId = getVariantIdForPlan(input.plan)
 
   if (!apiKey) {
-    throw new Error("LEMON_SQUEEZY_API_KEY is not configured.")
+    throw new Error(billingSetupMessage)
   }
 
   if (!storeId) {
-    throw new Error("LEMON_SQUEEZY_STORE_ID is not configured.")
+    throw new Error(billingSetupMessage)
   }
 
   if (!variantId) {
-    throw new Error(`Lemon Squeezy variant ID is not configured for ${input.plan}.`)
+    throw new Error(billingSetupMessage)
   }
 
   const response = await fetch("https://api.lemonsqueezy.com/v1/checkouts", {
