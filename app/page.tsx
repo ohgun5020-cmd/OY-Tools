@@ -339,6 +339,13 @@ const plans: PricingPlan[] = [
 
 const fileTypes = ["PSD", "AI", "EPS", "PDF", "PPT", "SVG"]
 
+const conversionSourceRows = [
+  { label: "Hero copy merged", width: "w-[190px]", color: "bg-[#d8dce0]" },
+  { label: "Text raster 02", width: "w-[172px]", color: "bg-[#d8dce0]" },
+  { label: "Layer 144", width: "w-[154px]", color: "bg-[#d8dce0]" },
+  { label: "Shadow merged", width: "w-[136px]", color: "bg-[#8c9298]" },
+]
+
 const conversionAfterItems = [
   { title: "레이어 구조 유지", body: "Header / Hero / CTA" },
   { title: "편집 가능한 텍스트", body: "글자 수정 가능" },
@@ -1371,9 +1378,9 @@ function WorkflowSection() {
               </span>
             </div>
 
-            <div className="grid gap-5 px-7 pb-[50px] pt-[30px] md:grid-cols-[246px_30px_246px] md:items-center md:gap-9">
+            <div className="grid gap-5 px-7 pb-[50px] pt-[30px] md:grid-cols-[246px_66px_246px] md:items-center md:gap-7">
               <WorkflowLayerPanel variant="source" activeStepIndex={activeStepIndex} />
-              <MaterialIcon name="arrow_forward" className="mx-auto hidden text-[30px] text-[#111] transition duration-500 md:block" />
+              <WorkflowTransferIndicator />
               <WorkflowLayerPanel variant="ready" activeStepIndex={activeStepIndex} />
             </div>
           </div>
@@ -1383,13 +1390,31 @@ function WorkflowSection() {
   )
 }
 
+function WorkflowTransferIndicator() {
+  return (
+    <div className="hidden h-[116px] flex-col items-center justify-center gap-2 md:flex">
+      <div className="flex size-12 items-center justify-center rounded-full bg-white text-[#005bff] shadow-[0_12px_24px_rgba(15,24,42,0.08)] ring-1 ring-[#dbe7ff]">
+        <MaterialIcon name="sync" className="animate-spin text-[24px]" />
+      </div>
+      <span className="rounded-full bg-[#005bff] px-3 py-1 text-[10px] font-black leading-none text-white">
+        변환 중
+      </span>
+      <div className="flex items-center gap-1">
+        <span className="size-1.5 rounded-full bg-[#005bff]" />
+        <span className="size-1.5 rounded-full bg-[#8fb9ff]" />
+        <span className="size-1.5 rounded-full bg-[#cfe0ff]" />
+      </div>
+    </div>
+  )
+}
+
 function WorkflowLayerPanel({ variant, activeStepIndex }: { variant: "source" | "ready"; activeStepIndex: number }) {
   const isReady = variant === "ready"
   const activeLayerIndex = activeStepIndex === 3 ? workflowLayerRows.length - 1 : activeStepIndex
   const completedLayerCount = activeStepIndex === 3 ? workflowLayerRows.length : Math.min(workflowLayerRows.length, activeLayerIndex + 1)
 
   return (
-    <div className="h-[282px] rounded-[14px] bg-white px-5 py-6">
+    <div className="h-[306px] rounded-[14px] bg-white px-5 pb-7 pt-6">
       <h3 className="text-[18px] font-black leading-[22px] text-[#0a0a0a]">
         {isReady ? "team-ready figma" : "source.psd"}
       </h3>
@@ -1397,7 +1422,7 @@ function WorkflowLayerPanel({ variant, activeStepIndex }: { variant: "source" | 
         {isReady ? "editable · shared · reviewed" : "48 layers · mixed effects"}
       </p>
 
-      <div className="mt-4 grid gap-2">
+      <div className="mt-5 grid gap-2.5">
         {workflowLayerRows.map((row, index) => {
           const isActive = index === activeLayerIndex
           const isComplete = index < completedLayerCount
@@ -1407,7 +1432,7 @@ function WorkflowLayerPanel({ variant, activeStepIndex }: { variant: "source" | 
             key={`${variant}-${row.number}`}
             className={
               isReady
-                ? `grid h-[26px] grid-cols-[22px_1fr_18px] items-center gap-2 rounded-[7px] px-1.5 transition duration-500 ${isComplete ? "bg-[#eef5ff]" : "bg-[#f5f6f8]"}`
+                ? `grid h-[27px] grid-cols-[22px_1fr_18px] items-center gap-2 rounded-[7px] px-1.5 transition duration-500 ${isComplete ? "bg-[#eef5ff]" : "bg-[#f5f6f8]"}`
                 : "flex h-6 items-center gap-2"
             }
           >
@@ -1438,7 +1463,7 @@ function WorkflowLayerPanel({ variant, activeStepIndex }: { variant: "source" | 
       </div>
 
       {isReady ? (
-        <div className="relative mt-3 h-6 overflow-hidden rounded-[7px] bg-[#111]">
+        <div className="relative mt-4 h-7 overflow-hidden rounded-[7px] bg-[#111]">
           <div
             className="absolute inset-y-0 left-0 bg-[#005bff] transition duration-500"
             style={{ width: `${Math.max(26, (completedLayerCount / workflowLayerRows.length) * 100)}%` }}
@@ -1453,6 +1478,20 @@ function WorkflowLayerPanel({ variant, activeStepIndex }: { variant: "source" | 
 }
 
 function FileImportSection() {
+  const [conversionStep, setConversionStep] = useState(0)
+  const activeFileTypeIndex = conversionStep % fileTypes.length
+  const activeSourceRowIndex = conversionStep % conversionSourceRows.length
+  const completedAfterCount = (conversionStep % conversionAfterItems.length) + 1
+  const activeQualityIndex = conversionStep % qualityPoints.length
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setConversionStep((current) => (current + 1) % 24)
+    }, 1500)
+
+    return () => window.clearInterval(timer)
+  }, [])
+
   return (
     <section className="bg-white px-6 pb-[62px] pt-[94px] sm:px-10 lg:px-12">
       <div className="mx-auto max-w-[1184px] text-center">
@@ -1483,16 +1522,16 @@ function FileImportSection() {
                 <span
                   key={type}
                   className={
-                    type === "PSD"
-                      ? "inline-flex h-[30px] min-w-[62px] items-center justify-center rounded-full bg-[#0b0b0b] px-5 text-[11px] font-bold text-white"
-                      : "inline-flex h-[30px] min-w-[52px] items-center justify-center rounded-full bg-white px-5 text-[11px] font-bold text-[#111]"
+                    fileTypes[activeFileTypeIndex] === type
+                      ? "inline-flex h-[30px] min-w-[62px] items-center justify-center rounded-full bg-[#0b0b0b] px-5 text-[11px] font-bold text-white shadow-[0_8px_18px_rgba(0,0,0,0.12)] transition duration-500"
+                      : "inline-flex h-[30px] min-w-[52px] items-center justify-center rounded-full bg-white px-5 text-[11px] font-bold text-[#111] transition duration-500"
                   }
                 >
                   {type}
                 </span>
               ))}
               <span className="ml-auto inline-flex items-center gap-2 text-[13px] font-bold text-[#111]">
-                <span className="size-2 rounded-full bg-[#006bff]" />
+                <span className="size-2 animate-pulse rounded-full bg-[#006bff]" />
                 계속 업데이트 중
               </span>
             </div>
@@ -1503,24 +1542,24 @@ function FileImportSection() {
                 <h3 className="mt-1.5 text-[24px] font-black leading-[30px] text-black">source files</h3>
                 <p className="mt-0.5 text-[13px] leading-[18px] text-[#9aa0a6]">psd · ai · eps · pdf · ppt · svg</p>
                 <div className="mt-4 grid gap-1">
-                  {[
-                    ["Hero copy merged", "w-[190px]", "bg-[#d8dce0]"],
-                    ["Text raster 02", "w-[172px]", "bg-[#d8dce0]"],
-                    ["Layer 144", "w-[154px]", "bg-[#d8dce0]"],
-                    ["Shadow merged", "w-[136px]", "bg-[#8c9298]"],
-                  ].map(([label, width, color], index) => (
-                    <div key={label} className="flex h-[18px] items-center gap-2">
-                      <span className={index === 3 ? "size-2 rounded-[3px] bg-[#7a8086]" : "size-2 rounded-[3px] bg-[#c8cdd2]"} />
-                      <span className={`${width} ${color} rounded-[5px] px-2.5 text-[11px] leading-[18px] text-[#5f6368]`}>
-                        {label}
+                  {conversionSourceRows.map((row, index) => {
+                    const isActive = index === activeSourceRowIndex
+
+                    return (
+                    <div key={row.label} className="flex h-[18px] items-center gap-2">
+                      <span className={isActive ? "size-2 rounded-[3px] bg-[#006bff] transition duration-500" : "size-2 rounded-[3px] bg-[#c8cdd2] transition duration-500"} />
+                      <span className={`${row.width} ${isActive ? "translate-x-1 bg-[#ddebff] text-[#005bff]" : `${row.color} text-[#5f6368]`} rounded-[5px] px-2.5 text-[11px] leading-[18px] transition duration-500`}>
+                        {row.label}
                       </span>
                     </div>
-                  ))}
+                    )
+                  })}
                 </div>
               </div>
 
-              <div className="hidden h-16 w-[84px] items-center justify-center rounded-full bg-[#fafafa] text-[28px] font-black leading-[30px] text-[#4f545a] lg:flex">
-                -&gt;
+              <div className="hidden h-20 w-[84px] flex-col items-center justify-center gap-2 rounded-full bg-[#fafafa] text-[#005bff] lg:flex">
+                <MaterialIcon name="sync" className="animate-spin text-[26px]" />
+                <span className="text-[10px] font-black leading-none text-[#111]">변환 중</span>
               </div>
 
               <div className="h-[206px] rounded-[14px] bg-white p-6">
@@ -1528,15 +1567,19 @@ function FileImportSection() {
                 <h3 className="mt-1.5 text-[24px] font-black leading-[30px] text-black">editable figma</h3>
                 <p className="mt-0.5 text-xs leading-[18px] text-[#737373]">layers · text · images · effects are ready to edit</p>
                 <div className="mt-4 grid grid-cols-1 gap-x-8 gap-y-2 sm:grid-cols-2">
-                  {conversionAfterItems.map((item) => (
-                    <div key={item.title} className="grid grid-cols-[12px_1fr] gap-2.5">
-                      <span className="mt-1 size-3 rounded bg-[#8a9097]" />
+                  {conversionAfterItems.map((item, index) => {
+                    const isComplete = index < completedAfterCount
+
+                    return (
+                    <div key={item.title} className={isComplete ? "grid grid-cols-[12px_1fr] gap-2.5 transition duration-500" : "grid grid-cols-[12px_1fr] gap-2.5 opacity-55 transition duration-500"}>
+                      <span className={isComplete ? "mt-1 size-3 rounded bg-[#006bff] transition duration-500" : "mt-1 size-3 rounded bg-[#8a9097] transition duration-500"} />
                       <div>
                         <strong className="block text-[13px] leading-[18px] text-[#111]">{item.title}</strong>
                         <span className="text-xs leading-[17px] text-[#7a828b]">{item.body}</span>
                       </div>
                     </div>
-                  ))}
+                    )
+                  })}
                 </div>
               </div>
             </div>
@@ -1544,12 +1587,12 @@ function FileImportSection() {
         </div>
 
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {qualityPoints.map((point) => (
+          {qualityPoints.map((point, index) => (
             <div
               key={point.label}
-              className="flex h-12 items-center gap-3 rounded-2xl bg-white px-[18px] text-left shadow-[0_14px_40px_rgba(0,0,0,0.04)]"
+              className={index === activeQualityIndex ? "flex h-12 -translate-y-1 items-center gap-3 rounded-2xl bg-white px-[18px] text-left shadow-[0_18px_36px_rgba(0,91,255,0.13)] ring-1 ring-[#dbe7ff] transition duration-500" : "flex h-12 items-center gap-3 rounded-2xl bg-white px-[18px] text-left shadow-[0_14px_40px_rgba(0,0,0,0.04)] transition duration-500"}
             >
-              <MaterialIcon name={point.icon} className="text-[20px] text-[#0a0a0a]" />
+              <MaterialIcon name={point.icon} className={index === activeQualityIndex ? "text-[20px] text-[#005bff] transition duration-500" : "text-[20px] text-[#0a0a0a] transition duration-500"} />
               <strong className="text-[15px] font-black leading-5 text-[#333]">{point.label}</strong>
               <span className="text-[13px] text-[#5f6368]">{point.value}</span>
             </div>
