@@ -679,84 +679,57 @@ function AnimatedConversionProgressBar({ progress, className = "" }: { progress:
 
 function AiChatSection() {
   return (
-    <section id="features" className="px-6 pb-24 pt-[5px] sm:px-10 lg:px-12">
-      <div className="mx-auto max-w-[1120px] text-center">
-        <p className="text-[13px] font-black text-[#111]">PLUGIN MENU</p>
-        <FeatureCarousel />
+    <section id="features" className="bg-[#050505] px-6 py-20 text-white sm:px-10 sm:py-24 lg:px-12">
+      <div className="mx-auto max-w-[1248px]">
+        <p className="text-[13px] font-black tracking-[0.18em] text-white/45">PLUGIN MENU</p>
+        <div className="mt-5 grid gap-5 lg:grid-cols-[minmax(0,680px)_minmax(280px,390px)] lg:items-end lg:justify-between">
+          <h2 className="max-w-[680px] text-[34px] font-black leading-[1.2] sm:text-[46px]">
+            자주 쓰는 PIGMA 도구를 한눈에
+          </h2>
+          <p className="max-w-[390px] text-[15px] leading-7 text-white/62 lg:justify-self-end">
+            검수, 정리, 보정, 공유까지 작업 중 바로 꺼내 쓰는 메뉴를 격자로 모았습니다.
+          </p>
+        </div>
+        <FeatureActionGrid />
       </div>
     </section>
   )
 }
 
-function FeatureCarousel() {
-  const [activeIndex, setActiveIndex] = useState(0)
-  const slides = featureSlides
-  const activeSlide = slides[activeIndex]
-  const sectionTitle = activeSlide.sectionTitle
-  const sectionLead = activeSlide.sectionLead
-  const lastIndex = slides.length - 1
-  const canGoPrev = activeIndex > 0
-  const canGoNext = activeIndex < lastIndex
-  const scrollToSlide = (slideIndex: number) => {
-    const nextIndex = Math.max(0, Math.min(lastIndex, slideIndex))
-
-    setActiveIndex(nextIndex)
-  }
+function FeatureActionGrid() {
+  const items = featureSlides.flatMap((slide) =>
+    slide.actions.map((action) => ({
+      ...action,
+      category: slide.title,
+      sourceId: slide.id,
+    })),
+  )
 
   return (
-    <>
-      <h2 className="mt-[18px] text-[34px] font-black leading-[1.25] text-[#050505] sm:text-[40px] sm:leading-[53px]">
-        {sectionTitle.map((line) => (
-          <span key={line} className="block">
-            {line}
-          </span>
-        ))}
-      </h2>
-      <p className="mt-5 text-[17px] leading-7 text-[#60656b]">{sectionLead}</p>
-      <div className="relative mx-auto mt-[52px] w-full max-w-[746px]">
-        <div className="overflow-hidden pb-8">
-          <div
-            className="flex transition-transform duration-500 ease-out"
-            style={{ transform: `translateX(-${activeIndex * 100}%)` }}
-          >
-            {slides.map((slide, index) => (
-              <FeatureSlide key={slide.id} {...slide} index={index + 1} total={slides.length} />
-            ))}
+    <div className="mt-12 grid auto-rows-fr gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+      {items.map((item, index) => (
+        <article
+          key={`${item.sourceId}-${item.title}`}
+          className="group min-h-[132px] rounded-lg border border-white/10 bg-white/[0.075] p-[18px] text-left transition duration-200 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.12]"
+        >
+          <div className="flex items-start justify-between gap-3">
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-[10px] bg-white text-[#050505]">
+              <MaterialIcon name={item.icon} className="text-[21px]" />
+            </span>
+            {item.badge ? (
+              <span className="inline-flex h-5 items-center rounded-full bg-[#005bff] px-2 text-[10px] font-black leading-none text-white">
+                {item.badge}
+              </span>
+            ) : (
+              <span className="text-[10px] font-black leading-none text-white/30">{String(index + 1).padStart(2, "0")}</span>
+            )}
           </div>
-        </div>
-        <div className="mt-0 flex items-center justify-center gap-[23px]">
-          <button
-            type="button"
-            onClick={() => scrollToSlide(activeIndex - 1)}
-            disabled={!canGoPrev}
-            className="inline-flex size-6 items-center justify-center text-[#050505] transition hover:text-[#005bff] disabled:cursor-default disabled:text-[#c8d0dc]"
-            aria-label="이전 기능 슬라이드로 이동"
-          >
-            <MaterialIcon name="chevron_left" className="text-[24px]" />
-          </button>
-          <div className="flex items-center gap-2.5">
-            {slides.map((slide, index) => (
-              <button
-                key={slide.id}
-                type="button"
-                onClick={() => scrollToSlide(index)}
-                className={index === activeIndex ? "h-2 w-7 rounded-full bg-[#005bff]" : "size-2 rounded-full bg-[#d8dee8]"}
-                aria-label={`${index + 1}번 기능 슬라이드로 이동`}
-              />
-            ))}
-          </div>
-          <button
-            type="button"
-            onClick={() => scrollToSlide(activeIndex + 1)}
-            disabled={!canGoNext}
-            className="inline-flex size-6 items-center justify-center text-[#050505] transition hover:text-[#005bff] disabled:cursor-default disabled:text-[#c8d0dc]"
-            aria-label="다음 기능 슬라이드로 이동"
-          >
-            <MaterialIcon name="chevron_right" className="text-[24px]" />
-          </button>
-        </div>
-      </div>
-    </>
+          <p className="mt-4 text-[11px] font-black leading-4 text-[#6ea8ff]">{item.category}</p>
+          <h3 className="mt-1 break-keep text-[17px] font-black leading-6 text-white">{item.title}</h3>
+          <p className="mt-2 break-keep text-[12.5px] leading-5 text-white/62">{item.description}</p>
+        </article>
+      ))}
+    </div>
   )
 }
 
@@ -1322,6 +1295,16 @@ function ActionButton({ action }: { action: ActionItem }) {
 }
 
 function WorkflowSection() {
+  const [activeStepIndex, setActiveStepIndex] = useState(0)
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setActiveStepIndex((current) => (current + 1) % workflowSteps.length)
+    }, 1900)
+
+    return () => window.clearInterval(timer)
+  }, [])
+
   return (
     <section className="bg-[#fafafa] px-6 pb-[52px] pt-24 sm:px-10 lg:px-12">
       <div className="mx-auto max-w-[1248px]">
@@ -1339,16 +1322,26 @@ function WorkflowSection() {
 
         <div className="mt-[52px] grid gap-8 lg:grid-cols-[552px_620px] lg:items-start lg:justify-between">
           <div className="grid gap-[14px]">
-            {workflowSteps.map((step) => (
-              <div
+            {workflowSteps.map((step, index) => {
+              const isActive = index === activeStepIndex
+
+              return (
+              <button
                 key={step.number}
-                className="grid min-h-[76px] grid-cols-[56px_1fr_24px] items-center gap-5 rounded-2xl bg-white px-[18px] py-3 shadow-[0_14px_20px_rgba(0,0,0,0.04)]"
+                type="button"
+                onClick={() => setActiveStepIndex(index)}
+                aria-current={isActive ? "step" : undefined}
+                className={
+                  isActive
+                    ? "grid min-h-[76px] grid-cols-[56px_1fr_24px] items-center gap-5 rounded-2xl bg-white px-[18px] py-3 text-left shadow-[0_22px_42px_rgba(15,24,42,0.10)] ring-2 ring-[#005bff]/15 transition duration-500"
+                    : "grid min-h-[76px] grid-cols-[56px_1fr_24px] items-center gap-5 rounded-2xl bg-white px-[18px] py-3 text-left shadow-[0_14px_20px_rgba(0,0,0,0.04)] transition duration-500 hover:-translate-y-0.5 hover:shadow-[0_18px_30px_rgba(15,24,42,0.08)]"
+                }
               >
                 <span
                   className={
-                    step.active
-                      ? "flex h-[50px] w-14 items-center justify-center rounded-xl bg-[#111] text-[17px] font-black leading-[22px] text-white"
-                      : "flex h-[50px] w-14 items-center justify-center rounded-xl bg-[#f1f2f4] text-[17px] font-black leading-[22px] text-[#111]"
+                    isActive
+                      ? "flex h-[50px] w-14 items-center justify-center rounded-xl bg-[#111] text-[17px] font-black leading-[22px] text-white transition duration-500"
+                      : "flex h-[50px] w-14 items-center justify-center rounded-xl bg-[#f1f2f4] text-[17px] font-black leading-[22px] text-[#111] transition duration-500"
                   }
                 >
                   {step.number}
@@ -1357,9 +1350,13 @@ function WorkflowSection() {
                   <h3 className="text-[21px] font-black leading-7 text-[#0a0a0a]">{step.title}</h3>
                   <p className="mt-1 truncate text-sm leading-[22px] text-[#5e5e5e]">{step.description}</p>
                 </div>
-                <MaterialIcon name={step.icon} className="text-[24px] text-[#5f6368]" />
-              </div>
-            ))}
+                <MaterialIcon
+                  name={step.icon}
+                  className={isActive ? "text-[24px] text-[#005bff] transition duration-500" : "text-[24px] text-[#5f6368] transition duration-500"}
+                />
+              </button>
+              )
+            })}
           </div>
 
           <div className="overflow-hidden rounded-2xl bg-[#f1f2f4] shadow-[0_14px_40px_rgba(0,0,0,0.04)]">
@@ -1373,9 +1370,9 @@ function WorkflowSection() {
             </div>
 
             <div className="grid gap-5 px-7 pb-[50px] pt-[30px] md:grid-cols-[246px_30px_246px] md:items-center md:gap-9">
-              <WorkflowLayerPanel variant="source" />
-              <MaterialIcon name="arrow_forward" className="mx-auto hidden text-[30px] text-[#111] md:block" />
-              <WorkflowLayerPanel variant="ready" />
+              <WorkflowLayerPanel variant="source" activeStepIndex={activeStepIndex} />
+              <MaterialIcon name="arrow_forward" className="mx-auto hidden text-[30px] text-[#111] transition duration-500 md:block" />
+              <WorkflowLayerPanel variant="ready" activeStepIndex={activeStepIndex} />
             </div>
           </div>
         </div>
@@ -1384,8 +1381,10 @@ function WorkflowSection() {
   )
 }
 
-function WorkflowLayerPanel({ variant }: { variant: "source" | "ready" }) {
+function WorkflowLayerPanel({ variant, activeStepIndex }: { variant: "source" | "ready"; activeStepIndex: number }) {
   const isReady = variant === "ready"
+  const activeLayerIndex = activeStepIndex === 3 ? workflowLayerRows.length - 1 : activeStepIndex
+  const completedLayerCount = activeStepIndex === 3 ? workflowLayerRows.length : Math.min(workflowLayerRows.length, activeLayerIndex + 1)
 
   return (
     <div className="h-[282px] rounded-[14px] bg-white px-5 py-6">
@@ -1397,20 +1396,24 @@ function WorkflowLayerPanel({ variant }: { variant: "source" | "ready" }) {
       </p>
 
       <div className="mt-4 grid gap-2">
-        {workflowLayerRows.map((row) => (
+        {workflowLayerRows.map((row, index) => {
+          const isActive = index === activeLayerIndex
+          const isComplete = index < completedLayerCount
+
+          return (
           <div
             key={`${variant}-${row.number}`}
             className={
               isReady
-                ? `grid h-[26px] grid-cols-[22px_1fr_18px] items-center gap-2 rounded-[7px] px-1.5 ${row.active ? "bg-[#eef5ff]" : "bg-[#f5f6f8]"}`
+                ? `grid h-[26px] grid-cols-[22px_1fr_18px] items-center gap-2 rounded-[7px] px-1.5 transition duration-500 ${isComplete ? "bg-[#eef5ff]" : "bg-[#f5f6f8]"}`
                 : "flex h-6 items-center gap-2"
             }
           >
             <span
               className={
                 isReady
-                  ? `flex h-4 w-[22px] items-center justify-center rounded-[5px] text-[7px] font-black leading-none text-white ${row.color}`
-                  : `flex size-[18px] items-center justify-center rounded-[5px] text-[7px] font-black leading-none text-white ${row.color}`
+                  ? `flex h-4 w-[22px] items-center justify-center rounded-[5px] text-[7px] font-black leading-none text-white transition duration-500 ${isComplete ? row.color : "bg-[#aeb7c2]"}`
+                  : `flex size-[18px] items-center justify-center rounded-[5px] text-[7px] font-black leading-none text-white transition duration-500 ${isActive ? "bg-[#006bff]" : row.color}`
               }
             >
               {row.number}
@@ -1418,22 +1421,29 @@ function WorkflowLayerPanel({ variant }: { variant: "source" | "ready" }) {
             {isReady ? (
               <>
                 <span className="text-sm leading-[18px] text-[#111]">{row.label.replace(" / nav", "")}</span>
-                <span className={row.active ? "text-center text-sm font-bold text-[#006bff]" : "text-center text-sm font-bold text-[#6f747b]"}>
+                <span className={isComplete ? "text-center text-sm font-bold text-[#006bff] transition duration-500" : "text-center text-sm font-bold text-[#6f747b] transition duration-500"}>
                   ✓
                 </span>
               </>
             ) : (
-              <span className={`${row.width} rounded-md bg-[#e4e7ea] px-2.5 text-[13px] leading-6 text-[#111] ${row.active ? "bg-[#ddebff]" : ""}`}>
+              <span className={`${row.width} rounded-md px-2.5 text-[13px] leading-6 text-[#111] transition duration-500 ${isActive ? "bg-[#ddebff]" : "bg-[#e4e7ea]"}`}>
                 {row.label}
               </span>
             )}
           </div>
-        ))}
+          )
+        })}
       </div>
 
       {isReady ? (
-        <div className="mt-3 flex h-6 items-center justify-center rounded-[7px] bg-[#111] text-xs font-bold text-white">
-          팀 공유 준비 완료
+        <div className="relative mt-3 h-6 overflow-hidden rounded-[7px] bg-[#111]">
+          <div
+            className="absolute inset-y-0 left-0 bg-[#005bff] transition duration-500"
+            style={{ width: `${Math.max(26, (completedLayerCount / workflowLayerRows.length) * 100)}%` }}
+          />
+          <span className="relative z-10 flex h-full items-center justify-center text-xs font-bold text-white">
+            팀 공유 준비 완료
+          </span>
         </div>
       ) : null}
     </div>
