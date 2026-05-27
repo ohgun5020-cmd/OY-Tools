@@ -626,7 +626,7 @@ function HeroSection() {
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <a
-            href="/dashboard"
+            href="#pricing"
             className="inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-[#005bff] px-6 text-[15px] font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0] sm:w-[170px]"
           >
             무료 시작
@@ -1943,7 +1943,7 @@ function FinalCta() {
           </h2>
         </div>
         <a
-          href="/dashboard"
+          href="#pricing"
           className="inline-flex h-[52px] items-center justify-center gap-2 rounded-xl bg-[#005bff] px-6 text-[15px] font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0]"
         >
           무료 시작
