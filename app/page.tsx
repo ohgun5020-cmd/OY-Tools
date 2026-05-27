@@ -147,6 +147,7 @@ const featureSlides: FeatureSlideConfig[] = [
     actions: [
       { title: "링크 짧게 만들기", description: "공유용 URL 생성", icon: "link" },
       { title: "프로토타입 링크", description: "리뷰 링크 바로 복사", icon: "content_copy" },
+      { title: "QR 코드 생성", description: "검수 링크 빠른 공유", icon: "qr_code_2" },
     ],
     mini: "share",
   },
@@ -162,6 +163,7 @@ const featureSlides: FeatureSlideConfig[] = [
       { title: "AI 영상 생성", description: "시안용 영상 만들기", icon: "movie", badge: "AI" },
       { title: "영상 GIF 변환", description: "가벼운 모션 공유", icon: "gif_box" },
       { title: "영상 APNG 변환", description: "투명 모션 에셋", icon: "animation" },
+      { title: "썸네일 추출", description: "대표 컷 저장", icon: "image" },
     ],
     mini: "video",
   },
