@@ -32,6 +32,55 @@ type PricingPlan = {
   cta: string
 }
 
+type PaddleCheckoutConfig = {
+  provider: "paddle"
+  token: string
+  environment: "production" | "sandbox"
+  priceId: string
+  successUrl: string
+  customerEmail: string
+  customData: {
+    user_id: string
+    plan: "basic" | "pro"
+  }
+}
+
+type PaddleCheckoutResponse = {
+  checkout?: PaddleCheckoutConfig
+  error?: string
+  code?: string
+}
+
+type PaddleApi = {
+  Initialized?: boolean
+  Environment?: {
+    set: (environment: "sandbox" | "production") => void
+  }
+  Initialize: (config: { token: string }) => void
+  Update?: (config: Record<string, unknown>) => void
+  Checkout: {
+    open: (config: {
+      settings: {
+        displayMode: "overlay"
+        theme: "light"
+        locale: "ko"
+        successUrl: string
+        variant: "one-page"
+      }
+      items: Array<{ priceId: string; quantity: number }>
+      customer: { email: string }
+      customData: PaddleCheckoutConfig["customData"]
+    }) => void
+  }
+}
+
+declare global {
+  interface Window {
+    Paddle?: PaddleApi
+    __pigmaPaddleScript?: Promise<PaddleApi>
+  }
+}
+
 type FeatureMiniKind = "audit" | "layers" | "align" | "text" | "image" | "generate" | "share" | "video"
 
 type FeatureSlideConfig = {
@@ -1757,6 +1806,63 @@ function PricingSection() {
   )
 }
 
+function loadPaddle() {
+  if (window.Paddle) {
+    return Promise.resolve(window.Paddle)
+  }
+
+  if (window.__pigmaPaddleScript) {
+    return window.__pigmaPaddleScript
+  }
+
+  window.__pigmaPaddleScript = new Promise<PaddleApi>((resolve, reject) => {
+    const existingScript = document.querySelector<HTMLScriptElement>('script[src="https://cdn.paddle.com/paddle/v2/paddle.js"]')
+    const script = existingScript || document.createElement("script")
+
+    script.addEventListener("load", () => {
+      if (window.Paddle) {
+        resolve(window.Paddle)
+      } else {
+        reject(new Error("Paddle.js를 불러오지 못했습니다."))
+      }
+    })
+    script.addEventListener("error", () => reject(new Error("Paddle.js를 불러오지 못했습니다.")))
+
+    if (!existingScript) {
+      script.src = "https://cdn.paddle.com/paddle/v2/paddle.js"
+      script.async = true
+      document.head.appendChild(script)
+    }
+  })
+
+  return window.__pigmaPaddleScript
+}
+
+async function openPaddleCheckout(checkout: PaddleCheckoutConfig) {
+  const paddle = await loadPaddle()
+
+  if (!paddle.Initialized) {
+    if (checkout.environment === "sandbox") {
+      paddle.Environment?.set("sandbox")
+    }
+
+    paddle.Initialize({ token: checkout.token })
+  }
+
+  paddle.Checkout.open({
+    settings: {
+      displayMode: "overlay",
+      theme: "light",
+      locale: "ko",
+      successUrl: checkout.successUrl,
+      variant: "one-page",
+    },
+    items: [{ priceId: checkout.priceId, quantity: 1 }],
+    customer: { email: checkout.customerEmail },
+    customData: checkout.customData,
+  })
+}
+
 function PricingPlanButton({ plan }: { plan: PricingPlan }) {
   const [pending, setPending] = useState(false)
   const [checkoutError, setCheckoutError] = useState<string | null>(null)
@@ -1789,16 +1895,17 @@ function PricingPlanButton({ plan }: { plan: PricingPlan }) {
         return
       }
 
-      const data = (await response.json().catch(() => null)) as { url?: string; error?: string; code?: string } | null
-      if (!response.ok || !data?.url) {
+      const data = (await response.json().catch(() => null)) as PaddleCheckoutResponse | null
+      if (!response.ok || !data?.checkout) {
         setCheckoutError(data?.error || "결제 페이지를 여는 중 문제가 발생했습니다.")
         setPending(false)
         return
       }
 
-      window.location.href = data.url
-    } catch {
-      setCheckoutError("결제 페이지를 여는 중 문제가 발생했습니다.")
+      await openPaddleCheckout(data.checkout)
+      setPending(false)
+    } catch (error) {
+      setCheckoutError(error instanceof Error ? error.message : "결제 페이지를 여는 중 문제가 발생했습니다.")
       setPending(false)
     }
   }

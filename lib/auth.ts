@@ -9,7 +9,7 @@ export const SESSION_COOKIE = "pigma_session"
 const PASSWORD_PREFIX = "scrypt"
 const SESSION_HOURS = 8
 const REMEMBER_SESSION_DAYS = 30
-const paidPlanStatuses = new Set(["active", "on_trial"])
+const paidPlanStatuses = new Set(["active", "on_trial", "trialing"])
 
 type UserRow = {
   id: string
@@ -424,6 +424,7 @@ export function syncBillingSubscription(input: {
   status: string
   plan: "basic" | "pro" | null
   renewsAt: string | null
+  provider?: string
 }) {
   const nextPlan = input.plan && paidPlanStatuses.has(input.status) ? input.plan : "free"
   const timestamp = nowIso()
@@ -433,7 +434,7 @@ export function syncBillingSubscription(input: {
   getDb().prepare(`
     UPDATE users
     SET plan = ?,
-        billing_provider = 'lemonsqueezy',
+        billing_provider = ?,
         billing_customer_id = ?,
         billing_subscription_id = ?,
         billing_variant_id = ?,
@@ -445,6 +446,7 @@ export function syncBillingSubscription(input: {
     WHERE ${whereSql}
   `).run(
     nextPlan,
+    input.provider || "paddle",
     input.customerId,
     input.subscriptionId,
     input.variantId,

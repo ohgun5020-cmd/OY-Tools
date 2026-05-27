@@ -14,9 +14,10 @@ export async function POST() {
     return NextResponse.redirect(`${appUrl}/login`, 303)
   }
 
-  if (!user.billingPortalUrl) {
+  const portalUrl = user.billingPortalUrl || process.env.PADDLE_CUSTOMER_PORTAL_URL
+  if (!portalUrl) {
     return NextResponse.redirect(`${appUrl}/#pricing`, 303)
   }
 
-  return NextResponse.redirect(user.billingPortalUrl, 303)
+  return NextResponse.redirect(portalUrl, 303)
 }
