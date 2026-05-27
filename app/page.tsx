@@ -169,6 +169,34 @@ const featureSlides: FeatureSlideConfig[] = [
   },
 ]
 
+const featureActionDetails: Record<string, string> = {
+  "오타 검수": "시안 안의 제목, 버튼, 상세 문구를 훑어서 놓치기 쉬운 오타와 어색한 표현을 먼저 표시합니다.",
+  "주석으로 공유": "수정해야 할 위치를 설명과 함께 남겨서 디자이너나 클라이언트가 바로 확인할 수 있게 합니다.",
+  "결과 패널": "검수 결과를 한곳에 모아 보여줘서 전체 화면을 다시 뒤지지 않고 필요한 항목만 고칠 수 있습니다.",
+  "잠긴 레이어 해제": "편집이 막힌 레이어를 찾아 작업 가능한 상태로 풀어, 바로 수정할 수 있게 준비합니다.",
+  "컴포넌트 해제": "수정이 어려운 컴포넌트 구조를 풀어서 텍스트와 이미지를 개별로 손볼 수 있게 만듭니다.",
+  "긴 프레임 나누기": "너무 긴 화면이나 상세페이지를 작업하기 좋은 구간으로 나눠서 관리하기 쉽게 정리합니다.",
+  "정수 픽셀 정렬": "반픽셀 위치 때문에 흐려지는 선과 박스를 정수 좌표로 맞춰 선명하게 보이도록 정리합니다.",
+  "버튼 사이즈 맞춤": "버튼 안의 글자 길이에 맞춰 여백과 크기를 정돈해 버튼들이 들쭉날쭉하지 않게 합니다.",
+  "모서리 값 정리": "서로 다른 둥글기 값을 찾아 한 기준으로 맞춰 화면의 통일감을 빠르게 잡습니다.",
+  "텍스트 번역": "원본 레이아웃을 보면서 다국어 문구를 빠르게 넣고, 시안 확인용 번역본을 만듭니다.",
+  "오타 직접 수정": "발견한 오타나 문구 수정안을 해당 텍스트에 바로 반영해 반복 수정 시간을 줄입니다.",
+  "하이라이트": "중요한 문구나 확인해야 할 영역을 표시해서 리뷰하는 사람이 먼저 볼 부분을 알려줍니다.",
+  "원본 이미지 저장": "PSD나 문서 안에 묻힌 이미지를 따로 꺼내 저장해 다시 사용할 수 있게 합니다.",
+  "색상 추출": "시안에 쓰인 주요 색을 뽑아 팔레트처럼 확인하고 브랜드 컬러 기준을 맞출 수 있게 합니다.",
+  "보이는 영역 맞춤": "이미지의 크롭 위치와 보이는 범위를 정리해 잘린 부분이나 어긋난 위치를 맞춥니다.",
+  "이미지 영역 확장": "부족한 배경이나 잘린 이미지를 자연스럽게 늘려 배너와 상세페이지에 맞게 채웁니다.",
+  "해상도 높이기": "작게 받았거나 흐린 이미지를 더 선명하게 만들어 시안이나 공유용으로 쓰기 좋게 합니다.",
+  "이미지 텍스트 추출": "이미지 안에 들어간 글자를 뽑아 편집 가능한 텍스트 레이어로 다시 만들 준비를 합니다.",
+  "링크 짧게 만들기": "긴 Figma나 리뷰 URL을 보기 쉬운 링크로 줄여 메신저나 메일에 깔끔하게 보낼 수 있습니다.",
+  "프로토타입 링크": "클릭 가능한 화면 흐름을 바로 공유할 수 있도록 프로토타입 링크를 빠르게 복사합니다.",
+  "QR 코드 생성": "리뷰 링크를 QR 코드로 만들어 모바일에서 바로 열어보고 확인할 수 있게 합니다.",
+  "AI 영상 생성": "정적인 시안을 바탕으로 간단한 움직임 예시나 영상 시안을 빠르게 만들어 봅니다.",
+  "영상 GIF 변환": "무거운 영상 대신 메신저와 문서에 넣기 쉬운 GIF 형태로 가볍게 변환합니다.",
+  "영상 APNG 변환": "투명 배경이 필요한 움직이는 에셋을 APNG 형태로 준비해 디자인에 붙이기 쉽게 합니다.",
+  "썸네일 추출": "영상이나 움직이는 결과물에서 대표 장면을 골라 썸네일 이미지로 저장합니다.",
+}
+
 const aiActions: ActionItem[] = [
   {
     title: "의도 살리기",
@@ -717,7 +745,8 @@ function FeatureActionGrid() {
       {items.map((item, index) => (
         <article
           key={`${item.sourceId}-${item.title}`}
-          className="group min-h-[132px] rounded-lg border border-white/10 bg-white/[0.075] p-[18px] text-left transition duration-200 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.12]"
+          tabIndex={0}
+          className="group min-h-[162px] rounded-lg border border-white/10 bg-white/[0.075] p-[18px] text-left outline-none transition duration-200 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.12] focus:-translate-y-1 focus:border-white/20 focus:bg-white/[0.12]"
         >
           <div className="flex items-start justify-between gap-3">
             <span className="flex size-9 shrink-0 items-center justify-center rounded-[10px] bg-white text-[#050505]">
@@ -733,7 +762,14 @@ function FeatureActionGrid() {
           </div>
           <p className="mt-4 text-[11px] font-black leading-4 text-[#6ea8ff]">{item.category}</p>
           <h3 className="mt-1 break-keep text-[17px] font-black leading-6 text-white">{item.title}</h3>
-          <p className="mt-2 break-keep text-[12.5px] leading-5 text-white/62">{item.description}</p>
+          <div className="relative mt-2 h-[56px] overflow-hidden">
+            <p className="absolute inset-0 break-keep text-[12.5px] leading-5 text-white/62 transition duration-200 group-hover:-translate-y-1 group-hover:opacity-0 group-focus:-translate-y-1 group-focus:opacity-0">
+              {item.description}
+            </p>
+            <p className="absolute inset-0 translate-y-2 break-keep text-[12px] leading-[18px] text-white/72 opacity-0 transition duration-200 group-hover:translate-y-0 group-hover:opacity-100 group-focus:translate-y-0 group-focus:opacity-100">
+              {featureActionDetails[item.title] || item.description}
+            </p>
+          </div>
         </article>
       ))}
     </div>
@@ -1376,7 +1412,7 @@ function WorkflowSection() {
               </span>
             </div>
 
-            <div className="grid gap-5 px-7 pb-[50px] pt-[30px] md:grid-cols-[246px_66px_246px] md:items-center md:gap-7">
+            <div className="grid gap-5 px-5 pb-[50px] pt-[30px] md:grid-cols-[236px_44px_236px] md:items-center">
               <WorkflowLayerPanel variant="source" activeStepIndex={activeStepIndex} />
               <WorkflowTransferIndicator />
               <WorkflowLayerPanel variant="ready" activeStepIndex={activeStepIndex} />
