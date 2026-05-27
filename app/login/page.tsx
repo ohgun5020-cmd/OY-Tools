@@ -1,8 +1,6 @@
 import type { Metadata } from "next"
-import { redirect } from "next/navigation"
 
 import { AuthScreen } from "../_components/AuthScreen"
-import { getCurrentUser } from "@/lib/auth"
 
 export const metadata: Metadata = {
   title: "로그인 | PIGMA",
@@ -33,11 +31,6 @@ function getNotice(params: Awaited<LoginPageProps["searchParams"]>) {
 }
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
-  const user = await getCurrentUser()
-  if (user) {
-    redirect("/dashboard")
-  }
-
   const params = await searchParams
   return <AuthScreen mode="login" notice={getNotice(params)} />
 }

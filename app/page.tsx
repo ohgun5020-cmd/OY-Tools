@@ -482,22 +482,6 @@ function MaterialIcon({ name, className = "" }: { name: string; className?: stri
   )
 }
 
-function StartLink({
-  className,
-  children,
-}: {
-  className: string
-  children: ReactNode
-}) {
-  const user = useSessionUser()
-
-  return (
-    <a href={user ? "/dashboard" : "/signup"} className={className}>
-      {children}
-    </a>
-  )
-}
-
 function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur-xl">
@@ -641,12 +625,13 @@ function HeroSection() {
           가져오는 과정보다, Figma에서 바로 만질 수 있는 결과물로 내보내는 데 집중합니다.
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <StartLink
+          <a
+            href="/dashboard"
             className="inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-[#005bff] px-6 text-[15px] font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0] sm:w-[170px]"
           >
             무료 시작
             <MaterialIcon name="arrow_forward" className="text-[16px]" />
-          </StartLink>
+          </a>
           <a
             href="#pricing"
             className="inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-white px-6 text-[15px] font-bold text-[#0a0a0a] shadow-[0_10px_24px_rgba(0,0,0,0.05)] transition hover:-translate-y-0.5 sm:w-[180px]"
@@ -1892,9 +1877,9 @@ function PricingPlanButton({ plan }: { plan: PricingPlan }) {
 
   if (plan.key === "free") {
     return (
-      <StartLink className={className}>
+      <a href="/dashboard" className={className}>
         {plan.cta}
-      </StartLink>
+      </a>
     )
   }
 
@@ -1957,12 +1942,13 @@ function FinalCta() {
             빠르게 수정하세요.
           </h2>
         </div>
-        <StartLink
+        <a
+          href="/dashboard"
           className="inline-flex h-[52px] items-center justify-center gap-2 rounded-xl bg-[#005bff] px-6 text-[15px] font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0]"
         >
           무료 시작
           <MaterialIcon name="arrow_forward" className="text-[16px]" />
-        </StartLink>
+        </a>
       </div>
     </section>
   )
