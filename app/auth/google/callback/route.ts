@@ -1,6 +1,7 @@
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 
+import { getAppUrl } from "@/lib/app-url"
 import { createSessionCookie, upsertGoogleUser, type GoogleProfile } from "@/lib/auth"
 
 export const runtime = "nodejs"
@@ -29,7 +30,7 @@ export async function GET(request: Request) {
     redirect(`/${mode}?error=google-unconfigured`)
   }
 
-  const redirectUri = `${url.origin}/auth/google/callback`
+  const redirectUri = `${getAppUrl(request)}/auth/google/callback`
   const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
     method: "POST",
     headers: {

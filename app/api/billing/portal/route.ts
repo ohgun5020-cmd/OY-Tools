@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 
 import { getCurrentUser } from "@/lib/auth"
-import { getAppUrl } from "@/lib/lemonsqueezy"
+import { getAppUrl } from "@/lib/app-url"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"

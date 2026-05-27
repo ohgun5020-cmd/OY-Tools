@@ -1,3 +1,5 @@
+import { getAppUrl } from "@/lib/app-url"
+
 export type BillingPlan = "basic" | "pro"
 
 const planVariantEnv: Record<BillingPlan, string> = {
@@ -16,18 +18,6 @@ type LemonSqueezyCheckoutResponse = {
 
 export function isBillingPlan(value: unknown): value is BillingPlan {
   return value === "basic" || value === "pro"
-}
-
-export function getAppUrl() {
-  if (process.env.NEXT_PUBLIC_APP_URL) {
-    return process.env.NEXT_PUBLIC_APP_URL.replace(/\/$/, "")
-  }
-
-  if (process.env.RAILWAY_PUBLIC_DOMAIN) {
-    return `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`
-  }
-
-  return "http://localhost:3000"
 }
 
 export function getVariantIdForPlan(plan: BillingPlan) {

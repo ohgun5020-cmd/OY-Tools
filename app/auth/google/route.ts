@@ -3,6 +3,8 @@ import { randomBytes } from "node:crypto"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 
+import { getAppUrl } from "@/lib/app-url"
+
 export const runtime = "nodejs"
 
 const stateCookie = "pigma_oauth_state"
@@ -35,7 +37,7 @@ export async function GET(request: Request) {
     maxAge: 10 * 60,
   })
 
-  const redirectUri = `${url.origin}/auth/google/callback`
+  const redirectUri = `${getAppUrl(request)}/auth/google/callback`
   const googleUrl = new URL("https://accounts.google.com/o/oauth2/v2/auth")
   googleUrl.searchParams.set("client_id", clientId)
   googleUrl.searchParams.set("redirect_uri", redirectUri)
