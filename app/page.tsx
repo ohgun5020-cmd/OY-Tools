@@ -1366,7 +1366,7 @@ function WorkflowSection() {
         </div>
 
         <div className="mt-[52px] grid gap-8 lg:grid-cols-[552px_620px] lg:items-start lg:justify-between">
-          <div className="grid gap-[14px]">
+          <div className="grid gap-[14px] lg:h-[428px] lg:grid-rows-4">
             {workflowSteps.map((step, index) => {
               const isActive = index === activeStepIndex
 
@@ -1378,15 +1378,15 @@ function WorkflowSection() {
                 aria-current={isActive ? "step" : undefined}
                 className={
                   isActive
-                    ? "grid min-h-[76px] grid-cols-[56px_1fr_24px] items-center gap-5 rounded-2xl bg-white px-[18px] py-3 text-left shadow-[0_22px_42px_rgba(15,24,42,0.10)] ring-2 ring-[#005bff]/15 transition duration-500"
-                    : "grid min-h-[76px] grid-cols-[56px_1fr_24px] items-center gap-5 rounded-2xl bg-white px-[18px] py-3 text-left shadow-[0_14px_20px_rgba(0,0,0,0.04)] transition duration-500 hover:-translate-y-0.5 hover:shadow-[0_18px_30px_rgba(15,24,42,0.08)]"
+                    ? "grid min-h-[88px] grid-cols-[62px_1fr_24px] items-center gap-5 rounded-2xl bg-white px-5 py-4 text-left shadow-[0_22px_42px_rgba(15,24,42,0.10)] ring-2 ring-[#005bff]/15 transition duration-500 lg:min-h-0"
+                    : "grid min-h-[88px] grid-cols-[62px_1fr_24px] items-center gap-5 rounded-2xl bg-white px-5 py-4 text-left shadow-[0_14px_20px_rgba(0,0,0,0.04)] transition duration-500 hover:-translate-y-0.5 hover:shadow-[0_18px_30px_rgba(15,24,42,0.08)] lg:min-h-0"
                 }
               >
                 <span
                   className={
                     isActive
-                      ? "flex h-[50px] w-14 items-center justify-center rounded-xl bg-[#111] text-[17px] font-black leading-[22px] text-white transition duration-500"
-                      : "flex h-[50px] w-14 items-center justify-center rounded-xl bg-[#f1f2f4] text-[17px] font-black leading-[22px] text-[#111] transition duration-500"
+                      ? "flex size-14 items-center justify-center rounded-xl bg-[#111] text-[17px] font-black leading-[22px] text-white transition duration-500"
+                      : "flex size-14 items-center justify-center rounded-xl bg-[#f1f2f4] text-[17px] font-black leading-[22px] text-[#111] transition duration-500"
                   }
                 >
                   {step.number}
@@ -1414,7 +1414,7 @@ function WorkflowSection() {
               </span>
             </div>
 
-            <div className="grid gap-5 px-5 pb-[50px] pt-[30px] md:grid-cols-[236px_44px_236px] md:items-center">
+            <div className="grid justify-center gap-5 px-5 pb-[50px] pt-[30px] md:grid-cols-[236px_44px_236px] md:items-center">
               <WorkflowLayerPanel variant="source" activeStepIndex={activeStepIndex} />
               <WorkflowTransferIndicator />
               <WorkflowLayerPanel variant="ready" activeStepIndex={activeStepIndex} />
@@ -1635,6 +1635,16 @@ function FileImportSection() {
 }
 
 function UseCasesSection() {
+  const [activeUseCaseIndex, setActiveUseCaseIndex] = useState(0)
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setActiveUseCaseIndex((current) => (current + 1) % useCases.length)
+    }, 900)
+
+    return () => window.clearInterval(timer)
+  }, [])
+
   return (
     <section className="bg-[#050505] px-6 py-24 text-white sm:px-10 lg:px-12">
       <div className="mx-auto max-w-[1216px]">
@@ -1648,15 +1658,42 @@ function UseCasesSection() {
           기능 설명보다 실제 작업 상황에 바로 꽂히는 15가지입니다.
         </p>
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
-          {useCases.map((item) => (
-            <article key={item.title} className="rounded-2xl bg-[#171717] p-5">
-              <div className="flex size-[34px] items-center justify-center rounded-[10px] bg-white text-[#050505]">
+          {useCases.map((item, index) => {
+            const isActive = index === activeUseCaseIndex
+
+            return (
+            <article
+              key={item.title}
+              onMouseEnter={() => setActiveUseCaseIndex(index)}
+              className={
+                isActive
+                  ? "group relative min-h-[158px] -translate-y-2 overflow-hidden rounded-2xl border border-[#005bff] bg-white p-5 text-[#050505] shadow-[0_24px_70px_rgba(0,91,255,0.38)] transition duration-500"
+                  : "group relative min-h-[158px] overflow-hidden rounded-2xl border border-white/5 bg-[#171717] p-5 text-white transition duration-500 hover:-translate-y-1 hover:border-white/20 hover:bg-[#202020]"
+              }
+            >
+              <span
+                className={
+                  isActive
+                    ? "absolute inset-x-0 top-0 h-1 origin-left scale-x-100 bg-[#005bff] transition duration-500"
+                    : "absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-[#005bff] transition duration-500 group-hover:scale-x-100"
+                }
+              />
+              <div
+                className={
+                  isActive
+                    ? "flex size-[38px] rotate-[-8deg] items-center justify-center rounded-[10px] bg-[#005bff] text-white shadow-[0_12px_26px_rgba(0,91,255,0.34)] transition duration-500"
+                    : "flex size-[34px] items-center justify-center rounded-[10px] bg-white text-[#050505] transition duration-500 group-hover:rotate-[-6deg] group-hover:bg-[#005bff] group-hover:text-white"
+                }
+              >
                 <MaterialIcon name={item.icon} className="text-[20px]" />
               </div>
               <h3 className="mt-4 text-lg font-bold">{item.title}</h3>
-              <p className="mt-2 text-[12.5px] leading-[18px] text-[#bdbdbd]">{item.description}</p>
+              <p className={isActive ? "mt-2 text-[12.5px] leading-[18px] text-[#333]" : "mt-2 text-[12.5px] leading-[18px] text-[#bdbdbd]"}>
+                {item.description}
+              </p>
             </article>
-          ))}
+            )
+          })}
         </div>
       </div>
     </section>
