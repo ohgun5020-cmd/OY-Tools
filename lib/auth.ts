@@ -5,7 +5,7 @@ import { DatabaseSync } from "node:sqlite"
 
 import { cookies } from "next/headers"
 
-const SESSION_COOKIE = "pigma_session"
+export const SESSION_COOKIE = "pigma_session"
 const PASSWORD_PREFIX = "scrypt"
 const SESSION_HOURS = 8
 const REMEMBER_SESSION_DAYS = 30

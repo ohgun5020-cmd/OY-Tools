@@ -1,10 +1,27 @@
 import { NextResponse } from "next/server"
 
-import { deleteCurrentSession } from "@/lib/auth"
+import { getAppUrl } from "@/lib/app-url"
+import { deleteCurrentSession, SESSION_COOKIE } from "@/lib/auth"
 
 export const runtime = "nodejs"
+export const dynamic = "force-dynamic"
+
+async function logout(request: Request) {
+  try {
+    await deleteCurrentSession()
+  } catch (error) {
+    console.error("Failed to delete logout session.", error)
+  }
+
+  const response = NextResponse.redirect(new URL("/", getAppUrl(request)), { status: 303 })
+  response.cookies.delete(SESSION_COOKIE)
+  return response
+}
 
 export async function POST(request: Request) {
-  await deleteCurrentSession()
-  return NextResponse.redirect(new URL("/", request.url), { status: 303 })
+  return logout(request)
+}
+
+export async function GET(request: Request) {
+  return logout(request)
 }
