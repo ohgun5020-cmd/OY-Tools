@@ -643,6 +643,50 @@ export function getUserById(userId: string) {
   return row ? toUser(row) : null
 }
 
+export function getUserByEmail(email: string) {
+  const normalizedEmail = normalizeEmail(email)
+  if (!validateEmail(normalizedEmail)) {
+    return null
+  }
+
+  const row = getDb().prepare("SELECT * FROM users WHERE email = ?").get(normalizedEmail) as UserRow | undefined
+  return row ? toUser(row) : null
+}
+
+export function setManualUserPlanByEmail(input: { email: string; plan: "free" | "basic" | "pro" }) {
+  const normalizedEmail = normalizeEmail(input.email)
+  if (!validateEmail(normalizedEmail)) {
+    throw authError("사용 가능한 이메일을 입력해주세요.", { email: "사용 가능한 이메일을 입력해주세요." })
+  }
+
+  const database = getDb()
+  const existing = database.prepare("SELECT id FROM users WHERE email = ?").get(normalizedEmail) as
+    | Pick<UserRow, "id">
+    | undefined
+  if (!existing) {
+    return null
+  }
+
+  const timestamp = nowIso()
+  const nextStatus = input.plan === "free" ? "free" : "active"
+  database.prepare(`
+    UPDATE users
+    SET plan = ?,
+        plan_status = ?,
+        billing_provider = ?,
+        billing_customer_id = NULL,
+        billing_subscription_id = NULL,
+        billing_variant_id = NULL,
+        billing_portal_url = NULL,
+        plan_renews_at = NULL,
+        billing_updated_at = ?,
+        updated_at = ?
+    WHERE id = ?
+  `).run(input.plan, nextStatus, input.plan === "free" ? null : "manual", timestamp, timestamp, existing.id)
+
+  return getUserById(existing.id)
+}
+
 export function syncBillingSubscription(input: {
   userId?: string | null
   customerId: string | null

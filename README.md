@@ -22,6 +22,18 @@ Open `http://localhost:3000`.
 
 The app uses server routes for auth and billing. On Railway, attach a Volume to the app service for the SQLite auth DB.
 
+## Admin Plan Override
+
+Signed-in admin emails can open `/admin` and manually set a user's plan by email. This works for Google accounts too because the user lookup is based on the verified email address.
+
+Set admin emails in Railway:
+
+```bash
+PIGMA_ADMIN_EMAILS=ohgun5020@gmail.com
+```
+
+If `PIGMA_ADMIN_EMAILS` is not set, `ohgun5020@gmail.com` is allowed by default.
+
 ## Paddle Billing
 
 Create Basic and Pro prices in Paddle, then set these variables in Railway:

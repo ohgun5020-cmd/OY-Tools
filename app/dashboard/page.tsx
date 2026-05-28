@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation"
 
 import { logoutAction } from "../auth/actions"
+import { isAdminUser } from "@/lib/admin"
 import { getCurrentUser, getUserStats } from "@/lib/auth"
 
 export const dynamic = "force-dynamic"
@@ -124,6 +125,7 @@ export default async function DashboardPage() {
   const hasBillingProfile = Boolean(user.billingCustomerId || user.billingPortalUrl || process.env.PADDLE_CUSTOMER_PORTAL_URL)
   const hasPaidPlan = user.plan !== "free" || Boolean(user.billingSubscriptionId)
   const nextBillingLabel = renewsAt || (hasPaidPlan ? "Paddle에서 확인" : "무료 플랜")
+  const isAdmin = isAdminUser(user)
 
   const summaryItems = [
     ["현재 플랜", getPlanLabel(user.plan), "workspace_premium"],
@@ -139,12 +141,23 @@ export default async function DashboardPage() {
           <a href="/" aria-label="PIGMA 홈으로 이동">
             <PigmaLogo className="h-[18px] w-auto" />
           </a>
-          <form action={logoutAction}>
-            <button className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[#050505] px-5 text-sm font-black text-white transition hover:-translate-y-0.5 hover:bg-[#1c1c1c]">
-              로그아웃
-              <MaterialIcon name="logout" className="text-[17px]" />
-            </button>
-          </form>
+          <div className="flex items-center gap-3">
+            {isAdmin ? (
+              <a
+                href="/admin"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[#eef5ff] px-5 text-sm font-black text-[#005bff] transition hover:-translate-y-0.5 hover:bg-[#ddecff]"
+              >
+                관리자
+                <MaterialIcon name="admin_panel_settings" className="text-[17px]" />
+              </a>
+            ) : null}
+            <form action={logoutAction}>
+              <button className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[#050505] px-5 text-sm font-black text-white transition hover:-translate-y-0.5 hover:bg-[#1c1c1c]">
+                로그아웃
+                <MaterialIcon name="logout" className="text-[17px]" />
+              </button>
+            </form>
+          </div>
         </header>
 
         <section className="mt-8 grid gap-6 lg:grid-cols-[1fr_360px]">
