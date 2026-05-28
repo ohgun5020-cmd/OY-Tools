@@ -61,3 +61,11 @@ Subscribe it to:
 - `subscription.paused`
 - `subscription.resumed`
 - `subscription.canceled`
+
+## PIGMA Plugin Integration
+
+The web app is the source of truth for account, billing, and plan state. The Figma plugin should only display a compact connection state and read the current plan through a plugin token.
+
+- Users open `/plugin/connect` while logged in to create a plugin token.
+- The plugin stores the server URL and token locally, then calls `/api/plugin/session` with `Authorization: Bearer <token>`.
+- `/api/plugin/session` returns only the lightweight fields the plugin needs: name, email, plan, plan status, renewal date, avatar URL, and web links.

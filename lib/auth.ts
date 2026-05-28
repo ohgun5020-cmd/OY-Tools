@@ -9,6 +9,7 @@ export const SESSION_COOKIE = "pigma_session"
 const PASSWORD_PREFIX = "scrypt"
 const SESSION_HOURS = 8
 const REMEMBER_SESSION_DAYS = 30
+const PLUGIN_TOKEN_DAYS = 365
 const paidPlanStatuses = new Set(["active", "on_trial", "trialing"])
 
 type UserRow = {
@@ -37,6 +38,11 @@ type SessionRow = {
   user_id: string
   token_hash: string
   expires_at: string
+}
+
+export type PluginAccessToken = {
+  token: string
+  expiresAt: string
 }
 
 export type AuthUser = {
@@ -136,8 +142,21 @@ function migrate(database: DatabaseSync) {
 
     CREATE INDEX IF NOT EXISTS sessions_user_id_idx ON sessions(user_id);
     CREATE INDEX IF NOT EXISTS sessions_expires_at_idx ON sessions(expires_at);
-    CREATE INDEX IF NOT EXISTS users_billing_customer_id_idx ON users(billing_customer_id);
-    CREATE INDEX IF NOT EXISTS users_billing_subscription_id_idx ON users(billing_subscription_id);
+
+    CREATE TABLE IF NOT EXISTS plugin_tokens (
+      id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL,
+      token_hash TEXT NOT NULL UNIQUE,
+      label TEXT,
+      created_at TEXT NOT NULL,
+      last_used_at TEXT,
+      expires_at TEXT NOT NULL,
+      revoked_at TEXT,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    );
+
+    CREATE INDEX IF NOT EXISTS plugin_tokens_user_id_idx ON plugin_tokens(user_id);
+    CREATE INDEX IF NOT EXISTS plugin_tokens_expires_at_idx ON plugin_tokens(expires_at);
   `)
 
   ensureColumn(database, "users", "password_hash", "ALTER TABLE users ADD COLUMN password_hash TEXT")
@@ -154,6 +173,11 @@ function migrate(database: DatabaseSync) {
   ensureColumn(database, "users", "plan_renews_at", "ALTER TABLE users ADD COLUMN plan_renews_at TEXT")
   ensureColumn(database, "users", "billing_updated_at", "ALTER TABLE users ADD COLUMN billing_updated_at TEXT")
   ensureColumn(database, "users", "updated_at", "ALTER TABLE users ADD COLUMN updated_at TEXT")
+
+  database.exec(`
+    CREATE INDEX IF NOT EXISTS users_billing_customer_id_idx ON users(billing_customer_id);
+    CREATE INDEX IF NOT EXISTS users_billing_subscription_id_idx ON users(billing_subscription_id);
+  `)
 }
 
 function ensureColumn(database: DatabaseSync, table: string, column: string, sql: string) {
@@ -399,6 +423,60 @@ export async function deleteCurrentSession() {
 
 export function cleanupExpiredSessions() {
   getDb().prepare("DELETE FROM sessions WHERE expires_at <= ?").run(nowIso())
+}
+
+export function createPluginAccessToken(userId: string, label = "Pigma plugin"): PluginAccessToken {
+  const user = getUserById(userId)
+  if (!user) {
+    throw authError("User not found.")
+  }
+
+  cleanupExpiredPluginTokens()
+
+  const token = `pigma_pat_${randomBytes(32).toString("base64url")}`
+  const timestamp = nowIso()
+  const expiresAt = new Date(Date.now() + PLUGIN_TOKEN_DAYS * 24 * 60 * 60 * 1000).toISOString()
+
+  getDb().prepare(`
+    INSERT INTO plugin_tokens (id, user_id, token_hash, label, created_at, expires_at)
+    VALUES (?, ?, ?, ?, ?, ?)
+  `).run(randomUUID(), userId, hashToken(token), label.trim() || "Pigma plugin", timestamp, expiresAt)
+
+  return {
+    token,
+    expiresAt,
+  }
+}
+
+export function getUserByPluginAccessToken(token: string) {
+  const cleanedToken = String(token || "").trim()
+  if (!cleanedToken) {
+    return null
+  }
+
+  const database = getDb()
+  const tokenHash = hashToken(cleanedToken)
+  const timestamp = nowIso()
+  const row = database.prepare(`
+    SELECT users.*
+    FROM plugin_tokens
+    JOIN users ON users.id = plugin_tokens.user_id
+    WHERE plugin_tokens.token_hash = ?
+      AND plugin_tokens.revoked_at IS NULL
+      AND plugin_tokens.expires_at > ?
+    LIMIT 1
+  `).get(tokenHash, timestamp) as UserRow | undefined
+
+  if (!row) {
+    return null
+  }
+
+  database.prepare("UPDATE plugin_tokens SET last_used_at = ? WHERE token_hash = ?").run(timestamp, tokenHash)
+  return toUser(row)
+}
+
+export function cleanupExpiredPluginTokens() {
+  getDb().prepare("DELETE FROM plugin_tokens WHERE expires_at <= ?").run(nowIso())
 }
 
 export function getUserStats(userId: string) {
