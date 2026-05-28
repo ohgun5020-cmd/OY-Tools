@@ -15,7 +15,7 @@ function parseEmailList(value: string | undefined) {
 
 export function getAdminEmails() {
   const configured = parseEmailList(process.env.PIGMA_ADMIN_EMAILS || process.env.ADMIN_EMAILS)
-  return configured.length > 0 ? configured : [DEFAULT_ADMIN_EMAIL]
+  return Array.from(new Set([DEFAULT_ADMIN_EMAIL, ...configured]))
 }
 
 export function isAdminEmail(email: string) {

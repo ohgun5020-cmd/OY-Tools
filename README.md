@@ -32,7 +32,7 @@ Set admin emails in Railway:
 PIGMA_ADMIN_EMAILS=ohgun5020@gmail.com
 ```
 
-If `PIGMA_ADMIN_EMAILS` is not set, `ohgun5020@gmail.com` is allowed by default.
+The owner email `ohgun5020@gmail.com` is always allowed, even when additional admin emails are configured.
 
 ## Paddle Billing
 
