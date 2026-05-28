@@ -15,6 +15,15 @@ export type AuthFormState = {
   fieldErrors?: Record<string, string>
 }
 
+function safeNextPath(value: FormDataEntryValue | null) {
+  const next = typeof value === "string" ? value.trim() : ""
+  if (!next || !next.startsWith("/") || next.startsWith("//") || next.includes("\\") || next.includes("://")) {
+    return "/"
+  }
+
+  return next
+}
+
 export async function signupAction(_prevState: AuthFormState, formData: FormData): Promise<AuthFormState> {
   let userId: string
 
@@ -37,7 +46,7 @@ export async function signupAction(_prevState: AuthFormState, formData: FormData
     throw error
   }
 
-  redirect("/")
+  redirect(safeNextPath(formData.get("next")))
 }
 
 export async function loginAction(_prevState: AuthFormState, formData: FormData): Promise<AuthFormState> {
@@ -60,7 +69,7 @@ export async function loginAction(_prevState: AuthFormState, formData: FormData)
     throw error
   }
 
-  redirect("/")
+  redirect(safeNextPath(formData.get("next")))
 }
 
 export async function logoutAction() {

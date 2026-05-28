@@ -10,6 +10,7 @@ const PASSWORD_PREFIX = "scrypt"
 const SESSION_HOURS = 8
 const REMEMBER_SESSION_DAYS = 30
 const PLUGIN_TOKEN_DAYS = 365
+const PLUGIN_CONNECTION_MINUTES = 15
 const paidPlanStatuses = new Set(["active", "on_trial", "trialing"])
 
 type UserRow = {
@@ -44,6 +45,11 @@ export type PluginAccessToken = {
   token: string
   expiresAt: string
 }
+
+export type PluginConnectionResult =
+  | { status: "pending" }
+  | { status: "connected"; token: string; tokenExpiresAt: string; user: AuthUser }
+  | { status: "expired" | "invalid" }
 
 export type AuthUser = {
   id: string
@@ -157,6 +163,21 @@ function migrate(database: DatabaseSync) {
 
     CREATE INDEX IF NOT EXISTS plugin_tokens_user_id_idx ON plugin_tokens(user_id);
     CREATE INDEX IF NOT EXISTS plugin_tokens_expires_at_idx ON plugin_tokens(expires_at);
+
+    CREATE TABLE IF NOT EXISTS plugin_connection_requests (
+      id TEXT PRIMARY KEY,
+      secret_hash TEXT NOT NULL,
+      user_id TEXT,
+      plugin_token TEXT,
+      token_expires_at TEXT,
+      created_at TEXT NOT NULL,
+      completed_at TEXT,
+      consumed_at TEXT,
+      expires_at TEXT NOT NULL,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    );
+
+    CREATE INDEX IF NOT EXISTS plugin_connection_requests_expires_at_idx ON plugin_connection_requests(expires_at);
   `)
 
   ensureColumn(database, "users", "password_hash", "ALTER TABLE users ADD COLUMN password_hash TEXT")
@@ -477,6 +498,120 @@ export function getUserByPluginAccessToken(token: string) {
 
 export function cleanupExpiredPluginTokens() {
   getDb().prepare("DELETE FROM plugin_tokens WHERE expires_at <= ?").run(nowIso())
+}
+
+export function completePluginConnectionRequest(input: { requestId: string; secret: string; userId: string }) {
+  const requestId = input.requestId.trim()
+  const secret = input.secret.trim()
+  if (!requestId || !secret) {
+    throw authError("Invalid plugin connection request.")
+  }
+
+  const user = getUserById(input.userId)
+  if (!user) {
+    throw authError("User not found.")
+  }
+
+  cleanupExpiredPluginConnectionRequests()
+
+  const token = createPluginAccessToken(input.userId)
+  const timestamp = nowIso()
+  const expiresAt = new Date(Date.now() + PLUGIN_CONNECTION_MINUTES * 60 * 1000).toISOString()
+
+  getDb().prepare(`
+    INSERT INTO plugin_connection_requests (
+      id,
+      secret_hash,
+      user_id,
+      plugin_token,
+      token_expires_at,
+      created_at,
+      completed_at,
+      consumed_at,
+      expires_at
+    )
+    VALUES (?, ?, ?, ?, ?, ?, ?, NULL, ?)
+    ON CONFLICT(id) DO UPDATE SET
+      secret_hash = excluded.secret_hash,
+      user_id = excluded.user_id,
+      plugin_token = excluded.plugin_token,
+      token_expires_at = excluded.token_expires_at,
+      completed_at = excluded.completed_at,
+      consumed_at = NULL,
+      expires_at = excluded.expires_at
+  `).run(requestId, hashToken(secret), input.userId, token.token, token.expiresAt, timestamp, timestamp, expiresAt)
+
+  return {
+    expiresAt,
+    tokenExpiresAt: token.expiresAt,
+  }
+}
+
+export function getPluginConnectionRequest(requestId: string, secret: string): PluginConnectionResult {
+  const cleanedRequestId = requestId.trim()
+  const cleanedSecret = secret.trim()
+  if (!cleanedRequestId || !cleanedSecret) {
+    return { status: "invalid" }
+  }
+
+  cleanupExpiredPluginConnectionRequests()
+
+  const row = getDb().prepare(`
+    SELECT *
+    FROM plugin_connection_requests
+    WHERE id = ?
+    LIMIT 1
+  `).get(cleanedRequestId) as
+    | {
+        id: string
+        secret_hash: string
+        user_id: string | null
+        plugin_token: string | null
+        token_expires_at: string | null
+        consumed_at: string | null
+        expires_at: string
+      }
+    | undefined
+
+  if (!row) {
+    return { status: "pending" }
+  }
+
+  if (row.secret_hash !== hashToken(cleanedSecret)) {
+    return { status: "invalid" }
+  }
+
+  if (row.expires_at <= nowIso()) {
+    return { status: "expired" }
+  }
+
+  if (row.consumed_at) {
+    return { status: "expired" }
+  }
+
+  if (!row.user_id || !row.plugin_token || !row.token_expires_at) {
+    return { status: "pending" }
+  }
+
+  const user = getUserById(row.user_id)
+  if (!user) {
+    return { status: "invalid" }
+  }
+
+  getDb()
+    .prepare("UPDATE plugin_connection_requests SET consumed_at = ?, plugin_token = NULL WHERE id = ?")
+    .run(nowIso(), cleanedRequestId)
+
+  return {
+    status: "connected",
+    token: row.plugin_token,
+    tokenExpiresAt: row.token_expires_at,
+    user,
+  }
+}
+
+export function cleanupExpiredPluginConnectionRequests() {
+  getDb().prepare("DELETE FROM plugin_connection_requests WHERE expires_at <= ?").run(nowIso())
 }
 
 export function getUserStats(userId: string) {

@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 type SignupPageProps = {
   searchParams: Promise<{
     error?: string
+    next?: string
   }>
 }
 
@@ -27,5 +28,5 @@ function getNotice(params: Awaited<SignupPageProps["searchParams"]>) {
 
 export default async function SignupPage({ searchParams }: SignupPageProps) {
   const params = await searchParams
-  return <AuthScreen mode="signup" notice={getNotice(params)} />
+  return <AuthScreen mode="signup" notice={getNotice(params)} nextPath={params.next} />
 }

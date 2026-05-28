@@ -11,6 +11,7 @@ type LoginPageProps = {
   searchParams: Promise<{
     error?: string
     signedOut?: string
+    next?: string
   }>
 }
 
@@ -32,5 +33,5 @@ function getNotice(params: Awaited<LoginPageProps["searchParams"]>) {
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
   const params = await searchParams
-  return <AuthScreen mode="login" notice={getNotice(params)} />
+  return <AuthScreen mode="login" notice={getNotice(params)} nextPath={params.next} />
 }

@@ -2,76 +2,58 @@
 
 import { useState } from "react"
 
-type TokenResponse = {
-  token?: string
-  expiresAt?: string
+type ConnectResponse = {
+  ok?: boolean
   error?: string
 }
 
 type PluginConnectClientProps = {
+  requestId?: string
+  secret?: string
   userEmail: string
   userPlan: string
 }
 
-function formatDate(value: string | undefined) {
-  if (!value) {
-    return ""
-  }
-
-  const date = new Date(value)
-  if (Number.isNaN(date.getTime())) {
-    return value
-  }
-
-  return new Intl.DateTimeFormat("ko-KR", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  }).format(date)
-}
-
-export function PluginConnectClient({ userEmail, userPlan }: PluginConnectClientProps) {
-  const [token, setToken] = useState("")
-  const [expiresAt, setExpiresAt] = useState("")
+export function PluginConnectClient({ requestId, secret, userEmail, userPlan }: PluginConnectClientProps) {
+  const canConnect = Boolean(requestId && secret)
   const [pending, setPending] = useState(false)
-  const [message, setMessage] = useState("Create a connection token for the Pigma plugin.")
+  const [connected, setConnected] = useState(false)
+  const [message, setMessage] = useState(
+    canConnect
+      ? "Approve this browser to connect your web plan to the Pigma plugin."
+      : "Open this page from the Pigma plugin to connect automatically.",
+  )
 
-  async function createToken() {
+  async function connectPlugin() {
+    if (!requestId || !secret) {
+      return
+    }
+
     setPending(true)
-    setMessage("Creating a plugin token.")
+    setMessage("Connecting the plugin.")
 
     try {
-      const response = await fetch("/api/plugin/tokens", {
+      const response = await fetch("/api/plugin/connect", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          requestId,
+          secret,
+        }),
       })
-      const data = (await response.json().catch(() => null)) as TokenResponse | null
-      if (!response.ok || !data?.token) {
-        throw new Error(data?.error || "Could not create a plugin token.")
+      const data = (await response.json().catch(() => null)) as ConnectResponse | null
+      if (!response.ok || data?.ok !== true) {
+        throw new Error(data?.error || "Could not connect the plugin.")
       }
 
-      setToken(data.token)
-      setExpiresAt(data.expiresAt || "")
-      setMessage("Copy this token into the Pigma plugin plan connection field.")
+      setConnected(true)
+      setMessage("Connected. Return to the Pigma plugin.")
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Could not create a plugin token.")
+      setMessage(error instanceof Error ? error.message : "Could not connect the plugin.")
     } finally {
       setPending(false)
-    }
-  }
-
-  async function copyToken() {
-    if (!token) {
-      return
-    }
-
-    try {
-      await navigator.clipboard.writeText(token)
-      setMessage("Token copied to the clipboard.")
-    } catch {
-      setMessage("Clipboard copy was blocked. Select and copy the token manually.")
     }
   }
 
@@ -84,7 +66,7 @@ export function PluginConnectClient({ userEmail, userPlan }: PluginConnectClient
         <p className="text-sm font-black tracking-[0.18em] text-[#005bff]">PLUGIN CONNECT</p>
         <h1 className="mt-4 text-[34px] font-black leading-tight sm:text-[48px]">Connect Pigma plugin</h1>
         <p className="mt-4 max-w-[680px] text-[15px] font-bold leading-7 text-[#60656b]">
-          Account and billing stay on the web. The plugin only uses this token to read your current plan.
+          Account and billing stay on the web. The plugin only receives a limited connection for reading your current plan.
         </p>
 
         <dl className="mt-7 grid gap-3 sm:grid-cols-2">
@@ -101,19 +83,11 @@ export function PluginConnectClient({ userEmail, userPlan }: PluginConnectClient
         <div className="mt-7 flex flex-wrap gap-3">
           <button
             type="button"
-            onClick={createToken}
-            disabled={pending}
-            className="inline-flex h-12 items-center justify-center rounded-xl bg-[#005bff] px-5 text-sm font-black text-white transition hover:bg-[#004de0] disabled:cursor-wait disabled:opacity-60"
+            onClick={connectPlugin}
+            disabled={!canConnect || pending || connected}
+            className="inline-flex h-12 items-center justify-center rounded-xl bg-[#005bff] px-5 text-sm font-black text-white transition hover:bg-[#004de0] disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {pending ? "Creating" : "Create connection token"}
-          </button>
-          <button
-            type="button"
-            onClick={copyToken}
-            disabled={!token}
-            className="inline-flex h-12 items-center justify-center rounded-xl bg-[#050505] px-5 text-sm font-black text-white transition hover:bg-[#1c1c1c] disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            Copy token
+            {connected ? "Connected" : pending ? "Connecting" : "Connect plugin"}
           </button>
           <a
             href="/dashboard"
@@ -124,16 +98,6 @@ export function PluginConnectClient({ userEmail, userPlan }: PluginConnectClient
         </div>
 
         <p className="mt-4 text-sm font-bold text-[#60656b]">{message}</p>
-
-        {token ? (
-          <div className="mt-5 rounded-xl border border-[#dbe6f5] bg-[#f7fbff] p-4">
-            <p className="text-xs font-black tracking-[0.12em] text-[#005bff]">PLUGIN TOKEN</p>
-            <code className="mt-3 block overflow-x-auto rounded-lg bg-white p-3 text-xs font-bold text-[#050505] ring-1 ring-[#dbe6f5]">
-              {token}
-            </code>
-            <p className="mt-3 text-xs font-bold text-[#60656b]">Expires: {formatDate(expiresAt) || "Checking"}</p>
-          </div>
-        ) : null}
       </div>
     </section>
   )

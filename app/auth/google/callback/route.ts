@@ -8,6 +8,16 @@ export const runtime = "nodejs"
 
 const stateCookie = "pigma_oauth_state"
 const modeCookie = "pigma_oauth_mode"
+const nextCookie = "pigma_oauth_next"
+
+function safeNextPath(value: string | undefined) {
+  const next = typeof value === "string" ? value.trim() : ""
+  if (!next || !next.startsWith("/") || next.startsWith("//") || next.includes("\\") || next.includes("://")) {
+    return "/"
+  }
+
+  return next
+}
 
 export async function GET(request: Request) {
   const url = new URL(request.url)
@@ -16,9 +26,11 @@ export async function GET(request: Request) {
   const cookieStore = await cookies()
   const expectedState = cookieStore.get(stateCookie)?.value
   const mode = cookieStore.get(modeCookie)?.value === "signup" ? "signup" : "login"
+  const next = safeNextPath(cookieStore.get(nextCookie)?.value)
 
   cookieStore.delete(stateCookie)
   cookieStore.delete(modeCookie)
+  cookieStore.delete(nextCookie)
 
   if (!code || !state || !expectedState || state !== expectedState) {
     redirect(`/${mode}?error=google-auth`)
@@ -68,5 +80,5 @@ export async function GET(request: Request) {
   const userId = upsertGoogleUser(profile)
   await createSessionCookie(userId, true)
 
-  redirect("/")
+  redirect(next)
 }

@@ -8,6 +8,7 @@ import { loginAction, signupAction, type AuthFormState } from "../auth/actions"
 type AuthScreenProps = {
   mode: "login" | "signup"
   notice?: string
+  nextPath?: string
 }
 
 const initialState: AuthFormState = {
@@ -74,8 +75,18 @@ function FieldError({ message }: { message?: string }) {
   return <span className="text-xs font-bold text-[#ff4d55]">{message}</span>
 }
 
-export function AuthScreen({ mode, notice }: AuthScreenProps) {
+function safeNextPath(value: string | undefined) {
+  const next = typeof value === "string" ? value.trim() : ""
+  if (!next || !next.startsWith("/") || next.startsWith("//") || next.includes("\\") || next.includes("://")) {
+    return ""
+  }
+
+  return next
+}
+
+export function AuthScreen({ mode, notice, nextPath }: AuthScreenProps) {
   const isSignup = mode === "signup"
+  const next = safeNextPath(nextPath)
   const [state, formAction] = useActionState(isSignup ? signupAction : loginAction, initialState)
   const title = isSignup ? "PIGMA 시작하기" : "PIGMA 로그인"
   const description = isSignup
@@ -130,7 +141,7 @@ export function AuthScreen({ mode, notice }: AuthScreenProps) {
 
             <div className="mt-8 grid gap-5">
               <a
-                href={`/auth/google?mode=${mode}`}
+                href={`/auth/google?mode=${mode}${next ? `&next=${encodeURIComponent(next)}` : ""}`}
                 className="group inline-flex h-[54px] w-full items-center justify-between rounded-xl border border-[#dfe5ee] bg-white px-4 text-[15px] font-black text-[#14171a] shadow-[0_10px_24px_rgba(15,24,42,0.05)] transition hover:-translate-y-0.5 hover:border-[#c8d1df] hover:bg-[#fbfcff] hover:shadow-[0_16px_30px_rgba(15,24,42,0.10)]"
                 aria-label={isSignup ? "Google 계정으로 회원가입" : "Google 계정으로 로그인"}
               >
@@ -163,6 +174,7 @@ export function AuthScreen({ mode, notice }: AuthScreenProps) {
             ) : null}
 
             <form action={formAction} className="mt-5 grid gap-4" noValidate>
+              {next ? <input type="hidden" name="next" value={next} /> : null}
               {isSignup ? (
                 <label className="grid gap-2 text-sm font-bold text-[#14171a]">
                   이름

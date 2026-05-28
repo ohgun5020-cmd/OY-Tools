@@ -9,10 +9,21 @@ export const runtime = "nodejs"
 
 const stateCookie = "pigma_oauth_state"
 const modeCookie = "pigma_oauth_mode"
+const nextCookie = "pigma_oauth_next"
+
+function safeNextPath(value: string | null) {
+  const next = typeof value === "string" ? value.trim() : ""
+  if (!next || !next.startsWith("/") || next.startsWith("//") || next.includes("\\") || next.includes("://")) {
+    return ""
+  }
+
+  return next
+}
 
 export async function GET(request: Request) {
   const url = new URL(request.url)
   const mode = url.searchParams.get("mode") === "signup" ? "signup" : "login"
+  const next = safeNextPath(url.searchParams.get("next"))
   const clientId = process.env.GOOGLE_CLIENT_ID
   const clientSecret = process.env.GOOGLE_CLIENT_SECRET
 
@@ -36,6 +47,15 @@ export async function GET(request: Request) {
     path: "/",
     maxAge: 10 * 60,
   })
+  if (next) {
+    cookieStore.set(nextCookie, next, {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      path: "/",
+      maxAge: 10 * 60,
+    })
+  }
 
   const redirectUri = `${getAppUrl(request)}/auth/google/callback`
   const googleUrl = new URL("https://accounts.google.com/o/oauth2/v2/auth")
