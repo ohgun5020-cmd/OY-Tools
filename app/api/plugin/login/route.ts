@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 
 import { getAppUrl } from "@/lib/app-url"
+import { isAdminUser } from "@/lib/admin"
 import {
   authenticateEmailUser,
   createPluginAccessToken,
@@ -66,6 +67,7 @@ export async function POST(request: Request) {
           planStatus: user.planStatus,
           planRenewsAt: user.planRenewsAt,
           avatarUrl: user.avatarUrl,
+          isAdmin: isAdminUser(user),
         },
         links: webLinks(request),
       },

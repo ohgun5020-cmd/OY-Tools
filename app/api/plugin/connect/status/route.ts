@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 
 import { getAppUrl } from "@/lib/app-url"
+import { isAdminUser } from "@/lib/admin"
 import { getPluginConnectionRequest } from "@/lib/auth"
 
 export const runtime = "nodejs"
@@ -62,6 +63,7 @@ export async function GET(request: Request) {
         planStatus: result.user.planStatus,
         planRenewsAt: result.user.planRenewsAt,
         avatarUrl: result.user.avatarUrl,
+        isAdmin: isAdminUser(result.user),
       },
       links: webLinks(request),
     },
