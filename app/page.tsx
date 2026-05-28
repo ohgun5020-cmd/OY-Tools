@@ -393,24 +393,33 @@ const plans: PricingPlan[] = [
     key: "free",
     name: "Free",
     price: "$0",
-    description: "가볍게 파일 구조를 확인합니다.",
-    features: ["월 3회 변환", "기본 레이어 정리", "작은 파일 테스트"],
+    description: "가입 후 Basic을 먼저 맛보고, 작은 파일로 흐름을 확인합니다.",
+    features: ["월 3회 변환", "Basic 7일 체험", "기본 파일 구조 확인", "작은 파일 테스트"],
     cta: "무료 시작",
   },
   {
     key: "basic",
     name: "Basic",
     price: "$2/mo",
-    description: "개인 작업자가 자주 쓰기 좋은 구성입니다.",
-    features: ["월 30회 변환", "텍스트 추출", "AI 디자인 질문"],
+    description: "개인 작업자가 자주 쓰는 정리 버튼을 담았습니다.",
+    features: [
+      "월 30회 변환",
+      "잠긴 레이어 해제",
+      "컴포넌트 해제",
+      "긴 프레임 나누기",
+      "정수 픽셀 교정",
+      "텍스트/행간 정리",
+      "기본 이미지 보정",
+      "GIF/APNG 변환",
+    ],
     cta: "Basic 선택",
   },
   {
     key: "pro",
     name: "Pro",
     price: "$5/mo",
-    description: "외주와 반복 작업을 함께 처리합니다.",
-    features: ["무제한 큐", "효과 분리", "팀 전달용 리포트"],
+    description: "Basic에 AI 검수와 고급 이미지 작업을 더합니다.",
+    features: ["Basic 전체 포함", "디자인 읽기/검수", "디자인 일관성 검사", "이미지 확장", "이미지 업스케일", "고급 자동화 준비"],
     cta: "Pro 선택",
   },
 ]
@@ -1784,7 +1793,7 @@ function PricingSection() {
           {plans.map((plan) => (
             <article
               key={plan.name}
-              className="group rounded-lg bg-white p-6 text-[#050505] shadow-[0_18px_40px_rgba(15,24,42,0.08)] ring-1 ring-[#e7ecf3] transition duration-200 hover:-translate-y-1 hover:bg-[#050505] hover:text-white hover:ring-[#050505] hover:shadow-[0_18px_40px_rgba(15,24,42,0.16)]"
+              className="group flex min-h-[430px] flex-col rounded-lg bg-white p-6 text-[#050505] shadow-[0_18px_40px_rgba(15,24,42,0.08)] ring-1 ring-[#e7ecf3] transition duration-200 hover:-translate-y-1 hover:bg-[#050505] hover:text-white hover:ring-[#050505] hover:shadow-[0_18px_40px_rgba(15,24,42,0.16)]"
             >
               <div className="flex items-center justify-between">
                 <h3 className="font-black">{plan.name}</h3>
@@ -1792,14 +1801,16 @@ function PricingSection() {
               </div>
               <p className="mt-6 text-4xl font-black">{plan.price}</p>
               <p className="mt-3 text-sm text-[#60656b] transition group-hover:text-white/70">{plan.description}</p>
-              <ul className="mt-6 space-y-3">
+              <div className="mb-7 mt-6 flex min-h-[116px] flex-wrap content-start gap-2" aria-label={`${plan.name} included features`}>
                 {plan.features.map((feature) => (
-                  <li key={feature} className="flex items-center gap-2 text-sm">
-                    <MaterialIcon name="check" className="text-[16px] text-[#005bff] transition group-hover:text-white" />
+                  <span
+                    key={feature}
+                    className="inline-flex min-h-8 items-center rounded-full bg-[#f5f7fb] px-3 text-[12px] font-bold leading-4 text-[#303844] ring-1 ring-[#e4eaf3] transition group-hover:bg-white/10 group-hover:text-white group-hover:ring-white/15"
+                  >
                     {feature}
-                  </li>
+                  </span>
                 ))}
-              </ul>
+              </div>
               <PricingPlanButton plan={plan} />
             </article>
           ))}
@@ -1873,7 +1884,7 @@ function PricingPlanButton({ plan }: { plan: PricingPlan }) {
   const [pending, setPending] = useState(false)
   const [checkoutError, setCheckoutError] = useState<string | null>(null)
   const className =
-    "mt-7 inline-flex h-11 w-full items-center justify-center rounded-lg bg-[#050505] text-sm font-bold text-white transition group-hover:bg-white group-hover:text-[#050505] disabled:cursor-wait disabled:opacity-70"
+    "mt-auto inline-flex h-11 w-full items-center justify-center rounded-lg bg-[#050505] text-sm font-bold text-white transition group-hover:bg-white group-hover:text-[#050505] disabled:cursor-wait disabled:opacity-70"
 
   if (plan.key === "free") {
     return (
