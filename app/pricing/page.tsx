@@ -13,7 +13,13 @@ const plans = [
     price: "$0",
     period: "forever",
     description: "가입 후 Basic을 먼저 맛보고, 작은 파일로 흐름을 확인합니다.",
-    features: ["월 3회 변환", "Basic 7일 체험", "기본 파일 구조 확인", "작은 파일 테스트"],
+    features: [
+      { label: "Basic 7일 체험", badge: "HOT" },
+      { label: "월 3회 변환" },
+      { label: "파일 구조 확인" },
+      { label: "작은 파일 테스트" },
+      { label: "무료 계정 저장" },
+    ],
     cta: "무료 시작",
     href: "/signup",
   },
@@ -23,14 +29,21 @@ const plans = [
     period: "per month",
     description: "개인 작업자가 자주 쓰는 정리 버튼을 담았습니다.",
     features: [
-      "월 30회 변환",
-      "잠긴 레이어 해제",
-      "컴포넌트 해제",
-      "긴 프레임 나누기",
-      "정수 픽셀 교정",
-      "텍스트/행간 정리",
-      "기본 이미지 보정",
-      "GIF/APNG 변환",
+      { label: "잠긴 레이어 해제", badge: "HOT" },
+      { label: "긴 프레임 나누기", badge: "HOT" },
+      { label: "월 30회 변환" },
+      { label: "컴포넌트 해제" },
+      { label: "숨긴 레이어 삭제" },
+      { label: "가이드 전체 삭제" },
+      { label: "정수 픽셀 교정" },
+      { label: "버튼 자동 맞춤" },
+      { label: "모서리 정리" },
+      { label: "기울기 보정" },
+      { label: "텍스트 하이라이트" },
+      { label: "텍스트 행간 조정" },
+      { label: "오타 직접 수정", badge: "NEW" },
+      { label: "이미지 색상 추출" },
+      { label: "GIF/APNG 변환" },
     ],
     cta: "Basic 선택",
     href: "/signup",
@@ -40,7 +53,16 @@ const plans = [
     price: "$5",
     period: "per month",
     description: "Basic에 AI 검수와 고급 이미지 작업을 더합니다.",
-    features: ["Basic 전체 포함", "디자인 읽기/검수", "디자인 일관성 검사", "이미지 확장", "이미지 업스케일", "고급 자동화 준비"],
+    features: [
+      { label: "Basic 전체 포함", badge: "HOT" },
+      { label: "디자인 읽기/검수", badge: "NEW" },
+      { label: "디자인 일관성 검사" },
+      { label: "이미지 프롬프트 편집" },
+      { label: "이미지 영역 확장" },
+      { label: "이미지 업스케일" },
+      { label: "오브젝트 업스케일" },
+      { label: "고급 자동화 준비" },
+    ],
     cta: "Pro 선택",
     href: "/signup",
   },
@@ -74,13 +96,18 @@ export default function PricingPage() {
                 <span className="pb-1 text-sm font-bold text-[#60656b]">{plan.period}</span>
               </div>
               <p className="mt-5 text-sm leading-6 text-[#60656b]">{plan.description}</p>
-              <div className="mb-7 mt-6 flex min-h-[116px] flex-wrap content-start gap-2" aria-label={`${plan.name} included features`}>
+              <div className="mb-7 mt-5 flex min-h-[132px] flex-wrap content-start gap-1.5" aria-label={`${plan.name} included features`}>
                 {plan.features.map((feature) => (
                   <span
-                    key={feature}
-                    className="inline-flex min-h-8 items-center rounded-full bg-[#f5f7fb] px-3 text-[12px] font-bold leading-4 text-[#303844] ring-1 ring-[#e4eaf3]"
+                    key={feature.label}
+                    className="inline-flex min-h-[26px] items-center gap-1 rounded-full bg-[#f5f7fb] px-2.5 text-[10.5px] font-black leading-3 text-[#303844] ring-1 ring-[#e4eaf3]"
                   >
-                    {feature}
+                    {feature.badge ? (
+                      <em className={feature.badge === "HOT" ? "not-italic text-[8px] font-black leading-none text-[#005bff]" : "not-italic text-[8px] font-black leading-none text-[#27b36a]"}>
+                        {feature.badge}
+                      </em>
+                    ) : null}
+                    {feature.label}
                   </span>
                 ))}
               </div>
