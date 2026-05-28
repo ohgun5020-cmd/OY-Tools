@@ -34,6 +34,12 @@ PIGMA_ADMIN_EMAILS=ohgun5020@gmail.com
 
 The owner email `ohgun5020@gmail.com` is always allowed, even when additional admin emails are configured.
 
+Free users receive temporary Basic access for seven days by default. Adjust it with:
+
+```bash
+PIGMA_BASIC_TRIAL_DAYS=7
+```
+
 ## Paddle Billing
 
 Create Basic and Pro prices in Paddle, then set these variables in Railway:

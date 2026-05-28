@@ -8,6 +8,7 @@ import {
   getUserById,
   isAuthInputError,
 } from "@/lib/auth"
+import { getPlanEntitlement } from "@/lib/plan-entitlements"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -67,7 +68,9 @@ export async function POST(request: Request) {
           planStatus: user.planStatus,
           planRenewsAt: user.planRenewsAt,
           avatarUrl: user.avatarUrl,
+          createdAt: user.createdAt,
           isAdmin: isAdminUser(user),
+          entitlement: getPlanEntitlement(user),
         },
         links: webLinks(request),
       },

@@ -3,6 +3,7 @@ import { NextResponse } from "next/server"
 import { getAppUrl } from "@/lib/app-url"
 import { isAdminUser } from "@/lib/admin"
 import { getUserByPluginAccessToken } from "@/lib/auth"
+import { getPlanEntitlement } from "@/lib/plan-entitlements"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -44,7 +45,9 @@ export async function GET(request: Request) {
             planStatus: user.planStatus,
             planRenewsAt: user.planRenewsAt,
             avatarUrl: user.avatarUrl,
+            createdAt: user.createdAt,
             isAdmin: isAdminUser(user),
+            entitlement: getPlanEntitlement(user),
           }
         : null,
       links: {
