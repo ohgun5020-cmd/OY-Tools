@@ -8,6 +8,7 @@ export type PlanEntitlement = {
   basicTrialActive: boolean
   basicTrialDays: number
   basicTrialEndsAt: string | null
+  basicTrialRemainingMs: number
 }
 
 export function getBasicTrialDays() {
@@ -31,13 +32,15 @@ export function getPlanEntitlement(user: Pick<AuthUser, "plan" | "createdAt"> | 
   const basicTrialDays = getBasicTrialDays()
   let basicTrialEndsAt: string | null = null
   let basicTrialActive = false
+  let basicTrialRemainingMs = 0
 
   if (user && planTier === 0) {
     const createdAt = new Date(user.createdAt)
     if (!Number.isNaN(createdAt.getTime())) {
       const endsAt = new Date(createdAt.getTime() + basicTrialDays * 24 * 60 * 60 * 1000)
+      basicTrialRemainingMs = Math.max(0, endsAt.getTime() - Date.now())
       basicTrialEndsAt = endsAt.toISOString()
-      basicTrialActive = endsAt.getTime() > Date.now()
+      basicTrialActive = basicTrialRemainingMs > 0
     }
   }
 
@@ -47,5 +50,6 @@ export function getPlanEntitlement(user: Pick<AuthUser, "plan" | "createdAt"> | 
     basicTrialActive,
     basicTrialDays,
     basicTrialEndsAt,
+    basicTrialRemainingMs,
   }
 }
