@@ -52,9 +52,9 @@ const plans = [
     name: "Pro",
     price: "$5",
     period: "per month",
-    description: "Basic에 AI 검수와 고급 이미지 작업을 더합니다.",
+    description: "$2 Basic 기능을 모두 포함하고, AI 검수와 고급 이미지 작업을 더합니다.",
+    includedPrefix: "베이직 기능 +",
     features: [
-      { label: "Basic 전체 포함", badge: "HOT" },
       { label: "디자인 읽기/검수", badge: "NEW" },
       { label: "디자인 일관성 검사" },
       { label: "이미지 프롬프트 편집" },
@@ -96,7 +96,15 @@ export default function PricingPage() {
                 <span className="pb-1 text-sm font-bold text-[#60656b]">{plan.period}</span>
               </div>
               <p className="mt-5 text-sm leading-6 text-[#60656b]">{plan.description}</p>
-              <div className="mb-7 mt-5 flex min-h-[132px] flex-wrap content-start gap-1.5" aria-label={`${plan.name} included features`}>
+              {plan.includedPrefix ? (
+                <p className="mt-5 text-[11px] font-black leading-4 text-[#005bff]">
+                  {plan.includedPrefix}
+                </p>
+              ) : null}
+              <div
+                className={`${plan.includedPrefix ? "mt-2" : "mt-5"} mb-7 flex min-h-[132px] flex-wrap content-start gap-1.5`}
+                aria-label={`${plan.name} included features`}
+              >
                 {plan.features.map((feature) => (
                   <span
                     key={feature.label}
