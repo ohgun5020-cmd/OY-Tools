@@ -1,0 +1,93 @@
+import { NextResponse } from "next/server"
+
+import { getAppUrl } from "@/lib/app-url"
+import {
+  authenticateEmailUser,
+  createPluginAccessToken,
+  getUserById,
+  isAuthInputError,
+} from "@/lib/auth"
+
+export const runtime = "nodejs"
+export const dynamic = "force-dynamic"
+
+function corsHeaders() {
+  return {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Authorization, Content-Type",
+    "Cache-Control": "no-store",
+  }
+}
+
+function webLinks(request: Request) {
+  const appUrl = getAppUrl(request)
+  return {
+    connect: `${appUrl}/plugin/connect`,
+    dashboard: `${appUrl}/dashboard`,
+    billing: `${appUrl}/dashboard#billing`,
+    pricing: `${appUrl}/#pricing`,
+  }
+}
+
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 204,
+    headers: corsHeaders(),
+  })
+}
+
+export async function POST(request: Request) {
+  const body = (await request.json().catch(() => null)) as { email?: unknown; password?: unknown } | null
+  const email = typeof body?.email === "string" ? body.email : ""
+  const password = typeof body?.password === "string" ? body.password : ""
+
+  try {
+    const userId = authenticateEmailUser({ email, password })
+    const user = getUserById(userId)
+    if (!user) {
+      return NextResponse.json(
+        { error: "User not found.", links: webLinks(request) },
+        { status: 401, headers: corsHeaders() },
+      )
+    }
+
+    const token = createPluginAccessToken(user.id, "Pigma plugin login")
+
+    return NextResponse.json(
+      {
+        authenticated: true,
+        token: token.token,
+        tokenExpiresAt: token.expiresAt,
+        user: {
+          name: user.name,
+          email: user.email,
+          plan: user.plan,
+          planStatus: user.planStatus,
+          planRenewsAt: user.planRenewsAt,
+          avatarUrl: user.avatarUrl,
+        },
+        links: webLinks(request),
+      },
+      {
+        headers: corsHeaders(),
+      },
+    )
+  } catch (error) {
+    if (isAuthInputError(error)) {
+      return NextResponse.json(
+        {
+          error: error.message,
+          fieldErrors: error.fieldErrors,
+          links: webLinks(request),
+        },
+        {
+          status: 401,
+          headers: corsHeaders(),
+        },
+      )
+    }
+
+    throw error
+  }
+}
