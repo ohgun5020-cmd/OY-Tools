@@ -2,7 +2,7 @@ import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 
 import { getAppUrl } from "@/lib/app-url"
-import { createSessionCookie, upsertGoogleUser, type GoogleProfile } from "@/lib/auth"
+import { createSessionCookie, isAuthInputError, upsertGoogleUser, type GoogleProfile } from "@/lib/auth"
 
 export const runtime = "nodejs"
 
@@ -77,7 +77,16 @@ export async function GET(request: Request) {
   }
 
   const profile = (await profileResponse.json()) as GoogleProfile
-  const userId = upsertGoogleUser(profile)
+  let userId: string
+  try {
+    userId = upsertGoogleUser(profile)
+  } catch (error) {
+    if (isAuthInputError(error)) {
+      redirect(`/${mode}?error=${error.fieldErrors?.google === "conflict" ? "google-account-conflict" : "google-auth"}`)
+    }
+
+    throw error
+  }
   await createSessionCookie(userId, true)
 
   redirect(next)

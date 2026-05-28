@@ -357,20 +357,33 @@ export function upsertGoogleUser(profile: GoogleProfile) {
 
   const database = getDb()
   const existingByGoogle = database.prepare("SELECT * FROM users WHERE google_id = ?").get(profile.sub) as UserRow | undefined
+  const existingByEmail = database.prepare("SELECT * FROM users WHERE email = ?").get(email) as UserRow | undefined
   const timestamp = nowIso()
 
+  if (existingByGoogle && existingByEmail && existingByGoogle.id !== existingByEmail.id) {
+    throw authError("Google 계정이 이미 다른 PIGMA 계정과 연결되어 있습니다.", {
+      google: "conflict",
+    })
+  }
+
   if (existingByGoogle) {
-    database.prepare("UPDATE users SET name = ?, avatar_url = ?, updated_at = ? WHERE id = ?").run(
+    database.prepare("UPDATE users SET name = ?, avatar_url = ?, provider = ?, updated_at = ? WHERE id = ?").run(
       normalizeName(profile.name || existingByGoogle.name),
       profile.picture || existingByGoogle.avatar_url,
+      existingByGoogle.password_hash ? "email+google" : "google",
       timestamp,
       existingByGoogle.id,
     )
     return existingByGoogle.id
   }
 
-  const existingByEmail = database.prepare("SELECT * FROM users WHERE email = ?").get(email) as UserRow | undefined
   if (existingByEmail) {
+    if (existingByEmail.google_id && existingByEmail.google_id !== profile.sub) {
+      throw authError("이 이메일은 이미 다른 Google 계정과 연결되어 있습니다.", {
+        google: "conflict",
+      })
+    }
+
     database.prepare("UPDATE users SET google_id = ?, avatar_url = ?, provider = ?, updated_at = ? WHERE id = ?").run(
       profile.sub,
       profile.picture || existingByEmail.avatar_url,
