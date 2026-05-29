@@ -10,8 +10,11 @@ type PaddleWebhook = {
   event_type?: string
   data?: {
     id?: string
+    action?: string
     customer_id?: string | null
     status?: string
+    subscription_id?: string | null
+    type?: string | null
     custom_data?: {
       user_id?: string
       plan?: string
@@ -35,6 +38,14 @@ type PaddleWebhook = {
   }
 }
 
+const accessRevokingTransactionEvents = new Set([
+  "transaction.canceled",
+  "transaction.past_due",
+  "transaction.payment_failed",
+])
+
+const accessRevokingAdjustmentActions = new Set(["chargeback", "chargeback_warning"])
+
 function getSubscriptionPriceId(data: PaddleWebhook["data"]) {
   return data?.items?.find((item) => item.price?.id)?.price?.id || null
 }
@@ -47,6 +58,46 @@ function getPlan(data: PaddleWebhook["data"]) {
 
   const planFromCustomData = data?.custom_data?.plan
   return isBillingPlan(planFromCustomData) ? planFromCustomData : null
+}
+
+function syncSubscriptionAccess(input: {
+  data: PaddleWebhook["data"]
+  subscriptionId: string | null
+  status: string
+  plan?: "basic" | "pro" | null
+}) {
+  if (!input.subscriptionId) {
+    return false
+  }
+
+  syncBillingSubscription({
+    provider: "paddle",
+    userId: input.data?.custom_data?.user_id || null,
+    customerId: input.data?.customer_id || null,
+    subscriptionId: input.subscriptionId,
+    variantId: getSubscriptionPriceId(input.data),
+    portalUrl: input.data?.management_urls?.update_payment_method || input.data?.management_urls?.cancel || null,
+    status: input.status,
+    plan: input.plan ?? null,
+    renewsAt: input.data?.current_billing_period?.ends_at || input.data?.next_billed_at || input.data?.scheduled_change?.effective_at || null,
+  })
+
+  return true
+}
+
+function shouldRevokeForAdjustment(eventType: string, data: PaddleWebhook["data"]) {
+  const action = String(data?.action || "").toLowerCase()
+  const status = String(data?.status || "").toLowerCase()
+
+  if (action === "refund") {
+    return status === "approved"
+  }
+
+  if (accessRevokingAdjustmentActions.has(action)) {
+    return !status || status === "approved" || eventType === "adjustment.created"
+  }
+
+  return false
 }
 
 export async function POST(request: Request) {
@@ -70,16 +121,30 @@ export async function POST(request: Request) {
   const data = payload.data
 
   if (eventType.startsWith("subscription.") && data?.id) {
-    syncBillingSubscription({
-      provider: "paddle",
-      userId: data.custom_data?.user_id || null,
-      customerId: data.customer_id || null,
+    syncSubscriptionAccess({
+      data,
       subscriptionId: data.id,
-      variantId: getSubscriptionPriceId(data),
-      portalUrl: data.management_urls?.update_payment_method || data.management_urls?.cancel || null,
       status: data.status || (eventType === "subscription.canceled" ? "canceled" : "inactive"),
       plan: getPlan(data),
-      renewsAt: data.current_billing_period?.ends_at || data.next_billed_at || data.scheduled_change?.effective_at || null,
+    })
+  }
+
+  if (accessRevokingTransactionEvents.has(eventType) && data?.subscription_id) {
+    syncSubscriptionAccess({
+      data,
+      subscriptionId: data.subscription_id,
+      status: data.status || eventType.replace("transaction.", ""),
+      plan: null,
+    })
+  }
+
+  if (eventType.startsWith("adjustment.") && shouldRevokeForAdjustment(eventType, data) && data?.subscription_id) {
+    const action = String(data.action || "adjusted").toLowerCase()
+    syncSubscriptionAccess({
+      data,
+      subscriptionId: data.subscription_id,
+      status: action === "refund" ? "refunded" : action,
+      plan: null,
     })
   }
 
