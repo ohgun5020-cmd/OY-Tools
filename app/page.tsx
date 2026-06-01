@@ -677,10 +677,10 @@ function HeroSection() {
             가격 보기
           </a>
         </div>
-        <div className="mx-auto mt-12 w-full max-w-[980px] overflow-hidden rounded-2xl bg-black shadow-[0_22px_70px_rgba(0,0,0,0.12)] ring-1 ring-black/5 sm:mt-14">
+        <div className="mx-auto mt-12 w-full max-w-[980px] overflow-hidden sm:mt-14">
           <video
             src="/assets/psd-figma-demo.mp4"
-            className="block aspect-video h-auto w-full object-cover"
+            className="block aspect-video h-auto w-full object-cover mix-blend-multiply"
             autoPlay
             muted
             loop
