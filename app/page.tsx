@@ -705,7 +705,7 @@ function HeroSection() {
               <span>로</span>
             </span>
             <br />
-            PSD를 바로 내보내기
+            FIG를 PSD 바로 내보내기
           </h1>
           <p className="mx-auto mt-7 max-w-[760px] text-[17px] leading-8 text-[#5f6368] sm:text-[19px]">
             가져오는 과정보다, Figma에서 바로 만질 수 있는 결과물로 내보내는 데 집중합니다.
