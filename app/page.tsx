@@ -695,20 +695,16 @@ function HeroSection() {
           <HeroDemoVideo />
         </div>
         <div className="relative z-10 -mt-16">
-          <p className="mx-auto mb-7 flex h-10 w-[240px] items-center justify-center gap-2 rounded-[10px] text-[13px] font-black text-[#0a0a0a]">
-            <span>PSD EXPORT TO</span>
-            <PigmaLogo className="h-[10px] w-auto" />
+          <p className="mx-auto mb-7 flex h-10 w-[240px] items-center justify-center rounded-[10px] text-[13px] font-black text-[#0a0a0a]">
+            FIG EXPORT TO PSD
           </p>
-          <h1 className="mx-auto max-w-[1120px] text-[42px] font-black leading-[1.08] text-black sm:text-[56px] lg:text-[72px]">
-            <span className="inline-flex items-center justify-center gap-2 sm:gap-3 lg:gap-4">
-              <PigmaLogo className="h-[38px] w-auto sm:h-[50px] lg:h-[64px]" />
-              <span>로</span>
-            </span>
+          <h1 className="mx-auto max-w-[1120px] text-[38px] font-black leading-[1.12] text-black sm:text-[52px] lg:text-[64px]">
+            PIGMA로
             <br />
             FIG를 PSD 바로 내보내기
           </h1>
           <p className="mx-auto mt-7 max-w-[760px] text-[17px] leading-8 text-[#5f6368] sm:text-[19px]">
-            가져오는 과정보다, Figma에서 바로 만질 수 있는 결과물로 내보내는 데 집중합니다.
+            Figma 작업물을 PSD로 바로 넘길 수 있게 내보내기 흐름을 간단하게 정리합니다.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
@@ -740,7 +736,7 @@ function HeroWorkspace() {
   return (
     <div
       id="product"
-      className="mt-10 w-full overflow-hidden rounded-2xl bg-white text-left shadow-[0_14px_40px_rgba(0,0,0,0.04)]"
+      className="mt-[52px] w-full overflow-hidden rounded-2xl bg-white text-left shadow-[0_14px_40px_rgba(0,0,0,0.04)]"
     >
       <div className="flex h-11 items-center gap-2 bg-[#090909] px-5 text-white">
         <span className="size-2.5 rounded-full bg-[#ff6b5a]" />
@@ -748,17 +744,17 @@ function HeroWorkspace() {
         <span className="size-2.5 rounded-full bg-[#21c55d]" />
         <span className="ml-3 inline-flex items-center gap-2 text-sm">
           <PigmaLogo className="h-[10px] w-auto brightness-0 invert" />
-          convert workspace
+          export workspace
         </span>
         <span className="ml-auto hidden text-[11px] text-white/80 md:inline">
-          source.psd -&gt; <PigmaLogo className="inline-block h-[8px] w-auto brightness-0 invert" /> -&gt; exported figma
+          source.fig -&gt; <PigmaLogo className="inline-block h-[8px] w-auto brightness-0 invert" /> -&gt; exported psd
         </span>
       </div>
       <div className="grid min-w-0 gap-5 p-7 lg:grid-cols-[300px_1fr_302px]">
         <div className="rounded-[14px] bg-white p-5 ring-1 ring-black/5">
           <div className="mb-5 flex items-center gap-3 text-[#0a0a0a]">
             <MaterialIcon name="description" className="text-[20px]" />
-            <strong className="text-sm">source.psd</strong>
+            <strong className="text-sm">source.fig</strong>
           </div>
           {["Header / Menu", "Hero / Text", "Button / CTA", "Effects / Shadow"].map((item) => (
             <div key={item} className="mt-2 flex items-center gap-3 text-xs text-[#7a7f85]">
