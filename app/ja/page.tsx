@@ -1843,7 +1843,7 @@ function UseCasesSection() {
         <p className="mt-4 text-center text-[17px] leading-7 text-[#b8b8b8]">
           作業中に「これ欲しかった」となる15の使いどころ。
         </p>
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="mt-12 grid auto-rows-fr gap-5 sm:grid-cols-2 lg:grid-cols-5">
           {useCases.map((item, index) => {
             const isActive = index === activeUseCaseIndex
 
@@ -1853,8 +1853,8 @@ function UseCasesSection() {
               onMouseEnter={() => setActiveUseCaseIndex(index)}
               className={
                 isActive
-                  ? "group relative min-h-[158px] -translate-y-2 overflow-hidden rounded-2xl border border-[#005bff] bg-white p-5 text-[#050505] shadow-[0_24px_70px_rgba(0,91,255,0.38)] transition duration-500"
-                  : "group relative min-h-[158px] overflow-hidden rounded-2xl border border-white/5 bg-[#171717] p-5 text-white transition duration-500 hover:-translate-y-1 hover:border-white/20 hover:bg-[#202020]"
+                  ? "group relative h-full min-h-[174px] overflow-hidden rounded-2xl border border-[#005bff] bg-white p-5 text-[#050505] shadow-[0_24px_70px_rgba(0,91,255,0.38)] transition-[background-color,border-color,box-shadow,color] duration-500"
+                  : "group relative h-full min-h-[174px] overflow-hidden rounded-2xl border border-white/5 bg-[#171717] p-5 text-white transition-[background-color,border-color,box-shadow,color] duration-500 hover:border-white/20 hover:bg-[#202020]"
               }
             >
               <span
@@ -1868,7 +1868,7 @@ function UseCasesSection() {
                 className={
                   isActive
                     ? "flex size-[38px] rotate-[-8deg] items-center justify-center rounded-[10px] bg-[#005bff] text-white shadow-[0_12px_26px_rgba(0,91,255,0.34)] transition duration-500"
-                    : "flex size-[34px] items-center justify-center rounded-[10px] bg-white text-[#050505] transition duration-500 group-hover:rotate-[-6deg] group-hover:bg-[#005bff] group-hover:text-white"
+                    : "flex size-[38px] items-center justify-center rounded-[10px] bg-white text-[#050505] transition duration-500 group-hover:rotate-[-6deg] group-hover:bg-[#005bff] group-hover:text-white"
                 }
               >
                 <MaterialIcon name={item.icon} className="text-[20px]" />
