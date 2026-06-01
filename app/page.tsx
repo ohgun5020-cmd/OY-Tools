@@ -677,6 +677,18 @@ function HeroSection() {
             가격 보기
           </a>
         </div>
+        <div className="mx-auto mt-12 w-full max-w-[980px] overflow-hidden rounded-2xl bg-black shadow-[0_22px_70px_rgba(0,0,0,0.12)] ring-1 ring-black/5 sm:mt-14">
+          <video
+            src="/assets/psd-figma-demo.mp4"
+            className="block aspect-video h-auto w-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-label="PSD to Figma demo video"
+          />
+        </div>
         <HeroWorkspace />
       </div>
     </section>
@@ -690,7 +702,7 @@ function HeroWorkspace() {
   return (
     <div
       id="product"
-      className="mt-[76px] w-full overflow-hidden rounded-2xl bg-white text-left shadow-[0_14px_40px_rgba(0,0,0,0.04)]"
+      className="mt-8 w-full overflow-hidden rounded-2xl bg-white text-left shadow-[0_14px_40px_rgba(0,0,0,0.04)]"
     >
       <div className="flex h-11 items-center gap-2 bg-[#090909] px-5 text-white">
         <span className="size-2.5 rounded-full bg-[#ff6b5a]" />
