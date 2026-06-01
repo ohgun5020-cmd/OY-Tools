@@ -655,6 +655,7 @@ function HeroSection() {
             loop
             playsInline
             preload="metadata"
+            style={{ mixBlendMode: "multiply" }}
             aria-hidden="true"
           />
         </div>
