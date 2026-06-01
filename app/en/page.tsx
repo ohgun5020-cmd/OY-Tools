@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useEffect, useRef, useState, type ReactNode } from "react"
 
@@ -82,13 +82,6 @@ type PaddleApi = {
   }
 }
 
-declare global {
-  interface Window {
-    Paddle?: PaddleApi
-    __pigmaPaddleScript?: Promise<PaddleApi>
-  }
-}
-
 type FeatureMiniKind = "audit" | "layers" | "align" | "text" | "image" | "generate" | "share" | "video"
 
 type FeatureSlideConfig = {
@@ -106,171 +99,171 @@ type FeatureSlideConfig = {
 const featureSlides: FeatureSlideConfig[] = [
   {
     id: "feature-audit",
-    sectionTitle: ["오타는", "배포 전에 컷"],
-    sectionLead: "상세페이지와 캠페인 카피의 오타를 콕 집어 주석으로 남기고 바로 고칩니다.",
+    sectionTitle: ["Typos?", "Cut before launch"],
+    sectionLead: "Catch typos in product pages and campaign copy, pin them with notes, and fix fast.",
     eyebrow: "DESIGNER PICK",
     icon: "check_circle",
-    title: "검수",
-    description: "상세페이지와 캠페인 카피에서 놓치기 쉬운 오타를 배포 전에 착 잡아줍니다.",
+    title: "Audit",
+    description: "Spot sneaky typos before launch day. No drama.",
     actions: [
-      { title: "오타 검수", description: "카피 실수 찾기", icon: "spellcheck", badge: "AI" },
-      { title: "주석으로 공유", description: "수정 지점 전달", icon: "rate_review" },
-      { title: "결과 패널", description: "후보만 빠르게 확인", icon: "fact_check" },
+      { title: "Typo Check", description: "Find copy slips", icon: "spellcheck", badge: "AI" },
+      { title: "Share Notes", description: "Point fixes out", icon: "rate_review" },
+      { title: "Result Panel", description: "Review only hits", icon: "fact_check" },
     ],
     mini: "audit",
   },
   {
     id: "feature-layer-cleanup",
-    sectionTitle: ["복잡한 파일도", "손대기 좋게 착"],
-    sectionLead: "잠긴 레이어, 컴포넌트, 긴 프레임을 정리해 받은 파일도 바로 수정각으로 만듭니다.",
+    sectionTitle: ["Messy files?", "Clean-fit in a click"],
+    sectionLead: "Unlock layers, flatten components, and split long frames so handed-off files become edit-ready.",
     eyebrow: "DESIGNER PICK",
     icon: "layers",
-    title: "레이어 정리",
-    description: "외주 파일이나 복잡한 PSD를 받았을 때 정리 시간을 야무지게 줄입니다.",
+    title: "Layer Cleanup",
+    description: "Cut cleanup time when a freelancer file or messy PSD lands in your lap.",
     actions: [
-      { title: "잠긴 레이어 해제", description: "편집 제한 해제", icon: "lock_open" },
-      { title: "컴포넌트 해제", description: "수정 가능한 상태로", icon: "link_off" },
-      { title: "긴 프레임 나누기", description: "작업 구간 분리", icon: "splitscreen" },
+      { title: "Unlock Layers", description: "Remove locks", icon: "lock_open" },
+      { title: "Detach Components", description: "Make it editable", icon: "link_off" },
+      { title: "Split Long Frames", description: "Break into chunks", icon: "splitscreen" },
     ],
     mini: "layers",
   },
   {
     id: "feature-align",
-    sectionTitle: ["반픽셀까지", "핏하게 맞추기"],
-    sectionLead: "정수 픽셀, 버튼 크기, 모서리 값을 한 번에 착 정돈합니다.",
+    sectionTitle: ["Half-pixels?", "Make it crisp"],
+    sectionLead: "Snap pixels, button sizes, and corner radii into a cleaner fit.",
     eyebrow: "DESIGNER PICK",
     icon: "tune",
-    title: "정렬/교정",
-    description: "반픽셀, 들쭉날쭉한 버튼, 기울어진 요소를 한 번에 핏하게 맞춥니다.",
+    title: "Align / Fix",
+    description: "Fix half-pixels, uneven buttons, and tilted elements in one flow.",
     actions: [
-      { title: "정수 픽셀 정렬", description: "흐릿한 선 정리", icon: "grid_4x4" },
-      { title: "버튼 크기 맞춤", description: "글자 길이에 맞춤", icon: "fit_screen" },
-      { title: "모서리 값 정리", description: "둥글기 일괄 조정", icon: "rounded_corner" },
+      { title: "Pixel Snap", description: "Clean blurry lines", icon: "grid_4x4" },
+      { title: "Button Fit", description: "Fit to label", icon: "fit_screen" },
+      { title: "Radius Cleanup", description: "Batch radius fix", icon: "rounded_corner" },
     ],
     mini: "align",
   },
   {
     id: "feature-text",
-    sectionTitle: ["시안 안에서", "카피랑 번역까지 끝"],
-    sectionLead: "번역, 오타 수정, 하이라이트, 행간 조정까지 왕복 없이 바로 처리합니다.",
+    sectionTitle: ["Copy and translation", "done in-canvas"],
+    sectionLead: "Translate, fix typos, highlight text, and tune line height without leaving the mockup.",
     eyebrow: "DESIGNER PICK",
     icon: "text_fields",
-    title: "텍스트",
-    description: "카피 수정, 번역, 하이라이트, 행간 조정을 시안 안에서 한 번에 끝냅니다.",
+    title: "Text",
+    description: "Edit copy, translate, highlight, and tune spacing right inside the design.",
     actions: [
-      { title: "텍스트 번역", description: "다국어 시안 준비", icon: "translate", badge: "AI" },
-      { title: "오타 직접 수정", description: "수정안 바로 반영", icon: "edit_note" },
-      { title: "하이라이트", description: "중요 문구 강조", icon: "border_color" },
+      { title: "Translate Text", description: "Prep multilingual drafts", icon: "translate", badge: "AI" },
+      { title: "Fix Typos Inline", description: "Apply fixes instantly", icon: "edit_note" },
+      { title: "Highlight", description: "Mark key copy", icon: "border_color" },
     ],
     mini: "text",
   },
   {
     id: "feature-image-fix",
-    sectionTitle: ["이미지 소스랑 색상", "필요할 때 쓱"],
-    sectionLead: "원본 저장, 팔레트 추출, 크롭 영역 조정을 디자인 화면에서 바로 끝냅니다.",
+    sectionTitle: ["Image assets?", "Grab them on the fly"],
+    sectionLead: "Save originals, pull palettes, and adjust crops without breaking your flow.",
     eyebrow: "DESIGNER PICK",
     icon: "image",
-    title: "이미지 보정",
-    description: "원본 이미지 추출, 색상 팔레트 확인, 크롭 정리를 디자인 화면 안에서 쓱 처리합니다.",
+    title: "Image Fix",
+    description: "Extract originals, check palettes, and clean crops right inside the canvas.",
     actions: [
-      { title: "원본 이미지 저장", description: "소스 파일 바로 추출", icon: "download" },
-      { title: "색상 추출", description: "팔레트 참고", icon: "palette" },
-      { title: "크롭 영역 맞춤", description: "크롭·위치 정리", icon: "crop_free" },
+      { title: "Save Original", description: "Pull source fast", icon: "download" },
+      { title: "Extract Colors", description: "Use as palette", icon: "palette" },
+      { title: "Crop Fit", description: "Clean crop + position", icon: "crop_free" },
     ],
     mini: "image",
   },
   {
     id: "feature-image-generate",
-    sectionTitle: ["잘린 배경도", "자연스럽게 쭉"],
-    sectionLead: "이미지 확장, 해상도 향상, 텍스트 추출로 시안 완성도를 끌어올립니다.",
+    sectionTitle: ["Missing background?", "Stretch the vibe"],
+    sectionLead: "Extend images, boost resolution, and pull text so drafts look more finished.",
     eyebrow: "DESIGNER PICK",
     icon: "auto_awesome",
-    title: "이미지 생성/확장",
-    description: "잘린 배경을 자연스럽게 늘리고, 저해상도 이미지를 시안용으로 업그레이드합니다.",
+    title: "Image Gen / Extend",
+    description: "Stretch cropped backgrounds and upgrade low-res assets for better mockups.",
     actions: [
-      { title: "이미지 영역 확장", description: "잘린 배경 확장", icon: "crop_free", badge: "AI" },
-      { title: "해상도 높이기", description: "디테일 복원", icon: "high_quality", badge: "AI" },
-      { title: "이미지 텍스트 추출", description: "글자 레이어화 준비", icon: "text_fields", badge: "AI" },
+      { title: "Extend Image", description: "Extend cropped bg", icon: "crop_free", badge: "AI" },
+      { title: "Upscale Image", description: "Restore detail", icon: "high_quality", badge: "AI" },
+      { title: "Extract Image Text", description: "Prep text layers", icon: "text_fields", badge: "AI" },
     ],
     mini: "generate",
   },
   {
     id: "feature-share",
-    sectionTitle: ["공유 링크는", "깔끔하게 착"],
-    sectionLead: "긴 URL과 프로토타입 링크를 클라이언트에게 보내기 좋게 정리합니다.",
+    sectionTitle: ["Share links?", "Keep it clean"],
+    sectionLead: "Clean up long URLs and prototype links before they hit the client chat.",
     eyebrow: "DESIGNER PICK",
     icon: "share",
-    title: "공유 준비",
-    description: "길고 복잡한 Figma 링크와 프로토타입 공유를 몇 초 안에 가볍게 정리합니다.",
+    title: "Share Kit",
+    description: "Turn messy Figma and prototype links into share-ready assets in seconds.",
     actions: [
-      { title: "링크 짧게 만들기", description: "공유용 URL 생성", icon: "link" },
-      { title: "프로토타입 링크", description: "리뷰 링크 바로 복사", icon: "content_copy" },
-      { title: "QR 코드 생성", description: "검수 링크 공유", icon: "qr_code_2" },
+      { title: "Shorten Link", description: "Make share URL", icon: "link" },
+      { title: "Prototype Link", description: "Copy review link", icon: "content_copy" },
+      { title: "Create QR Code", description: "Share review link", icon: "qr_code_2" },
     ],
     mini: "share",
   },
   {
     id: "feature-video",
-    sectionTitle: ["정적인 시안도", "움직이면 더 힙"],
-    sectionLead: "AI 영상 생성과 GIF/APNG 변환으로 모션 시안을 빠르게 준비합니다.",
+    sectionTitle: ["Static mockups?", "Motion makes it pop"],
+    sectionLead: "Make quick motion drafts with AI video, GIF, and APNG conversion.",
     eyebrow: "DESIGNER PICK",
     icon: "auto_awesome",
-    title: "영상",
-    description: "움직이는 배너와 숏폼 시안을 위해 AI 영상 생성과 GIF/APNG 변환을 준비합니다.",
+    title: "Motion",
+    description: "Prep moving banners and short-form mockups with AI video plus GIF/APNG conversion.",
     actions: [
-      { title: "AI 영상 생성", description: "시안용 영상 만들기", icon: "movie", badge: "AI" },
-      { title: "영상 GIF 변환", description: "가벼운 모션 공유", icon: "gif_box" },
-      { title: "영상 APNG 변환", description: "투명 모션 에셋", icon: "animation" },
-      { title: "썸네일 추출", description: "대표 컷 저장", icon: "image" },
+      { title: "AI Video Gen", description: "Make draft video", icon: "movie", badge: "AI" },
+      { title: "Video to GIF", description: "Share lightweight motion", icon: "gif_box" },
+      { title: "Video to APNG", description: "Transparent motion asset", icon: "animation" },
+      { title: "Extract Thumbnail", description: "Save hero frame", icon: "image" },
     ],
     mini: "video",
   },
 ]
 
 const featureActionDetails: Record<string, string> = {
-  "오타 검수": "제목, 버튼, 상세 문구를 훑어 놓치기 쉬운 오타와 어색한 표현을 먼저 콕 집어줍니다.",
-  "주석으로 공유": "수정 위치를 설명과 함께 남겨 디자이너나 클라이언트가 바로 확인하게 합니다.",
-  "결과 패널": "검수 결과를 한 곳에 모아 보여줘서, 화면을 다시 뒤지지 않고 필요한 항목만 고칠 수 있습니다.",
-  "잠긴 레이어 해제": "편집이 막힌 레이어를 풀어 바로 수정할 수 있는 상태로 바꿉니다.",
-  "컴포넌트 해제": "컴포넌트로 묶인 구조를 풀어 텍스트와 이미지를 따로 손볼 수 있게 만듭니다.",
-  "긴 프레임 나누기": "긴 화면이나 상세페이지를 작업하기 좋은 구간으로 쪼개 관리하기 쉽게 정리합니다.",
-  "정수 픽셀 정렬": "반픽셀 때문에 흐려지는 선과 박스를 정수 좌표로 맞춰 선명하게 정리합니다.",
-  "버튼 크기 맞춤": "글자 길이에 맞춰 여백과 크기를 정돈해 버튼을 딱 맞게 맞춥니다.",
-  "모서리 값 정리": "제각각인 둥글기 값을 한 기준으로 맞춰 화면 톤을 깔끔하게 잡습니다.",
-  "텍스트 번역": "원본 레이아웃을 보면서 다국어 문구를 넣고, 시안 확인용 번역본을 빠르게 만듭니다.",
-  "오타 직접 수정": "발견한 오타나 문구 수정안을 해당 텍스트에 바로 반영해 수정 왕복을 줄입니다.",
-  "하이라이트": "중요한 문구나 확인할 영역을 표시해 리뷰할 사람이 먼저 볼 포인트를 알려줍니다.",
-  "원본 이미지 저장": "PSD나 문서 안에 묻힌 이미지를 따로 꺼내 다시 쓸 수 있게 저장합니다.",
-  "색상 추출": "시안에 쓰인 주요 색을 뽑아 팔레트처럼 확인하고 브랜드 컬러 기준을 맞춥니다.",
-  "크롭 영역 맞춤": "이미지의 크롭 위치와 보이는 범위를 정리해 어긋난 부분을 딱 맞춥니다.",
-  "이미지 영역 확장": "부족한 배경이나 잘린 이미지를 자연스럽게 늘려 배너와 상세페이지에 맞게 채웁니다.",
-  "해상도 높이기": "작게 받았거나 흐린 이미지를 더 선명하게 만들어 시안이나 공유용으로 쓰기 좋게 합니다.",
-  "이미지 텍스트 추출": "이미지 안의 글자를 뽑아 편집 가능한 텍스트 레이어로 바꿀 준비를 합니다.",
-  "링크 짧게 만들기": "긴 Figma나 리뷰 URL을 보기 쉬운 링크로 줄여 메신저나 메일에 깔끔하게 보냅니다.",
-  "프로토타입 링크": "클릭 가능한 화면 흐름을 바로 공유할 수 있게 프로토타입 링크를 빠르게 복사합니다.",
-  "QR 코드 생성": "리뷰 링크를 QR 코드로 만들어 모바일에서도 바로 열어보게 합니다.",
-  "AI 영상 생성": "정적인 시안을 바탕으로 간단한 움직임 예시나 영상 시안을 만들어 봅니다.",
-  "영상 GIF 변환": "무거운 영상 대신 메신저와 문서에 넣기 쉬운 GIF로 가볍게 바꿉니다.",
-  "영상 APNG 변환": "투명 배경이 필요한 움직이는 에셋을 APNG로 준비해 디자인에 붙이기 쉽게 합니다.",
-  "썸네일 추출": "영상이나 움직이는 결과물에서 대표 장면을 골라 썸네일 이미지로 저장합니다.",
+  "Typo Check": "Scan titles, buttons, and detail copy to call out sneaky typos and awkward lines first.",
+  "Share Notes": "Leave fix notes exactly where designers or clients need to look.",
+  "Result Panel": "Collect findings in one panel so you fix the real hits without hunting through the whole canvas.",
+  "Unlock Layers": "Unlock layers that block edits and turn them into workable objects.",
+  "Detach Components": "Detach component-heavy structures so text and images can be edited separately.",
+  "Split Long Frames": "Split long pages into workable sections so the file is easier to manage.",
+  "Pixel Snap": "Snap blurry lines and boxes from half-pixels onto clean integer coordinates.",
+  "Button Fit": "Tune padding and size to the label so buttons stop looking off.",
+  "Radius Cleanup": "Normalize uneven corner values so the screen feels consistent.",
+  "Translate Text": "Drop multilingual copy into the original layout and make a review-ready draft fast.",
+  "Fix Typos Inline": "Apply typo and copy fixes directly to text layers to cut revision loops.",
+  "Highlight": "Highlight important copy or check areas so reviewers see the right points first.",
+  "Save Original": "Pull embedded images out of PSDs or docs so they can be reused.",
+  "Extract Colors": "Extract key colors from the mockup and line them up with brand color rules.",
+  "Crop Fit": "Clean crop position and visible area so image framing lands right.",
+  "Extend Image": "Extend missing backgrounds or cropped images to fit banners and long pages.",
+  "Upscale Image": "Sharpen small or blurry images so they work better in drafts and shares.",
+  "Extract Image Text": "Pull text out of images and prep it for editable text layers.",
+  "Shorten Link": "Shorten long Figma or review URLs so they look clean in chat and email.",
+  "Prototype Link": "Copy prototype links fast so clickable flows are ready to share.",
+  "Create QR Code": "Turn review links into QR codes so they open fast on mobile.",
+  "AI Video Gen": "Turn static drafts into quick motion examples or video mockups.",
+  "Video to GIF": "Convert heavy video into GIFs that are easier to drop into chat or docs.",
+  "Video to APNG": "Prepare APNG motion assets with transparency for design use.",
+  "Extract Thumbnail": "Pick a key frame from motion work and save it as a thumbnail.",
 }
 
 const aiActions: ActionItem[] = [
   {
-    title: "무드 살리기",
-    description: "방향성 빠르게 체크",
+    title: "Vibe Check",
+    description: "Check direction fast",
     icon: "help_outline",
     primary: true,
     badge: "AI",
   },
   {
-    title: "급한 수정 3개",
-    description: "우선순위만 착 정리",
+    title: "Top 3 Fixes",
+    description: "Prioritize the hits",
     icon: "playlist_add_check",
   },
   {
-    title: "카피 톤 맞추기",
-    description: "문장 결 살짝 정돈",
+    title: "Tune Copy Tone",
+    description: "Smooth the wording",
     icon: "chat_bubble_outline",
   },
 ]
@@ -278,27 +271,27 @@ const aiActions: ActionItem[] = [
 const workflowSteps = [
   {
     number: "01",
-    title: "쓱 가져오기",
-    description: "PSD, AI, EPS, PDF, PPT, SVG를 불러옵니다.",
+    title: "Bring It In",
+    description: "Import PSD, AI, EPS, PDF, PPT, and SVG files.",
     icon: "file_upload",
     active: true,
   },
   {
     number: "02",
-    title: "착 정리하기",
-    description: "레이어와 텍스트를 다루기 쉽게 정돈합니다.",
+    title: "Clean It Up",
+    description: "Organize layers and text so they are easy to edit.",
     icon: "layers",
   },
   {
     number: "03",
-    title: "딱 보정하기",
-    description: "검수, 오타 수정, 이미지 보정을 필요한 만큼 적용합니다.",
+    title: "Tune What Matters",
+    description: "Apply checks, typo fixes, and image cleanup only where needed.",
     icon: "tune",
   },
   {
     number: "04",
-    title: "바로 공유하기",
-    description: "링크로 공유하고 반복 기준을 저장합니다.",
+    title: "Share It Fast",
+    description: "Share by link and save repeatable cleanup rules.",
     icon: "share",
   },
 ]
@@ -312,86 +305,86 @@ const workflowLayerRows = [
 ]
 
 const qualityPoints = [
-  { label: "레이어", value: "그룹/순서 정리", icon: "layers" },
-  { label: "텍스트", value: "편집 가능한 텍스트", icon: "text_fields" },
-  { label: "이미지", value: "깨진 이미지 보정", icon: "image" },
-  { label: "효과", value: "효과 분리 확인", icon: "auto_fix_high" },
+  { label: "Layers", value: "Group/order cleanup", icon: "layers" },
+  { label: "Text", value: "Editable text", icon: "text_fields" },
+  { label: "Images", value: "Fix broken images", icon: "image" },
+  { label: "Effects", value: "Check effect splits", icon: "auto_fix_high" },
 ]
 
 const useCases: UseCase[] = [
   {
-    title: "묵은 PSD 살리기",
-    description: "예전 원본을 Figma에서 다시 만질 때",
+    title: "Revive Old PSDs",
+    description: "When old source files need new edits",
     icon: "history",
   },
   {
-    title: "외주 파일 정돈",
-    description: "받은 파일을 팀 기준으로 정돈할 때",
+    title: "Clean Vendor Files",
+    description: "When handoff files need team standards",
     icon: "folder_open",
   },
   {
-    title: "급한 배너 갈아끼우기",
-    description: "문구와 이미지만 빠르게 바꿔야 할 때",
+    title: "Swap Rush Banners",
+    description: "When only copy and images need a fast swap",
     icon: "campaign",
   },
   {
-    title: "상세페이지 다시 손보기",
-    description: "PSD 산출물을 다시 쪼개고 고칠 때",
+    title: "Rework Product Pages",
+    description: "When PSD outputs need to be split and edited",
     icon: "storefront",
   },
   {
-    title: "브랜드 템플릿 핏 맞추기",
-    description: "반복되는 디자인 기준을 맞출 때",
+    title: "Fit Brand Templates",
+    description: "When repeat layouts need one clear standard",
     icon: "palette",
   },
   {
-    title: "빠진 요소 체크",
-    description: "텍스트와 이미지 깨짐을 확인할 때",
+    title: "Check Missing Bits",
+    description: "When text or images might be broken",
     icon: "check_circle",
   },
   {
-    title: "레이어 이름 정돈",
-    description: "복잡한 그룹명을 읽기 쉽게 바꿀 때",
+    title: "Tidy Layer Names",
+    description: "When messy group names need clarity",
     icon: "edit",
   },
   {
-    title: "텍스트 다시 쓰기",
-    description: "래스터 글자를 편집 가능한 텍스트로 바꿀 때",
+    title: "Reuse Raster Text",
+    description: "When raster text needs to become editable",
     icon: "text_fields",
   },
   {
-    title: "이미지 배경 늘리기",
-    description: "부족한 배경 영역을 자연스럽게 늘릴 때",
+    title: "Extend Image Backgrounds",
+    description: "When background space needs a natural extension",
     icon: "open_in_full",
   },
   {
-    title: "썸네일 여러 개 뽑기",
-    description: "같은 구조로 여러 사이즈를 만들 때",
+    title: "Spin Up Thumbnails",
+    description: "When one layout needs multiple sizes",
     icon: "grid_view",
   },
   {
-    title: "PPT/PDF 다시 편집",
-    description: "문서형 디자인을 다시 편집할 때",
+    title: "Re-edit PPT/PDF",
+    description: "When document-style designs need edits",
     icon: "description",
   },
   {
-    title: "캠페인 소재 스왑",
-    description: "시즌 문구와 이미지를 빠르게 바꿀 때",
+    title: "Swap Campaign Assets",
+    description: "When seasonal copy and images need a swap",
     icon: "shuffle",
   },
   {
-    title: "팀 리뷰 세팅",
-    description: "공유 전에 기준대로 정리할 때",
+    title: "Set Up Team Review",
+    description: "When files need standards before sharing",
     icon: "playlist_add_check",
   },
   {
-    title: "AI 수정각 보기",
-    description: "화면을 기준으로 보정 방향을 정할 때",
+    title: "Ask AI for the Fix Angle",
+    description: "When the screen needs a cleanup direction",
     icon: "auto_awesome",
   },
   {
-    title: "반복 작업 저장",
-    description: "자주 쓰는 변환 기준을 저장할 때",
+    title: "Save Repeat Moves",
+    description: "When recurring conversion rules should stick",
     icon: "tune",
   },
 ]
@@ -401,60 +394,60 @@ const plans: PricingPlan[] = [
     key: "free",
     name: "Free",
     price: "$0",
-    description: "일단 가볍게 찍먹. 작은 파일로 변환 흐름부터 확인해요.",
+    description: "Try the flow first. Small files, low stakes, zero drama.",
     features: [
-      { label: "Basic 7일 체험", badge: "HOT" },
-      { label: "월 3회 PSD 변환" },
-      { label: "파일 구조 확인" },
-      { label: "작은 파일 테스트" },
-      { label: "무료 계정 저장" },
+      { label: "7-day Basic trial", badge: "HOT" },
+      { label: "3 PSD conversions / month" },
+      { label: "Check file structure" },
+      { label: "Test small files" },
+      { label: "Save a free account" },
     ],
-    cta: "무료 시작",
+    cta: "Start free",
   },
   {
     key: "basic",
     name: "Basic",
     price: "$2/mo",
-    description: "혼자 작업할 때 자주 쓰는 정리 기능을 야무지게 담았어요.",
+    description: "Solo cleanup staples, packed for everyday work.",
     features: [
-      { label: "잠긴 레이어 해제", badge: "HOT" },
-      { label: "긴 프레임 나누기", badge: "HOT" },
-      { label: "월 30회 PSD 변환" },
-      { label: "컴포넌트 해제" },
-      { label: "숨긴 레이어 삭제" },
-      { label: "가이드 전체 삭제" },
-      { label: "정수 픽셀 교정" },
-      { label: "버튼 자동 맞춤" },
-      { label: "모서리 정리" },
-      { label: "기울기 보정" },
-      { label: "텍스트 하이라이트" },
-      { label: "텍스트 행간 조정" },
-      { label: "이미지 색상 추출" },
-      { label: "GIF/APNG 변환" },
+      { label: "Unlock Layers", badge: "HOT" },
+      { label: "Split Long Frames", badge: "HOT" },
+      { label: "30 PSD conversions / month" },
+      { label: "Detach Components" },
+      { label: "Delete hidden layers" },
+      { label: "Remove all guides" },
+      { label: "Integer pixel fix" },
+      { label: "Auto-fit buttons" },
+      { label: "Clean corners" },
+      { label: "Fix tilt" },
+      { label: "Text Highlight" },
+      { label: "Text line-height" },
+      { label: "Image color extract" },
+      { label: "GIF/APNG conversion" },
     ],
-    cta: "Basic 선택",
+    cta: "Choose Basic",
   },
   {
     key: "pro",
     name: "Pro",
     price: "$5/mo",
-    description: "Basic 기능에 AI 검수와 고급 이미지 작업까지 얹은 본격 작업용 플랜이에요.",
-    includedPrefix: "Basic 기능 + AI까지",
+    description: "Basic plus AI checks and advanced image work for main-character production.",
+    includedPrefix: "Basic features + AI",
     features: [
-      { label: "월 50회 PSD 변환", badge: "HOT" },
-      { label: "오타 검수/직접 수정", badge: "NEW" },
-      { label: "텍스트 번역", badge: "NEW" },
-      { label: "디자인 읽기/검수" },
-      { label: "디자인 일관성 검사" },
-      { label: "이미지 텍스트 추출" },
-      { label: "참고 이미지 검색" },
-      { label: "이미지 프롬프트 편집" },
-      { label: "이미지 영역 확장" },
-      { label: "이미지 업스케일" },
-      { label: "오브젝트 업스케일" },
-      { label: "고급 자동화 준비" },
+      { label: "50 PSD conversions / month", badge: "HOT" },
+      { label: "Typo check / inline fix", badge: "NEW" },
+      { label: "Translate Text", badge: "NEW" },
+      { label: "Read / review designs" },
+      { label: "Design consistency check" },
+      { label: "Extract Image Text" },
+      { label: "Reference image search" },
+      { label: "Image prompt editing" },
+      { label: "Extend Image" },
+      { label: "Image upscale" },
+      { label: "Object upscale" },
+      { label: "Advanced automation prep" },
     ],
-    cta: "Pro 선택",
+    cta: "Choose Pro",
   },
 ]
 
@@ -468,10 +461,10 @@ const conversionSourceRows = [
 ]
 
 const conversionAfterItems = [
-  { title: "레이어 구조 유지", body: "Header / Hero / CTA" },
-  { title: "편집 가능한 텍스트", body: "글자 수정 가능" },
-  { title: "이미지와 효과 정리", body: "보정 포인트 분리" },
-  { title: "플러그인 보정 연결", body: "검수와 정리 바로 실행" },
+  { title: "Keep Layer Structure", body: "Header / Hero / CTA" },
+  { title: "Editable text", body: "Text stays editable" },
+  { title: "Clean Images + Effects", body: "Separate cleanup points" },
+  { title: "Plugin Cleanup Ready", body: "Run checks + cleanup" },
 ]
 
 export default function HomePage() {
@@ -532,31 +525,31 @@ function SiteHeader() {
         <a
           href="#top"
           className="flex items-center text-black"
-          aria-label="PIGMA 홈"
+          aria-label="PIGMA home"
         >
           <PigmaLogo className="h-[18px] w-[100px] md:h-[19px]" />
         </a>
         <nav className="hidden items-center justify-start gap-14 pl-7 text-base font-bold text-[#0a0a0a] md:flex">
           <a href="#product" className="transition hover:text-[#005bff]">
-            제품
+            Product
           </a>
           <a href="#features" className="transition hover:text-[#005bff]">
-            기능
+            Features
           </a>
           <a href="#pricing" className="transition hover:text-[#005bff]">
-            가격
+            Pricing
           </a>
         </nav>
         <div className="flex items-center gap-3 sm:gap-5">
-          <LanguageSwitch current="ko" />
+          <LanguageSwitch current="en" />
           <a href="/login" className="hidden font-bold text-[#0a0a0a] transition hover:text-[#005bff] sm:inline-flex">
-            로그인
+            Log in
           </a>
           <a
             href="/signup"
             className="inline-flex h-12 min-w-[116px] items-center justify-center gap-2 rounded-xl bg-[#005bff] px-5 text-sm font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0] md:h-14 md:min-w-[132px] md:rounded-2xl md:px-7 md:text-base"
           >
-            시작하기
+            Start
             <MaterialIcon name="arrow_forward" className="text-[16px]" />
           </a>
         </div>
@@ -571,24 +564,24 @@ function SiteHeaderAuthenticated() {
   return (
     <header className="sticky top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur-xl">
       <div className="mx-auto flex h-[88px] max-w-[1440px] items-center justify-between px-6 sm:px-10 md:grid md:h-[104px] md:grid-cols-[148px_1fr_auto] lg:px-12">
-        <a href="#top" className="flex items-center text-black" aria-label="PIGMA 홈">
+        <a href="#top" className="flex items-center text-black" aria-label="PIGMA home">
           <PigmaLogo className="h-[18px] w-[100px] md:h-[19px]" />
         </a>
 
         <nav className="hidden items-center justify-start gap-14 pl-7 text-base font-bold text-[#0a0a0a] md:flex">
           <a href="#product" className="transition hover:text-[#005bff]">
-            제품
+            Product
           </a>
           <a href="#features" className="transition hover:text-[#005bff]">
-            기능
+            Features
           </a>
           <a href="#pricing" className="transition hover:text-[#005bff]">
-            가격
+            Pricing
           </a>
         </nav>
 
         <div className="flex items-center gap-3 sm:gap-5">
-          <LanguageSwitch current="ko" />
+          <LanguageSwitch current="en" />
           {user ? (
             <>
               <a href="/dashboard" className="hidden font-bold text-[#0a0a0a] transition hover:text-[#005bff] sm:inline-flex">
@@ -605,7 +598,7 @@ function SiteHeaderAuthenticated() {
                       {user.name.slice(0, 1).toUpperCase()}
                     </span>
                   )}
-                  <span>{user.name}님</span>
+                  <span>Hi, {user.name}</span>
                 </span>
               </a>
               <form action="/auth/logout" method="post">
@@ -613,7 +606,7 @@ function SiteHeaderAuthenticated() {
                   type="submit"
                   className="inline-flex h-12 min-w-[116px] items-center justify-center gap-2 rounded-xl bg-[#050505] px-5 text-sm font-bold text-white shadow-[0_10px_14px_rgba(0,0,0,0.12)] transition hover:-translate-y-0.5 hover:bg-[#1c1c1c] md:h-14 md:min-w-[132px] md:rounded-2xl md:px-7 md:text-base"
                 >
-                  로그아웃
+                  Log out
                   <MaterialIcon name="logout" className="text-[16px]" />
                 </button>
               </form>
@@ -621,13 +614,13 @@ function SiteHeaderAuthenticated() {
           ) : (
             <>
               <a href="/login" className="hidden font-bold text-[#0a0a0a] transition hover:text-[#005bff] sm:inline-flex">
-                로그인
+                Log in
               </a>
               <a
                 href="/signup"
                 className="inline-flex h-12 min-w-[116px] items-center justify-center gap-2 rounded-xl bg-[#005bff] px-5 text-sm font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0] md:h-14 md:min-w-[132px] md:rounded-2xl md:px-7 md:text-base"
               >
-                시작하기
+                Start
                 <MaterialIcon name="arrow_forward" className="text-[16px]" />
               </a>
             </>
@@ -733,19 +726,19 @@ function HeroSection() {
             FIG EXPORT TO PSD
           </p>
           <h1 className="mx-auto max-w-[1120px] text-[38px] font-black leading-[1.12] text-black sm:text-[52px] lg:text-[64px]">
-            PIGMA로
+            With PIGMA
             <br />
-            FIG를 PSD로 쓱 내보내기
+            FIG to PSD, no drama
           </h1>
           <p className="mx-auto mt-7 max-w-[760px] text-[17px] leading-8 text-[#5f6368] sm:text-[19px]">
-            Figma 작업물을 PSD로 넘길 때 필요한 과정만 가볍게 정리합니다.
+            Convert Figma work into PSD-ready output with the boring parts handled.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
               href="#pricing"
               className="inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-[#005bff] px-6 text-[15px] font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0] sm:w-[170px]"
             >
-              무료 시작
+              Start free
               <MaterialIcon name="arrow_forward" className="text-[16px]" />
             </a>
             <a
@@ -753,7 +746,7 @@ function HeroSection() {
               className="inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-white px-6 text-[15px] font-bold text-[#0a0a0a] shadow-[0_10px_24px_rgba(0,0,0,0.05)] transition hover:-translate-y-0.5 sm:w-[180px]"
             >
               <MaterialIcon name="attach_money" className="text-[16px]" />
-              가격 보기
+              See pricing
             </a>
           </div>
         </div>
@@ -801,21 +794,21 @@ function HeroWorkspace() {
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-center gap-3">
               <MaterialIcon name="autorenew" className="text-[24px] text-[#0a0a0a]" />
-              <h2 className="text-[22px] font-black leading-none">자동 내보내기</h2>
+              <h2 className="text-[22px] font-black leading-none">Auto Export</h2>
             </div>
             <AnimatedConversionProgressValue progress={conversionProgress} className="text-4xl" />
           </div>
           <AnimatedConversionProgressBar progress={conversionProgress} className="mt-5" />
           <p className="mt-4 text-[13px] font-medium text-[#0a0a0a]">
-            레이어, 텍스트, 효과를 PSD로 내보낼 수 있게 정리
+            Layers, text, and effects cleaned up for PSD export
           </p>
         </div>
         <div className="rounded-[14px] bg-white p-5 ring-1 ring-black/5">
           <div className="mb-4 flex items-center gap-3">
             <MaterialIcon name="ios_share" className="text-[20px]" />
-            <strong className="text-lg">내보내기 준비</strong>
+            <strong className="text-lg">Export Ready</strong>
           </div>
-          {["레이어 유지", "텍스트 편집", "팀 공유 준비"].map((item) => (
+          {["Keep layers", "Editable text", "Team-share ready"].map((item) => (
             <div key={item} className="flex h-[30px] items-center justify-between text-[15px] text-[#5f6368]">
               <span>{item}</span>
               <ConversionOptionToggle enabled={exportOptionsReady} />
@@ -907,10 +900,10 @@ function AiChatSection() {
       <div className="mx-auto max-w-[1248px]">
         <p className="text-center text-[13px] font-black tracking-[0.18em] text-white/45">PLUGIN MENU</p>
         <h2 className="mx-auto mt-5 max-w-[760px] text-center text-[34px] font-black leading-[1.2] sm:text-[46px]">
-          자주 쓰는 PIGMA 도구, 한눈에 착
+          PIGMA tools, ready when the vibe shifts
         </h2>
         <p className="mx-auto mt-5 max-w-[620px] text-center text-[15px] leading-7 text-white/62">
-          검수, 정리, 보정, 공유까지 작업 중 바로 꺼내 쓰기 좋게 모았습니다.
+          Checks, cleanup, fixes, and sharing tools live where your workflow already is.
         </p>
         <FeatureActionGrid />
       </div>
@@ -1039,7 +1032,7 @@ function MiniHeading({ children }: { children: ReactNode }) {
 function AuditMiniPreview() {
   return (
     <MiniPreviewShell>
-      <MiniHeading>카피 검수</MiniHeading>
+      <MiniHeading>Copy Check</MiniHeading>
       <div className="absolute left-[42px] top-[43px] h-[66px] w-[260px] rounded-lg border border-[#d8e3ef] bg-white">
         <span className="absolute left-[22px] top-[13px] h-[6px] w-[92px] rounded-full bg-[#111]" />
         <span className="absolute left-[22px] top-[28px] h-[5px] w-[170px] rounded-full bg-[#c6d0da]" />
@@ -1051,7 +1044,7 @@ function AuditMiniPreview() {
         !
       </span>
       <div className="absolute left-[330px] top-[45px] h-16 w-[238px] rounded-lg border border-[#cfe0ff] bg-white">
-        <strong className="absolute left-5 top-[10px] text-[11px] leading-[11px] text-[#111827]">오타 후보</strong>
+        <strong className="absolute left-5 top-[10px] text-[11px] leading-[11px] text-[#111827]">Typo Alert</strong>
         <span className="absolute left-[108px] top-2 flex h-[17px] w-[30px] items-center justify-center rounded-full bg-[#006bff] text-[9px] font-black text-white">
           3
         </span>
@@ -1069,24 +1062,24 @@ function AuditMiniPreview() {
 function LayerMiniPreview() {
   return (
     <MiniPreviewShell>
-      <MiniHeading>레이어 정리</MiniHeading>
+      <MiniHeading>Layer Cleanup</MiniHeading>
       <div className="absolute left-[42px] top-[43px] h-[66px] w-[208px] rounded-lg bg-[#111]">
-        <strong className="absolute left-5 top-[10px] text-[8px] leading-[10px] text-white">복잡한 파일</strong>
+        <strong className="absolute left-5 top-[10px] text-[8px] leading-[10px] text-white">Messy File</strong>
         <span className="absolute left-[22px] top-[28px] size-2 rounded-full bg-[#c6d0da]" />
         <span className="absolute left-[38px] top-[30px] h-1.5 w-[96px] rounded-full bg-[#c6d0da]" />
         <span className="absolute left-[22px] top-[44px] size-2 rounded-full bg-[#c6d0da]" />
         <span className="absolute left-[38px] top-[46px] h-1.5 w-[128px] rounded-full bg-[#c6d0da]" />
         <span className="absolute left-[60px] top-[56px] size-2 rounded-full bg-[#006bff]" />
         <span className="absolute left-[76px] top-[58px] h-1.5 w-[104px] rounded-full bg-[#006bff]" />
-        <span className="absolute right-5 top-[38px] text-[8px] text-[#c6d0da]">잠금</span>
+        <span className="absolute right-5 top-[38px] text-[8px] text-[#c6d0da]">Locked</span>
       </div>
       <MaterialIcon name="arrow_forward" className="absolute left-[270px] top-[69px] text-[18px] text-[#006bff]" />
       <div className="absolute left-[292px] top-[51px] grid gap-2">
-        <span className="flex h-[18px] w-12 items-center justify-center rounded-full bg-[#006bff] text-[8px] font-bold text-white">해제</span>
-        <span className="flex h-[18px] w-12 items-center justify-center rounded-full bg-[#27b36a] text-[8px] font-bold text-white">분리</span>
+        <span className="flex h-[18px] w-12 items-center justify-center rounded-full bg-[#006bff] text-[8px] font-bold text-white">Unlock</span>
+        <span className="flex h-[18px] w-12 items-center justify-center rounded-full bg-[#27b36a] text-[8px] font-bold text-white">Split</span>
       </div>
       <div className="absolute left-[367px] top-[43px] h-[66px] w-[201px] rounded-lg border border-[#cfe0ff] bg-white">
-        <strong className="absolute left-5 top-[10px] text-[8px] leading-[10px] text-[#111827]">정리된 레이어</strong>
+        <strong className="absolute left-5 top-[10px] text-[8px] leading-[10px] text-[#111827]">Clean Layers</strong>
         <span className="absolute left-5 top-[27px] h-1.5 w-[118px] rounded-full bg-[#006bff]" />
         <span className="absolute left-[145px] top-[27px] h-1.5 w-6 rounded-full bg-[#27b36a]" />
         {[0, 1, 2].map((row) => (
@@ -1103,7 +1096,7 @@ function LayerMiniPreview() {
 function AlignMiniPreview() {
   return (
     <MiniPreviewShell>
-      <MiniHeading>픽셀 교정</MiniHeading>
+      <MiniHeading>Pixel Fix</MiniHeading>
       <div className="absolute left-[42px] top-[43px] h-[66px] w-[318px] rounded-lg border border-[#d8e3ef] bg-white">
         {[36, 88, 140, 192, 244].map((left) => (
           <span key={left} className="absolute top-2 h-[50px] w-px bg-[#d8e3ef]" style={{ left }} />
@@ -1118,7 +1111,7 @@ function AlignMiniPreview() {
       </div>
       <span className="absolute left-[370px] top-[66px] text-[8px] font-bold text-[#006bff]">1px</span>
       <div className="absolute left-[402px] top-[51px] h-11 w-[166px] rounded-lg border border-[#cfe0ff] bg-white">
-        <strong className="absolute left-4 top-2.5 text-[8px] leading-[10px] text-[#111827]">버튼 자동 맞춤</strong>
+        <strong className="absolute left-4 top-2.5 text-[8px] leading-[10px] text-[#111827]">Auto-fit buttons</strong>
         <span className="absolute left-4 top-[28px] size-2 rounded-[2px] bg-[#27b36a]" />
         <span className="absolute left-[30px] top-[30px] h-1.5 w-[98px] rounded-full bg-[#006bff]" />
         <span className="absolute left-[136px] top-[28px] size-2 rounded-[2px] bg-[#27b36a]" />
@@ -1130,7 +1123,7 @@ function AlignMiniPreview() {
 function TextMiniPreview() {
   return (
     <MiniPreviewShell>
-      <MiniHeading>텍스트 정리</MiniHeading>
+      <MiniHeading>Text Cleanup</MiniHeading>
       <div className="absolute left-[42px] top-[43px] h-[66px] w-[205px] rounded-lg border border-[#d8e3ef] bg-white">
         <span className="absolute left-[18px] top-[12px] text-[7px] font-bold text-[#9ca3af]">KR</span>
         <span className="absolute left-[18px] top-[28px] h-1.5 w-[108px] rounded-full bg-[#c6d0da]" />
@@ -1139,8 +1132,8 @@ function TextMiniPreview() {
       </div>
       <MaterialIcon name="arrow_forward" className="absolute left-[268px] top-[68px] text-[18px] text-[#111]" />
       <div className="absolute left-[291px] top-[50px] grid gap-2">
-        <span className="flex h-[18px] w-[58px] items-center justify-center rounded-full bg-[#006bff] text-[8px] font-bold text-white">번역</span>
-        <span className="flex h-[18px] w-[58px] items-center justify-center rounded-full bg-[#111] text-[8px] font-bold text-white">행간</span>
+        <span className="flex h-[18px] w-[58px] items-center justify-center rounded-full bg-[#006bff] text-[8px] font-bold text-white">Translate</span>
+        <span className="flex h-[18px] w-[58px] items-center justify-center rounded-full bg-[#111] text-[8px] font-bold text-white">Line height</span>
       </div>
       <div className="absolute left-[367px] top-[43px] h-[66px] w-[201px] rounded-lg border border-[#cfe0ff] bg-white">
         <span className="absolute left-5 top-[13px] text-[7px] font-bold text-[#006bff]">EN</span>
@@ -1156,7 +1149,7 @@ function TextMiniPreview() {
 function ImageMiniPreview() {
   return (
     <MiniPreviewShell>
-      <MiniHeading>이미지 소스</MiniHeading>
+      <MiniHeading>Image Source</MiniHeading>
       <div className="absolute left-[42px] top-[43px] h-[66px] w-[178px] rounded-lg border-2 border-[#006bff] bg-[#eaf3ff]">
         <div className="absolute left-[16px] top-[11px] h-6 w-[144px] rounded bg-[#d7ecff]" />
         <div className="absolute left-[16px] top-[34px] h-5 w-[144px] rounded bg-[#d7f8df]" />
@@ -1165,7 +1158,7 @@ function ImageMiniPreview() {
       </div>
       <MaterialIcon name="arrow_forward" className="absolute left-[252px] top-[68px] text-[18px] text-[#006bff]" />
       <div className="absolute left-[350px] top-[45px] h-[62px] w-[218px] rounded-lg border border-[#d8e3ef] bg-white">
-        <strong className="absolute left-5 top-3 text-[8px] leading-[10px] text-[#111827]">원본 + 팔레트</strong>
+        <strong className="absolute left-5 top-3 text-[8px] leading-[10px] text-[#111827]">Source + Palette</strong>
         <span className="absolute right-[28px] top-2 flex h-[17px] w-12 items-center justify-center rounded-full bg-[#111] text-[8px] font-black text-white">PNG</span>
         {["#006bff", "#27b36a", "#ffd45a"].map((color, index) => (
           <span key={color} className="absolute top-[34px] size-[18px] rounded-full" style={{ left: `${25 + index * 31}px`, backgroundColor: color }} />
@@ -1179,7 +1172,7 @@ function ImageMiniPreview() {
 function GenerateMiniPreview() {
   return (
     <MiniPreviewShell>
-      <MiniHeading>AI 이미지 확장</MiniHeading>
+      <MiniHeading>AI Image Extend</MiniHeading>
       <div className="absolute left-[42px] top-[43px] h-[66px] w-[302px] rounded-lg border border-[#cfe0ff] bg-white">
         <div className="absolute left-4 top-3 h-9 w-[112px] rounded bg-[#eef6ff]">
           {[0, 1, 2, 3].map((dot) => (
@@ -1196,7 +1189,7 @@ function GenerateMiniPreview() {
         </div>
       </div>
       <div className="absolute left-[374px] top-[45px] h-[62px] w-[194px] rounded-lg border border-[#d8e3ef] bg-white">
-        <strong className="absolute left-5 top-3 text-[8px] leading-[10px] text-[#111827]">업스케일 / OCR</strong>
+        <strong className="absolute left-5 top-3 text-[8px] leading-[10px] text-[#111827]">Upscale / OCR</strong>
         <span className="absolute left-5 top-[28px] flex h-[17px] w-12 items-center justify-center rounded-full bg-[#006bff] text-[8px] font-black text-white">2x</span>
         <span className="absolute left-[78px] top-[34px] h-1.5 w-[88px] rounded-full bg-[#c6d0da]" />
         <span className="absolute left-5 top-[47px] flex h-[17px] w-14 items-center justify-center rounded-full bg-[#111] text-[8px] font-black text-white">TEXT</span>
@@ -1209,17 +1202,17 @@ function GenerateMiniPreview() {
 function ShareMiniPreview() {
   return (
     <MiniPreviewShell>
-      <MiniHeading>공유 준비</MiniHeading>
+      <MiniHeading>Share Kit</MiniHeading>
       <div className="absolute left-[42px] top-[45px] h-[30px] w-[225px] rounded-full border border-[#d7dee8] bg-white">
         <span className="absolute left-[18px] top-[10px] text-[7px] font-bold text-[#9ca3af]">URL</span>
         <span className="absolute left-[55px] top-[13px] h-1 w-[134px] rounded-full bg-[#c6d0da]" />
       </div>
       <MaterialIcon name="arrow_forward" className="absolute left-[280px] top-[51px] text-[20px] text-[#006bff]" />
-      <span className="absolute left-[340px] top-[43px] flex h-[34px] w-[156px] items-center justify-center rounded-xl bg-[#006bff] text-[11px] font-bold text-white">짧은 링크</span>
-      <span className="absolute left-[510px] top-[47px] flex h-[26px] w-[58px] items-center justify-center rounded-full bg-[#111] text-[10px] font-bold text-white">복사</span>
+      <span className="absolute left-[340px] top-[43px] flex h-[34px] w-[156px] items-center justify-center rounded-xl bg-[#006bff] text-[11px] font-bold text-white">Short Link</span>
+      <span className="absolute left-[510px] top-[47px] flex h-[26px] w-[58px] items-center justify-center rounded-full bg-[#111] text-[10px] font-bold text-white">Copy</span>
       <div className="absolute left-[86px] top-[88px] h-[15px] w-[373px] rounded-full bg-[#111]">
         <div className="h-full w-[66%] rounded-full bg-[#27b36a]" />
-        <span className="absolute left-[74px] top-[3px] text-[7px] font-bold leading-[9px] text-white">프로토타입 리뷰 준비</span>
+        <span className="absolute left-[74px] top-[3px] text-[7px] font-bold leading-[9px] text-white">Prototype review ready</span>
       </div>
       <span className="absolute left-[473px] top-[88px] flex h-[9px] w-[11px] items-center justify-center rounded-[3px] bg-[#27b36a] text-white">
         <MaterialIcon name="check" className="text-[7px]" />
@@ -1231,10 +1224,10 @@ function ShareMiniPreview() {
 function VideoMiniPreview() {
   return (
     <MiniPreviewShell>
-      <MiniHeading>모션 변환</MiniHeading>
+      <MiniHeading>Motion Convert</MiniHeading>
       <div className="absolute left-[42px] top-[43px] h-[66px] w-[202px] rounded-lg bg-[#111]">
         <span className="absolute left-[85px] top-[24px] flex h-5 w-7 items-center justify-center rounded bg-[#006bff] text-[10px] text-white">▶</span>
-        <span className="absolute left-[126px] top-2 flex h-[18px] w-[65px] items-center justify-center rounded-full bg-[#006bff] text-[8px] font-bold text-white">AI 생성</span>
+        <span className="absolute left-[126px] top-2 flex h-[18px] w-[65px] items-center justify-center rounded-full bg-[#006bff] text-[8px] font-bold text-white">AI Gen</span>
       </div>
       <div className="absolute left-[281px] top-[45px] h-[38px] w-[179px] rounded-lg border border-[#d8e3ef] bg-white">
         {[0, 1, 2, 3, 4].map((frame) => (
@@ -1254,16 +1247,16 @@ function AuditVisual() {
   return (
     <div className="grid content-start gap-3 rounded-[14px] border border-[#dbe7ff] bg-[#f8fbff] p-5">
       <div className="flex items-center justify-between">
-        <strong className="text-lg">오타 후보</strong>
+        <strong className="text-lg">Typo Alert</strong>
         <span className="inline-flex h-10 min-w-14 items-center justify-center rounded-full bg-[#006bff] px-5 text-lg font-black text-white">
           3
         </span>
       </div>
       <div className="mt-1 grid gap-3">
         {[
-          ["오타 검수", "bg-[#ff4d55]"],
-          ["주석으로 공유", "bg-[#c8d0dc]"],
-          ["결과 패널", "bg-[#c8d0dc]"],
+          ["Typo Check", "bg-[#ff4d55]"],
+          ["Share Notes", "bg-[#c8d0dc]"],
+          ["Result Panel", "bg-[#c8d0dc]"],
         ].map(([label, color]) => (
           <div key={label} className="flex items-center gap-3">
             <span className="flex size-6 items-center justify-center rounded-md bg-[#27b36a] text-white">
@@ -1280,16 +1273,16 @@ function AuditVisual() {
 function LayerCleanupVisual() {
   return (
     <div className="grid content-center gap-4 rounded-[14px] border border-[#dbe7ff] bg-[#f8fbff] p-5">
-      <div className="rounded-xl bg-[#111] px-4 py-6 text-center text-sm font-bold text-white">잠금</div>
+      <div className="rounded-xl bg-[#111] px-4 py-6 text-center text-sm font-bold text-white">Locked</div>
       <div className="flex items-center justify-center gap-3">
         <MaterialIcon name="arrow_forward" className="text-[24px] text-[#006bff]" />
         <div className="grid gap-2">
-          <span className="rounded-full bg-[#006bff] px-7 py-2 text-center text-sm font-bold text-white">해제</span>
-          <span className="rounded-full bg-[#27b36a] px-7 py-2 text-center text-sm font-bold text-white">분리</span>
+          <span className="rounded-full bg-[#006bff] px-7 py-2 text-center text-sm font-bold text-white">Unlock</span>
+          <span className="rounded-full bg-[#27b36a] px-7 py-2 text-center text-sm font-bold text-white">Split</span>
         </div>
       </div>
       <div className="rounded-xl bg-white p-4 shadow-sm ring-1 ring-[#e7ecf3]">
-        <strong className="text-sm">정리된 레이어</strong>
+        <strong className="text-sm">Clean Layers</strong>
         <div className="mt-3 grid gap-2">
           <span className="h-2 w-4/5 rounded-full bg-[#006bff]" />
           <span className="h-2 rounded-full bg-[#c8d0dc]" />
@@ -1304,7 +1297,7 @@ function AlignmentVisual() {
   return (
     <div className="rounded-[14px] border border-[#dbe7ff] bg-[#f8fbff] p-5">
       <div className="flex items-center justify-between">
-        <strong className="text-lg">픽셀 교정</strong>
+        <strong className="text-lg">Pixel Fix</strong>
         <span className="rounded-full bg-[#006bff] px-5 py-2 text-sm font-black text-white">1px</span>
       </div>
       <div className="mt-6 grid gap-3">
@@ -1316,7 +1309,7 @@ function AlignmentVisual() {
         ))}
       </div>
       <div className="mt-8 rounded-full bg-[#006bff] px-5 py-3 text-center text-sm font-bold text-white">
-        버튼 자동 맞춤
+        Auto-fit buttons
       </div>
     </div>
   )
@@ -1328,8 +1321,8 @@ function TextVisual() {
       <div className="flex items-center gap-4">
         <MaterialIcon name="arrow_forward" className="text-[24px] text-[#111]" />
         <div className="grid flex-1 gap-2">
-          <span className="rounded-full bg-[#006bff] px-6 py-2 text-sm font-bold text-white">번역</span>
-          <span className="rounded-full bg-[#111] px-6 py-2 text-sm font-bold text-white">행간</span>
+          <span className="rounded-full bg-[#006bff] px-6 py-2 text-sm font-bold text-white">Translate</span>
+          <span className="rounded-full bg-[#111] px-6 py-2 text-sm font-bold text-white">Line height</span>
         </div>
       </div>
       <div className="rounded-xl bg-white p-4 shadow-sm ring-1 ring-[#e7ecf3]">
@@ -1346,12 +1339,12 @@ function ImageSourceVisual() {
   return (
     <div className="grid content-center gap-4 rounded-[14px] border border-[#dbe7ff] bg-[#f8fbff] p-5">
       <div className="flex items-center justify-between gap-3">
-        <span className="rounded-full bg-[#006bff] px-5 py-2 text-sm font-bold text-white">이미지 소스</span>
+        <span className="rounded-full bg-[#006bff] px-5 py-2 text-sm font-bold text-white">Image Source</span>
         <MaterialIcon name="arrow_forward" className="text-[24px] text-[#006bff]" />
       </div>
       <div className="rounded-xl bg-white p-4 shadow-sm ring-1 ring-[#e7ecf3]">
         <div className="flex items-center justify-between">
-          <strong className="text-sm">원본 + 팔레트</strong>
+          <strong className="text-sm">Source + Palette</strong>
           <span className="rounded-full bg-[#111] px-3 py-1 text-[10px] font-bold text-white">PNG</span>
         </div>
         <div className="mt-4 flex gap-2">
@@ -1367,7 +1360,7 @@ function ImageSourceVisual() {
 function ImageGenerateVisual() {
   return (
     <div className="rounded-[14px] border border-[#dbe7ff] bg-[#f8fbff] p-5">
-      <strong className="text-lg">업스케일 / OCR</strong>
+      <strong className="text-lg">Upscale / OCR</strong>
       <div className="mt-5 grid grid-cols-[90px_1fr] gap-3">
         <span className="rounded-full bg-[#006bff] px-5 py-2 text-center text-sm font-black text-white">2x</span>
         <span className="h-3 self-center rounded-full bg-[#c8d0dc]" />
@@ -1375,7 +1368,7 @@ function ImageGenerateVisual() {
         <span className="h-3 self-center rounded-full bg-[#c8d0dc]" />
       </div>
       <div className="mt-6 rounded-xl bg-white p-4 text-sm shadow-sm ring-1 ring-[#e7ecf3]">
-        잘린 배경 자연 확장
+        Extend cropped bg
       </div>
     </div>
   )
@@ -1387,8 +1380,8 @@ function ShareVisual() {
       <div className="rounded-full bg-white px-5 py-3 text-sm font-bold text-[#9ca3af] ring-1 ring-[#d7dee8]">URL</div>
       <div className="flex items-center gap-3">
         <MaterialIcon name="arrow_forward" className="text-[24px] text-[#006bff]" />
-        <span className="flex-1 rounded-full bg-[#006bff] px-5 py-3 text-center text-sm font-bold text-white">짧은 링크</span>
-        <span className="rounded-full bg-[#111] px-5 py-3 text-sm font-bold text-white">복사</span>
+        <span className="flex-1 rounded-full bg-[#006bff] px-5 py-3 text-center text-sm font-bold text-white">Short Link</span>
+        <span className="rounded-full bg-[#111] px-5 py-3 text-sm font-bold text-white">Copy</span>
       </div>
       <div className="mt-2 h-4 overflow-hidden rounded-full bg-[#111]">
         <div className="h-full w-2/3 rounded-full bg-[#27b36a]" />
@@ -1403,7 +1396,7 @@ function VideoVisual() {
       <div className="rounded-xl bg-[#111] p-5 text-white">
         <div className="flex items-center gap-4">
           <span className="flex size-11 items-center justify-center rounded-lg bg-[#006bff] text-xl">▶</span>
-          <span className="rounded-full bg-[#006bff] px-5 py-2 text-sm font-bold">AI 생성</span>
+          <span className="rounded-full bg-[#006bff] px-5 py-2 text-sm font-bold">AI Gen</span>
         </div>
       </div>
       <div className="grid gap-3">
@@ -1422,13 +1415,13 @@ function ConvertVisual() {
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-center gap-3">
           <MaterialIcon name="autorenew" className="text-[24px] text-[#0a0a0a]" />
-          <strong className="text-lg">자동 변환</strong>
+          <strong className="text-lg">Auto Convert</strong>
         </div>
         <AnimatedConversionProgressValue progress={conversionProgress} className="text-3xl" />
       </div>
       <AnimatedConversionProgressBar progress={conversionProgress} className="mt-5" />
       <div className="mt-5 grid gap-2 text-xs text-[#657082]">
-        {["source.psd 분석", "텍스트 추출", "효과 분리"].map((item) => (
+        {["source.psd scan", "Text extract", "Effects Split"].map((item) => (
           <div key={item} className="flex items-center gap-2 rounded bg-white px-3 py-2">
             <MaterialIcon name="check" className="text-[14px] text-[#005bff]" />
             {item}
@@ -1485,9 +1478,9 @@ function PresetVisual() {
     <div className="rounded-[14px] bg-white p-5 ring-1 ring-[#e7ecf3]">
       <div className="mb-4 flex items-center gap-3">
         <MaterialIcon name="tune" className="text-[20px] text-[#005bff]" />
-        <strong className="text-lg">저장된 기준</strong>
+        <strong className="text-lg">Saved Rules</strong>
       </div>
-      {["레이어 이름 정리", "이미지 누락 검사", "텍스트 추출", "효과 분리"].map((item) => (
+      {["Layer name cleanup", "Missing image scan", "Text extract", "Effects Split"].map((item) => (
         <div key={item} className="flex h-[34px] items-center justify-between text-sm text-[#5f6368]">
           <span>{item}</span>
           <ConversionOptionToggle enabled />
@@ -1543,12 +1536,12 @@ function WorkflowSection() {
         <div className="text-center">
           <p className="inline-flex h-10 items-center justify-center text-[13px] font-black leading-5 text-[#0a0a0a]">HOW IT WORKS</p>
           <h2 className="mt-5 text-[34px] font-black leading-[1.22] text-[#0a0a0a] sm:text-[46px] sm:leading-[56px]">
-            PSD를 수정할 수 있는
+            Turn PSD into
             <br />
-            화면으로 바꾸는 쉬운 루틴
+            editable Figma, no stress
           </h2>
           <p className="mt-6 text-[18px] leading-8 text-[#5f6368] sm:text-[22px]">
-            가져오고 정리한 뒤, 필요한 보정만 골라 착 적용합니다.
+            Import, clean up, then apply only the fixes that matter.
           </p>
         </div>
 
@@ -1615,7 +1608,7 @@ function WorkflowSection() {
 
 function WorkflowTransferIndicator() {
   return (
-    <div className="hidden h-[116px] items-center justify-center md:flex" aria-label="변환 중">
+    <div className="hidden h-[116px] items-center justify-center md:flex" aria-label="Converting">
       <div className="relative flex h-12 w-full items-center justify-center">
         <span className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-[#d5dde8]" />
         <span className="relative flex size-9 items-center justify-center rounded-full bg-white text-[#005bff] shadow-[0_10px_22px_rgba(15,24,42,0.08)] ring-1 ring-[#dbe7ff]">
@@ -1687,7 +1680,7 @@ function WorkflowLayerPanel({ variant, activeStepIndex }: { variant: "source" | 
             style={{ width: `${Math.max(26, (completedLayerCount / workflowLayerRows.length) * 100)}%` }}
           />
           <span className="relative z-10 flex h-full items-center justify-center text-xs font-bold text-white">
-            팀 공유 준비 완료
+            Ready for team share
           </span>
         </div>
       ) : null}
@@ -1717,12 +1710,12 @@ function FileImportSection() {
           CONVERSION QUALITY
         </p>
         <h2 className="mt-5 text-[34px] font-black leading-[1.22] text-[#0a0a0a] sm:text-[46px] sm:leading-[56px]">
-          PSD뿐만 아니라
+          Not just PSD
           <br />
-          다양한 파일도 가볍게 데려옵니다
+          bring the whole file squad
         </h2>
         <p className="mx-auto mt-6 max-w-[960px] text-[17px] leading-[30px] text-[#5f6368] sm:text-[20px]">
-          PSD, AI, EPS, PDF, PPT, SVG까지 불러와 레이어와 텍스트를 Figma에서 다시 만질 수 있게 정리합니다.
+          Import PSD, AI, EPS, PDF, PPT, and SVG, then make layers and text editable again in Figma.
         </p>
 
         <div className="mt-[52px] overflow-hidden rounded-2xl bg-white text-left shadow-[0_14px_40px_rgba(0,0,0,0.04)]">
@@ -1750,7 +1743,7 @@ function FileImportSection() {
               ))}
               <span className="ml-auto inline-flex items-center gap-2 text-[13px] font-bold text-[#111]">
                 <span className="size-2 animate-pulse rounded-full bg-[#006bff]" />
-                계속 업데이트 중
+                Still shipping updates
               </span>
             </div>
 
@@ -1777,7 +1770,7 @@ function FileImportSection() {
 
               <div className="hidden h-20 w-[84px] flex-col items-center justify-center gap-2 rounded-full bg-[#fafafa] text-[#005bff] lg:flex">
                 <MaterialIcon name="sync" className="animate-spin text-[26px]" />
-                <span className="text-[10px] font-black leading-none text-[#111]">변환 중</span>
+                <span className="text-[10px] font-black leading-none text-[#111]">Converting</span>
               </div>
 
               <div className="h-[206px] rounded-[14px] bg-white p-6">
@@ -1837,12 +1830,12 @@ function UseCasesSection() {
       <div className="mx-auto max-w-[1216px]">
         <p className="text-center text-[15px] font-bold text-[#9a9a9a]">USE CASES</p>
         <h2 className="mt-5 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-center text-[32px] font-black leading-[1.25] sm:text-[36px]">
-          <span>이럴 때</span>
+          <span>For these</span>
           <PigmaLogo className="h-[28px] w-auto brightness-0 invert sm:h-[31px]" />
-          <span>가 빠릅니다</span>
+          <span>jobs, PIGMA moves fast</span>
         </h2>
         <p className="mt-4 text-center text-[17px] leading-7 text-[#b8b8b8]">
-          실제 작업할 때 바로 생각나는 15가지 활용 예시입니다.
+          15 real-work moments where PIGMA saves the scroll, the stress, and the side quests.
         </p>
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
           {useCases.map((item, index) => {
@@ -1893,9 +1886,9 @@ function PricingSection() {
       <div className="mx-auto max-w-[1020px] text-center">
         <p className="text-[13px] font-black text-[#60656b]">PRICING</p>
         <h2 className="mt-7 text-[34px] font-black leading-[1.22] sm:text-[40px]">
-          가격은 가볍게
+          Tiny price
           <br />
-          기능은 야무지게
+          main-character workflow
         </h2>
         <div className="mt-12 grid gap-5 text-left md:grid-cols-3">
           {plans.map((plan) => (
@@ -1937,7 +1930,7 @@ function PricingSection() {
           ))}
         </div>
         <p className="mx-auto mt-8 rounded-lg bg-[#fafafa] px-5 py-3 text-xs text-[#60656b] ring-1 ring-[#e7ecf3]">
-          초기 가격은 Figma 플러그인 MVP 기준이며 출시 전 달라질 수 있습니다.
+          Early pricing is based on the Figma plugin MVP and may change before launch.
         </p>
       </div>
     </section>
@@ -1961,10 +1954,10 @@ function loadPaddle() {
       if (window.Paddle) {
         resolve(window.Paddle)
       } else {
-        reject(new Error("Paddle.js를 불러오지 못했습니다."))
+        reject(new Error("Could not load Paddle.js."))
       }
     })
-    script.addEventListener("error", () => reject(new Error("Paddle.js를 불러오지 못했습니다.")))
+    script.addEventListener("error", () => reject(new Error("Could not load Paddle.js.")))
 
     if (!existingScript) {
       script.src = "https://cdn.paddle.com/paddle/v2/paddle.js"
@@ -1991,7 +1984,7 @@ async function openPaddleCheckout(checkout: PaddleCheckoutConfig) {
     settings: {
       displayMode: "overlay",
       theme: "light",
-      locale: "ko",
+      locale: "en",
       successUrl: checkout.successUrl,
       variant: "one-page",
     },
@@ -2035,7 +2028,7 @@ function PricingPlanButton({ plan }: { plan: PricingPlan }) {
 
       const data = (await response.json().catch(() => null)) as PaddleCheckoutResponse | null
       if (!response.ok || !data?.checkout) {
-        setCheckoutError(data?.error || "결제 페이지를 여는 중 문제가 발생했습니다.")
+        setCheckoutError(data?.error || "Something went wrong while opening checkout.")
         setPending(false)
         return
       }
@@ -2043,7 +2036,7 @@ function PricingPlanButton({ plan }: { plan: PricingPlan }) {
       await openPaddleCheckout(data.checkout)
       setPending(false)
     } catch (error) {
-      setCheckoutError(error instanceof Error ? error.message : "결제 페이지를 여는 중 문제가 발생했습니다.")
+      setCheckoutError(error instanceof Error ? error.message : "Something went wrong while opening checkout.")
       setPending(false)
     }
   }
@@ -2051,7 +2044,7 @@ function PricingPlanButton({ plan }: { plan: PricingPlan }) {
   return (
     <>
       <button type="button" onClick={startCheckout} disabled={pending} className={className}>
-        {pending ? "결제창 이동 중" : plan.cta}
+        {pending ? "Opening checkout" : plan.cta}
       </button>
       {checkoutError ? (
         <p className="mt-3 rounded-lg bg-[#fff4f4] px-3 py-2 text-center text-xs font-bold leading-5 text-[#d92d20] transition group-hover:bg-white/10 group-hover:text-[#ffd6db]">
@@ -2069,16 +2062,16 @@ function FinalCta() {
         <div>
           <p className="text-sm font-bold text-[#9a9a9a]">READY</p>
           <h2 className="mt-4 text-[32px] font-black leading-[1.2] sm:text-[40px]">
-            바로 psd 변환!
+            PSD conversion, quick.
             <br />
-            수정도 빠르게!
+            Edits stay quick.
           </h2>
         </div>
         <a
           href="#pricing"
           className="inline-flex h-[52px] items-center justify-center gap-2 rounded-xl bg-[#005bff] px-6 text-[15px] font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0]"
         >
-          무료 시작
+          Start free
           <MaterialIcon name="arrow_forward" className="text-[16px]" />
         </a>
       </div>
@@ -2092,23 +2085,23 @@ function SiteFooter() {
       <div className="mx-auto flex max-w-[1120px] flex-col gap-6 border-t border-white/10 pt-8 text-sm text-white/60 md:flex-row md:items-center md:justify-between">
         <div>
           <PigmaLogo className="h-[18px] w-[100px] brightness-0 invert" />
-          <span>PSD를 Figma-ready 구조로 바꾸는 플러그인</span>
+          <span>A plugin that turns PSD into Figma-ready structure</span>
         </div>
         <div className="flex flex-wrap gap-6">
           <a href="#product" className="transition hover:text-white">
-            제품
+            Product
           </a>
           <a href="#features" className="transition hover:text-white">
-            기능
+            Features
           </a>
           <a href="#pricing" className="transition hover:text-white">
-            가격
+            Pricing
           </a>
           <a href="/login" className="transition hover:text-white">
-            로그인
+            Log in
           </a>
           <a href="/signup" className="transition hover:text-white">
-            회원가입
+            Sign up
           </a>
           <a href="/terms" className="transition hover:text-white">
             Terms
