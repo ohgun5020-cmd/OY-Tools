@@ -903,7 +903,8 @@ function AiChatSection() {
       <div className="mx-auto max-w-[1248px]">
         <p className="text-center text-[13px] font-black tracking-[0.18em] text-white/45">PLUGIN MENU</p>
         <h2 className="mx-auto mt-5 max-w-[760px] text-center text-[34px] font-black leading-[1.2] sm:text-[46px]">
-          PIGMA tools, ready when the vibe shifts
+          <span className="block">PIGMA tools, ready</span>
+          <span className="block">when the vibe shifts</span>
         </h2>
         <p className="mx-auto mt-5 max-w-[620px] text-center text-[15px] leading-7 text-white/62">
           Checks, cleanup, fixes, and sharing tools live where your workflow already is.
