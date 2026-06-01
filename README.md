@@ -86,4 +86,21 @@ The web app is the source of truth for account, billing, and plan state. The Fig
 
 - Users open `/plugin/connect` while logged in to create a plugin token.
 - The plugin stores the server URL and token locally, then calls `/api/plugin/session` with `Authorization: Bearer <token>`.
-- `/api/plugin/session` returns only the lightweight fields the plugin needs: name, email, plan, plan status, renewal date, avatar URL, and web links.
+- `/api/plugin/session` returns only the lightweight fields the plugin needs: name, email, plan, plan status, renewal date, avatar URL, entitlement flags, and web links.
+
+## Plugin AI Proxy
+
+The plugin should never fetch or store the server `OPENAI_API_KEY`. For server-funded AI, call `POST /api/plugin/ai` with the plugin token:
+
+```json
+{
+  "instructions": "You are a concise design assistant.",
+  "prompt": "Suggest three fixes for this Figma layer naming issue."
+}
+```
+
+- Send `Authorization: Bearer <plugin token>`.
+- Server AI is allowed only when `user.entitlement.serverAiEnabled` is `true` (Pro / $5 tier).
+- Basic / $2 and free users receive `403` with `code: "ai_plan_required"` unless they provide their own OpenAI key.
+- If a user brings their own key, pass it with `X-Pigma-OpenAI-Key`; that key is used first and is not stored.
+- The response includes `text`, the raw OpenAI `response`, the selected `model`, and whether the `provider` was `server` or `user`.

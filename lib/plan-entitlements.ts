@@ -5,6 +5,8 @@ export const DEFAULT_BASIC_TRIAL_DAYS = 7
 export type PlanEntitlement = {
   planTier: 0 | 1 | 2
   effectiveTier: 0 | 1 | 2
+  serverAiEnabled: boolean
+  serverAiRequiredTier: 2
   basicTrialActive: boolean
   basicTrialDays: number
   basicTrialEndsAt: string | null
@@ -43,10 +45,13 @@ export function getPlanEntitlement(user: Pick<AuthUser, "plan" | "createdAt"> | 
       basicTrialActive = basicTrialRemainingMs > 0
     }
   }
+  const effectiveTier = basicTrialActive && planTier === 0 ? 1 : planTier
 
   return {
     planTier,
-    effectiveTier: basicTrialActive && planTier === 0 ? 1 : planTier,
+    effectiveTier,
+    serverAiEnabled: effectiveTier >= 2,
+    serverAiRequiredTier: 2,
     basicTrialActive,
     basicTrialDays,
     basicTrialEndsAt,

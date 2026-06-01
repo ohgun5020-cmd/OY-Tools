@@ -55,6 +55,7 @@ export async function GET(request: Request) {
         dashboard: `${appUrl}/dashboard`,
         billing: `${appUrl}/dashboard#billing`,
         pricing: `${appUrl}/#pricing`,
+        ai: `${appUrl}/api/plugin/ai`,
       },
     },
     {

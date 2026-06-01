@@ -28,6 +28,7 @@ function webLinks(request: Request) {
     dashboard: `${appUrl}/dashboard`,
     billing: `${appUrl}/dashboard#billing`,
     pricing: `${appUrl}/#pricing`,
+    ai: `${appUrl}/api/plugin/ai`,
   }
 }
 
