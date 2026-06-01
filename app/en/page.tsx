@@ -23,7 +23,7 @@ type HeaderUser = {
   avatarUrl: string | null
 }
 
-type LocaleCode = "ko" | "en" | "ja"
+type LocaleCode = "ko" | "en" | "ja" | "es"
 
 type PricingPlan = {
   key: "free" | "basic" | "pro"
@@ -71,7 +71,7 @@ type PaddleApi = {
       settings: {
         displayMode: "overlay"
         theme: "light"
-        locale: "ko" | "en" | "ja"
+        locale: "ko" | "en" | "ja" | "es"
         successUrl: string
         variant: "one-page"
       }
@@ -527,7 +527,7 @@ function SiteHeader() {
           className="flex items-center text-black"
           aria-label="PIGMA home"
         >
-          <PigmaLogo className="h-[18px] w-[100px] md:h-[19px]" />
+          <PigmaLogo className="h-[18px] w-[88px] md:h-[19px] md:w-[100px]" />
         </a>
         <nav className="hidden items-center justify-start gap-14 pl-7 text-base font-bold text-[#0a0a0a] md:flex">
           <a href="#product" className="transition hover:text-[#005bff]">
@@ -540,7 +540,7 @@ function SiteHeader() {
             Pricing
           </a>
         </nav>
-        <div className="flex items-center gap-3 sm:gap-5">
+        <div className="flex items-center gap-2 sm:gap-5">
           <LanguageSwitch current="en" />
           <a href="/login" className="hidden font-bold text-[#0a0a0a] transition hover:text-[#005bff] sm:inline-flex">
             Log in
@@ -565,7 +565,7 @@ function SiteHeaderAuthenticated() {
     <header className="sticky top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur-xl">
       <div className="mx-auto flex h-[88px] max-w-[1440px] items-center justify-between px-6 sm:px-10 md:grid md:h-[104px] md:grid-cols-[148px_1fr_auto] lg:px-12">
         <a href="#top" className="flex items-center text-black" aria-label="PIGMA home">
-          <PigmaLogo className="h-[18px] w-[100px] md:h-[19px]" />
+          <PigmaLogo className="h-[18px] w-[88px] md:h-[19px] md:w-[100px]" />
         </a>
 
         <nav className="hidden items-center justify-start gap-14 pl-7 text-base font-bold text-[#0a0a0a] md:flex">
@@ -580,7 +580,7 @@ function SiteHeaderAuthenticated() {
           </a>
         </nav>
 
-        <div className="flex items-center gap-3 sm:gap-5">
+        <div className="flex items-center gap-2 sm:gap-5">
           <LanguageSwitch current="en" />
           {user ? (
             <>
@@ -636,10 +636,11 @@ function LanguageSwitch({ current }: { current: LocaleCode }) {
     { code: "ko", label: "KO", href: "/" },
     { code: "en", label: "EN", href: "/en" },
     { code: "ja", label: "JP", href: "/ja" },
+    { code: "es", label: "ES", href: "/es" },
   ]
 
   return (
-    <div className="inline-flex h-9 shrink-0 items-center rounded-full bg-[#f1f4f8] p-1 text-[11px] font-black text-[#5f6670] ring-1 ring-[#e1e7f0] sm:h-10 sm:text-xs">
+    <div className="inline-flex h-9 shrink-0 items-center rounded-full bg-[#f1f4f8] p-1 text-[10px] font-black text-[#5f6670] ring-1 ring-[#e1e7f0] sm:h-10 sm:text-xs">
       {items.map((item) => (
         <a
           key={item.code}
@@ -647,8 +648,8 @@ function LanguageSwitch({ current }: { current: LocaleCode }) {
           aria-current={current === item.code ? "page" : undefined}
           className={
             current === item.code
-              ? "inline-flex h-7 min-w-8 items-center justify-center rounded-full bg-[#050505] px-2.5 text-white shadow-[0_6px_14px_rgba(15,24,42,0.14)] sm:h-8"
-              : "inline-flex h-7 min-w-8 items-center justify-center rounded-full px-2.5 transition hover:text-[#005bff] sm:h-8"
+              ? "inline-flex h-7 min-w-7 items-center justify-center rounded-full bg-[#050505] px-2 text-white shadow-[0_6px_14px_rgba(15,24,42,0.14)] sm:h-8 sm:min-w-8 sm:px-2.5"
+              : "inline-flex h-7 min-w-7 items-center justify-center rounded-full px-2 transition hover:text-[#005bff] sm:h-8 sm:min-w-8 sm:px-2.5"
           }
         >
           {item.label}
