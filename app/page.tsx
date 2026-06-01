@@ -23,7 +23,7 @@ type HeaderUser = {
   avatarUrl: string | null
 }
 
-type LocaleCode = "ko" | "en"
+type LocaleCode = "ko" | "en" | "ja"
 
 type PricingPlan = {
   key: "free" | "basic" | "pro"
@@ -71,7 +71,7 @@ type PaddleApi = {
       settings: {
         displayMode: "overlay"
         theme: "light"
-        locale: "ko" | "en"
+        locale: "ko" | "en" | "ja"
         successUrl: string
         variant: "one-page"
       }
@@ -554,7 +554,7 @@ function SiteHeader() {
           </a>
           <a
             href="/signup"
-            className="inline-flex h-12 min-w-[116px] items-center justify-center gap-2 rounded-xl bg-[#005bff] px-5 text-sm font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0] md:h-14 md:min-w-[132px] md:rounded-2xl md:px-7 md:text-base"
+            className="inline-flex h-12 min-w-[92px] items-center justify-center gap-2 rounded-xl bg-[#005bff] px-4 text-sm sm:min-w-[116px] sm:px-5 font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0] md:h-14 md:min-w-[132px] md:rounded-2xl md:px-7 md:text-base"
           >
             시작하기
             <MaterialIcon name="arrow_forward" className="text-[16px]" />
@@ -611,7 +611,7 @@ function SiteHeaderAuthenticated() {
               <form action="/auth/logout" method="post">
                 <button
                   type="submit"
-                  className="inline-flex h-12 min-w-[116px] items-center justify-center gap-2 rounded-xl bg-[#050505] px-5 text-sm font-bold text-white shadow-[0_10px_14px_rgba(0,0,0,0.12)] transition hover:-translate-y-0.5 hover:bg-[#1c1c1c] md:h-14 md:min-w-[132px] md:rounded-2xl md:px-7 md:text-base"
+                  className="inline-flex h-12 min-w-[92px] items-center justify-center gap-2 rounded-xl bg-[#050505] px-4 text-sm sm:min-w-[116px] sm:px-5 font-bold text-white shadow-[0_10px_14px_rgba(0,0,0,0.12)] transition hover:-translate-y-0.5 hover:bg-[#1c1c1c] md:h-14 md:min-w-[132px] md:rounded-2xl md:px-7 md:text-base"
                 >
                   로그아웃
                   <MaterialIcon name="logout" className="text-[16px]" />
@@ -625,7 +625,7 @@ function SiteHeaderAuthenticated() {
               </a>
               <a
                 href="/signup"
-                className="inline-flex h-12 min-w-[116px] items-center justify-center gap-2 rounded-xl bg-[#005bff] px-5 text-sm font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0] md:h-14 md:min-w-[132px] md:rounded-2xl md:px-7 md:text-base"
+                className="inline-flex h-12 min-w-[92px] items-center justify-center gap-2 rounded-xl bg-[#005bff] px-4 text-sm sm:min-w-[116px] sm:px-5 font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0] md:h-14 md:min-w-[132px] md:rounded-2xl md:px-7 md:text-base"
               >
                 시작하기
                 <MaterialIcon name="arrow_forward" className="text-[16px]" />
@@ -642,6 +642,7 @@ function LanguageSwitch({ current }: { current: LocaleCode }) {
   const items: Array<{ code: LocaleCode; label: string; href: string }> = [
     { code: "ko", label: "KO", href: "/" },
     { code: "en", label: "EN", href: "/en" },
+    { code: "ja", label: "JP", href: "/ja" },
   ]
 
   return (

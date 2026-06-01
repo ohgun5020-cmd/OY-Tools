@@ -99,171 +99,171 @@ type FeatureSlideConfig = {
 const featureSlides: FeatureSlideConfig[] = [
   {
     id: "feature-audit",
-    sectionTitle: ["Typos?", "Cut before launch"],
-    sectionLead: "Catch typos in product pages and campaign copy, pin them with notes, and fix fast.",
-    eyebrow: "DESIGNER PICK",
+    sectionTitle: ["誤字は", "公開前に即カット"],
+    sectionLead: "LPやキャンペーン文言の誤字をサクッと拾って、コメントで残して、そのまま直せます。",
+    eyebrow: "Z世代 PICK",
     icon: "check_circle",
-    title: "Audit",
-    description: "Spot sneaky typos before launch day. No drama.",
+    title: "チェック",
+    description: "公開前の「あ、やば」を秒で回避。",
     actions: [
-      { title: "Typo Check", description: "Find copy slips", icon: "spellcheck", badge: "AI" },
-      { title: "Share Notes", description: "Point fixes out", icon: "rate_review" },
-      { title: "Result Panel", description: "Review only hits", icon: "fact_check" },
+      { title: "誤字チェック", description: "文言ミス発見", icon: "spellcheck", badge: "AI" },
+      { title: "コメント共有", description: "修正点を共有", icon: "rate_review" },
+      { title: "結果パネル", description: "候補だけ確認", icon: "fact_check" },
     ],
     mini: "audit",
   },
   {
     id: "feature-layer-cleanup",
-    sectionTitle: ["Messy files?", "Clean-fit in a click"],
-    sectionLead: "Unlock layers, flatten components, and split long frames so handed-off files become edit-ready.",
-    eyebrow: "DESIGNER PICK",
+    sectionTitle: ["カオスなファイルも", "いい感じに整う"],
+    sectionLead: "ロック、コンポーネント、長すぎるフレームを整えて、受け取ったファイルをすぐ触れる状態にします。",
+    eyebrow: "Z世代 PICK",
     icon: "layers",
-    title: "Layer Cleanup",
-    description: "Cut cleanup time when a freelancer file or messy PSD lands in your lap.",
+    title: "レイヤー整理",
+    description: "外注ファイルや複雑なPSDの整理時間を、かなり軽くします。",
     actions: [
-      { title: "Unlock Layers", description: "Remove locks", icon: "lock_open" },
-      { title: "Detach Components", description: "Make it editable", icon: "link_off" },
-      { title: "Split Long Frames", description: "Break into chunks", icon: "splitscreen" },
+      { title: "ロック解除", description: "編集ロック解除", icon: "lock_open" },
+      { title: "コンポーネント解除", description: "編集しやすく", icon: "link_off" },
+      { title: "長いフレーム分割", description: "作業単位に分割", icon: "splitscreen" },
     ],
     mini: "layers",
   },
   {
     id: "feature-align",
-    sectionTitle: ["Half-pixels?", "Make it crisp"],
-    sectionLead: "Snap pixels, button sizes, and corner radii into a cleaner fit.",
-    eyebrow: "DESIGNER PICK",
+    sectionTitle: ["半ピクセルも", "ピタッと整う"],
+    sectionLead: "ピクセル、ボタンサイズ、角丸をまとめて気持ちよく整えます。",
+    eyebrow: "Z世代 PICK",
     icon: "tune",
-    title: "Align / Fix",
-    description: "Fix half-pixels, uneven buttons, and tilted elements in one flow.",
+    title: "整列/補正",
+    description: "半ピクセル、バラついたボタン、傾いた要素をまとめてピタッと補正。",
     actions: [
-      { title: "Pixel Snap", description: "Clean blurry lines", icon: "grid_4x4" },
-      { title: "Button Fit", description: "Fit to label", icon: "fit_screen" },
-      { title: "Radius Cleanup", description: "Batch radius fix", icon: "rounded_corner" },
+      { title: "ピクセル整列", description: "ぼやけ線を整理", icon: "grid_4x4" },
+      { title: "ボタン自動フィット", description: "文字量に合わせる", icon: "fit_screen" },
+      { title: "角丸整理", description: "角丸まとめ補正", icon: "rounded_corner" },
     ],
     mini: "align",
   },
   {
     id: "feature-text",
-    sectionTitle: ["Copy and translation", "done in-canvas"],
-    sectionLead: "Translate, fix typos, highlight text, and tune line height without leaving the mockup.",
-    eyebrow: "DESIGNER PICK",
+    sectionTitle: ["コピーも翻訳も", "画面内で完結"],
+    sectionLead: "翻訳、誤字修正、ハイライト、行間調整まで、画面を行き来せずその場で完了。",
+    eyebrow: "Z世代 PICK",
     icon: "text_fields",
-    title: "Text",
-    description: "Edit copy, translate, highlight, and tune spacing right inside the design.",
+    title: "テキスト",
+    description: "コピー修正、翻訳、ハイライト、行間調整をデザイン上でサクッと終わらせます。",
     actions: [
-      { title: "Translate Text", description: "Prep multilingual drafts", icon: "translate", badge: "AI" },
-      { title: "Fix Typos Inline", description: "Apply fixes instantly", icon: "edit_note" },
-      { title: "Highlight", description: "Mark key copy", icon: "border_color" },
+      { title: "テキスト翻訳", description: "多言語ラフ作成", icon: "translate", badge: "AI" },
+      { title: "誤字を直接修正", description: "修正を即反映", icon: "edit_note" },
+      { title: "ハイライト", description: "重要文言を強調", icon: "border_color" },
     ],
     mini: "text",
   },
   {
     id: "feature-image-fix",
-    sectionTitle: ["Image assets?", "Grab them on the fly"],
-    sectionLead: "Save originals, pull palettes, and adjust crops without breaking your flow.",
-    eyebrow: "DESIGNER PICK",
+    sectionTitle: ["画像素材も", "必要な時にサッと"],
+    sectionLead: "原本保存、カラー抽出、クロップ調整まで、作業の流れを止めずにできます。",
+    eyebrow: "Z世代 PICK",
     icon: "image",
-    title: "Image Fix",
-    description: "Extract originals, check palettes, and clean crops right inside the canvas.",
+    title: "画像補正",
+    description: "原本抽出、パレット確認、クロップ整理をキャンバス上でサクッと処理。",
     actions: [
-      { title: "Save Original", description: "Pull source fast", icon: "download" },
-      { title: "Extract Colors", description: "Use as palette", icon: "palette" },
-      { title: "Crop Fit", description: "Clean crop + position", icon: "crop_free" },
+      { title: "原本保存", description: "素材を即抽出", icon: "download" },
+      { title: "カラー抽出", description: "パレット化", icon: "palette" },
+      { title: "クロップ調整", description: "位置と切り抜きを整理", icon: "crop_free" },
     ],
     mini: "image",
   },
   {
     id: "feature-image-generate",
-    sectionTitle: ["Missing background?", "Stretch the vibe"],
-    sectionLead: "Extend images, boost resolution, and pull text so drafts look more finished.",
-    eyebrow: "DESIGNER PICK",
+    sectionTitle: ["足りない背景も", "いい感じに伸ばす"],
+    sectionLead: "画像拡張、解像度アップ、文字抽出で、ラフの完成度をグッと上げます。",
+    eyebrow: "Z世代 PICK",
     icon: "auto_awesome",
-    title: "Image Gen / Extend",
-    description: "Stretch cropped backgrounds and upgrade low-res assets for better mockups.",
+    title: "画像生成/拡張",
+    description: "切れた背景を自然に伸ばし、低解像度素材もラフ用に使いやすくアップグレード。",
     actions: [
-      { title: "Extend Image", description: "Extend cropped bg", icon: "crop_free", badge: "AI" },
-      { title: "Upscale Image", description: "Restore detail", icon: "high_quality", badge: "AI" },
-      { title: "Extract Image Text", description: "Prep text layers", icon: "text_fields", badge: "AI" },
+      { title: "画像拡張", description: "切れた背景を拡張", icon: "crop_free", badge: "AI" },
+      { title: "画像アップスケール", description: "ディテール復元", icon: "high_quality", badge: "AI" },
+      { title: "画像内テキスト抽出", description: "テキスト化準備", icon: "text_fields", badge: "AI" },
     ],
     mini: "generate",
   },
   {
     id: "feature-share",
-    sectionTitle: ["Share links?", "Keep it clean"],
-    sectionLead: "Clean up long URLs and prototype links before they hit the client chat.",
-    eyebrow: "DESIGNER PICK",
+    sectionTitle: ["共有リンクは", "スッキリ見せる"],
+    sectionLead: "長いURLやプロトタイプリンクを、クライアントに送る前に見やすく整えます。",
+    eyebrow: "Z世代 PICK",
     icon: "share",
-    title: "Share Kit",
-    description: "Turn messy Figma and prototype links into share-ready assets in seconds.",
+    title: "共有キット",
+    description: "ごちゃっとしたFigmaリンクやプロトタイプ共有を、秒で送れる形に。",
     actions: [
-      { title: "Shorten Link", description: "Make share URL", icon: "link" },
-      { title: "Prototype Link", description: "Copy review link", icon: "content_copy" },
-      { title: "Create QR Code", description: "Share review link", icon: "qr_code_2" },
+      { title: "短縮リンク", description: "共有URL作成", icon: "link" },
+      { title: "プロトタイプリンク", description: "レビューリンクコピー", icon: "content_copy" },
+      { title: "QRコード作成", description: "レビューリンク共有", icon: "qr_code_2" },
     ],
     mini: "share",
   },
   {
     id: "feature-video",
-    sectionTitle: ["Static mockups?", "Motion makes it pop"],
-    sectionLead: "Make quick motion drafts with AI video, GIF, and APNG conversion.",
-    eyebrow: "DESIGNER PICK",
+    sectionTitle: ["静止画のまま?", "動くと盛れる"],
+    sectionLead: "AI動画生成とGIF/APNG変換で、動くラフをサクッと用意。",
+    eyebrow: "Z世代 PICK",
     icon: "auto_awesome",
-    title: "Motion",
-    description: "Prep moving banners and short-form mockups with AI video plus GIF/APNG conversion.",
+    title: "モーション",
+    description: "動くバナーやショート動画ラフ用に、AI動画生成とGIF/APNG変換を準備できます。",
     actions: [
-      { title: "AI Video Gen", description: "Make draft video", icon: "movie", badge: "AI" },
-      { title: "Video to GIF", description: "Share lightweight motion", icon: "gif_box" },
-      { title: "Video to APNG", description: "Transparent motion asset", icon: "animation" },
-      { title: "Extract Thumbnail", description: "Save hero frame", icon: "image" },
+      { title: "AI動画生成", description: "動画ラフ作成", icon: "movie", badge: "AI" },
+      { title: "動画をGIF化", description: "軽い動きで共有", icon: "gif_box" },
+      { title: "動画をAPNG化", description: "透過モーション素材", icon: "animation" },
+      { title: "サムネ抽出", description: "代表カット保存", icon: "image" },
     ],
     mini: "video",
   },
 ]
 
 const featureActionDetails: Record<string, string> = {
-  "Typo Check": "Scan titles, buttons, and detail copy to call out sneaky typos and awkward lines first.",
-  "Share Notes": "Leave fix notes exactly where designers or clients need to look.",
-  "Result Panel": "Collect findings in one panel so you fix the real hits without hunting through the whole canvas.",
-  "Unlock Layers": "Unlock layers that block edits and turn them into workable objects.",
-  "Detach Components": "Detach component-heavy structures so text and images can be edited separately.",
-  "Split Long Frames": "Split long pages into workable sections so the file is easier to manage.",
-  "Pixel Snap": "Snap blurry lines and boxes from half-pixels onto clean integer coordinates.",
-  "Button Fit": "Tune padding and size to the label so buttons stop looking off.",
-  "Radius Cleanup": "Normalize uneven corner values so the screen feels consistent.",
-  "Translate Text": "Drop multilingual copy into the original layout and make a review-ready draft fast.",
-  "Fix Typos Inline": "Apply typo and copy fixes directly to text layers to cut revision loops.",
-  "Highlight": "Highlight important copy or check areas so reviewers see the right points first.",
-  "Save Original": "Pull embedded images out of PSDs or docs so they can be reused.",
-  "Extract Colors": "Extract key colors from the mockup and line them up with brand color rules.",
-  "Crop Fit": "Clean crop position and visible area so image framing lands right.",
-  "Extend Image": "Extend missing backgrounds or cropped images to fit banners and long pages.",
-  "Upscale Image": "Sharpen small or blurry images so they work better in drafts and shares.",
-  "Extract Image Text": "Pull text out of images and prep it for editable text layers.",
-  "Shorten Link": "Shorten long Figma or review URLs so they look clean in chat and email.",
-  "Prototype Link": "Copy prototype links fast so clickable flows are ready to share.",
-  "Create QR Code": "Turn review links into QR codes so they open fast on mobile.",
-  "AI Video Gen": "Turn static drafts into quick motion examples or video mockups.",
-  "Video to GIF": "Convert heavy video into GIFs that are easier to drop into chat or docs.",
-  "Video to APNG": "Prepare APNG motion assets with transparency for design use.",
-  "Extract Thumbnail": "Pick a key frame from motion work and save it as a thumbnail.",
+  "誤字チェック": "タイトル、ボタン、詳細文言をチェックして、見落としがちな誤字や微妙な表現を先に拾います。",
+  "コメント共有": "修正位置にコメントを残して、デザイナーやクライアントがすぐ確認できるようにします。",
+  "結果パネル": "検出結果を1か所にまとめるので、画面中を探し回らず必要なところだけ直せます。",
+  "ロック解除": "編集を止めているレイヤーを解除して、すぐ触れる状態にします。",
+  "コンポーネント解除": "コンポーネントで固まった構造をほどいて、テキストと画像を個別に編集できるようにします。",
+  "長いフレーム分割": "長いページを作業しやすい区切りに分けて、扱いやすく整理します。",
+  "ピクセル整列": "半ピクセルでぼやける線やボックスを整数座標に合わせてシャキッと見せます。",
+  "ボタン自動フィット": "文字量に合わせて余白とサイズを整え、ボタンの違和感を減らします。",
+  "角丸整理": "バラバラな角丸をそろえて、画面全体のトーンを整えます。",
+  "テキスト翻訳": "元レイアウトを見ながら多言語コピーを入れて、確認用ラフを素早く作れます。",
+  "誤字を直接修正": "誤字や文言修正をテキストレイヤーへ直接反映して、修正の往復を減らします。",
+  "ハイライト": "重要文言や確認エリアをハイライトして、レビューする人が先に見るポイントを示します。",
+  "原本保存": "PSDやドキュメントに埋もれた画像を取り出して、再利用しやすく保存します。",
+  "カラー抽出": "モック内の主要カラーを抽出し、ブランドカラー基準に合わせやすくします。",
+  "クロップ調整": "クロップ位置と表示範囲を整えて、画像の見え方をピタッと合わせます。",
+  "画像拡張": "足りない背景や切れた画像を自然に伸ばして、バナーやLPに合わせます。",
+  "画像アップスケール": "小さい画像やぼやけた画像を見やすくして、ラフや共有用に使いやすくします。",
+  "画像内テキスト抽出": "画像内の文字を抽出して、編集可能なテキストレイヤー化に備えます。",
+  "短縮リンク": "長いFigmaリンクやレビューURLを短くして、チャットやメールで見やすく送れます。",
+  "プロトタイプリンク": "クリックできる画面フローを共有できるよう、プロトタイプリンクをすばやくコピーします。",
+  "QRコード作成": "レビューリンクをQRコード化して、スマホでもすぐ開けるようにします。",
+  "AI動画生成": "静止画ラフから、ちょっと動くサンプルや動画ラフを作れます。",
+  "動画をGIF化": "重い動画を、チャットや資料に貼りやすいGIFへ軽く変換します。",
+  "動画をAPNG化": "透過背景が必要なモーション素材をAPNGとして用意できます。",
+  "サムネ抽出": "動画やモーションから代表フレームを選んで、サムネイル画像として保存します。",
 }
 
 const aiActions: ActionItem[] = [
   {
-    title: "Vibe Check",
-    description: "Check direction fast",
+    title: "ムード確認",
+    description: "方向性を秒で確認",
     icon: "help_outline",
     primary: true,
     badge: "AI",
   },
   {
-    title: "Top 3 Fixes",
-    description: "Prioritize the hits",
+    title: "優先修正3つ",
+    description: "直す順番を整理",
     icon: "playlist_add_check",
   },
   {
-    title: "Tune Copy Tone",
-    description: "Smooth the wording",
+    title: "コピーのトーン調整",
+    description: "文のノリを整える",
     icon: "chat_bubble_outline",
   },
 ]
@@ -271,27 +271,27 @@ const aiActions: ActionItem[] = [
 const workflowSteps = [
   {
     number: "01",
-    title: "Bring It In",
-    description: "Import PSD, AI, EPS, PDF, PPT, and SVG files.",
+    title: "サクッと取り込み",
+    description: "PSD、AI、EPS、PDF、PPT、SVGを取り込めます。",
     icon: "file_upload",
     active: true,
   },
   {
     number: "02",
-    title: "Clean It Up",
-    description: "Organize layers and text so they are easy to edit.",
+    title: "いい感じに整理",
+    description: "レイヤーとテキストを編集しやすい状態に整理します。",
     icon: "layers",
   },
   {
     number: "03",
-    title: "Tune What Matters",
-    description: "Apply checks, typo fixes, and image cleanup only where needed.",
+    title: "必要な分だけ補正",
+    description: "チェック、誤字修正、画像補正を必要なところだけ適用します。",
     icon: "tune",
   },
   {
     number: "04",
-    title: "Share It Fast",
-    description: "Share by link and save repeatable cleanup rules.",
+    title: "すぐ共有",
+    description: "リンクで共有し、繰り返し使う整理ルールを保存します。",
     icon: "share",
   },
 ]
@@ -300,91 +300,91 @@ const workflowLayerRows = [
   { number: "01", label: "Header / nav", color: "bg-[#111]", width: "w-[170px]" },
   { number: "02", label: "Hero text", color: "bg-[#4b5563]", width: "w-[134px]" },
   { number: "03", label: "CTA button", color: "bg-[#006bff]", width: "w-[150px]", active: true },
-  { number: "04", label: "Images", color: "bg-[#7a828b]", width: "w-[118px]" },
+  { number: "04", label: "画像", color: "bg-[#7a828b]", width: "w-[118px]" },
   { number: "05", label: "Plugin notes", color: "bg-[#a6adb5]", width: "w-[150px]" },
 ]
 
 const qualityPoints = [
-  { label: "Layers", value: "Group/order cleanup", icon: "layers" },
-  { label: "Text", value: "Editable text", icon: "text_fields" },
-  { label: "Images", value: "Fix broken images", icon: "image" },
-  { label: "Effects", value: "Check effect splits", icon: "auto_fix_high" },
+  { label: "レイヤー", value: "グループ/順序整理", icon: "layers" },
+  { label: "テキスト", value: "編集可能テキスト", icon: "text_fields" },
+  { label: "画像", value: "画像崩れ補正", icon: "image" },
+  { label: "効果", value: "効果分離チェック", icon: "auto_fix_high" },
 ]
 
 const useCases: UseCase[] = [
   {
-    title: "Revive Old PSDs",
-    description: "When old source files need new edits",
+    title: "眠ってたPSD復活",
+    description: "昔の元データをFigmaでまた触りたい時",
     icon: "history",
   },
   {
-    title: "Clean Vendor Files",
-    description: "When handoff files need team standards",
+    title: "外注ファイル整理",
+    description: "受け取ったファイルをチーム基準に整える時",
     icon: "folder_open",
   },
   {
-    title: "Swap Rush Banners",
-    description: "When only copy and images need a fast swap",
+    title: "急ぎバナー差し替え",
+    description: "文言と画像だけ急いで差し替えたい時",
     icon: "campaign",
   },
   {
-    title: "Rework Product Pages",
-    description: "When PSD outputs need to be split and edited",
+    title: "商品ページを再編集",
+    description: "PSD成果物を分解して直したい時",
     icon: "storefront",
   },
   {
-    title: "Fit Brand Templates",
-    description: "When repeat layouts need one clear standard",
+    title: "ブランドテンプレ調整",
+    description: "繰り返しデザインの基準をそろえる時",
     icon: "palette",
   },
   {
-    title: "Check Missing Bits",
-    description: "When text or images might be broken",
+    title: "抜け漏れチェック",
+    description: "テキストや画像崩れを確認したい時",
     icon: "check_circle",
   },
   {
-    title: "Tidy Layer Names",
-    description: "When messy group names need clarity",
+    title: "レイヤー名整理",
+    description: "複雑なグループ名を読みやすくしたい時",
     icon: "edit",
   },
   {
-    title: "Reuse Raster Text",
-    description: "When raster text needs to become editable",
+    title: "ラスタ文字を再利用",
+    description: "ラスタ文字を編集可能テキストにしたい時",
     icon: "text_fields",
   },
   {
-    title: "Extend Image Backgrounds",
-    description: "When background space needs a natural extension",
+    title: "画像背景を伸ばす",
+    description: "足りない背景を自然に広げたい時",
     icon: "open_in_full",
   },
   {
-    title: "Spin Up Thumbnails",
-    description: "When one layout needs multiple sizes",
+    title: "サムネを量産",
+    description: "同じ構成で複数サイズを作る時",
     icon: "grid_view",
   },
   {
-    title: "Re-edit PPT/PDF",
-    description: "When document-style designs need edits",
+    title: "PPT/PDFを再編集",
+    description: "資料系デザインをもう一度編集したい時",
     icon: "description",
   },
   {
-    title: "Swap Campaign Assets",
-    description: "When seasonal copy and images need a swap",
+    title: "キャンペーン素材差し替え",
+    description: "季節文言や画像を入れ替えたい時",
     icon: "shuffle",
   },
   {
-    title: "Set Up Team Review",
-    description: "When files need standards before sharing",
+    title: "チームレビュー準備",
+    description: "共有前に基準通り整えたい時",
     icon: "playlist_add_check",
   },
   {
-    title: "Ask AI for the Fix Angle",
-    description: "When the screen needs a cleanup direction",
+    title: "AIに修正角度を聞く",
+    description: "画面ベースで補正方針を決めたい時",
     icon: "auto_awesome",
   },
   {
-    title: "Save Repeat Moves",
-    description: "When recurring conversion rules should stick",
+    title: "繰り返し作業を保存",
+    description: "よく使う変換ルールを残したい時",
     icon: "tune",
   },
 ]
@@ -394,60 +394,60 @@ const plans: PricingPlan[] = [
     key: "free",
     name: "Free",
     price: "$0",
-    description: "Try the flow first. Small files, low stakes, zero drama.",
+    description: "まずは気軽にお試し。小さめファイルで流れをサクッと確認。",
     features: [
-      { label: "7-day Basic trial", badge: "HOT" },
-      { label: "3 PSD conversions / month" },
-      { label: "Check file structure" },
-      { label: "Test small files" },
-      { label: "Save a free account" },
+      { label: "Basic 7日トライアル", badge: "HOT" },
+      { label: "月3回 PSD変換" },
+      { label: "ファイル構造チェック" },
+      { label: "小さめファイルでテスト" },
+      { label: "無料アカウント保存" },
     ],
-    cta: "Start free",
+    cta: "無料でスタート",
   },
   {
     key: "basic",
     name: "Basic",
     price: "$2/mo",
-    description: "Solo cleanup staples, packed for everyday work.",
+    description: "ひとり作業でよく使う整理機能を、ぎゅっと詰め込み。",
     features: [
-      { label: "Unlock Layers", badge: "HOT" },
-      { label: "Split Long Frames", badge: "HOT" },
-      { label: "30 PSD conversions / month" },
-      { label: "Detach Components" },
-      { label: "Delete hidden layers" },
-      { label: "Remove all guides" },
-      { label: "Integer pixel fix" },
-      { label: "Auto-fit buttons" },
-      { label: "Clean corners" },
-      { label: "Fix tilt" },
-      { label: "Text Highlight" },
-      { label: "Text line-height" },
-      { label: "Image color extract" },
-      { label: "GIF/APNG conversion" },
+      { label: "ロック解除", badge: "HOT" },
+      { label: "長いフレーム分割", badge: "HOT" },
+      { label: "月30回 PSD変換" },
+      { label: "コンポーネント解除" },
+      { label: "非表示レイヤー削除" },
+      { label: "ガイド一括削除" },
+      { label: "整数ピクセル補正" },
+      { label: "ボタン自動フィット" },
+      { label: "角丸整理" },
+      { label: "傾き補正" },
+      { label: "テキスト ハイライト" },
+      { label: "テキスト行間調整" },
+      { label: "画像カラー抽出" },
+      { label: "GIF/APNG変換" },
     ],
-    cta: "Choose Basic",
+    cta: "Basicを選ぶ",
   },
   {
     key: "pro",
     name: "Pro",
     price: "$5/mo",
-    description: "Basic plus AI checks and advanced image work for main-character production.",
-    includedPrefix: "Basic features + AI",
+    description: "Basic機能にAIチェックと高度な画像作業まで載せた、本気作業向けプラン。",
+    includedPrefix: "Basic機能 + AI",
     features: [
-      { label: "50 PSD conversions / month", badge: "HOT" },
-      { label: "Typo check / inline fix", badge: "NEW" },
-      { label: "Translate Text", badge: "NEW" },
-      { label: "Read / review designs" },
-      { label: "Design consistency check" },
-      { label: "Extract Image Text" },
-      { label: "Reference image search" },
-      { label: "Image prompt editing" },
-      { label: "Extend Image" },
-      { label: "Image upscale" },
-      { label: "Object upscale" },
-      { label: "Advanced automation prep" },
+      { label: "月50回 PSD変換", badge: "HOT" },
+      { label: "誤字チェック/直接修正", badge: "NEW" },
+      { label: "テキスト翻訳", badge: "NEW" },
+      { label: "デザイン読解/チェック" },
+      { label: "デザイン一貫性チェック" },
+      { label: "画像内テキスト抽出" },
+      { label: "参考画像検索" },
+      { label: "画像プロンプト編集" },
+      { label: "画像拡張" },
+      { label: "画像アップスケール" },
+      { label: "オブジェクトアップスケール" },
+      { label: "高度な自動化準備" },
     ],
-    cta: "Choose Pro",
+    cta: "Proを選ぶ",
   },
 ]
 
@@ -455,16 +455,16 @@ const fileTypes = ["PSD", "AI", "EPS", "PDF", "PPT", "SVG"]
 
 const conversionSourceRows = [
   { label: "Hero copy merged", width: "w-[190px]", color: "bg-[#d8dce0]" },
-  { label: "Text raster 02", width: "w-[172px]", color: "bg-[#d8dce0]" },
+  { label: "テキスト raster 02", width: "w-[172px]", color: "bg-[#d8dce0]" },
   { label: "Layer 144", width: "w-[154px]", color: "bg-[#d8dce0]" },
   { label: "Shadow merged", width: "w-[136px]", color: "bg-[#8c9298]" },
 ]
 
 const conversionAfterItems = [
-  { title: "Keep Layer Structure", body: "Header / Hero / CTA" },
-  { title: "Editable text", body: "Text stays editable" },
-  { title: "Clean Images + Effects", body: "Separate cleanup points" },
-  { title: "Plugin Cleanup Ready", body: "Run checks + cleanup" },
+  { title: "レイヤー構造を維持", body: "Header / Hero / CTA" },
+  { title: "編集可能テキスト", body: "文字修正OK" },
+  { title: "画像と効果を整理", body: "補正ポイントを分離" },
+  { title: "プラグイン補正に接続", body: "チェックと整理を即実行" },
 ]
 
 export default function HomePage() {
@@ -525,31 +525,31 @@ function SiteHeader() {
         <a
           href="#top"
           className="flex items-center text-black"
-          aria-label="PIGMA home"
+          aria-label="PIGMAホーム"
         >
           <PigmaLogo className="h-[18px] w-[100px] md:h-[19px]" />
         </a>
         <nav className="hidden items-center justify-start gap-14 pl-7 text-base font-bold text-[#0a0a0a] md:flex">
           <a href="#product" className="transition hover:text-[#005bff]">
-            Product
+            プロダクト
           </a>
           <a href="#features" className="transition hover:text-[#005bff]">
-            Features
+            機能
           </a>
           <a href="#pricing" className="transition hover:text-[#005bff]">
-            Pricing
+            料金
           </a>
         </nav>
         <div className="flex items-center gap-3 sm:gap-5">
-          <LanguageSwitch current="en" />
+          <LanguageSwitch current="ja" />
           <a href="/login" className="hidden font-bold text-[#0a0a0a] transition hover:text-[#005bff] sm:inline-flex">
-            Log in
+            ログイン
           </a>
           <a
             href="/signup"
             className="inline-flex h-12 min-w-[92px] items-center justify-center gap-2 rounded-xl bg-[#005bff] px-4 text-sm sm:min-w-[116px] sm:px-5 font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0] md:h-14 md:min-w-[132px] md:rounded-2xl md:px-7 md:text-base"
           >
-            Start
+            はじめる
             <MaterialIcon name="arrow_forward" className="text-[16px]" />
           </a>
         </div>
@@ -564,24 +564,24 @@ function SiteHeaderAuthenticated() {
   return (
     <header className="sticky top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur-xl">
       <div className="mx-auto flex h-[88px] max-w-[1440px] items-center justify-between px-6 sm:px-10 md:grid md:h-[104px] md:grid-cols-[148px_1fr_auto] lg:px-12">
-        <a href="#top" className="flex items-center text-black" aria-label="PIGMA home">
+        <a href="#top" className="flex items-center text-black" aria-label="PIGMAホーム">
           <PigmaLogo className="h-[18px] w-[100px] md:h-[19px]" />
         </a>
 
         <nav className="hidden items-center justify-start gap-14 pl-7 text-base font-bold text-[#0a0a0a] md:flex">
           <a href="#product" className="transition hover:text-[#005bff]">
-            Product
+            プロダクト
           </a>
           <a href="#features" className="transition hover:text-[#005bff]">
-            Features
+            機能
           </a>
           <a href="#pricing" className="transition hover:text-[#005bff]">
-            Pricing
+            料金
           </a>
         </nav>
 
         <div className="flex items-center gap-3 sm:gap-5">
-          <LanguageSwitch current="en" />
+          <LanguageSwitch current="ja" />
           {user ? (
             <>
               <a href="/dashboard" className="hidden font-bold text-[#0a0a0a] transition hover:text-[#005bff] sm:inline-flex">
@@ -606,7 +606,7 @@ function SiteHeaderAuthenticated() {
                   type="submit"
                   className="inline-flex h-12 min-w-[92px] items-center justify-center gap-2 rounded-xl bg-[#050505] px-4 text-sm sm:min-w-[116px] sm:px-5 font-bold text-white shadow-[0_10px_14px_rgba(0,0,0,0.12)] transition hover:-translate-y-0.5 hover:bg-[#1c1c1c] md:h-14 md:min-w-[132px] md:rounded-2xl md:px-7 md:text-base"
                 >
-                  Log out
+                  ログアウト
                   <MaterialIcon name="logout" className="text-[16px]" />
                 </button>
               </form>
@@ -614,13 +614,13 @@ function SiteHeaderAuthenticated() {
           ) : (
             <>
               <a href="/login" className="hidden font-bold text-[#0a0a0a] transition hover:text-[#005bff] sm:inline-flex">
-                Log in
+                ログイン
               </a>
               <a
                 href="/signup"
                 className="inline-flex h-12 min-w-[92px] items-center justify-center gap-2 rounded-xl bg-[#005bff] px-4 text-sm sm:min-w-[116px] sm:px-5 font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0] md:h-14 md:min-w-[132px] md:rounded-2xl md:px-7 md:text-base"
               >
-                Start
+                はじめる
                 <MaterialIcon name="arrow_forward" className="text-[16px]" />
               </a>
             </>
@@ -727,19 +727,19 @@ function HeroSection() {
             FIG EXPORT TO PSD
           </p>
           <h1 className="mx-auto max-w-[1120px] text-[38px] font-black leading-[1.12] text-black sm:text-[52px] lg:text-[64px]">
-            With PIGMA
+            PIGMAなら
             <br />
-            FIG to PSD, no drama
+            FIGをPSDへ、秒でいい感じ
           </h1>
           <p className="mx-auto mt-7 max-w-[760px] text-[17px] leading-8 text-[#5f6368] sm:text-[19px]">
-            Convert Figma work into PSD-ready output with the boring parts handled.
+            Figma作業をPSD向けに整える面倒なところを、サクッとおまかせ。
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
               href="#pricing"
               className="inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-[#005bff] px-6 text-[15px] font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0] sm:w-[170px]"
             >
-              Start free
+              無料でスタート
               <MaterialIcon name="arrow_forward" className="text-[16px]" />
             </a>
             <a
@@ -747,7 +747,7 @@ function HeroSection() {
               className="inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-white px-6 text-[15px] font-bold text-[#0a0a0a] shadow-[0_10px_24px_rgba(0,0,0,0.05)] transition hover:-translate-y-0.5 sm:w-[180px]"
             >
               <MaterialIcon name="attach_money" className="text-[16px]" />
-              See pricing
+              料金を見る
             </a>
           </div>
         </div>
@@ -784,7 +784,7 @@ function HeroWorkspace() {
             <MaterialIcon name="description" className="text-[20px]" />
             <strong className="text-sm">source.fig</strong>
           </div>
-          {["Header / Menu", "Hero / Text", "Button / CTA", "Effects / Shadow"].map((item) => (
+          {["Header / Menu", "Hero / テキスト", "Button / CTA", "Effects / Shadow"].map((item) => (
             <div key={item} className="mt-2 flex items-center gap-3 text-xs text-[#7a7f85]">
               <span className="size-2 rounded-[2px] bg-[#d9dde1]" />
               {item}
@@ -795,21 +795,21 @@ function HeroWorkspace() {
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-center gap-3">
               <MaterialIcon name="autorenew" className="text-[24px] text-[#0a0a0a]" />
-              <h2 className="text-[22px] font-black leading-none">Auto Export</h2>
+              <h2 className="text-[22px] font-black leading-none">自動エクスポート</h2>
             </div>
             <AnimatedConversionProgressValue progress={conversionProgress} className="text-4xl" />
           </div>
           <AnimatedConversionProgressBar progress={conversionProgress} className="mt-5" />
           <p className="mt-4 text-[13px] font-medium text-[#0a0a0a]">
-            Layers, text, and effects cleaned up for PSD export
+            レイヤー、テキスト、効果をPSD書き出し向けに整理
           </p>
         </div>
         <div className="rounded-[14px] bg-white p-5 ring-1 ring-black/5">
           <div className="mb-4 flex items-center gap-3">
             <MaterialIcon name="ios_share" className="text-[20px]" />
-            <strong className="text-lg">Export Ready</strong>
+            <strong className="text-lg">書き出し準備OK</strong>
           </div>
-          {["Keep layers", "Editable text", "Team-share ready"].map((item) => (
+          {["レイヤー維持", "編集可能テキスト", "チーム共有OK"].map((item) => (
             <div key={item} className="flex h-[30px] items-center justify-between text-[15px] text-[#5f6368]">
               <span>{item}</span>
               <ConversionOptionToggle enabled={exportOptionsReady} />
@@ -846,9 +846,9 @@ function useAnimatedConversionProgress() {
   const [progress, setProgress] = useState(0)
 
   useEffect(() => {
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    const reduceモーション = window.matchMedia("(prefers-reduced-motion: reduce)").matches
 
-    if (reduceMotion) {
+    if (reduceモーション) {
       setProgress(100)
       return
     }
@@ -901,10 +901,10 @@ function AiChatSection() {
       <div className="mx-auto max-w-[1248px]">
         <p className="text-center text-[13px] font-black tracking-[0.18em] text-white/45">PLUGIN MENU</p>
         <h2 className="mx-auto mt-5 max-w-[760px] text-center text-[34px] font-black leading-[1.2] sm:text-[46px]">
-          PIGMA tools, ready when the vibe shifts
+          よく使うPIGMAツール、ノリよく集合
         </h2>
         <p className="mx-auto mt-5 max-w-[620px] text-center text-[15px] leading-7 text-white/62">
-          Checks, cleanup, fixes, and sharing tools live where your workflow already is.
+          チェック、整理、補正、共有まで、作業中にそのまま使えるようにまとめました。
         </p>
         <FeatureActionGrid />
       </div>
@@ -1000,13 +1000,13 @@ function FeatureSlide({
 function FeatureMiniPreview({ kind }: { kind: FeatureMiniKind }) {
   switch (kind) {
     case "audit":
-      return <AuditMiniPreview />
+      return <チェックMiniPreview />
     case "layers":
       return <LayerMiniPreview />
     case "align":
       return <AlignMiniPreview />
     case "text":
-      return <TextMiniPreview />
+      return <テキストMiniPreview />
     case "image":
       return <ImageMiniPreview />
     case "generate":
@@ -1030,10 +1030,10 @@ function MiniHeading({ children }: { children: ReactNode }) {
   return <p className="absolute left-6 top-[17px] text-[12px] font-bold leading-[14px] text-[#111827]">{children}</p>
 }
 
-function AuditMiniPreview() {
+function チェックMiniPreview() {
   return (
     <MiniPreviewShell>
-      <MiniHeading>Copy Check</MiniHeading>
+      <MiniHeading>コピー確認</MiniHeading>
       <div className="absolute left-[42px] top-[43px] h-[66px] w-[260px] rounded-lg border border-[#d8e3ef] bg-white">
         <span className="absolute left-[22px] top-[13px] h-[6px] w-[92px] rounded-full bg-[#111]" />
         <span className="absolute left-[22px] top-[28px] h-[5px] w-[170px] rounded-full bg-[#c6d0da]" />
@@ -1045,7 +1045,7 @@ function AuditMiniPreview() {
         !
       </span>
       <div className="absolute left-[330px] top-[45px] h-16 w-[238px] rounded-lg border border-[#cfe0ff] bg-white">
-        <strong className="absolute left-5 top-[10px] text-[11px] leading-[11px] text-[#111827]">Typo Alert</strong>
+        <strong className="absolute left-5 top-[10px] text-[11px] leading-[11px] text-[#111827]">誤字候補</strong>
         <span className="absolute left-[108px] top-2 flex h-[17px] w-[30px] items-center justify-center rounded-full bg-[#006bff] text-[9px] font-black text-white">
           3
         </span>
@@ -1063,24 +1063,24 @@ function AuditMiniPreview() {
 function LayerMiniPreview() {
   return (
     <MiniPreviewShell>
-      <MiniHeading>Layer Cleanup</MiniHeading>
+      <MiniHeading>レイヤー整理</MiniHeading>
       <div className="absolute left-[42px] top-[43px] h-[66px] w-[208px] rounded-lg bg-[#111]">
-        <strong className="absolute left-5 top-[10px] text-[8px] leading-[10px] text-white">Messy File</strong>
+        <strong className="absolute left-5 top-[10px] text-[8px] leading-[10px] text-white">カオスなファイル</strong>
         <span className="absolute left-[22px] top-[28px] size-2 rounded-full bg-[#c6d0da]" />
         <span className="absolute left-[38px] top-[30px] h-1.5 w-[96px] rounded-full bg-[#c6d0da]" />
         <span className="absolute left-[22px] top-[44px] size-2 rounded-full bg-[#c6d0da]" />
         <span className="absolute left-[38px] top-[46px] h-1.5 w-[128px] rounded-full bg-[#c6d0da]" />
         <span className="absolute left-[60px] top-[56px] size-2 rounded-full bg-[#006bff]" />
         <span className="absolute left-[76px] top-[58px] h-1.5 w-[104px] rounded-full bg-[#006bff]" />
-        <span className="absolute right-5 top-[38px] text-[8px] text-[#c6d0da]">Locked</span>
+        <span className="absolute right-5 top-[38px] text-[8px] text-[#c6d0da]">ロック</span>
       </div>
       <MaterialIcon name="arrow_forward" className="absolute left-[270px] top-[69px] text-[18px] text-[#006bff]" />
       <div className="absolute left-[292px] top-[51px] grid gap-2">
-        <span className="flex h-[18px] w-12 items-center justify-center rounded-full bg-[#006bff] text-[8px] font-bold text-white">Unlock</span>
-        <span className="flex h-[18px] w-12 items-center justify-center rounded-full bg-[#27b36a] text-[8px] font-bold text-white">Split</span>
+        <span className="flex h-[18px] w-12 items-center justify-center rounded-full bg-[#006bff] text-[8px] font-bold text-white">解除</span>
+        <span className="flex h-[18px] w-12 items-center justify-center rounded-full bg-[#27b36a] text-[8px] font-bold text-white">分割</span>
       </div>
       <div className="absolute left-[367px] top-[43px] h-[66px] w-[201px] rounded-lg border border-[#cfe0ff] bg-white">
-        <strong className="absolute left-5 top-[10px] text-[8px] leading-[10px] text-[#111827]">Clean Layers</strong>
+        <strong className="absolute left-5 top-[10px] text-[8px] leading-[10px] text-[#111827]">Clean レイヤー</strong>
         <span className="absolute left-5 top-[27px] h-1.5 w-[118px] rounded-full bg-[#006bff]" />
         <span className="absolute left-[145px] top-[27px] h-1.5 w-6 rounded-full bg-[#27b36a]" />
         {[0, 1, 2].map((row) => (
@@ -1097,7 +1097,7 @@ function LayerMiniPreview() {
 function AlignMiniPreview() {
   return (
     <MiniPreviewShell>
-      <MiniHeading>Pixel Fix</MiniHeading>
+      <MiniHeading>ピクセル補正</MiniHeading>
       <div className="absolute left-[42px] top-[43px] h-[66px] w-[318px] rounded-lg border border-[#d8e3ef] bg-white">
         {[36, 88, 140, 192, 244].map((left) => (
           <span key={left} className="absolute top-2 h-[50px] w-px bg-[#d8e3ef]" style={{ left }} />
@@ -1112,7 +1112,7 @@ function AlignMiniPreview() {
       </div>
       <span className="absolute left-[370px] top-[66px] text-[8px] font-bold text-[#006bff]">1px</span>
       <div className="absolute left-[402px] top-[51px] h-11 w-[166px] rounded-lg border border-[#cfe0ff] bg-white">
-        <strong className="absolute left-4 top-2.5 text-[8px] leading-[10px] text-[#111827]">Auto-fit buttons</strong>
+        <strong className="absolute left-4 top-2.5 text-[8px] leading-[10px] text-[#111827]">ボタン自動フィット</strong>
         <span className="absolute left-4 top-[28px] size-2 rounded-[2px] bg-[#27b36a]" />
         <span className="absolute left-[30px] top-[30px] h-1.5 w-[98px] rounded-full bg-[#006bff]" />
         <span className="absolute left-[136px] top-[28px] size-2 rounded-[2px] bg-[#27b36a]" />
@@ -1121,10 +1121,10 @@ function AlignMiniPreview() {
   )
 }
 
-function TextMiniPreview() {
+function テキストMiniPreview() {
   return (
     <MiniPreviewShell>
-      <MiniHeading>Text Cleanup</MiniHeading>
+      <MiniHeading>テキスト Cleanup</MiniHeading>
       <div className="absolute left-[42px] top-[43px] h-[66px] w-[205px] rounded-lg border border-[#d8e3ef] bg-white">
         <span className="absolute left-[18px] top-[12px] text-[7px] font-bold text-[#9ca3af]">KR</span>
         <span className="absolute left-[18px] top-[28px] h-1.5 w-[108px] rounded-full bg-[#c6d0da]" />
@@ -1133,8 +1133,8 @@ function TextMiniPreview() {
       </div>
       <MaterialIcon name="arrow_forward" className="absolute left-[268px] top-[68px] text-[18px] text-[#111]" />
       <div className="absolute left-[291px] top-[50px] grid gap-2">
-        <span className="flex h-[18px] w-[58px] items-center justify-center rounded-full bg-[#006bff] text-[8px] font-bold text-white">Translate</span>
-        <span className="flex h-[18px] w-[58px] items-center justify-center rounded-full bg-[#111] text-[8px] font-bold text-white">Line height</span>
+        <span className="flex h-[18px] w-[58px] items-center justify-center rounded-full bg-[#006bff] text-[8px] font-bold text-white">翻訳</span>
+        <span className="flex h-[18px] w-[58px] items-center justify-center rounded-full bg-[#111] text-[8px] font-bold text-white">行間</span>
       </div>
       <div className="absolute left-[367px] top-[43px] h-[66px] w-[201px] rounded-lg border border-[#cfe0ff] bg-white">
         <span className="absolute left-5 top-[13px] text-[7px] font-bold text-[#006bff]">EN</span>
@@ -1150,7 +1150,7 @@ function TextMiniPreview() {
 function ImageMiniPreview() {
   return (
     <MiniPreviewShell>
-      <MiniHeading>Image Source</MiniHeading>
+      <MiniHeading>画像ソース</MiniHeading>
       <div className="absolute left-[42px] top-[43px] h-[66px] w-[178px] rounded-lg border-2 border-[#006bff] bg-[#eaf3ff]">
         <div className="absolute left-[16px] top-[11px] h-6 w-[144px] rounded bg-[#d7ecff]" />
         <div className="absolute left-[16px] top-[34px] h-5 w-[144px] rounded bg-[#d7f8df]" />
@@ -1159,7 +1159,7 @@ function ImageMiniPreview() {
       </div>
       <MaterialIcon name="arrow_forward" className="absolute left-[252px] top-[68px] text-[18px] text-[#006bff]" />
       <div className="absolute left-[350px] top-[45px] h-[62px] w-[218px] rounded-lg border border-[#d8e3ef] bg-white">
-        <strong className="absolute left-5 top-3 text-[8px] leading-[10px] text-[#111827]">Source + Palette</strong>
+        <strong className="absolute left-5 top-3 text-[8px] leading-[10px] text-[#111827]">原本 + パレット</strong>
         <span className="absolute right-[28px] top-2 flex h-[17px] w-12 items-center justify-center rounded-full bg-[#111] text-[8px] font-black text-white">PNG</span>
         {["#006bff", "#27b36a", "#ffd45a"].map((color, index) => (
           <span key={color} className="absolute top-[34px] size-[18px] rounded-full" style={{ left: `${25 + index * 31}px`, backgroundColor: color }} />
@@ -1173,7 +1173,7 @@ function ImageMiniPreview() {
 function GenerateMiniPreview() {
   return (
     <MiniPreviewShell>
-      <MiniHeading>AI Image Extend</MiniHeading>
+      <MiniHeading>AI画像拡張</MiniHeading>
       <div className="absolute left-[42px] top-[43px] h-[66px] w-[302px] rounded-lg border border-[#cfe0ff] bg-white">
         <div className="absolute left-4 top-3 h-9 w-[112px] rounded bg-[#eef6ff]">
           {[0, 1, 2, 3].map((dot) => (
@@ -1190,7 +1190,7 @@ function GenerateMiniPreview() {
         </div>
       </div>
       <div className="absolute left-[374px] top-[45px] h-[62px] w-[194px] rounded-lg border border-[#d8e3ef] bg-white">
-        <strong className="absolute left-5 top-3 text-[8px] leading-[10px] text-[#111827]">Upscale / OCR</strong>
+        <strong className="absolute left-5 top-3 text-[8px] leading-[10px] text-[#111827]">アップスケール / OCR</strong>
         <span className="absolute left-5 top-[28px] flex h-[17px] w-12 items-center justify-center rounded-full bg-[#006bff] text-[8px] font-black text-white">2x</span>
         <span className="absolute left-[78px] top-[34px] h-1.5 w-[88px] rounded-full bg-[#c6d0da]" />
         <span className="absolute left-5 top-[47px] flex h-[17px] w-14 items-center justify-center rounded-full bg-[#111] text-[8px] font-black text-white">TEXT</span>
@@ -1203,17 +1203,17 @@ function GenerateMiniPreview() {
 function ShareMiniPreview() {
   return (
     <MiniPreviewShell>
-      <MiniHeading>Share Kit</MiniHeading>
+      <MiniHeading>共有キット</MiniHeading>
       <div className="absolute left-[42px] top-[45px] h-[30px] w-[225px] rounded-full border border-[#d7dee8] bg-white">
         <span className="absolute left-[18px] top-[10px] text-[7px] font-bold text-[#9ca3af]">URL</span>
         <span className="absolute left-[55px] top-[13px] h-1 w-[134px] rounded-full bg-[#c6d0da]" />
       </div>
       <MaterialIcon name="arrow_forward" className="absolute left-[280px] top-[51px] text-[20px] text-[#006bff]" />
-      <span className="absolute left-[340px] top-[43px] flex h-[34px] w-[156px] items-center justify-center rounded-xl bg-[#006bff] text-[11px] font-bold text-white">Short Link</span>
-      <span className="absolute left-[510px] top-[47px] flex h-[26px] w-[58px] items-center justify-center rounded-full bg-[#111] text-[10px] font-bold text-white">Copy</span>
+      <span className="absolute left-[340px] top-[43px] flex h-[34px] w-[156px] items-center justify-center rounded-xl bg-[#006bff] text-[11px] font-bold text-white">短縮リンク</span>
+      <span className="absolute left-[510px] top-[47px] flex h-[26px] w-[58px] items-center justify-center rounded-full bg-[#111] text-[10px] font-bold text-white">コピー</span>
       <div className="absolute left-[86px] top-[88px] h-[15px] w-[373px] rounded-full bg-[#111]">
         <div className="h-full w-[66%] rounded-full bg-[#27b36a]" />
-        <span className="absolute left-[74px] top-[3px] text-[7px] font-bold leading-[9px] text-white">Prototype review ready</span>
+        <span className="absolute left-[74px] top-[3px] text-[7px] font-bold leading-[9px] text-white">プロトタイプレビュー準備</span>
       </div>
       <span className="absolute left-[473px] top-[88px] flex h-[9px] w-[11px] items-center justify-center rounded-[3px] bg-[#27b36a] text-white">
         <MaterialIcon name="check" className="text-[7px]" />
@@ -1225,10 +1225,10 @@ function ShareMiniPreview() {
 function VideoMiniPreview() {
   return (
     <MiniPreviewShell>
-      <MiniHeading>Motion Convert</MiniHeading>
+      <MiniHeading>モーション Convert</MiniHeading>
       <div className="absolute left-[42px] top-[43px] h-[66px] w-[202px] rounded-lg bg-[#111]">
         <span className="absolute left-[85px] top-[24px] flex h-5 w-7 items-center justify-center rounded bg-[#006bff] text-[10px] text-white">▶</span>
-        <span className="absolute left-[126px] top-2 flex h-[18px] w-[65px] items-center justify-center rounded-full bg-[#006bff] text-[8px] font-bold text-white">AI Gen</span>
+        <span className="absolute left-[126px] top-2 flex h-[18px] w-[65px] items-center justify-center rounded-full bg-[#006bff] text-[8px] font-bold text-white">AI生成</span>
       </div>
       <div className="absolute left-[281px] top-[45px] h-[38px] w-[179px] rounded-lg border border-[#d8e3ef] bg-white">
         {[0, 1, 2, 3, 4].map((frame) => (
@@ -1244,20 +1244,20 @@ function VideoMiniPreview() {
   )
 }
 
-function AuditVisual() {
+function チェックVisual() {
   return (
     <div className="grid content-start gap-3 rounded-[14px] border border-[#dbe7ff] bg-[#f8fbff] p-5">
       <div className="flex items-center justify-between">
-        <strong className="text-lg">Typo Alert</strong>
+        <strong className="text-lg">誤字候補</strong>
         <span className="inline-flex h-10 min-w-14 items-center justify-center rounded-full bg-[#006bff] px-5 text-lg font-black text-white">
           3
         </span>
       </div>
       <div className="mt-1 grid gap-3">
         {[
-          ["Typo Check", "bg-[#ff4d55]"],
-          ["Share Notes", "bg-[#c8d0dc]"],
-          ["Result Panel", "bg-[#c8d0dc]"],
+          ["誤字チェック", "bg-[#ff4d55]"],
+          ["コメント共有", "bg-[#c8d0dc]"],
+          ["結果パネル", "bg-[#c8d0dc]"],
         ].map(([label, color]) => (
           <div key={label} className="flex items-center gap-3">
             <span className="flex size-6 items-center justify-center rounded-md bg-[#27b36a] text-white">
@@ -1274,16 +1274,16 @@ function AuditVisual() {
 function LayerCleanupVisual() {
   return (
     <div className="grid content-center gap-4 rounded-[14px] border border-[#dbe7ff] bg-[#f8fbff] p-5">
-      <div className="rounded-xl bg-[#111] px-4 py-6 text-center text-sm font-bold text-white">Locked</div>
+      <div className="rounded-xl bg-[#111] px-4 py-6 text-center text-sm font-bold text-white">ロック</div>
       <div className="flex items-center justify-center gap-3">
         <MaterialIcon name="arrow_forward" className="text-[24px] text-[#006bff]" />
         <div className="grid gap-2">
-          <span className="rounded-full bg-[#006bff] px-7 py-2 text-center text-sm font-bold text-white">Unlock</span>
-          <span className="rounded-full bg-[#27b36a] px-7 py-2 text-center text-sm font-bold text-white">Split</span>
+          <span className="rounded-full bg-[#006bff] px-7 py-2 text-center text-sm font-bold text-white">解除</span>
+          <span className="rounded-full bg-[#27b36a] px-7 py-2 text-center text-sm font-bold text-white">分割</span>
         </div>
       </div>
       <div className="rounded-xl bg-white p-4 shadow-sm ring-1 ring-[#e7ecf3]">
-        <strong className="text-sm">Clean Layers</strong>
+        <strong className="text-sm">Clean レイヤー</strong>
         <div className="mt-3 grid gap-2">
           <span className="h-2 w-4/5 rounded-full bg-[#006bff]" />
           <span className="h-2 rounded-full bg-[#c8d0dc]" />
@@ -1298,7 +1298,7 @@ function AlignmentVisual() {
   return (
     <div className="rounded-[14px] border border-[#dbe7ff] bg-[#f8fbff] p-5">
       <div className="flex items-center justify-between">
-        <strong className="text-lg">Pixel Fix</strong>
+        <strong className="text-lg">ピクセル補正</strong>
         <span className="rounded-full bg-[#006bff] px-5 py-2 text-sm font-black text-white">1px</span>
       </div>
       <div className="mt-6 grid gap-3">
@@ -1310,20 +1310,20 @@ function AlignmentVisual() {
         ))}
       </div>
       <div className="mt-8 rounded-full bg-[#006bff] px-5 py-3 text-center text-sm font-bold text-white">
-        Auto-fit buttons
+        ボタン自動フィット
       </div>
     </div>
   )
 }
 
-function TextVisual() {
+function テキストVisual() {
   return (
     <div className="grid content-start gap-4 rounded-[14px] border border-[#dbe7ff] bg-[#f8fbff] p-5">
       <div className="flex items-center gap-4">
         <MaterialIcon name="arrow_forward" className="text-[24px] text-[#111]" />
         <div className="grid flex-1 gap-2">
-          <span className="rounded-full bg-[#006bff] px-6 py-2 text-sm font-bold text-white">Translate</span>
-          <span className="rounded-full bg-[#111] px-6 py-2 text-sm font-bold text-white">Line height</span>
+          <span className="rounded-full bg-[#006bff] px-6 py-2 text-sm font-bold text-white">翻訳</span>
+          <span className="rounded-full bg-[#111] px-6 py-2 text-sm font-bold text-white">行間</span>
         </div>
       </div>
       <div className="rounded-xl bg-white p-4 shadow-sm ring-1 ring-[#e7ecf3]">
@@ -1340,12 +1340,12 @@ function ImageSourceVisual() {
   return (
     <div className="grid content-center gap-4 rounded-[14px] border border-[#dbe7ff] bg-[#f8fbff] p-5">
       <div className="flex items-center justify-between gap-3">
-        <span className="rounded-full bg-[#006bff] px-5 py-2 text-sm font-bold text-white">Image Source</span>
+        <span className="rounded-full bg-[#006bff] px-5 py-2 text-sm font-bold text-white">画像ソース</span>
         <MaterialIcon name="arrow_forward" className="text-[24px] text-[#006bff]" />
       </div>
       <div className="rounded-xl bg-white p-4 shadow-sm ring-1 ring-[#e7ecf3]">
         <div className="flex items-center justify-between">
-          <strong className="text-sm">Source + Palette</strong>
+          <strong className="text-sm">原本 + パレット</strong>
           <span className="rounded-full bg-[#111] px-3 py-1 text-[10px] font-bold text-white">PNG</span>
         </div>
         <div className="mt-4 flex gap-2">
@@ -1361,7 +1361,7 @@ function ImageSourceVisual() {
 function ImageGenerateVisual() {
   return (
     <div className="rounded-[14px] border border-[#dbe7ff] bg-[#f8fbff] p-5">
-      <strong className="text-lg">Upscale / OCR</strong>
+      <strong className="text-lg">アップスケール / OCR</strong>
       <div className="mt-5 grid grid-cols-[90px_1fr] gap-3">
         <span className="rounded-full bg-[#006bff] px-5 py-2 text-center text-sm font-black text-white">2x</span>
         <span className="h-3 self-center rounded-full bg-[#c8d0dc]" />
@@ -1369,7 +1369,7 @@ function ImageGenerateVisual() {
         <span className="h-3 self-center rounded-full bg-[#c8d0dc]" />
       </div>
       <div className="mt-6 rounded-xl bg-white p-4 text-sm shadow-sm ring-1 ring-[#e7ecf3]">
-        Extend cropped bg
+        切れた背景を拡張
       </div>
     </div>
   )
@@ -1381,8 +1381,8 @@ function ShareVisual() {
       <div className="rounded-full bg-white px-5 py-3 text-sm font-bold text-[#9ca3af] ring-1 ring-[#d7dee8]">URL</div>
       <div className="flex items-center gap-3">
         <MaterialIcon name="arrow_forward" className="text-[24px] text-[#006bff]" />
-        <span className="flex-1 rounded-full bg-[#006bff] px-5 py-3 text-center text-sm font-bold text-white">Short Link</span>
-        <span className="rounded-full bg-[#111] px-5 py-3 text-sm font-bold text-white">Copy</span>
+        <span className="flex-1 rounded-full bg-[#006bff] px-5 py-3 text-center text-sm font-bold text-white">短縮リンク</span>
+        <span className="rounded-full bg-[#111] px-5 py-3 text-sm font-bold text-white">コピー</span>
       </div>
       <div className="mt-2 h-4 overflow-hidden rounded-full bg-[#111]">
         <div className="h-full w-2/3 rounded-full bg-[#27b36a]" />
@@ -1397,7 +1397,7 @@ function VideoVisual() {
       <div className="rounded-xl bg-[#111] p-5 text-white">
         <div className="flex items-center gap-4">
           <span className="flex size-11 items-center justify-center rounded-lg bg-[#006bff] text-xl">▶</span>
-          <span className="rounded-full bg-[#006bff] px-5 py-2 text-sm font-bold">AI Gen</span>
+          <span className="rounded-full bg-[#006bff] px-5 py-2 text-sm font-bold">AI生成</span>
         </div>
       </div>
       <div className="grid gap-3">
@@ -1416,13 +1416,13 @@ function ConvertVisual() {
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-center gap-3">
           <MaterialIcon name="autorenew" className="text-[24px] text-[#0a0a0a]" />
-          <strong className="text-lg">Auto Convert</strong>
+          <strong className="text-lg">自動変換</strong>
         </div>
         <AnimatedConversionProgressValue progress={conversionProgress} className="text-3xl" />
       </div>
       <AnimatedConversionProgressBar progress={conversionProgress} className="mt-5" />
       <div className="mt-5 grid gap-2 text-xs text-[#657082]">
-        {["source.psd scan", "Text extract", "Effects Split"].map((item) => (
+        {["source.psd解析", "テキスト extract", "効果 分割"].map((item) => (
           <div key={item} className="flex items-center gap-2 rounded bg-white px-3 py-2">
             <MaterialIcon name="check" className="text-[14px] text-[#005bff]" />
             {item}
@@ -1479,9 +1479,9 @@ function PresetVisual() {
     <div className="rounded-[14px] bg-white p-5 ring-1 ring-[#e7ecf3]">
       <div className="mb-4 flex items-center gap-3">
         <MaterialIcon name="tune" className="text-[20px] text-[#005bff]" />
-        <strong className="text-lg">Saved Rules</strong>
+        <strong className="text-lg">保存済みルール</strong>
       </div>
-      {["Layer name cleanup", "Missing image scan", "Text extract", "Effects Split"].map((item) => (
+      {["レイヤー名整理", "画像抜けチェック", "テキスト extract", "効果 分割"].map((item) => (
         <div key={item} className="flex h-[34px] items-center justify-between text-sm text-[#5f6368]">
           <span>{item}</span>
           <ConversionOptionToggle enabled />
@@ -1537,12 +1537,12 @@ function WorkflowSection() {
         <div className="text-center">
           <p className="inline-flex h-10 items-center justify-center text-[13px] font-black leading-5 text-[#0a0a0a]">HOW IT WORKS</p>
           <h2 className="mt-5 text-[34px] font-black leading-[1.22] text-[#0a0a0a] sm:text-[46px] sm:leading-[56px]">
-            Turn PSD into
+            PSDを
             <br />
-            editable Figma, no stress
+            編集できるFigmaに、ノンストレスで
           </h2>
           <p className="mt-6 text-[18px] leading-8 text-[#5f6368] sm:text-[22px]">
-            Import, clean up, then apply only the fixes that matter.
+            取り込んで整えて、必要な補正だけサクッと適用。
           </p>
         </div>
 
@@ -1609,7 +1609,7 @@ function WorkflowSection() {
 
 function WorkflowTransferIndicator() {
   return (
-    <div className="hidden h-[116px] items-center justify-center md:flex" aria-label="Converting">
+    <div className="hidden h-[116px] items-center justify-center md:flex" aria-label="変換中">
       <div className="relative flex h-12 w-full items-center justify-center">
         <span className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-[#d5dde8]" />
         <span className="relative flex size-9 items-center justify-center rounded-full bg-white text-[#005bff] shadow-[0_10px_22px_rgba(15,24,42,0.08)] ring-1 ring-[#dbe7ff]">
@@ -1681,7 +1681,7 @@ function WorkflowLayerPanel({ variant, activeStepIndex }: { variant: "source" | 
             style={{ width: `${Math.max(26, (completedLayerCount / workflowLayerRows.length) * 100)}%` }}
           />
           <span className="relative z-10 flex h-full items-center justify-center text-xs font-bold text-white">
-            Ready for team share
+            チーム共有準備OK
           </span>
         </div>
       ) : null}
@@ -1711,12 +1711,12 @@ function FileImportSection() {
           CONVERSION QUALITY
         </p>
         <h2 className="mt-5 text-[34px] font-black leading-[1.22] text-[#0a0a0a] sm:text-[46px] sm:leading-[56px]">
-          Not just PSD
+          PSDだけじゃなく
           <br />
-          bring the whole file squad
+          いろんなファイルも連れてくる
         </h2>
         <p className="mx-auto mt-6 max-w-[960px] text-[17px] leading-[30px] text-[#5f6368] sm:text-[20px]">
-          Import PSD, AI, EPS, PDF, PPT, and SVG, then make layers and text editable again in Figma.
+          PSD、AI、EPS、PDF、PPT、SVGまで取り込み、レイヤーとテキストをFigmaで再編集できる形に整えます。
         </p>
 
         <div className="mt-[52px] overflow-hidden rounded-2xl bg-white text-left shadow-[0_14px_40px_rgba(0,0,0,0.04)]">
@@ -1744,7 +1744,7 @@ function FileImportSection() {
               ))}
               <span className="ml-auto inline-flex items-center gap-2 text-[13px] font-bold text-[#111]">
                 <span className="size-2 animate-pulse rounded-full bg-[#006bff]" />
-                Still shipping updates
+                まだまだアップデート中
               </span>
             </div>
 
@@ -1771,7 +1771,7 @@ function FileImportSection() {
 
               <div className="hidden h-20 w-[84px] flex-col items-center justify-center gap-2 rounded-full bg-[#fafafa] text-[#005bff] lg:flex">
                 <MaterialIcon name="sync" className="animate-spin text-[26px]" />
-                <span className="text-[10px] font-black leading-none text-[#111]">Converting</span>
+                <span className="text-[10px] font-black leading-none text-[#111]">変換中</span>
               </div>
 
               <div className="h-[206px] rounded-[14px] bg-white p-6">
@@ -1831,12 +1831,12 @@ function UseCasesSection() {
       <div className="mx-auto max-w-[1216px]">
         <p className="text-center text-[15px] font-bold text-[#9a9a9a]">USE CASES</p>
         <h2 className="mt-5 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-center text-[32px] font-black leading-[1.25] sm:text-[36px]">
-          <span>For these</span>
+          <span>こんな時に</span>
           <PigmaLogo className="h-[28px] w-auto brightness-0 invert sm:h-[31px]" />
-          <span>jobs, PIGMA moves fast</span>
+          <span>PIGMAが速い</span>
         </h2>
         <p className="mt-4 text-center text-[17px] leading-7 text-[#b8b8b8]">
-          15 real-work moments where PIGMA saves the scroll, the stress, and the side quests.
+          作業中に「これ欲しかった」となる15の使いどころ。
         </p>
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
           {useCases.map((item, index) => {
@@ -1887,9 +1887,9 @@ function PricingSection() {
       <div className="mx-auto max-w-[1020px] text-center">
         <p className="text-[13px] font-black text-[#60656b]">PRICING</p>
         <h2 className="mt-7 text-[34px] font-black leading-[1.22] sm:text-[40px]">
-          Tiny price
+          価格はライトに
           <br />
-          main-character workflow
+          作業フローは主役級
         </h2>
         <div className="mt-12 grid gap-5 text-left md:grid-cols-3">
           {plans.map((plan) => (
@@ -1931,7 +1931,7 @@ function PricingSection() {
           ))}
         </div>
         <p className="mx-auto mt-8 rounded-lg bg-[#fafafa] px-5 py-3 text-xs text-[#60656b] ring-1 ring-[#e7ecf3]">
-          Early pricing is based on the Figma plugin MVP and may change before launch.
+          初期価格はFigmaプラグインMVP基準で、正式リリース前に変更される場合があります。
         </p>
       </div>
     </section>
@@ -1955,10 +1955,10 @@ function loadPaddle() {
       if (window.Paddle) {
         resolve(window.Paddle)
       } else {
-        reject(new Error("Could not load Paddle.js."))
+        reject(new Error("Paddle.jsを読み込めませんでした。"))
       }
     })
-    script.addEventListener("error", () => reject(new Error("Could not load Paddle.js.")))
+    script.addEventListener("error", () => reject(new Error("Paddle.jsを読み込めませんでした。")))
 
     if (!existingScript) {
       script.src = "https://cdn.paddle.com/paddle/v2/paddle.js"
@@ -1985,7 +1985,7 @@ async function openPaddleCheckout(checkout: PaddleCheckoutConfig) {
     settings: {
       displayMode: "overlay",
       theme: "light",
-      locale: "en",
+      locale: "ja",
       successUrl: checkout.successUrl,
       variant: "one-page",
     },
@@ -2029,7 +2029,7 @@ function PricingPlanButton({ plan }: { plan: PricingPlan }) {
 
       const data = (await response.json().catch(() => null)) as PaddleCheckoutResponse | null
       if (!response.ok || !data?.checkout) {
-        setCheckoutError(data?.error || "Something went wrong while opening checkout.")
+        setCheckoutError(data?.error || "決済ページを開く途中で問題が発生しました。")
         setPending(false)
         return
       }
@@ -2037,7 +2037,7 @@ function PricingPlanButton({ plan }: { plan: PricingPlan }) {
       await openPaddleCheckout(data.checkout)
       setPending(false)
     } catch (error) {
-      setCheckoutError(error instanceof Error ? error.message : "Something went wrong while opening checkout.")
+      setCheckoutError(error instanceof Error ? error.message : "決済ページを開く途中で問題が発生しました。")
       setPending(false)
     }
   }
@@ -2045,7 +2045,7 @@ function PricingPlanButton({ plan }: { plan: PricingPlan }) {
   return (
     <>
       <button type="button" onClick={startCheckout} disabled={pending} className={className}>
-        {pending ? "Opening checkout" : plan.cta}
+        {pending ? "決済画面へ移動中" : plan.cta}
       </button>
       {checkoutError ? (
         <p className="mt-3 rounded-lg bg-[#fff4f4] px-3 py-2 text-center text-xs font-bold leading-5 text-[#d92d20] transition group-hover:bg-white/10 group-hover:text-[#ffd6db]">
@@ -2063,16 +2063,16 @@ function FinalCta() {
         <div>
           <p className="text-sm font-bold text-[#9a9a9a]">READY</p>
           <h2 className="mt-4 text-[32px] font-black leading-[1.2] sm:text-[40px]">
-            PSD conversion, quick.
+            PSD変換、サクッと。
             <br />
-            Edits stay quick.
+            修正も秒で。
           </h2>
         </div>
         <a
           href="#pricing"
           className="inline-flex h-[52px] items-center justify-center gap-2 rounded-xl bg-[#005bff] px-6 text-[15px] font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0]"
         >
-          Start free
+          無料でスタート
           <MaterialIcon name="arrow_forward" className="text-[16px]" />
         </a>
       </div>
@@ -2086,23 +2086,23 @@ function SiteFooter() {
       <div className="mx-auto flex max-w-[1120px] flex-col gap-6 border-t border-white/10 pt-8 text-sm text-white/60 md:flex-row md:items-center md:justify-between">
         <div>
           <PigmaLogo className="h-[18px] w-[100px] brightness-0 invert" />
-          <span>A plugin that turns PSD into Figma-ready structure</span>
+          <span>PSDをFigma-ready構造に変えるプラグイン</span>
         </div>
         <div className="flex flex-wrap gap-6">
           <a href="#product" className="transition hover:text-white">
-            Product
+            プロダクト
           </a>
           <a href="#features" className="transition hover:text-white">
-            Features
+            機能
           </a>
           <a href="#pricing" className="transition hover:text-white">
-            Pricing
+            料金
           </a>
           <a href="/login" className="transition hover:text-white">
-            Log in
+            ログイン
           </a>
           <a href="/signup" className="transition hover:text-white">
-            Sign up
+            新規登録
           </a>
           <a href="/terms" className="transition hover:text-white">
             Terms
