@@ -183,13 +183,11 @@ export async function POST(request: Request) {
   }
 
   const entitlement = getPlanEntitlement(user)
-  const userOpenAiKey = getUserOpenAiKey(request, body)
-  const usingUserKey = Boolean(userOpenAiKey)
 
-  if (!usingUserKey && !entitlement.serverAiEnabled) {
+  if (!entitlement.serverAiEnabled) {
     return NextResponse.json(
       {
-        error: "Server AI is available on the Pro plan.",
+        error: "Plugin AI is available on the Pro plan.",
         code: "ai_plan_required",
         requiredPlan: "pro",
         user: {
@@ -202,6 +200,9 @@ export async function POST(request: Request) {
       { status: 403, headers: corsHeaders() },
     )
   }
+
+  const userOpenAiKey = getUserOpenAiKey(request, body)
+  const usingUserKey = Boolean(userOpenAiKey)
 
   const apiKey = userOpenAiKey || getServerOpenAiKey()
   if (!apiKey) {

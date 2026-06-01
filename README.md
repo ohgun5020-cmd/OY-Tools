@@ -100,7 +100,7 @@ The plugin should never fetch or store the server `OPENAI_API_KEY`. For server-f
 ```
 
 - Send `Authorization: Bearer <plugin token>`.
-- Server AI is allowed only when `user.entitlement.serverAiEnabled` is `true` (Pro / $5 tier).
-- Basic / $2 and free users receive `403` with `code: "ai_plan_required"` unless they provide their own OpenAI key.
-- If a user brings their own key, pass it with `X-Pigma-OpenAI-Key`; that key is used first and is not stored.
+- Plugin AI is allowed only when `user.entitlement.serverAiEnabled` is `true` (Pro / $5 tier).
+- Basic / $2 and free users receive `403` with `code: "ai_plan_required"`, even if a request includes a user OpenAI key.
+- For Pro/admin requests, a user-provided key can be passed with `X-Pigma-OpenAI-Key`; that key is used first and is not stored.
 - The response includes `text`, the raw OpenAI `response`, the selected `model`, and whether the `provider` was `server` or `user`.
