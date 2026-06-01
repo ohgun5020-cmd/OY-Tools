@@ -644,8 +644,20 @@ function PigmaLogo({ className = "" }: { className?: string }) {
 
 function HeroSection() {
   return (
-    <section id="top" className="bg-[#fafafa] px-6 pb-24 pt-16 sm:px-10 lg:px-12">
+    <section id="top" className="bg-[#fafafa] px-6 pb-24 pt-0 sm:px-10 lg:px-12">
       <div className="mx-auto max-w-[1120px] text-center">
+        <div className="mx-auto w-full max-w-[980px] overflow-hidden">
+          <video
+            src="/assets/psd-figma-demo.mp4"
+            className="block aspect-video h-auto w-full object-cover mix-blend-multiply"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-label="PSD to Figma demo video"
+          />
+        </div>
         <p className="mx-auto mb-7 flex h-10 w-[240px] items-center justify-center gap-2 rounded-[10px] text-[13px] font-black text-[#0a0a0a]">
           <span>PSD EXPORT TO</span>
           <PigmaLogo className="h-[10px] w-auto" />
@@ -676,18 +688,6 @@ function HeroSection() {
             <MaterialIcon name="attach_money" className="text-[16px]" />
             가격 보기
           </a>
-        </div>
-        <div className="mx-auto w-full max-w-[980px] overflow-hidden">
-          <video
-            src="/assets/psd-figma-demo.mp4"
-            className="block aspect-video h-auto w-full object-cover mix-blend-multiply"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            aria-label="PSD to Figma demo video"
-          />
         </div>
         <HeroWorkspace />
       </div>
