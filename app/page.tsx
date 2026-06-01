@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, type ReactNode } from "react"
+import { useEffect, useRef, useState, type ReactNode } from "react"
 
 type ActionItem = {
   title: string
@@ -642,22 +642,57 @@ function PigmaLogo({ className = "" }: { className?: string }) {
   )
 }
 
+function HeroDemoVideo() {
+  const videoRef = useRef<HTMLVideoElement | null>(null)
+  const replayDelayRef = useRef<number | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (replayDelayRef.current !== null) {
+        window.clearTimeout(replayDelayRef.current)
+      }
+    }
+  }, [])
+
+  function replayAfterDelay() {
+    if (replayDelayRef.current !== null) {
+      window.clearTimeout(replayDelayRef.current)
+    }
+
+    replayDelayRef.current = window.setTimeout(() => {
+      const video = videoRef.current
+
+      if (!video) {
+        return
+      }
+
+      video.currentTime = 0
+      void video.play()
+    }, 3000)
+  }
+
+  return (
+    <video
+      ref={videoRef}
+      src="/assets/psd-figma-demo.mp4"
+      className="block aspect-video h-auto w-full object-cover mix-blend-multiply"
+      autoPlay
+      muted
+      playsInline
+      preload="metadata"
+      style={{ mixBlendMode: "multiply" }}
+      aria-hidden="true"
+      onEnded={replayAfterDelay}
+    />
+  )
+}
+
 function HeroSection() {
   return (
     <section id="top" className="bg-white px-6 pb-24 pt-0 sm:px-10 lg:px-12">
       <div className="mx-auto max-w-[1120px] text-center">
         <div className="pointer-events-none relative z-0 mx-auto w-full max-w-[980px] overflow-hidden select-none">
-          <video
-            src="/assets/psd-figma-demo.mp4"
-            className="block aspect-video h-auto w-full object-cover mix-blend-multiply"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            style={{ mixBlendMode: "multiply" }}
-            aria-hidden="true"
-          />
+          <HeroDemoVideo />
         </div>
         <div className="relative z-10 -mt-20">
           <p className="mx-auto mb-7 flex h-10 w-[240px] items-center justify-center gap-2 rounded-[10px] text-[13px] font-black text-[#0a0a0a]">
