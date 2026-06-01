@@ -3,8 +3,8 @@ import type { AuthUser } from "./auth"
 export const DEFAULT_BASIC_TRIAL_DAYS = 7
 
 export type PlanEntitlement = {
-  planTier: 0 | 1 | 2
-  effectiveTier: 0 | 1 | 2
+  planTier: 0 | 1 | 2 | 3
+  effectiveTier: 0 | 1 | 2 | 3
   serverAiEnabled: boolean
   serverAiRequiredTier: 2
   basicTrialActive: boolean
@@ -18,8 +18,11 @@ export function getBasicTrialDays() {
   return Number.isFinite(value) && value > 0 ? Math.floor(value) : DEFAULT_BASIC_TRIAL_DAYS
 }
 
-export function getPlanTier(plan: string | null | undefined): 0 | 1 | 2 {
+export function getPlanTier(plan: string | null | undefined): 0 | 1 | 2 | 3 {
   const value = String(plan || "free").toLowerCase()
+  if (value === "admin") {
+    return 3
+  }
   if (value === "pro") {
     return 2
   }

@@ -11,6 +11,7 @@ const planLabels: Record<string, string> = {
   free: "Free",
   basic: "Basic",
   pro: "Pro",
+  admin: "Admin",
 }
 
 const errorMessages: Record<string, string> = {
@@ -111,6 +112,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 <option value="free">Free</option>
                 <option value="basic">Basic</option>
                 <option value="pro">Pro</option>
+                <option value="admin">Admin</option>
               </select>
             </label>
 

@@ -23,6 +23,6 @@ export function isAdminEmail(email: string) {
   return normalized ? getAdminEmails().includes(normalized) : false
 }
 
-export function isAdminUser(user: Pick<AuthUser, "email"> | null | undefined) {
-  return Boolean(user?.email && isAdminEmail(user.email))
+export function isAdminUser(user: Pick<AuthUser, "email" | "plan"> | null | undefined) {
+  return Boolean(String(user?.plan || "").toLowerCase() === "admin" || (user?.email && isAdminEmail(user.email)))
 }

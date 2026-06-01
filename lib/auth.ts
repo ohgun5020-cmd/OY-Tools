@@ -653,7 +653,7 @@ export function getUserByEmail(email: string) {
   return row ? toUser(row) : null
 }
 
-export function setManualUserPlanByEmail(input: { email: string; plan: "free" | "basic" | "pro" }) {
+export function setManualUserPlanByEmail(input: { email: string; plan: "free" | "basic" | "pro" | "admin" }) {
   const normalizedEmail = normalizeEmail(input.email)
   if (!validateEmail(normalizedEmail)) {
     throw authError("사용 가능한 이메일을 입력해주세요.", { email: "사용 가능한 이메일을 입력해주세요." })

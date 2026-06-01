@@ -11,6 +11,7 @@ const planLabels: Record<string, string> = {
   free: "Free",
   basic: "Basic",
   pro: "Pro",
+  admin: "Admin",
 }
 
 const statusLabels: Record<string, string> = {

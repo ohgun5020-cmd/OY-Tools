@@ -402,7 +402,7 @@ const plans: PricingPlan[] = [
     description: "가입 후 Basic을 먼저 맛보고, 작은 파일로 흐름을 확인합니다.",
     features: [
       { label: "Basic 7일 체험", badge: "HOT" },
-      { label: "월 3회 변환" },
+      { label: "월 3회 PSD 변환" },
       { label: "파일 구조 확인" },
       { label: "작은 파일 테스트" },
       { label: "무료 계정 저장" },
@@ -417,7 +417,7 @@ const plans: PricingPlan[] = [
     features: [
       { label: "잠긴 레이어 해제", badge: "HOT" },
       { label: "긴 프레임 나누기", badge: "HOT" },
-      { label: "월 30회 변환" },
+      { label: "월 30회 PSD 변환" },
       { label: "컴포넌트 해제" },
       { label: "숨긴 레이어 삭제" },
       { label: "가이드 전체 삭제" },
@@ -427,7 +427,6 @@ const plans: PricingPlan[] = [
       { label: "기울기 보정" },
       { label: "텍스트 하이라이트" },
       { label: "텍스트 행간 조정" },
-      { label: "오타 직접 수정", badge: "NEW" },
       { label: "이미지 색상 추출" },
       { label: "GIF/APNG 변환" },
     ],
@@ -440,7 +439,9 @@ const plans: PricingPlan[] = [
     description: "$2 Basic 기능을 모두 포함하고, AI 검수와 고급 이미지 작업을 더합니다.",
     includedPrefix: "베이직 기능 +",
     features: [
+      { label: "월 50회 PSD 변환", badge: "HOT" },
       { label: "디자인 읽기/검수", badge: "NEW" },
+      { label: "오타 직접 수정", badge: "NEW" },
       { label: "디자인 일관성 검사" },
       { label: "이미지 프롬프트 편집" },
       { label: "이미지 영역 확장" },
