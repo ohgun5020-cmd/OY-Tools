@@ -633,11 +633,11 @@ function SiteHeaderAuthenticated() {
 
 function LanguageSwitch({ current }: { current: LocaleCode }) {
   const items: Array<{ code: LocaleCode; label: string; href: string }> = [
-    { code: "ko", label: "KO", href: "/" },
-    { code: "en", label: "EN", href: "/en" },
-    { code: "ja", label: "JP", href: "/ja" },
-    { code: "es", label: "ES", href: "/es" },
-    { code: "pt-br", label: "BR", href: "/pt-br" },
+    { code: "ko", label: "KO", href: "/?lang=ko" },
+    { code: "en", label: "EN", href: "/en?lang=en" },
+    { code: "ja", label: "JP", href: "/ja?lang=ja" },
+    { code: "es", label: "ES", href: "/es?lang=es" },
+    { code: "pt-br", label: "BR", href: "/pt-br?lang=pt-br" },
   ]
 
   return (
