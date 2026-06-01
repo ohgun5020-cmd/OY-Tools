@@ -15,8 +15,8 @@ const planLabels: Record<string, string> = {
 }
 
 const errorMessages: Record<string, string> = {
-  email: "이메일을 입력해주세요.",
-  plan: "적용할 요금제를 다시 선택해주세요.",
+  email: "이메일을 입력해 주세요.",
+  plan: "적용할 요금제를 다시 선택해 주세요.",
   "not-found": "해당 이메일로 가입된 계정을 찾지 못했습니다. 먼저 웹에서 로그인 또는 가입을 완료해야 합니다.",
 }
 
@@ -61,7 +61,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             <p className="text-sm font-black tracking-[0.18em] text-[#005bff]">ADMIN</p>
             <h1 className="mt-3 text-[34px] font-black leading-tight sm:text-[46px]">요금제 수동 적용</h1>
             <p className="mt-3 max-w-[620px] text-[15px] font-bold leading-7 text-[#60656b]">
-              Google 로그인 계정도 이메일이 같으면 같은 사용자로 찾아서 플랜을 적용합니다.
+              이메일이 같은 Google 로그인 계정에도 같은 사용자로 플랜을 적용합니다.
             </p>
           </div>
           <a
@@ -75,7 +75,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
 
         {ok ? (
           <div className="mt-6 rounded-2xl border border-[#bfe8d1] bg-[#f0fff6] p-5 text-sm font-black text-[#14733b]">
-            {targetEmail} 계정을 {planLabels[selectedPlan] || selectedPlan.toUpperCase()} 플랜으로 적용했습니다.
+            {targetEmail} 계정을 {planLabels[selectedPlan] || selectedPlan.toUpperCase()} 플랜으로 변경했습니다.
           </div>
         ) : null}
 
@@ -126,7 +126,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             <div className="inline-flex size-12 items-center justify-center rounded-2xl bg-white text-[#005bff]">
               <MaterialIcon name="admin_panel_settings" className="text-[25px]" />
             </div>
-            <h2 className="mt-5 text-[23px] font-black">현재 확인</h2>
+            <h2 className="mt-5 text-[23px] font-black">현재 상태</h2>
             <dl className="mt-5 grid gap-3 text-sm">
               <div className="rounded-2xl bg-white/[0.08] p-4">
                 <dt className="font-black text-white/45">관리자</dt>

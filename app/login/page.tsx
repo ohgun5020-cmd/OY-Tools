@@ -25,11 +25,11 @@ function getNotice(params: Awaited<LoginPageProps["searchParams"]>) {
   }
 
   if (params.error === "google-auth") {
-    return "Google 인증을 완료하지 못했습니다. 다시 시도해주세요."
+    return "Google 인증을 완료하지 못했습니다. 다시 시도해 주세요."
   }
 
   if (params.error === "google-account-conflict") {
-    return "이 Google 계정은 이미 다른 PIGMA 계정과 연결되어 있습니다. 기존 계정으로 로그인해 확인해주세요."
+    return "이 Google 계정은 이미 다른 PIGMA 계정과 연결되어 있습니다. 기존 계정으로 로그인해 확인해 주세요."
   }
 
   return undefined

@@ -12,7 +12,7 @@ const plans = [
     name: "Free",
     price: "$0",
     period: "forever",
-    description: "가입 후 Basic을 먼저 맛보고, 작은 파일로 흐름을 확인합니다.",
+    description: "일단 가볍게 찍먹. 작은 파일로 변환 흐름부터 확인해요.",
     features: [
       { label: "Basic 7일 체험", badge: "HOT" },
       { label: "월 3회 PSD 변환" },
@@ -27,7 +27,7 @@ const plans = [
     name: "Basic",
     price: "$2",
     period: "per month",
-    description: "개인 작업자가 자주 쓰는 정리 버튼을 담았습니다.",
+    description: "혼자 작업할 때 자주 쓰는 정리 기능을 야무지게 담았어요.",
     features: [
       { label: "잠긴 레이어 해제", badge: "HOT" },
       { label: "긴 프레임 나누기", badge: "HOT" },
@@ -51,8 +51,8 @@ const plans = [
     name: "Pro",
     price: "$5",
     period: "per month",
-    description: "$2 Basic 기능을 모두 포함하고, Pro 전용 AI 검수와 고급 이미지 작업을 더합니다.",
-    includedPrefix: "베이직 기능 + AI 기능",
+    description: "Basic 기능에 AI 검수와 고급 이미지 작업까지 얹은 본격 작업용 플랜이에요.",
+    includedPrefix: "Basic 기능 + AI까지",
     features: [
       { label: "월 50회 PSD 변환", badge: "HOT" },
       { label: "오타 검수/직접 수정", badge: "NEW" },
@@ -79,9 +79,9 @@ export default function PricingPage() {
       <section className="bg-[#f7f9fc] px-6 py-16 sm:px-10 sm:py-20">
         <div className="mx-auto max-w-[1020px] text-center">
           <p className="text-sm font-black tracking-[0.18em] text-[#005bff]">PIGMA PRICING</p>
-          <h1 className="mt-4 text-[42px] font-black leading-tight sm:text-[60px]">Simple plans for design cleanup</h1>
+          <h1 className="mt-4 text-[42px] font-black leading-tight sm:text-[60px]">가격은 가볍게, 기능은 야무지게</h1>
           <p className="mx-auto mt-5 max-w-[720px] text-[17px] leading-8 text-[#60656b]">
-            Free는 맛보기와 Basic 체험, Basic은 실무 정리 버튼, Pro는 고급 AI 검수와 이미지 작업을 위한 플랜입니다.
+            Free는 가볍게 찍먹, Basic은 실무 정리, Pro는 AI 검수와 이미지 작업까지 챙기는 플랜입니다.
             Prices are in USD and billed monthly unless stated otherwise.
           </p>
         </div>

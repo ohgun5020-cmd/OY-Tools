@@ -170,8 +170,8 @@ export default async function DashboardPage() {
               변환 작업을 이어가세요.
             </h1>
             <p className="mt-5 max-w-[620px] text-[16px] leading-7 text-[#60656b]">
-              결제 플랜, 세션, 계정 정보를 한곳에서 확인할 수 있습니다. 작업 기록과 팀 리뷰 링크도 이 공간에
-              차례로 연결해갈 예정입니다.
+              결제 플랜, 세션, 계정 정보를 한 곳에서 확인할 수 있습니다. 작업 기록과 팀 리뷰 링크도 앞으로
+              이곳에 연결할 예정입니다.
             </p>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -228,8 +228,8 @@ export default async function DashboardPage() {
               <p className="text-sm font-black tracking-[0.18em] text-[#005bff]">BILLING</p>
               <h2 className="mt-3 text-[30px] font-black sm:text-[38px]">결제와 구독 관리</h2>
               <p className="mt-3 max-w-[620px] text-[15px] leading-7 text-[#60656b]">
-                카드 변경, 구독 취소, 결제 내역 확인은 Paddle 보안 포털에서 직접 처리됩니다. 고객은 별도 문의 없이
-                스스로 결제 정보를 관리할 수 있습니다.
+                카드 변경, 구독 취소, 결제 내역 확인은 Paddle 보안 포털에서 직접 처리됩니다. 별도 문의 없이
+                결제 정보를 직접 관리할 수 있습니다.
               </p>
             </div>
             <span
@@ -245,7 +245,7 @@ export default async function DashboardPage() {
             <div className="rounded-2xl bg-[#f7f9fc] p-5 ring-1 ring-[#e7ecf3]">
               <p className="text-xs font-black tracking-[0.14em] text-[#7a828b]">CURRENT PLAN</p>
               <p className="mt-3 text-[30px] font-black">{getPlanLabel(user.plan)}</p>
-              <p className="mt-1 text-sm font-bold text-[#60656b]">현재 적용된 요금제입니다.</p>
+              <p className="mt-1 text-sm font-bold text-[#60656b]">현재 적용 중인 요금제입니다.</p>
             </div>
             <div className="rounded-2xl bg-[#f7f9fc] p-5 ring-1 ring-[#e7ecf3]">
               <p className="text-xs font-black tracking-[0.14em] text-[#7a828b]">NEXT BILLING</p>
@@ -256,7 +256,7 @@ export default async function DashboardPage() {
               <p className="text-xs font-black tracking-[0.14em] text-[#7a828b]">CUSTOMER PORTAL</p>
               <p className="mt-3 text-[24px] font-black">{hasBillingProfile ? "연결됨" : "대기 중"}</p>
               <p className="mt-1 text-sm font-bold text-[#60656b]">
-                {hasBillingProfile ? "Paddle 포털로 바로 이동합니다." : "유료 결제 후 자동으로 연결됩니다."}
+                {hasBillingProfile ? "Paddle 포털로 이동할 수 있습니다." : "유료 결제 후 자동으로 연결됩니다."}
               </p>
             </div>
           </div>
@@ -265,7 +265,7 @@ export default async function DashboardPage() {
             <div className="mt-5 grid gap-4 md:grid-cols-3">
               <PortalButton action="overview" icon="receipt_long" title="결제 내역 보기" description="영수증과 결제 기록을 확인합니다." />
               <PortalButton action="update-payment" icon="credit_card" title="카드 변경" description="저장된 결제 수단을 수정합니다." />
-              <PortalButton action="cancel" icon="block" title="구독 취소" description="Paddle 취소 플로우로 이동합니다." tone="danger" />
+              <PortalButton action="cancel" icon="block" title="구독 취소" description="Paddle 구독 취소 화면으로 이동합니다." tone="danger" />
             </div>
           ) : (
             <div className="mt-5 rounded-2xl border border-[#dbe6f5] bg-[#f7fbff] p-5">

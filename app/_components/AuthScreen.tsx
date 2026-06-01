@@ -90,7 +90,7 @@ export function AuthScreen({ mode, notice, nextPath }: AuthScreenProps) {
   const [state, formAction] = useActionState(isSignup ? signupAction : loginAction, initialState)
   const title = isSignup ? "PIGMA 시작하기" : "PIGMA 로그인"
   const description = isSignup
-    ? "작업 파일을 연결하고 AI 변환 흐름을 바로 저장하세요."
+    ? "작업 파일을 연결하고 AI 변환 설정을 바로 저장하세요."
     : "저장된 변환 작업과 팀 리뷰 링크를 이어서 관리하세요."
 
   return (
@@ -104,7 +104,7 @@ export function AuthScreen({ mode, notice, nextPath }: AuthScreenProps) {
           <div className="w-full max-w-[320px] py-14 sm:max-w-[420px] lg:py-0">
             <p className="text-sm font-black tracking-[0.18em] text-white/45">ACCOUNT</p>
             <h1 className="mt-5 text-[32px] font-black leading-[1.08] sm:text-[52px]">
-              파일 변환 흐름을
+              파일 변환 작업을
               <br />
               이어서 관리하세요.
             </h1>
@@ -219,7 +219,7 @@ export function AuthScreen({ mode, notice, nextPath }: AuthScreenProps) {
 
               {isSignup ? (
                 <p className="rounded-xl bg-[#f7f9fc] px-4 py-3 text-sm font-bold leading-5 text-[#60656b] ring-1 ring-[#e7ecf3]">
-                  회원가입은 Free로 시작하고, Basic/Pro는 결제 완료 후 자동 적용됩니다.
+                  회원가입하면 Free로 시작하고, Basic/Pro는 결제 완료 후 자동 적용됩니다.
                 </p>
               ) : (
                 <div className="flex items-center justify-between text-sm">

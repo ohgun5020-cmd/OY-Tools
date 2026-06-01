@@ -104,12 +104,12 @@ type FeatureSlideConfig = {
 const featureSlides: FeatureSlideConfig[] = [
   {
     id: "feature-audit",
-    sectionTitle: ["오타 걱정은", "배포 전에 끝내기"],
-    sectionLead: "상세페이지와 캠페인 카피의 실수를 주석으로 남겨 바로 수정합니다.",
+    sectionTitle: ["오타는", "배포 전에 컷"],
+    sectionLead: "상세페이지와 캠페인 카피의 오타를 콕 집어 주석으로 남기고 바로 고칩니다.",
     eyebrow: "DESIGNER PICK",
     icon: "check_circle",
     title: "검수",
-    description: "상세페이지와 캠페인 카피에서 민망한 오타를 배포 전에 잡아줍니다.",
+    description: "상세페이지와 캠페인 카피에서 놓치기 쉬운 오타를 배포 전에 착 잡아줍니다.",
     actions: [
       { title: "오타 검수", description: "카피 실수 찾기", icon: "spellcheck", badge: "AI" },
       { title: "주석으로 공유", description: "수정 지점 전달", icon: "rate_review" },
@@ -119,14 +119,14 @@ const featureSlides: FeatureSlideConfig[] = [
   },
   {
     id: "feature-layer-cleanup",
-    sectionTitle: ["복잡한 파일도", "작업하기 쉽게 정리"],
-    sectionLead: "잠김, 컴포넌트, 긴 프레임을 정리해 넘겨받은 파일을 바로 손봅니다.",
+    sectionTitle: ["복잡한 파일도", "손대기 좋게 착"],
+    sectionLead: "잠긴 레이어, 컴포넌트, 긴 프레임을 정리해 받은 파일도 바로 수정각으로 만듭니다.",
     eyebrow: "DESIGNER PICK",
     icon: "layers",
     title: "레이어 정리",
-    description: "외주·PSD·복잡한 파일을 넘겨받았을 때 정리 시간을 크게 줄입니다.",
+    description: "외주 파일이나 복잡한 PSD를 받았을 때 정리 시간을 야무지게 줄입니다.",
     actions: [
-      { title: "잠긴 레이어 해제", description: "편집 막힘 해결", icon: "lock_open" },
+      { title: "잠긴 레이어 해제", description: "편집 제한 해제", icon: "lock_open" },
       { title: "컴포넌트 해제", description: "수정 가능한 상태로", icon: "link_off" },
       { title: "긴 프레임 나누기", description: "작업 구간 분리", icon: "splitscreen" },
     ],
@@ -134,29 +134,29 @@ const featureSlides: FeatureSlideConfig[] = [
   },
   {
     id: "feature-align",
-    sectionTitle: ["반픽셀까지", "깔끔하게 맞추기"],
-    sectionLead: "정수 픽셀, 버튼 크기, 모서리 값을 한 번에 정돈합니다.",
+    sectionTitle: ["반픽셀까지", "핏하게 맞추기"],
+    sectionLead: "정수 픽셀, 버튼 크기, 모서리 값을 한 번에 착 정돈합니다.",
     eyebrow: "DESIGNER PICK",
     icon: "tune",
     title: "정렬/교정",
-    description: "반픽셀, 들쭉날쭉한 버튼, 기울어진 요소를 한 번에 깔끔하게 맞춥니다.",
+    description: "반픽셀, 들쭉날쭉한 버튼, 기울어진 요소를 한 번에 핏하게 맞춥니다.",
     actions: [
       { title: "정수 픽셀 정렬", description: "흐릿한 선 정리", icon: "grid_4x4" },
-      { title: "버튼 사이즈 맞춤", description: "텍스트에 자동 맞춤", icon: "fit_screen" },
+      { title: "버튼 크기 맞춤", description: "글자 길이에 맞춤", icon: "fit_screen" },
       { title: "모서리 값 정리", description: "둥글기 일괄 조정", icon: "rounded_corner" },
     ],
     mini: "align",
   },
   {
     id: "feature-text",
-    sectionTitle: ["카피 수정과 번역을", "시안 안에서 바로"],
-    sectionLead: "번역, 오타 수정, 하이라이트, 행간 조정을 왕복 없이 처리합니다.",
+    sectionTitle: ["시안 안에서", "카피랑 번역까지 끝"],
+    sectionLead: "번역, 오타 수정, 하이라이트, 행간 조정까지 왕복 없이 바로 처리합니다.",
     eyebrow: "DESIGNER PICK",
     icon: "text_fields",
     title: "텍스트",
-    description: "카피 수정, 번역, 하이라이트, 행간 조정을 시안 안에서 바로 끝냅니다.",
+    description: "카피 수정, 번역, 하이라이트, 행간 조정을 시안 안에서 한 번에 끝냅니다.",
     actions: [
-      { title: "텍스트 번역", description: "다국어 시안 빠르게", icon: "translate", badge: "AI" },
+      { title: "텍스트 번역", description: "다국어 시안 준비", icon: "translate", badge: "AI" },
       { title: "오타 직접 수정", description: "수정안 바로 반영", icon: "edit_note" },
       { title: "하이라이트", description: "중요 문구 강조", icon: "border_color" },
     ],
@@ -164,29 +164,29 @@ const featureSlides: FeatureSlideConfig[] = [
   },
   {
     id: "feature-image-fix",
-    sectionTitle: ["이미지 소스와 색을", "작업 중 바로 꺼내기"],
-    sectionLead: "원본 저장, 팔레트 추출, 보이는 영역 맞춤을 디자인 화면에서 끝냅니다.",
+    sectionTitle: ["이미지 소스랑 색상", "필요할 때 쓱"],
+    sectionLead: "원본 저장, 팔레트 추출, 크롭 영역 조정을 디자인 화면에서 바로 끝냅니다.",
     eyebrow: "DESIGNER PICK",
     icon: "image",
     title: "이미지 보정",
-    description: "원본 이미지 추출, 색상 팔레트, 크롭 정리를 디자인 작업 안에서 바로 처리합니다.",
+    description: "원본 이미지 추출, 색상 팔레트 확인, 크롭 정리를 디자인 화면 안에서 쓱 처리합니다.",
     actions: [
       { title: "원본 이미지 저장", description: "소스 파일 바로 추출", icon: "download" },
       { title: "색상 추출", description: "팔레트 참고", icon: "palette" },
-      { title: "보이는 영역 맞춤", description: "크롭·위치 정리", icon: "crop_free" },
+      { title: "크롭 영역 맞춤", description: "크롭·위치 정리", icon: "crop_free" },
     ],
     mini: "image",
   },
   {
     id: "feature-image-generate",
-    sectionTitle: ["잘린 배경도", "자연스럽게 확장"],
+    sectionTitle: ["잘린 배경도", "자연스럽게 쭉"],
     sectionLead: "이미지 확장, 해상도 향상, 텍스트 추출로 시안 완성도를 끌어올립니다.",
     eyebrow: "DESIGNER PICK",
     icon: "auto_awesome",
     title: "이미지 생성/확장",
-    description: "잘린 배경을 자연스럽게 늘리고, 저해상도 이미지를 시안용으로 끌어올립니다.",
+    description: "잘린 배경을 자연스럽게 늘리고, 저해상도 이미지를 시안용으로 업그레이드합니다.",
     actions: [
-      { title: "이미지 영역 확장", description: "잘린 배경 자연 확장", icon: "crop_free", badge: "AI" },
+      { title: "이미지 영역 확장", description: "잘린 배경 확장", icon: "crop_free", badge: "AI" },
       { title: "해상도 높이기", description: "디테일 복원", icon: "high_quality", badge: "AI" },
       { title: "이미지 텍스트 추출", description: "글자 레이어화 준비", icon: "text_fields", badge: "AI" },
     ],
@@ -194,22 +194,22 @@ const featureSlides: FeatureSlideConfig[] = [
   },
   {
     id: "feature-share",
-    sectionTitle: ["공유 링크를", "깔끔하게 준비"],
+    sectionTitle: ["공유 링크는", "깔끔하게 착"],
     sectionLead: "긴 URL과 프로토타입 링크를 클라이언트에게 보내기 좋게 정리합니다.",
     eyebrow: "DESIGNER PICK",
     icon: "share",
-    title: "공유/기타",
-    description: "길고 복잡한 Figma 링크와 프로토타입 공유를 몇 초 안에 정리합니다.",
+    title: "공유 준비",
+    description: "길고 복잡한 Figma 링크와 프로토타입 공유를 몇 초 안에 가볍게 정리합니다.",
     actions: [
       { title: "링크 짧게 만들기", description: "공유용 URL 생성", icon: "link" },
       { title: "프로토타입 링크", description: "리뷰 링크 바로 복사", icon: "content_copy" },
-      { title: "QR 코드 생성", description: "검수 링크 빠른 공유", icon: "qr_code_2" },
+      { title: "QR 코드 생성", description: "검수 링크 공유", icon: "qr_code_2" },
     ],
     mini: "share",
   },
   {
     id: "feature-video",
-    sectionTitle: ["정적인 시안을", "움직이는 결과물로"],
+    sectionTitle: ["정적인 시안도", "움직이면 더 힙"],
     sectionLead: "AI 영상 생성과 GIF/APNG 변환으로 모션 시안을 빠르게 준비합니다.",
     eyebrow: "DESIGNER PICK",
     icon: "auto_awesome",
@@ -226,49 +226,49 @@ const featureSlides: FeatureSlideConfig[] = [
 ]
 
 const featureActionDetails: Record<string, string> = {
-  "오타 검수": "시안 안의 제목, 버튼, 상세 문구를 훑어서 놓치기 쉬운 오타와 어색한 표현을 먼저 표시합니다.",
-  "주석으로 공유": "수정해야 할 위치를 설명과 함께 남겨서 디자이너나 클라이언트가 바로 확인할 수 있게 합니다.",
-  "결과 패널": "검수 결과를 한곳에 모아 보여줘서 전체 화면을 다시 뒤지지 않고 필요한 항목만 고칠 수 있습니다.",
-  "잠긴 레이어 해제": "편집이 막힌 레이어를 찾아 작업 가능한 상태로 풀어, 바로 수정할 수 있게 준비합니다.",
-  "컴포넌트 해제": "수정이 어려운 컴포넌트 구조를 풀어서 텍스트와 이미지를 개별로 손볼 수 있게 만듭니다.",
-  "긴 프레임 나누기": "너무 긴 화면이나 상세페이지를 작업하기 좋은 구간으로 나눠서 관리하기 쉽게 정리합니다.",
-  "정수 픽셀 정렬": "반픽셀 위치 때문에 흐려지는 선과 박스를 정수 좌표로 맞춰 선명하게 보이도록 정리합니다.",
-  "버튼 사이즈 맞춤": "버튼 안의 글자 길이에 맞춰 여백과 크기를 정돈해 버튼들이 들쭉날쭉하지 않게 합니다.",
-  "모서리 값 정리": "서로 다른 둥글기 값을 찾아 한 기준으로 맞춰 화면의 통일감을 빠르게 잡습니다.",
-  "텍스트 번역": "원본 레이아웃을 보면서 다국어 문구를 빠르게 넣고, 시안 확인용 번역본을 만듭니다.",
-  "오타 직접 수정": "발견한 오타나 문구 수정안을 해당 텍스트에 바로 반영해 반복 수정 시간을 줄입니다.",
-  "하이라이트": "중요한 문구나 확인해야 할 영역을 표시해서 리뷰하는 사람이 먼저 볼 부분을 알려줍니다.",
-  "원본 이미지 저장": "PSD나 문서 안에 묻힌 이미지를 따로 꺼내 저장해 다시 사용할 수 있게 합니다.",
-  "색상 추출": "시안에 쓰인 주요 색을 뽑아 팔레트처럼 확인하고 브랜드 컬러 기준을 맞출 수 있게 합니다.",
-  "보이는 영역 맞춤": "이미지의 크롭 위치와 보이는 범위를 정리해 잘린 부분이나 어긋난 위치를 맞춥니다.",
+  "오타 검수": "제목, 버튼, 상세 문구를 훑어 놓치기 쉬운 오타와 어색한 표현을 먼저 콕 집어줍니다.",
+  "주석으로 공유": "수정 위치를 설명과 함께 남겨 디자이너나 클라이언트가 바로 확인하게 합니다.",
+  "결과 패널": "검수 결과를 한 곳에 모아 보여줘서, 화면을 다시 뒤지지 않고 필요한 항목만 고칠 수 있습니다.",
+  "잠긴 레이어 해제": "편집이 막힌 레이어를 풀어 바로 수정할 수 있는 상태로 바꿉니다.",
+  "컴포넌트 해제": "컴포넌트로 묶인 구조를 풀어 텍스트와 이미지를 따로 손볼 수 있게 만듭니다.",
+  "긴 프레임 나누기": "긴 화면이나 상세페이지를 작업하기 좋은 구간으로 쪼개 관리하기 쉽게 정리합니다.",
+  "정수 픽셀 정렬": "반픽셀 때문에 흐려지는 선과 박스를 정수 좌표로 맞춰 선명하게 정리합니다.",
+  "버튼 크기 맞춤": "글자 길이에 맞춰 여백과 크기를 정돈해 버튼을 딱 맞게 맞춥니다.",
+  "모서리 값 정리": "제각각인 둥글기 값을 한 기준으로 맞춰 화면 톤을 깔끔하게 잡습니다.",
+  "텍스트 번역": "원본 레이아웃을 보면서 다국어 문구를 넣고, 시안 확인용 번역본을 빠르게 만듭니다.",
+  "오타 직접 수정": "발견한 오타나 문구 수정안을 해당 텍스트에 바로 반영해 수정 왕복을 줄입니다.",
+  "하이라이트": "중요한 문구나 확인할 영역을 표시해 리뷰할 사람이 먼저 볼 포인트를 알려줍니다.",
+  "원본 이미지 저장": "PSD나 문서 안에 묻힌 이미지를 따로 꺼내 다시 쓸 수 있게 저장합니다.",
+  "색상 추출": "시안에 쓰인 주요 색을 뽑아 팔레트처럼 확인하고 브랜드 컬러 기준을 맞춥니다.",
+  "크롭 영역 맞춤": "이미지의 크롭 위치와 보이는 범위를 정리해 어긋난 부분을 딱 맞춥니다.",
   "이미지 영역 확장": "부족한 배경이나 잘린 이미지를 자연스럽게 늘려 배너와 상세페이지에 맞게 채웁니다.",
   "해상도 높이기": "작게 받았거나 흐린 이미지를 더 선명하게 만들어 시안이나 공유용으로 쓰기 좋게 합니다.",
-  "이미지 텍스트 추출": "이미지 안에 들어간 글자를 뽑아 편집 가능한 텍스트 레이어로 다시 만들 준비를 합니다.",
-  "링크 짧게 만들기": "긴 Figma나 리뷰 URL을 보기 쉬운 링크로 줄여 메신저나 메일에 깔끔하게 보낼 수 있습니다.",
-  "프로토타입 링크": "클릭 가능한 화면 흐름을 바로 공유할 수 있도록 프로토타입 링크를 빠르게 복사합니다.",
-  "QR 코드 생성": "리뷰 링크를 QR 코드로 만들어 모바일에서 바로 열어보고 확인할 수 있게 합니다.",
-  "AI 영상 생성": "정적인 시안을 바탕으로 간단한 움직임 예시나 영상 시안을 빠르게 만들어 봅니다.",
-  "영상 GIF 변환": "무거운 영상 대신 메신저와 문서에 넣기 쉬운 GIF 형태로 가볍게 변환합니다.",
-  "영상 APNG 변환": "투명 배경이 필요한 움직이는 에셋을 APNG 형태로 준비해 디자인에 붙이기 쉽게 합니다.",
+  "이미지 텍스트 추출": "이미지 안의 글자를 뽑아 편집 가능한 텍스트 레이어로 바꿀 준비를 합니다.",
+  "링크 짧게 만들기": "긴 Figma나 리뷰 URL을 보기 쉬운 링크로 줄여 메신저나 메일에 깔끔하게 보냅니다.",
+  "프로토타입 링크": "클릭 가능한 화면 흐름을 바로 공유할 수 있게 프로토타입 링크를 빠르게 복사합니다.",
+  "QR 코드 생성": "리뷰 링크를 QR 코드로 만들어 모바일에서도 바로 열어보게 합니다.",
+  "AI 영상 생성": "정적인 시안을 바탕으로 간단한 움직임 예시나 영상 시안을 만들어 봅니다.",
+  "영상 GIF 변환": "무거운 영상 대신 메신저와 문서에 넣기 쉬운 GIF로 가볍게 바꿉니다.",
+  "영상 APNG 변환": "투명 배경이 필요한 움직이는 에셋을 APNG로 준비해 디자인에 붙이기 쉽게 합니다.",
   "썸네일 추출": "영상이나 움직이는 결과물에서 대표 장면을 골라 썸네일 이미지로 저장합니다.",
 }
 
 const aiActions: ActionItem[] = [
   {
-    title: "의도 살리기",
-    description: "디자인 방향 질문",
+    title: "무드 살리기",
+    description: "방향성 빠르게 체크",
     icon: "help_outline",
     primary: true,
     badge: "AI",
   },
   {
-    title: "우선 수정 3개",
-    description: "바로 고칠 항목 정리",
+    title: "급한 수정 3개",
+    description: "우선순위만 착 정리",
     icon: "playlist_add_check",
   },
   {
     title: "카피 톤 맞추기",
-    description: "텍스트 흐름 제안",
+    description: "문장 결 살짝 정돈",
     icon: "chat_bubble_outline",
   },
 ]
@@ -276,26 +276,26 @@ const aiActions: ActionItem[] = [
 const workflowSteps = [
   {
     number: "01",
-    title: "가져오기",
+    title: "쓱 가져오기",
     description: "PSD, AI, EPS, PDF, PPT, SVG를 불러옵니다.",
     icon: "file_upload",
     active: true,
   },
   {
     number: "02",
-    title: "정리",
+    title: "착 정리하기",
     description: "레이어와 텍스트를 다루기 쉽게 정돈합니다.",
     icon: "layers",
   },
   {
     number: "03",
-    title: "보정",
-    description: "검수, 오타, 이미지 보정을 필요한 만큼 적용합니다.",
+    title: "딱 보정하기",
+    description: "검수, 오타 수정, 이미지 보정을 필요한 만큼 적용합니다.",
     icon: "tune",
   },
   {
     number: "04",
-    title: "공유",
+    title: "바로 공유하기",
     description: "링크로 공유하고 반복 기준을 저장합니다.",
     icon: "share",
   },
@@ -318,77 +318,77 @@ const qualityPoints = [
 
 const useCases: UseCase[] = [
   {
-    title: "오래된 PSD 수정",
+    title: "묵은 PSD 살리기",
     description: "예전 원본을 Figma에서 다시 만질 때",
     icon: "history",
   },
   {
-    title: "외주 원본 정리",
+    title: "외주 파일 정돈",
     description: "받은 파일을 팀 기준으로 정돈할 때",
     icon: "folder_open",
   },
   {
-    title: "급한 배너 교체",
+    title: "급한 배너 갈아끼우기",
     description: "문구와 이미지만 빠르게 바꿔야 할 때",
     icon: "campaign",
   },
   {
-    title: "상세페이지 재편집",
+    title: "상세페이지 다시 손보기",
     description: "PSD 산출물을 다시 쪼개고 고칠 때",
     icon: "storefront",
   },
   {
-    title: "브랜드 템플릿 정리",
+    title: "브랜드 템플릿 핏 맞추기",
     description: "반복되는 디자인 기준을 맞출 때",
     icon: "palette",
   },
   {
-    title: "누락 요소 검수",
+    title: "빠진 요소 체크",
     description: "텍스트와 이미지 깨짐을 확인할 때",
     icon: "check_circle",
   },
   {
-    title: "레이어 이름 정리",
+    title: "레이어 이름 정돈",
     description: "복잡한 그룹명을 읽기 쉽게 바꿀 때",
     icon: "edit",
   },
   {
-    title: "텍스트 재활용",
-    description: "래스터 글자를 편집 가능한 텍스트로",
+    title: "텍스트 다시 쓰기",
+    description: "래스터 글자를 편집 가능한 텍스트로 바꿀 때",
     icon: "text_fields",
   },
   {
-    title: "이미지 확장",
+    title: "이미지 배경 늘리기",
     description: "부족한 배경 영역을 자연스럽게 늘릴 때",
     icon: "open_in_full",
   },
   {
-    title: "썸네일 변형",
+    title: "썸네일 여러 개 뽑기",
     description: "같은 구조로 여러 사이즈를 만들 때",
     icon: "grid_view",
   },
   {
-    title: "PPT/PDF 변환",
+    title: "PPT/PDF 다시 편집",
     description: "문서형 디자인을 다시 편집할 때",
     icon: "description",
   },
   {
-    title: "캠페인 소재 교체",
+    title: "캠페인 소재 스왑",
     description: "시즌 문구와 이미지를 빠르게 바꿀 때",
     icon: "shuffle",
   },
   {
-    title: "팀 리뷰 준비",
+    title: "팀 리뷰 세팅",
     description: "공유 전에 기준대로 정리할 때",
     icon: "playlist_add_check",
   },
   {
-    title: "AI 수정 제안",
-    description: "화면 기준으로 보정 방향을 물을 때",
+    title: "AI 수정각 보기",
+    description: "화면을 기준으로 보정 방향을 정할 때",
     icon: "auto_awesome",
   },
   {
-    title: "반복 작업 자동화",
+    title: "반복 작업 저장",
     description: "자주 쓰는 변환 기준을 저장할 때",
     icon: "tune",
   },
@@ -399,7 +399,7 @@ const plans: PricingPlan[] = [
     key: "free",
     name: "Free",
     price: "$0",
-    description: "가입 후 Basic을 먼저 맛보고, 작은 파일로 흐름을 확인합니다.",
+    description: "일단 가볍게 찍먹. 작은 파일로 변환 흐름부터 확인해요.",
     features: [
       { label: "Basic 7일 체험", badge: "HOT" },
       { label: "월 3회 PSD 변환" },
@@ -413,7 +413,7 @@ const plans: PricingPlan[] = [
     key: "basic",
     name: "Basic",
     price: "$2/mo",
-    description: "개인 작업자가 자주 쓰는 정리 버튼을 담았습니다.",
+    description: "혼자 작업할 때 자주 쓰는 정리 기능을 야무지게 담았어요.",
     features: [
       { label: "잠긴 레이어 해제", badge: "HOT" },
       { label: "긴 프레임 나누기", badge: "HOT" },
@@ -436,8 +436,8 @@ const plans: PricingPlan[] = [
     key: "pro",
     name: "Pro",
     price: "$5/mo",
-    description: "$2 Basic 기능을 모두 포함하고, Pro 전용 AI 검수와 고급 이미지 작업을 더합니다.",
-    includedPrefix: "베이직 기능 + AI 기능",
+    description: "Basic 기능에 AI 검수와 고급 이미지 작업까지 얹은 본격 작업용 플랜이에요.",
+    includedPrefix: "Basic 기능 + AI까지",
     features: [
       { label: "월 50회 PSD 변환", badge: "HOT" },
       { label: "오타 검수/직접 수정", badge: "NEW" },
@@ -705,10 +705,10 @@ function HeroSection() {
           <h1 className="mx-auto max-w-[1120px] text-[38px] font-black leading-[1.12] text-black sm:text-[52px] lg:text-[64px]">
             PIGMA로
             <br />
-            FIG를 PSD 바로 내보내기
+            FIG를 PSD로 쓱 내보내기
           </h1>
           <p className="mx-auto mt-7 max-w-[760px] text-[17px] leading-8 text-[#5f6368] sm:text-[19px]">
-            Figma 작업물을 PSD로 바로 넘길 수 있게 내보내기 흐름을 간단하게 정리합니다.
+            Figma 작업물을 PSD로 넘길 때 필요한 과정만 가볍게 정리합니다.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
@@ -777,7 +777,7 @@ function HeroWorkspace() {
           </div>
           <AnimatedConversionProgressBar progress={conversionProgress} className="mt-5" />
           <p className="mt-4 text-[13px] font-medium text-[#0a0a0a]">
-            레이어, 텍스트, 효과를 Figma-ready 결과물로 정리
+            레이어, 텍스트, 효과를 PSD로 내보낼 수 있게 정리
           </p>
         </div>
         <div className="rounded-[14px] bg-white p-5 ring-1 ring-black/5">
@@ -877,10 +877,10 @@ function AiChatSection() {
       <div className="mx-auto max-w-[1248px]">
         <p className="text-center text-[13px] font-black tracking-[0.18em] text-white/45">PLUGIN MENU</p>
         <h2 className="mx-auto mt-5 max-w-[760px] text-center text-[34px] font-black leading-[1.2] sm:text-[46px]">
-          자주 쓰는 PIGMA 도구를 한눈에
+          자주 쓰는 PIGMA 도구, 한눈에 착
         </h2>
         <p className="mx-auto mt-5 max-w-[620px] text-center text-[15px] leading-7 text-white/62">
-          검수, 정리, 보정, 공유까지 작업 중 바로 꺼내 쓰는 메뉴를 격자로 모았습니다.
+          검수, 정리, 보정, 공유까지 작업 중 바로 꺼내 쓰기 좋게 모았습니다.
         </p>
         <FeatureActionGrid />
       </div>
@@ -1513,12 +1513,12 @@ function WorkflowSection() {
         <div className="text-center">
           <p className="inline-flex h-10 items-center justify-center text-[13px] font-black leading-5 text-[#0a0a0a]">HOW IT WORKS</p>
           <h2 className="mt-5 text-[34px] font-black leading-[1.22] text-[#0a0a0a] sm:text-[46px] sm:leading-[56px]">
-            PSD가 수정 가능한
+            PSD를 수정할 수 있는
             <br />
-            화면이 되는 4단계
+            화면으로 바꾸는 쉬운 루틴
           </h2>
           <p className="mt-6 text-[18px] leading-8 text-[#5f6368] sm:text-[22px]">
-            가져오고, 정리하고, 필요한 보정만 펼쳐 씁니다.
+            가져오고 정리한 뒤, 필요한 보정만 골라 착 적용합니다.
           </p>
         </div>
 
@@ -1689,10 +1689,10 @@ function FileImportSection() {
         <h2 className="mt-5 text-[34px] font-black leading-[1.22] text-[#0a0a0a] sm:text-[46px] sm:leading-[56px]">
           PSD뿐만 아니라
           <br />
-          다양한 파일을 가져옵니다
+          다양한 파일도 가볍게 데려옵니다
         </h2>
         <p className="mx-auto mt-6 max-w-[960px] text-[17px] leading-[30px] text-[#5f6368] sm:text-[20px]">
-          PSD, AI, EPS, PDF, PPT, SVG까지 가져오고, 레이어와 텍스트를 Figma에서 다시 만질 수 있게 정리합니다.
+          PSD, AI, EPS, PDF, PPT, SVG까지 불러와 레이어와 텍스트를 Figma에서 다시 만질 수 있게 정리합니다.
         </p>
 
         <div className="mt-[52px] overflow-hidden rounded-2xl bg-white text-left shadow-[0_14px_40px_rgba(0,0,0,0.04)]">
@@ -1812,7 +1812,7 @@ function UseCasesSection() {
           <span>가 빠릅니다</span>
         </h2>
         <p className="mt-4 text-center text-[17px] leading-7 text-[#b8b8b8]">
-          기능 설명보다 실제 작업 상황에 바로 꽂히는 15가지입니다.
+          실제 작업할 때 바로 생각나는 15가지 활용 예시입니다.
         </p>
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
           {useCases.map((item, index) => {
@@ -1863,9 +1863,9 @@ function PricingSection() {
       <div className="mx-auto max-w-[1020px] text-center">
         <p className="text-[13px] font-black text-[#60656b]">PRICING</p>
         <h2 className="mt-7 text-[34px] font-black leading-[1.22] sm:text-[40px]">
-          귀여운 가격
+          가격은 가볍게
           <br />
-          그렇지 못한 실력
+          기능은 야무지게
         </h2>
         <div className="mt-12 grid gap-5 text-left md:grid-cols-3">
           {plans.map((plan) => (
@@ -1907,7 +1907,7 @@ function PricingSection() {
           ))}
         </div>
         <p className="mx-auto mt-8 rounded-lg bg-[#fafafa] px-5 py-3 text-xs text-[#60656b] ring-1 ring-[#e7ecf3]">
-          초기 가격은 Figma 플러그인 MVP 기준이며 출시 전 변경될 수 있습니다.
+          초기 가격은 Figma 플러그인 MVP 기준이며 출시 전 달라질 수 있습니다.
         </p>
       </div>
     </section>
@@ -2039,9 +2039,9 @@ function FinalCta() {
         <div>
           <p className="text-sm font-bold text-[#9a9a9a]">READY</p>
           <h2 className="mt-4 text-[32px] font-black leading-[1.2] sm:text-[40px]">
-            바로 PSD를 끌고
+            바로 psd 변환!
             <br />
-            빠르게 수정하세요.
+            수정도 빠르게!
           </h2>
         </div>
         <a
