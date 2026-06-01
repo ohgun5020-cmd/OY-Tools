@@ -903,7 +903,8 @@ function AiChatSection() {
       <div className="mx-auto max-w-[1248px]">
         <p className="text-center text-[13px] font-black tracking-[0.18em] text-white/45">PLUGIN MENU</p>
         <h2 className="mx-auto mt-5 max-w-[760px] text-center text-[34px] font-black leading-[1.2] sm:text-[46px]">
-          よく使うPIGMAツール、ノリよく集合
+          <span className="block">よく使うPIGMAツール、</span>
+          <span className="block">ノリよく集合</span>
         </h2>
         <p className="mx-auto mt-5 max-w-[620px] text-center text-[15px] leading-7 text-white/62">
           チェック、整理、補正、共有まで、作業中にそのまま使えるようにまとめました。
