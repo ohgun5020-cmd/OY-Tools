@@ -646,7 +646,7 @@ function HeroSection() {
   return (
     <section id="top" className="bg-[#fafafa] px-6 pb-24 pt-0 sm:px-10 lg:px-12">
       <div className="mx-auto max-w-[1120px] text-center">
-        <div className="mx-auto w-full max-w-[980px] overflow-hidden">
+        <div className="pointer-events-none relative z-0 mx-auto w-full max-w-[980px] overflow-hidden select-none">
           <video
             src="/assets/psd-figma-demo.mp4"
             className="block aspect-video h-auto w-full object-cover mix-blend-multiply"
@@ -655,39 +655,41 @@ function HeroSection() {
             loop
             playsInline
             preload="metadata"
-            aria-label="PSD to Figma demo video"
+            aria-hidden="true"
           />
         </div>
-        <p className="mx-auto mb-7 flex h-10 w-[240px] items-center justify-center gap-2 rounded-[10px] text-[13px] font-black text-[#0a0a0a]">
-          <span>PSD EXPORT TO</span>
-          <PigmaLogo className="h-[10px] w-auto" />
-        </p>
-        <h1 className="mx-auto max-w-[1120px] text-[42px] font-black leading-[1.08] text-black sm:text-[56px] lg:text-[72px]">
-          <span className="inline-flex items-center justify-center gap-2 sm:gap-3 lg:gap-4">
-            <PigmaLogo className="h-[38px] w-auto sm:h-[50px] lg:h-[64px]" />
-            <span>로</span>
-          </span>
-          <br />
-          PSD를 바로 내보내기
-        </h1>
-        <p className="mx-auto mt-7 max-w-[760px] text-[17px] leading-8 text-[#5f6368] sm:text-[19px]">
-          가져오는 과정보다, Figma에서 바로 만질 수 있는 결과물로 내보내는 데 집중합니다.
-        </p>
-        <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <a
-            href="#pricing"
-            className="inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-[#005bff] px-6 text-[15px] font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0] sm:w-[170px]"
-          >
-            무료 시작
-            <MaterialIcon name="arrow_forward" className="text-[16px]" />
-          </a>
-          <a
-            href="#pricing"
-            className="inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-white px-6 text-[15px] font-bold text-[#0a0a0a] shadow-[0_10px_24px_rgba(0,0,0,0.05)] transition hover:-translate-y-0.5 sm:w-[180px]"
-          >
-            <MaterialIcon name="attach_money" className="text-[16px]" />
-            가격 보기
-          </a>
+        <div className="relative z-10 -mt-20">
+          <p className="mx-auto mb-7 flex h-10 w-[240px] items-center justify-center gap-2 rounded-[10px] text-[13px] font-black text-[#0a0a0a]">
+            <span>PSD EXPORT TO</span>
+            <PigmaLogo className="h-[10px] w-auto" />
+          </p>
+          <h1 className="mx-auto max-w-[1120px] text-[42px] font-black leading-[1.08] text-black sm:text-[56px] lg:text-[72px]">
+            <span className="inline-flex items-center justify-center gap-2 sm:gap-3 lg:gap-4">
+              <PigmaLogo className="h-[38px] w-auto sm:h-[50px] lg:h-[64px]" />
+              <span>로</span>
+            </span>
+            <br />
+            PSD를 바로 내보내기
+          </h1>
+          <p className="mx-auto mt-7 max-w-[760px] text-[17px] leading-8 text-[#5f6368] sm:text-[19px]">
+            가져오는 과정보다, Figma에서 바로 만질 수 있는 결과물로 내보내는 데 집중합니다.
+          </p>
+          <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <a
+              href="#pricing"
+              className="inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-[#005bff] px-6 text-[15px] font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0] sm:w-[170px]"
+            >
+              무료 시작
+              <MaterialIcon name="arrow_forward" className="text-[16px]" />
+            </a>
+            <a
+              href="#pricing"
+              className="inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-white px-6 text-[15px] font-bold text-[#0a0a0a] shadow-[0_10px_24px_rgba(0,0,0,0.05)] transition hover:-translate-y-0.5 sm:w-[180px]"
+            >
+              <MaterialIcon name="attach_money" className="text-[16px]" />
+              가격 보기
+            </a>
+          </div>
         </div>
         <HeroWorkspace />
       </div>
