@@ -23,7 +23,7 @@ type HeaderUser = {
   avatarUrl: string | null
 }
 
-type LocaleCode = "ko" | "en" | "ja" | "es"
+type LocaleCode = "ko" | "en" | "ja" | "es" | "pt-br"
 
 type PricingPlan = {
   key: "free" | "basic" | "pro"
@@ -71,7 +71,7 @@ type PaddleApi = {
       settings: {
         displayMode: "overlay"
         theme: "light"
-        locale: "ko" | "en" | "ja" | "es"
+        locale: "ko" | "en" | "ja" | "es" | "pt-BR"
         successUrl: string
         variant: "one-page"
       }
@@ -644,10 +644,11 @@ function LanguageSwitch({ current }: { current: LocaleCode }) {
     { code: "en", label: "EN", href: "/en" },
     { code: "ja", label: "JP", href: "/ja" },
     { code: "es", label: "ES", href: "/es" },
+    { code: "pt-br", label: "BR", href: "/pt-br" },
   ]
 
   return (
-    <div className="inline-flex h-9 shrink-0 items-center rounded-full bg-[#f1f4f8] p-1 text-[10px] font-black text-[#5f6670] ring-1 ring-[#e1e7f0] sm:h-10 sm:text-xs">
+    <div className="inline-flex h-9 shrink-0 items-center rounded-full bg-[#f1f4f8] p-1 text-[9px] font-black text-[#5f6670] ring-1 ring-[#e1e7f0] sm:h-10 sm:text-xs">
       {items.map((item) => (
         <a
           key={item.code}
@@ -655,8 +656,8 @@ function LanguageSwitch({ current }: { current: LocaleCode }) {
           aria-current={current === item.code ? "page" : undefined}
           className={
             current === item.code
-              ? "inline-flex h-7 min-w-7 items-center justify-center rounded-full bg-[#050505] px-2 text-white shadow-[0_6px_14px_rgba(15,24,42,0.14)] sm:h-8 sm:min-w-8 sm:px-2.5"
-              : "inline-flex h-7 min-w-7 items-center justify-center rounded-full px-2 transition hover:text-[#005bff] sm:h-8 sm:min-w-8 sm:px-2.5"
+              ? "inline-flex h-7 min-w-6 items-center justify-center rounded-full bg-[#050505] px-1.5 text-white shadow-[0_6px_14px_rgba(15,24,42,0.14)] sm:h-8 sm:min-w-8 sm:px-2"
+              : "inline-flex h-7 min-w-6 items-center justify-center rounded-full px-1.5 transition hover:text-[#005bff] sm:h-8 sm:min-w-8 sm:px-2"
           }
         >
           {item.label}
@@ -947,11 +948,11 @@ function FeatureActionGrid() {
             <div className="mt-1 flex min-w-0 items-center gap-2">
               <h3 className="min-w-0 break-keep text-[17px] font-black leading-6 text-white">{item.title}</h3>
               {item.badge ? (
-                <span className="inline-flex h-5 shrink-0 items-center rounded-full bg-[#005bff] px-2 text-[10px] font-black leading-none text-white">
+                <span className="inline-flex h-5 shrink-0 items-center rounded-full bg-[#005bff] px-2 text-[9px] font-black leading-none text-white">
                   {item.badge}
                 </span>
               ) : (
-                <span className="shrink-0 text-[10px] font-black leading-none text-white/30">
+                <span className="shrink-0 text-[9px] font-black leading-none text-white/30">
                   {String(index + 1).padStart(2, "0")}
                 </span>
               )}
@@ -1779,7 +1780,7 @@ function FileImportSection() {
 
               <div className="hidden h-20 w-[84px] flex-col items-center justify-center gap-2 rounded-full bg-[#fafafa] text-[#005bff] lg:flex">
                 <MaterialIcon name="sync" className="animate-spin text-[26px]" />
-                <span className="text-[10px] font-black leading-none text-[#111]">변환 중</span>
+                <span className="text-[9px] font-black leading-none text-[#111]">변환 중</span>
               </div>
 
               <div className="h-[206px] rounded-[14px] bg-white p-6">

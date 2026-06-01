@@ -99,171 +99,171 @@ type FeatureSlideConfig = {
 const featureSlides: FeatureSlideConfig[] = [
   {
     id: "feature-audit",
-    sectionTitle: ["Typos?", "Fuera antes del launch"],
-    sectionLead: "Detecta erratas en landings y campanas, deja notas y corrige al toque.",
+    sectionTitle: ["Typos?", "Corta antes do launch"],
+    sectionLead: "Pega errinho em landing e campanha, marca com nota e resolve na hora.",
     eyebrow: "GEN Z PICK",
     icon: "check_circle",
-    title: "Revision",
-    description: "Caza typos escondidos antes del launch. Cero drama.",
+    title: "Review",
+    description: "Acha typo escondido antes do launch. Sem drama.",
     actions: [
-      { title: "Check de typos", description: "Pilla fallos de copy", icon: "spellcheck", badge: "IA" },
-      { title: "Notas para compartir", description: "Marca el fix", icon: "rate_review" },
-      { title: "Panel de hits", description: "Solo lo importante", icon: "fact_check" },
+      { title: "Check de typo", description: "Acha vacilo no copy", icon: "spellcheck", badge: "IA" },
+      { title: "Notas pra share", description: "Mostra o fix", icon: "rate_review" },
+      { title: "Painel dos hits", description: "So o que importa", icon: "fact_check" },
     ],
     mini: "audit",
   },
   {
     id: "feature-layer-cleanup",
-    sectionTitle: ["Archivo caos?", "Clean en un clic"],
-    sectionLead: "Desbloquea capas, suelta componentes y corta frames largos para que el handoff quede editable.",
+    sectionTitle: ["Arquivo caos?", "Clean em um clique"],
+    sectionLead: "Desbloqueia camadas, solta componentes e corta frames longos pra deixar o handoff editavel.",
     eyebrow: "GEN Z PICK",
     icon: "layers",
-    title: "Capas clean",
-    description: "Cuando cae un PSD caos, lo dejas usable sin perder la tarde.",
+    title: "Camadas clean",
+    description: "Quando cai um PSD baguncado, voce deixa usavel sem gastar o dia.",
     actions: [
-      { title: "Desbloquear capas", description: "Quita bloqueos", icon: "lock_open" },
-      { title: "Soltar componentes", description: "Lo vuelve editable", icon: "link_off" },
-      { title: "Cortar frames largos", description: "Divide en bloques", icon: "splitscreen" },
+      { title: "Desbloquear camadas", description: "Tira os locks", icon: "lock_open" },
+      { title: "Soltar componentes", description: "Deixa editavel", icon: "link_off" },
+      { title: "Cortar frames longos", description: "Divide em blocos", icon: "splitscreen" },
     ],
     mini: "layers",
   },
   {
     id: "feature-align",
-    sectionTitle: ["Medios pixeles?", "Todo crispy"],
-    sectionLead: "Alinea pixeles, botones y radios para que todo se vea mas fino.",
+    sectionTitle: ["Meio pixel?", "Deixa crispy"],
+    sectionLead: "Alinha pixels, botoes e radius pra tudo ficar mais fino.",
     eyebrow: "GEN Z PICK",
     icon: "tune",
-    title: "Alinear / Fix",
-    description: "Arregla medios pixeles, botones raros y elementos torcidos en un solo flow.",
+    title: "Alinhar / Fix",
+    description: "Arruma meio pixel, botao estranho e elemento torto num fluxo so.",
     actions: [
-      { title: "Snap de pixeles", description: "Lineas mas nitidas", icon: "grid_4x4" },
-      { title: "Botones al fit", description: "Ajusta al texto", icon: "fit_screen" },
-      { title: "Bordes clean", description: "Radios en batch", icon: "rounded_corner" },
+      { title: "Snap de pixel", description: "Linha sem blur", icon: "grid_4x4" },
+      { title: "Botao no fit", description: "Ajusta no texto", icon: "fit_screen" },
+      { title: "Bordas clean", description: "Radius em lote", icon: "rounded_corner" },
     ],
     mini: "align",
   },
   {
     id: "feature-text",
-    sectionTitle: ["Copy y traduccion", "sin salir del canvas"],
-    sectionLead: "Traduce, corrige typos, resalta texto y ajusta interlinea sin salir del mockup.",
+    sectionTitle: ["Copiar e traducao", "direto no canvas"],
+    sectionLead: "Traduz, corrige typo, destaca texto e ajusta entrelinha sem sair do mockup.",
     eyebrow: "GEN Z PICK",
     icon: "text_fields",
     title: "Texto",
-    description: "Edita copy, traduce, marca y ajusta espaciado directo en el diseno.",
+    description: "Edita copy, traduz, marca e ajusta espaco direto no design.",
     actions: [
-      { title: "Traducir texto", description: "Arma drafts multiidioma", icon: "translate", badge: "IA" },
-      { title: "Fix de typos inline", description: "Aplica fixes al toque", icon: "edit_note" },
-      { title: "Highlight", description: "Marca copy clave", icon: "border_color" },
+      { title: "Traduzir texto", description: "Monta draft multiidioma", icon: "translate", badge: "IA" },
+      { title: "Fix de typo inline", description: "Aplica na hora", icon: "edit_note" },
+      { title: "Highlight", description: "Marca copy chave", icon: "border_color" },
     ],
     mini: "text",
   },
   {
     id: "feature-image-fix",
-    sectionTitle: ["Assets sueltos?", "Agarra todo al vuelo"],
-    sectionLead: "Guarda originales, saca paletas y ajusta crops sin cortar el flow.",
+    sectionTitle: ["Assets soltos?", "Puxa tudo no flow"],
+    sectionLead: "Salva originais, puxa paletas e ajusta crops sem quebrar o flow.",
     eyebrow: "GEN Z PICK",
     icon: "image",
-    title: "Fix de imagen",
-    description: "Extrae originales, revisa paletas y deja crops clean dentro del canvas.",
+    title: "Fix de imagem",
+    description: "Extrai originais, checa paletas e deixa crops clean direto no canvas.",
     actions: [
-      { title: "Guardar original", description: "Saca el source rapido", icon: "download" },
-      { title: "Sacar colores", description: "Usar como paleta", icon: "palette" },
-      { title: "Crop al punto", description: "Crop + posicion clean", icon: "crop_free" },
+      { title: "Salvar original", description: "Puxa source rapido", icon: "download" },
+      { title: "Extrair cores", description: "Usa como paleta", icon: "palette" },
+      { title: "Crop no ponto", description: "Crop + posicao clean", icon: "crop_free" },
     ],
     mini: "image",
   },
   {
     id: "feature-image-generate",
-    sectionTitle: ["Falta fondo?", "Estira el vibe"],
-    sectionLead: "Extiende imagenes, sube resolucion y saca texto para que el draft se vea mas pro.",
+    sectionTitle: ["Faltou fundo?", "Estica o mood"],
+    sectionLead: "Estende imagem, sobe resolucao e puxa texto pra deixar o draft mais pro.",
     eyebrow: "GEN Z PICK",
     icon: "auto_awesome",
-    title: "Imagen IA / Extender",
-    description: "Estira fondos recortados y mejora assets low-res para mockups con mas nivel.",
+    title: "Imagem IA / Estender",
+    description: "Estica fundo cortado e melhora asset low-res pra mockup ficar mais bonito.",
     actions: [
-      { title: "Estirar imagen", description: "Extiende fondo cortado", icon: "crop_free", badge: "IA" },
-      { title: "Subir resolucion", description: "Recupera detalle", icon: "high_quality", badge: "IA" },
-      { title: "Sacar texto de imagen", description: "Prepara capas de texto", icon: "text_fields", badge: "IA" },
+      { title: "Estender imagem", description: "Estende bg cortado", icon: "crop_free", badge: "IA" },
+      { title: "Subir resolucao", description: "Recupera detalhe", icon: "high_quality", badge: "IA" },
+      { title: "Puxar texto da imagem", description: "Prepara camada de texto", icon: "text_fields", badge: "IA" },
     ],
     mini: "generate",
   },
   {
     id: "feature-share",
-    sectionTitle: ["Links eternos?", "Dejalos cute"],
-    sectionLead: "Limpia URLs largas y links de prototipo antes de mandarlos al chat del cliente.",
+    sectionTitle: ["Link gigante?", "Deixa bonitinho"],
+    sectionLead: "Limpa URL longa e link de prototipo antes de mandar no chat do cliente.",
     eyebrow: "GEN Z PICK",
     icon: "share",
-    title: "Kit para compartir",
-    description: "Convierte links largos de Figma y prototipos en algo listo para compartir en segundos.",
+    title: "Kit de share",
+    description: "Transforma link baguncado de Figma e prototipo em share pronto em segundos.",
     actions: [
-      { title: "Link corto", description: "URL lista para compartir", icon: "link" },
+      { title: "Link curto", description: "URL pronta pra share", icon: "link" },
       { title: "Link de prototipo", description: "Copia link de review", icon: "content_copy" },
-      { title: "Crear QR", description: "Comparte link de review", icon: "qr_code_2" },
+      { title: "Criar QR", description: "Compartilha link de review", icon: "qr_code_2" },
     ],
     mini: "share",
   },
   {
     id: "feature-video",
-    sectionTitle: ["Mockups quietos?", "Con motion brillan"],
-    sectionLead: "Crea motion drafts rapidos con video IA, GIF y conversion APNG.",
+    sectionTitle: ["Mockup parado?", "Motion da brilho"],
+    sectionLead: "Cria motion draft rapido com video IA, GIF e conversao APNG.",
     eyebrow: "GEN Z PICK",
     icon: "auto_awesome",
     title: "Motion",
-    description: "Prepara banners animados y mockups short-form con video IA mas GIF/APNG.",
+    description: "Prepara banner animado e mockup short-form com video IA mais GIF/APNG.",
     actions: [
-      { title: "Video IA", description: "Genera video draft", icon: "movie", badge: "IA" },
-      { title: "Video a GIF", description: "Motion ligero para compartir", icon: "gif_box" },
-      { title: "Video a APNG", description: "Asset motion transparente", icon: "animation" },
-      { title: "Sacar thumbnail", description: "Guarda el frame clave", icon: "image" },
+      { title: "Video IA", description: "Gera video draft", icon: "movie", badge: "IA" },
+      { title: "Video pra GIF", description: "Motion leve pra share", icon: "gif_box" },
+      { title: "Video pra APNG", description: "Asset motion transparente", icon: "animation" },
+      { title: "Puxar thumb", description: "Salva frame chave", icon: "image" },
     ],
     mini: "video",
   },
 ]
 
 const featureActionDetails: Record<string, string> = {
-  "Check de typos": "Escanea titulos, botones y copy de detalle para detectar typos y frases raras primero.",
-  "Notas para compartir": "Deja notas justo donde diseno o cliente tiene que mirar.",
-  "Panel de hits": "Junta hallazgos en un panel para arreglar lo real sin perderte por todo el canvas.",
-  "Desbloquear capas": "Desbloquea capas que frenan edicion y las vuelve trabajables.",
-  "Soltar componentes": "Suelta estructuras llenas de componentes para editar texto e imagenes por separado.",
-  "Cortar frames largos": "Divide paginas largas en secciones manejables para que el archivo no pese mentalmente.",
-  "Snap de pixeles": "Mueve lineas borrosas y cajas de medios pixeles a coordenadas limpias.",
-  "Botones al fit": "Ajusta padding y tamano al label para que los botones dejen de verse raros.",
-  "Bordes clean": "Normaliza radios desparejos para que la pantalla se sienta consistente.",
-  "Traducir texto": "Mete copy multiidioma en el layout original y deja un draft listo para review.",
-  "Fix de typos inline": "Aplica typos y fixes directo en capas de texto para cortar rondas de revision.",
-  "Highlight": "Resalta copy importante o zonas de check para que el review vaya al punto.",
-  "Guardar original": "Saca imagenes embebidas de PSDs o docs para reutilizarlas.",
-  "Sacar colores": "Saca colores clave del mockup y los ordena con la guia de marca.",
-  "Crop al punto": "Ajusta crop y area visible para que el encuadre quede fino.",
-  "Estirar imagen": "Extiende fondos faltantes o imagenes cortadas para banners y paginas largas.",
-  "Subir resolucion": "Mejora imagenes pequenas o borrosas para que funcionen mejor en drafts y shares.",
-  "Sacar texto de imagen": "Saca texto de imagenes y lo prepara como capas editables.",
-  "Link corto": "Acorta URLs largas de Figma o review para que se vean clean en chat y correo.",
-  "Link de prototipo": "Copia links de prototipo rapido para compartir flows clicables.",
-  "Crear QR": "Convierte links de review en QR para abrirlos rapido en movil.",
-  "Video IA": "Convierte drafts estaticos en ejemplos motion o mockups de video.",
-  "Video a GIF": "Convierte video pesado en GIFs faciles de mandar por chat o docs.",
-  "Video a APNG": "Prepara assets APNG con transparencia para diseno.",
-  "Sacar thumbnail": "Elige un frame clave del motion y guardalo como thumbnail.",
+  "Check de typo": "Escaneia titulos, botoes e copy de detalhe pra achar typo e frase torta primeiro.",
+  "Notas pra share": "Deixa nota exatamente onde designer ou cliente precisa olhar.",
+  "Painel dos hits": "Junta tudo num painel pra voce corrigir os hits sem caçar no canvas inteiro.",
+  "Desbloquear camadas": "Desbloqueia camadas que travam edicao e transforma em objeto trabalhavel.",
+  "Soltar componentes": "Solta estruturas cheias de componentes pra editar texto e imagem separado.",
+  "Cortar frames longos": "Divide pagina longa em secoes pra arquivo ficar mais facil de tocar.",
+  "Snap de pixel": "Tira linhas e caixas borradas de meio pixel e coloca em coordenada limpa.",
+  "Botao no fit": "Ajusta padding e tamanho no label pra botao parar de ficar estranho.",
+  "Bordas clean": "Normaliza radius baguncado pra tela ficar consistente.",
+  "Traduzir texto": "Joga copy multiidioma no layout original e deixa draft pronto pra review.",
+  "Fix de typo inline": "Aplica typo e fix direto na camada de texto pra cortar rodada de revisao.",
+  "Highlight": "Destaca copy importante ou area de check pra review ir no ponto.",
+  "Salvar original": "Puxa imagens embutidas de PSDs ou docs pra reutilizar.",
+  "Extrair cores": "Extrai cores chave do mockup e organiza com a regra de marca.",
+  "Crop no ponto": "Ajusta crop e area visivel pra imagem encaixar bonito.",
+  "Estender imagem": "Estende fundo faltando ou imagem cortada pra banner e pagina longa.",
+  "Subir resolucao": "Melhora imagem pequena ou borrada pra funcionar melhor em draft e share.",
+  "Puxar texto da imagem": "Puxa texto de imagem e prepara como camada editavel.",
+  "Link curto": "Encurta URL longa de Figma ou review pra ficar clean no chat e email.",
+  "Link de prototipo": "Copia link de prototipo rapido pra flow clicavel ir pra share.",
+  "Criar QR": "Transforma link de review em QR pra abrir rapido no celular.",
+  "Video IA": "Transforma draft estatico em exemplo motion ou mockup de video.",
+  "Video pra GIF": "Converte video pesado em GIF facil de jogar no chat ou doc.",
+  "Video pra APNG": "Prepara APNG com transparencia pra uso em design.",
+  "Puxar thumb": "Pega um frame chave do motion e salva como thumb.",
 }
 
 const aiActions: ActionItem[] = [
   {
     title: "Check de vibe",
-    description: "Valida direccion rapido",
+    description: "Valida direcao rapido",
     icon: "help_outline",
     primary: true,
     badge: "IA",
   },
   {
     title: "Top 3 fixes",
-    description: "Prioriza lo que pega",
+    description: "Prioriza os hits",
     icon: "playlist_add_check",
   },
   {
-    title: "Ajustar tono del copy",
-    description: "Pulir la frase",
+    title: "Ajustar tom do copy",
+    description: "Deixa o texto liso",
     icon: "chat_bubble_outline",
   },
 ]
@@ -271,27 +271,27 @@ const aiActions: ActionItem[] = [
 const workflowSteps = [
   {
     number: "01",
-    title: "Subelo",
-    description: "Importa archivos PSD, AI, EPS, PDF, PPT y SVG.",
+    title: "Sobe o arquivo",
+    description: "Importa PSD, AI, EPS, PDF, PPT e SVG.",
     icon: "file_upload",
     active: true,
   },
   {
     number: "02",
-    title: "Dejalo clean",
-    description: "Ordena capas y texto para editarlos sin drama.",
+    title: "Deixa clean",
+    description: "Organiza camadas e texto pra editar de boa.",
     icon: "layers",
   },
   {
     number: "03",
-    title: "Ajusta lo clave",
-    description: "Aplica checks, fixes de typos y limpieza de imagen solo donde toca.",
+    title: "Ajusta o que importa",
+    description: "Aplica checks, fixes de typo e limpeza de imagem so onde precisa.",
     icon: "tune",
   },
   {
     number: "04",
-    title: "Compartelo rapido",
-    description: "Comparte por link y guarda reglas de limpieza repetibles.",
+    title: "Compartilha rapido",
+    description: "Compartilha por link e salva regras de limpeza repetiveis.",
     icon: "share",
   },
 ]
@@ -299,92 +299,92 @@ const workflowSteps = [
 const workflowLayerRows = [
   { number: "01", label: "Header / nav", color: "bg-[#111]", width: "w-[170px]" },
   { number: "02", label: "Texto hero", color: "bg-[#4b5563]", width: "w-[134px]" },
-  { number: "03", label: "Boton CTA", color: "bg-[#006bff]", width: "w-[150px]", active: true },
-  { number: "04", label: "Imagenes", color: "bg-[#7a828b]", width: "w-[118px]" },
+  { number: "03", label: "Botao CTA", color: "bg-[#006bff]", width: "w-[150px]", active: true },
+  { number: "04", label: "Imagens", color: "bg-[#7a828b]", width: "w-[118px]" },
   { number: "05", label: "Notas plugin", color: "bg-[#a6adb5]", width: "w-[150px]" },
 ]
 
 const qualityPoints = [
-  { label: "Capas", value: "Grupos y orden clean", icon: "layers" },
-  { label: "Texto", value: "Texto editable", icon: "text_fields" },
-  { label: "Imagenes", value: "Fix de imagenes rotas", icon: "image" },
-  { label: "Efectos", value: "Revisa efectos separados", icon: "auto_fix_high" },
+  { label: "Camadas", value: "Grupo e ordem clean", icon: "layers" },
+  { label: "Texto", value: "Texto editavel", icon: "text_fields" },
+  { label: "Imagens", value: "Fix de imagem quebrada", icon: "image" },
+  { label: "Efeitos", value: "Checa efeitos separados", icon: "auto_fix_high" },
 ]
 
 const useCases: UseCase[] = [
   {
-    title: "Revive PSDs viejos",
-    description: "Cuando fuentes viejas piden edits nuevos",
+    title: "Revive PSD antigo",
+    description: "Quando source antigo pede edit novo",
     icon: "history",
   },
   {
-    title: "Limpia archivos de vendors",
-    description: "Cuando el handoff necesita estandar de equipo",
+    title: "Limpa arquivo de vendor",
+    description: "Quando o handoff precisa padrao de time",
     icon: "folder_open",
   },
   {
-    title: "Cambia banners express",
-    description: "Cuando solo copy e imagenes van con swap rapido",
+    title: "Troca banner express",
+    description: "Quando so copy e imagem precisam trocar rapido",
     icon: "campaign",
   },
   {
-    title: "Rearma paginas de producto",
-    description: "Cuando outputs PSD necesitan corte y edicion",
+    title: "Rework em pagina de produto",
+    description: "Quando output PSD precisa ser cortado e editado",
     icon: "storefront",
   },
   {
-    title: "Ajusta templates de marca",
-    description: "Cuando layouts repetidos necesitan una regla clara",
+    title: "Ajusta template de marca",
+    description: "Quando layout repetido precisa de uma regra clara",
     icon: "palette",
   },
   {
-    title: "Detecta piezas faltantes",
-    description: "Cuando texto o imagenes pueden venir rotos",
+    title: "Acha pecas faltando",
+    description: "Quando texto ou imagem pode vir quebrado",
     icon: "check_circle",
   },
   {
-    title: "Ordena nombres de capas",
-    description: "Cuando nombres caoticos necesitan claridad",
+    title: "Organiza nome de camada",
+    description: "Quando nome baguncado precisa clareza",
     icon: "edit",
   },
   {
     title: "Reusa texto raster",
-    description: "Cuando texto raster debe volverse editable",
+    description: "Quando texto raster precisa virar editavel",
     icon: "text_fields",
   },
   {
-    title: "Extiende fondos de imagen",
-    description: "Cuando el fondo necesita crecer natural",
+    title: "Estende fundo de imagem",
+    description: "Quando o fundo precisa crescer natural",
     icon: "open_in_full",
   },
   {
-    title: "Saca thumbnails rapido",
-    description: "Cuando un layout necesita varios tamanos",
+    title: "Gera thumbs rapido",
+    description: "Quando um layout precisa de varios tamanhos",
     icon: "grid_view",
   },
   {
     title: "Reedita PPT/PDF",
-    description: "Cuando disenos tipo doc necesitan cambios",
+    description: "Quando design tipo doc precisa de edit",
     icon: "description",
   },
   {
-    title: "Cambia assets de campana",
-    description: "Cuando copy e imagenes de temporada cambian",
+    title: "Troca assets de campanha",
+    description: "Quando copy e imagem de campanha precisam trocar",
     icon: "shuffle",
   },
   {
-    title: "Prepara review de equipo",
-    description: "Cuando el archivo necesita orden antes de compartir",
+    title: "Prepara review do time",
+    description: "Quando arquivo precisa de padrao antes do share",
     icon: "playlist_add_check",
   },
   {
-    title: "Pide a la IA el angulo del fix",
-    description: "Cuando la pantalla necesita direccion de limpieza",
+    title: "Pede pra IA o angulo do fix",
+    description: "Quando a tela precisa de direcao de limpeza",
     icon: "auto_awesome",
   },
   {
-    title: "Guarda moves repetidos",
-    description: "Cuando reglas recurrentes deben quedarse",
+    title: "Salva moves repetidos",
+    description: "Quando regra recorrente precisa ficar salva",
     icon: "tune",
   },
 ]
@@ -394,77 +394,77 @@ const plans: PricingPlan[] = [
     key: "free",
     name: "Free",
     price: "$0",
-    description: "Prueba el flow primero. Archivos chicos, cero presion, cero drama.",
+    description: "Testa o flow primeiro. Arquivo pequeno, risco baixo, zero perrengue.",
     features: [
       { label: "Trial Basic de 7 dias", badge: "HOT" },
-      { label: "3 conversiones PSD / mes" },
-      { label: "Revisar estructura del archivo" },
-      { label: "Probar archivos pequenos" },
-      { label: "Guardar cuenta gratis" },
+      { label: "3 conversoes PSD / mes" },
+      { label: "Checar estrutura do arquivo" },
+      { label: "Testar arquivos pequenos" },
+      { label: "Criar conta gratis" },
     ],
-    cta: "Empezar gratis",
+    cta: "Comecar gratis",
   },
   {
     key: "basic",
     name: "Basic",
     price: "$2/mo",
-    description: "Los basicos de limpieza para el dia a dia, sin hacerlo pesado.",
+    description: "O kit basico de limpeza pra rotina, sem pesar.",
     features: [
-      { label: "Desbloquear capas", badge: "HOT" },
-      { label: "Cortar frames largos", badge: "HOT" },
-      { label: "30 conversiones PSD / mes" },
+      { label: "Desbloquear camadas", badge: "HOT" },
+      { label: "Cortar frames longos", badge: "HOT" },
+      { label: "30 conversoes PSD / mes" },
       { label: "Soltar componentes" },
-      { label: "Borrar capas ocultas" },
-      { label: "Quitar todas las guias" },
-      { label: "Fix de pixeles enteros" },
-      { label: "Botones auto-fit" },
-      { label: "Esquinas clean" },
-      { label: "Fix de inclinacion" },
+      { label: "Apagar camadas ocultas" },
+      { label: "Remover todas as guias" },
+      { label: "Fix de pixel inteiro" },
+      { label: "Botoes auto-fit" },
+      { label: "Cantos clean" },
+      { label: "Fix de inclinacao" },
       { label: "Highlight de texto" },
-      { label: "Interlinea de texto" },
-      { label: "Extraer color de imagen" },
-      { label: "Conversion GIF/APNG" },
+      { label: "Entrelinha do texto" },
+      { label: "Extrair cor da imagem" },
+      { label: "Conversao GIF/APNG" },
     ],
-    cta: "Elegir Basic",
+    cta: "Escolher Basic",
   },
   {
     key: "pro",
     name: "Pro",
     price: "$5/mo",
-    description: "Basic mas checks IA e imagen avanzada para produccion en modo protagonista.",
-    includedPrefix: "Funciones Basic + IA",
+    description: "Basic mais checks IA e imagem avancada pra producao modo protagonista.",
+    includedPrefix: "Funcoes Basic + IA",
     features: [
-      { label: "50 conversiones PSD / mes", badge: "HOT" },
-      { label: "Check de typos / fix inline", badge: "NEW" },
-      { label: "Traducir texto", badge: "NEW" },
-      { label: "Leer / revisar disenos" },
+      { label: "50 conversoes PSD / mes", badge: "HOT" },
+      { label: "Check de typo / fix inline", badge: "NEW" },
+      { label: "Traduzir texto", badge: "NEW" },
+      { label: "Ler / revisar designs" },
       { label: "Check de consistencia visual" },
-      { label: "Sacar texto de imagen" },
-      { label: "Buscar imagen de referencia" },
-      { label: "Edicion de imagen por prompt" },
-      { label: "Estirar imagen" },
-      { label: "Upscale de imagen" },
+      { label: "Puxar texto da imagem" },
+      { label: "Busca de imagem referencia" },
+      { label: "Edicao de imagem por prompt" },
+      { label: "Estender imagem" },
+      { label: "Upscale de imagem" },
       { label: "Upscale de objeto" },
-      { label: "Prep de automatizacion avanzada" },
+      { label: "Prep de automacao avancada" },
     ],
-    cta: "Elegir Pro",
+    cta: "Escolher Pro",
   },
 ]
 
 const fileTypes = ["PSD", "AI", "EPS", "PDF", "PPT", "SVG"]
 
 const conversionSourceRows = [
-  { label: "Copy hero fusionado", width: "w-[190px]", color: "bg-[#d8dce0]" },
+  { label: "Copy hero mesclado", width: "w-[190px]", color: "bg-[#d8dce0]" },
   { label: "Texto raster 02", width: "w-[172px]", color: "bg-[#d8dce0]" },
-  { label: "Capa 144", width: "w-[154px]", color: "bg-[#d8dce0]" },
-  { label: "Sombra fusionada", width: "w-[136px]", color: "bg-[#8c9298]" },
+  { label: "Camada 144", width: "w-[154px]", color: "bg-[#d8dce0]" },
+  { label: "Sombra mesclada", width: "w-[136px]", color: "bg-[#8c9298]" },
 ]
 
 const conversionAfterItems = [
-  { title: "Mantener estructura de capas", body: "Header / Hero / CTA" },
-  { title: "Texto editable", body: "Texto listo para editar" },
-  { title: "Imagenes + efectos clean", body: "Puntos de limpieza separados" },
-  { title: "Listo para limpieza plugin", body: "Corre checks + limpieza" },
+  { title: "Manter estrutura de camadas", body: "Header / Hero / CTA" },
+  { title: "Texto editavel", body: "Texto pronto pra editar" },
+  { title: "Imagens + efeitos clean", body: "Pontos de limpeza separados" },
+  { title: "Pronto pra limpeza plugin", body: "Roda checks + limpeza" },
 ]
 
 export default function HomePage() {
@@ -531,17 +531,17 @@ function SiteHeader() {
         </a>
         <nav className="hidden items-center justify-start gap-14 pl-7 text-base font-bold text-[#0a0a0a] md:flex">
           <a href="#product" className="transition hover:text-[#005bff]">
-            Producto
+            Produto
           </a>
           <a href="#features" className="transition hover:text-[#005bff]">
-            Funciones
+            Funcoes
           </a>
           <a href="#pricing" className="transition hover:text-[#005bff]">
-            Precios
+            Precos
           </a>
         </nav>
         <div className="flex items-center gap-2 sm:gap-5">
-          <LanguageSwitch current="es" />
+          <LanguageSwitch current="pt-br" />
           <a href="/login" className="hidden font-bold text-[#0a0a0a] transition hover:text-[#005bff] sm:inline-flex">
             Entrar
           </a>
@@ -549,7 +549,7 @@ function SiteHeader() {
             href="/signup"
             className="inline-flex h-12 min-w-[92px] items-center justify-center gap-2 rounded-xl bg-[#005bff] px-4 text-sm sm:min-w-[116px] sm:px-5 font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0] md:h-14 md:min-w-[132px] md:rounded-2xl md:px-7 md:text-base"
           >
-            Probar
+            Bora
             <MaterialIcon name="arrow_forward" className="text-[16px]" />
           </a>
         </div>
@@ -570,18 +570,18 @@ function SiteHeaderAuthenticated() {
 
         <nav className="hidden items-center justify-start gap-14 pl-7 text-base font-bold text-[#0a0a0a] md:flex">
           <a href="#product" className="transition hover:text-[#005bff]">
-            Producto
+            Produto
           </a>
           <a href="#features" className="transition hover:text-[#005bff]">
-            Funciones
+            Funcoes
           </a>
           <a href="#pricing" className="transition hover:text-[#005bff]">
-            Precios
+            Precos
           </a>
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-5">
-          <LanguageSwitch current="es" />
+          <LanguageSwitch current="pt-br" />
           {user ? (
             <>
               <a href="/dashboard" className="hidden font-bold text-[#0a0a0a] transition hover:text-[#005bff] sm:inline-flex">
@@ -598,7 +598,7 @@ function SiteHeaderAuthenticated() {
                       {user.name.slice(0, 1).toUpperCase()}
                     </span>
                   )}
-                  <span>Hola, {user.name}</span>
+                  <span>Oi, {user.name}</span>
                 </span>
               </a>
               <form action="/auth/logout" method="post">
@@ -606,7 +606,7 @@ function SiteHeaderAuthenticated() {
                   type="submit"
                   className="inline-flex h-12 min-w-[92px] items-center justify-center gap-2 rounded-xl bg-[#050505] px-4 text-sm sm:min-w-[116px] sm:px-5 font-bold text-white shadow-[0_10px_14px_rgba(0,0,0,0.12)] transition hover:-translate-y-0.5 hover:bg-[#1c1c1c] md:h-14 md:min-w-[132px] md:rounded-2xl md:px-7 md:text-base"
                 >
-                  Salir
+                  Sair
                   <MaterialIcon name="logout" className="text-[16px]" />
                 </button>
               </form>
@@ -620,7 +620,7 @@ function SiteHeaderAuthenticated() {
                 href="/signup"
                 className="inline-flex h-12 min-w-[92px] items-center justify-center gap-2 rounded-xl bg-[#005bff] px-4 text-sm sm:min-w-[116px] sm:px-5 font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0] md:h-14 md:min-w-[132px] md:rounded-2xl md:px-7 md:text-base"
               >
-                Probar
+                Bora
                 <MaterialIcon name="arrow_forward" className="text-[16px]" />
               </a>
             </>
@@ -726,22 +726,22 @@ function HeroSection() {
         </div>
         <div className="relative z-10 -mt-16">
           <p className="mx-auto mb-7 flex h-10 w-[240px] items-center justify-center rounded-[10px] text-[13px] font-black text-[#0a0a0a]">
-            FIG A PSD
+            FIG PRA PSD
           </p>
           <h1 className="mx-auto max-w-[1120px] text-[38px] font-black leading-[1.12] text-black sm:text-[52px] lg:text-[64px]">
-            Con PIGMA
+            Com PIGMA
             <br />
-            FIG a PSD, sin drama
+            FIG pra PSD, sem perrengue
           </h1>
           <p className="mx-auto mt-7 max-w-[760px] text-[17px] leading-8 text-[#5f6368] sm:text-[19px]">
-            Convierte tu trabajo de Figma en PSD listo, con la parte aburrida resuelta.
+            Transforma seu Figma em PSD pronto, com a parte chata resolvida.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
               href="#pricing"
               className="inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-[#005bff] px-6 text-[15px] font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0] sm:w-[170px]"
             >
-              Empezar gratis
+              Comecar gratis
               <MaterialIcon name="arrow_forward" className="text-[16px]" />
             </a>
             <a
@@ -749,7 +749,7 @@ function HeroSection() {
               className="inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-white px-6 text-[15px] font-bold text-[#0a0a0a] shadow-[0_10px_24px_rgba(0,0,0,0.05)] transition hover:-translate-y-0.5 sm:w-[180px]"
             >
               <MaterialIcon name="attach_money" className="text-[16px]" />
-              Ver precios
+              Ver precos
             </a>
           </div>
         </div>
@@ -786,7 +786,7 @@ function HeroWorkspace() {
             <MaterialIcon name="description" className="text-[20px]" />
             <strong className="text-sm">source.fig</strong>
           </div>
-          {["Header / Menu", "Hero / Texto", "Boton / CTA", "Efectos / Shadow"].map((item) => (
+          {["Header / Menu", "Hero / Texto", "Botao / CTA", "Efeitos / Sombra"].map((item) => (
             <div key={item} className="mt-2 flex items-center gap-3 text-xs text-[#7a7f85]">
               <span className="size-2 rounded-[2px] bg-[#d9dde1]" />
               {item}
@@ -803,15 +803,15 @@ function HeroWorkspace() {
           </div>
           <AnimatedConversionProgressBar progress={conversionProgress} className="mt-5" />
           <p className="mt-4 text-[13px] font-medium text-[#0a0a0a]">
-            Capas, texto y efectos listos para exportar a PSD
+            Camadas, texto e efeitos prontos pra exportar PSD
           </p>
         </div>
         <div className="rounded-[14px] bg-white p-5 ring-1 ring-black/5">
           <div className="mb-4 flex items-center gap-3">
             <MaterialIcon name="ios_share" className="text-[20px]" />
-            <strong className="text-lg">Listo para exportar</strong>
+            <strong className="text-lg">Pronto pra exportar</strong>
           </div>
-          {["Capas intactas", "Texto editable", "Listo para el team"].map((item) => (
+          {["Camadas intactas", "Texto editavel", "Pronto pro time"].map((item) => (
             <div key={item} className="flex h-[30px] items-center justify-between text-[15px] text-[#5f6368]">
               <span>{item}</span>
               <ConversionOptionToggle enabled={exportOptionsReady} />
@@ -901,12 +901,12 @@ function AiChatSection() {
   return (
     <section id="features" className="bg-[#050505] px-6 py-20 text-white sm:px-10 sm:py-24 lg:px-12">
       <div className="mx-auto max-w-[1248px]">
-        <p className="text-center text-[13px] font-black tracking-[0.18em] text-white/45">MENU DEL PLUGIN</p>
+        <p className="text-center text-[13px] font-black tracking-[0.18em] text-white/45">MENU DO PLUGIN</p>
         <h2 className="mx-auto mt-5 max-w-[760px] text-center text-[34px] font-black leading-[1.2] sm:text-[46px]">
-          Herramientas PIGMA listas cuando cambia el vibe
+          Ferramentas PIGMA prontas quando o mood muda
         </h2>
         <p className="mx-auto mt-5 max-w-[620px] text-center text-[15px] leading-7 text-white/62">
-          Checks, limpieza, fixes y share tools justo donde ya trabajas.
+          Checks, limpeza, fixes e share tools onde seu flow ja acontece.
         </p>
         <FeatureActionGrid />
       </div>
@@ -1008,7 +1008,7 @@ function FeatureMiniPreview({ kind }: { kind: FeatureMiniKind }) {
     case "align":
       return <AlignMiniPreview />
     case "text":
-      return <TextoMiniPreview />
+      return <TextMiniPreview />
     case "image":
       return <ImageMiniPreview />
     case "generate":
@@ -1047,7 +1047,7 @@ function AuditMiniPreview() {
         !
       </span>
       <div className="absolute left-[330px] top-[45px] h-16 w-[238px] rounded-lg border border-[#cfe0ff] bg-white">
-        <strong className="absolute left-5 top-[10px] text-[11px] leading-[11px] text-[#111827]">Alerta typo</strong>
+        <strong className="absolute left-5 top-[10px] text-[11px] leading-[11px] text-[#111827]">Alerta de typo</strong>
         <span className="absolute left-[108px] top-2 flex h-[17px] w-[30px] items-center justify-center rounded-full bg-[#006bff] text-[9px] font-black text-white">
           3
         </span>
@@ -1067,7 +1067,7 @@ function LayerMiniPreview() {
     <MiniPreviewShell>
       <MiniHeading>Layer Cleanup</MiniHeading>
       <div className="absolute left-[42px] top-[43px] h-[66px] w-[208px] rounded-lg bg-[#111]">
-        <strong className="absolute left-5 top-[10px] text-[8px] leading-[10px] text-white">Archivo caos</strong>
+        <strong className="absolute left-5 top-[10px] text-[8px] leading-[10px] text-white">Arquivo caos</strong>
         <span className="absolute left-[22px] top-[28px] size-2 rounded-full bg-[#c6d0da]" />
         <span className="absolute left-[38px] top-[30px] h-1.5 w-[96px] rounded-full bg-[#c6d0da]" />
         <span className="absolute left-[22px] top-[44px] size-2 rounded-full bg-[#c6d0da]" />
@@ -1082,7 +1082,7 @@ function LayerMiniPreview() {
         <span className="flex h-[18px] w-12 items-center justify-center rounded-full bg-[#27b36a] text-[8px] font-bold text-white">Cortar</span>
       </div>
       <div className="absolute left-[367px] top-[43px] h-[66px] w-[201px] rounded-lg border border-[#cfe0ff] bg-white">
-        <strong className="absolute left-5 top-[10px] text-[8px] leading-[10px] text-[#111827]">Clean Capas</strong>
+        <strong className="absolute left-5 top-[10px] text-[8px] leading-[10px] text-[#111827]">Camadas clean</strong>
         <span className="absolute left-5 top-[27px] h-1.5 w-[118px] rounded-full bg-[#006bff]" />
         <span className="absolute left-[145px] top-[27px] h-1.5 w-6 rounded-full bg-[#27b36a]" />
         {[0, 1, 2].map((row) => (
@@ -1114,7 +1114,7 @@ function AlignMiniPreview() {
       </div>
       <span className="absolute left-[370px] top-[66px] text-[8px] font-bold text-[#006bff]">1px</span>
       <div className="absolute left-[402px] top-[51px] h-11 w-[166px] rounded-lg border border-[#cfe0ff] bg-white">
-        <strong className="absolute left-4 top-2.5 text-[8px] leading-[10px] text-[#111827]">Botones auto-fit</strong>
+        <strong className="absolute left-4 top-2.5 text-[8px] leading-[10px] text-[#111827]">Botoes auto-fit</strong>
         <span className="absolute left-4 top-[28px] size-2 rounded-[2px] bg-[#27b36a]" />
         <span className="absolute left-[30px] top-[30px] h-1.5 w-[98px] rounded-full bg-[#006bff]" />
         <span className="absolute left-[136px] top-[28px] size-2 rounded-[2px] bg-[#27b36a]" />
@@ -1123,10 +1123,10 @@ function AlignMiniPreview() {
   )
 }
 
-function TextoMiniPreview() {
+function TextMiniPreview() {
   return (
     <MiniPreviewShell>
-      <MiniHeading>Texto Cleanup</MiniHeading>
+      <MiniHeading>Texto clean</MiniHeading>
       <div className="absolute left-[42px] top-[43px] h-[66px] w-[205px] rounded-lg border border-[#d8e3ef] bg-white">
         <span className="absolute left-[18px] top-[12px] text-[7px] font-bold text-[#9ca3af]">KR</span>
         <span className="absolute left-[18px] top-[28px] h-1.5 w-[108px] rounded-full bg-[#c6d0da]" />
@@ -1135,8 +1135,8 @@ function TextoMiniPreview() {
       </div>
       <MaterialIcon name="arrow_forward" className="absolute left-[268px] top-[68px] text-[18px] text-[#111]" />
       <div className="absolute left-[291px] top-[50px] grid gap-2">
-        <span className="flex h-[18px] w-[58px] items-center justify-center rounded-full bg-[#006bff] text-[8px] font-bold text-white">Traducir</span>
-        <span className="flex h-[18px] w-[58px] items-center justify-center rounded-full bg-[#111] text-[8px] font-bold text-white">Interlinea</span>
+        <span className="flex h-[18px] w-[58px] items-center justify-center rounded-full bg-[#006bff] text-[8px] font-bold text-white">Traduzir</span>
+        <span className="flex h-[18px] w-[58px] items-center justify-center rounded-full bg-[#111] text-[8px] font-bold text-white">Entrelinha</span>
       </div>
       <div className="absolute left-[367px] top-[43px] h-[66px] w-[201px] rounded-lg border border-[#cfe0ff] bg-white">
         <span className="absolute left-5 top-[13px] text-[7px] font-bold text-[#006bff]">EN</span>
@@ -1152,7 +1152,7 @@ function TextoMiniPreview() {
 function ImageMiniPreview() {
   return (
     <MiniPreviewShell>
-      <MiniHeading>Imagen fuente</MiniHeading>
+      <MiniHeading>Imagem source</MiniHeading>
       <div className="absolute left-[42px] top-[43px] h-[66px] w-[178px] rounded-lg border-2 border-[#006bff] bg-[#eaf3ff]">
         <div className="absolute left-[16px] top-[11px] h-6 w-[144px] rounded bg-[#d7ecff]" />
         <div className="absolute left-[16px] top-[34px] h-5 w-[144px] rounded bg-[#d7f8df]" />
@@ -1161,7 +1161,7 @@ function ImageMiniPreview() {
       </div>
       <MaterialIcon name="arrow_forward" className="absolute left-[252px] top-[68px] text-[18px] text-[#006bff]" />
       <div className="absolute left-[350px] top-[45px] h-[62px] w-[218px] rounded-lg border border-[#d8e3ef] bg-white">
-        <strong className="absolute left-5 top-3 text-[8px] leading-[10px] text-[#111827]">Fuente + paleta</strong>
+        <strong className="absolute left-5 top-3 text-[8px] leading-[10px] text-[#111827]">Source + paleta</strong>
         <span className="absolute right-[28px] top-2 flex h-[17px] w-12 items-center justify-center rounded-full bg-[#111] text-[8px] font-black text-white">PNG</span>
         {["#006bff", "#27b36a", "#ffd45a"].map((color, index) => (
           <span key={color} className="absolute top-[34px] size-[18px] rounded-full" style={{ left: `${25 + index * 31}px`, backgroundColor: color }} />
@@ -1175,7 +1175,7 @@ function ImageMiniPreview() {
 function GenerateMiniPreview() {
   return (
     <MiniPreviewShell>
-      <MiniHeading>Extender imagen IA</MiniHeading>
+      <MiniHeading>Estender imagem IA</MiniHeading>
       <div className="absolute left-[42px] top-[43px] h-[66px] w-[302px] rounded-lg border border-[#cfe0ff] bg-white">
         <div className="absolute left-4 top-3 h-9 w-[112px] rounded bg-[#eef6ff]">
           {[0, 1, 2, 3].map((dot) => (
@@ -1205,17 +1205,17 @@ function GenerateMiniPreview() {
 function ShareMiniPreview() {
   return (
     <MiniPreviewShell>
-      <MiniHeading>Kit para compartir</MiniHeading>
+      <MiniHeading>Kit de share</MiniHeading>
       <div className="absolute left-[42px] top-[45px] h-[30px] w-[225px] rounded-full border border-[#d7dee8] bg-white">
         <span className="absolute left-[18px] top-[10px] text-[7px] font-bold text-[#9ca3af]">URL</span>
         <span className="absolute left-[55px] top-[13px] h-1 w-[134px] rounded-full bg-[#c6d0da]" />
       </div>
       <MaterialIcon name="arrow_forward" className="absolute left-[280px] top-[51px] text-[20px] text-[#006bff]" />
-      <span className="absolute left-[340px] top-[43px] flex h-[34px] w-[156px] items-center justify-center rounded-xl bg-[#006bff] text-[11px] font-bold text-white">Link corto</span>
+      <span className="absolute left-[340px] top-[43px] flex h-[34px] w-[156px] items-center justify-center rounded-xl bg-[#006bff] text-[11px] font-bold text-white">Link curto</span>
       <span className="absolute left-[510px] top-[47px] flex h-[26px] w-[58px] items-center justify-center rounded-full bg-[#111] text-[10px] font-bold text-white">Copiar</span>
       <div className="absolute left-[86px] top-[88px] h-[15px] w-[373px] rounded-full bg-[#111]">
         <div className="h-full w-[66%] rounded-full bg-[#27b36a]" />
-        <span className="absolute left-[74px] top-[3px] text-[7px] font-bold leading-[9px] text-white">Prototipo listo para review</span>
+        <span className="absolute left-[74px] top-[3px] text-[7px] font-bold leading-[9px] text-white">Prototipo pronto pra review</span>
       </div>
       <span className="absolute left-[473px] top-[88px] flex h-[9px] w-[11px] items-center justify-center rounded-[3px] bg-[#27b36a] text-white">
         <MaterialIcon name="check" className="text-[7px]" />
@@ -1227,7 +1227,7 @@ function ShareMiniPreview() {
 function VideoMiniPreview() {
   return (
     <MiniPreviewShell>
-      <MiniHeading>Convertir motion</MiniHeading>
+      <MiniHeading>Converter motion</MiniHeading>
       <div className="absolute left-[42px] top-[43px] h-[66px] w-[202px] rounded-lg bg-[#111]">
         <span className="absolute left-[85px] top-[24px] flex h-5 w-7 items-center justify-center rounded bg-[#006bff] text-[10px] text-white">▶</span>
         <span className="absolute left-[126px] top-2 flex h-[18px] w-[65px] items-center justify-center rounded-full bg-[#006bff] text-[8px] font-bold text-white">IA Gen</span>
@@ -1250,16 +1250,16 @@ function AuditVisual() {
   return (
     <div className="grid content-start gap-3 rounded-[14px] border border-[#dbe7ff] bg-[#f8fbff] p-5">
       <div className="flex items-center justify-between">
-        <strong className="text-lg">Alerta typo</strong>
+        <strong className="text-lg">Alerta de typo</strong>
         <span className="inline-flex h-10 min-w-14 items-center justify-center rounded-full bg-[#006bff] px-5 text-lg font-black text-white">
           3
         </span>
       </div>
       <div className="mt-1 grid gap-3">
         {[
-          ["Check de typos", "bg-[#ff4d55]"],
-          ["Notas para compartir", "bg-[#c8d0dc]"],
-          ["Panel de hits", "bg-[#c8d0dc]"],
+          ["Check de typo", "bg-[#ff4d55]"],
+          ["Notas pra share", "bg-[#c8d0dc]"],
+          ["Painel dos hits", "bg-[#c8d0dc]"],
         ].map(([label, color]) => (
           <div key={label} className="flex items-center gap-3">
             <span className="flex size-6 items-center justify-center rounded-md bg-[#27b36a] text-white">
@@ -1285,7 +1285,7 @@ function LayerCleanupVisual() {
         </div>
       </div>
       <div className="rounded-xl bg-white p-4 shadow-sm ring-1 ring-[#e7ecf3]">
-        <strong className="text-sm">Clean Capas</strong>
+        <strong className="text-sm">Camadas clean</strong>
         <div className="mt-3 grid gap-2">
           <span className="h-2 w-4/5 rounded-full bg-[#006bff]" />
           <span className="h-2 rounded-full bg-[#c8d0dc]" />
@@ -1312,20 +1312,20 @@ function AlignmentVisual() {
         ))}
       </div>
       <div className="mt-8 rounded-full bg-[#006bff] px-5 py-3 text-center text-sm font-bold text-white">
-        Botones auto-fit
+        Botoes auto-fit
       </div>
     </div>
   )
 }
 
-function TextoVisual() {
+function TextVisual() {
   return (
     <div className="grid content-start gap-4 rounded-[14px] border border-[#dbe7ff] bg-[#f8fbff] p-5">
       <div className="flex items-center gap-4">
         <MaterialIcon name="arrow_forward" className="text-[24px] text-[#111]" />
         <div className="grid flex-1 gap-2">
-          <span className="rounded-full bg-[#006bff] px-6 py-2 text-sm font-bold text-white">Traducir</span>
-          <span className="rounded-full bg-[#111] px-6 py-2 text-sm font-bold text-white">Interlinea</span>
+          <span className="rounded-full bg-[#006bff] px-6 py-2 text-sm font-bold text-white">Traduzir</span>
+          <span className="rounded-full bg-[#111] px-6 py-2 text-sm font-bold text-white">Entrelinha</span>
         </div>
       </div>
       <div className="rounded-xl bg-white p-4 shadow-sm ring-1 ring-[#e7ecf3]">
@@ -1342,12 +1342,12 @@ function ImageSourceVisual() {
   return (
     <div className="grid content-center gap-4 rounded-[14px] border border-[#dbe7ff] bg-[#f8fbff] p-5">
       <div className="flex items-center justify-between gap-3">
-        <span className="rounded-full bg-[#006bff] px-5 py-2 text-sm font-bold text-white">Imagen fuente</span>
+        <span className="rounded-full bg-[#006bff] px-5 py-2 text-sm font-bold text-white">Imagem source</span>
         <MaterialIcon name="arrow_forward" className="text-[24px] text-[#006bff]" />
       </div>
       <div className="rounded-xl bg-white p-4 shadow-sm ring-1 ring-[#e7ecf3]">
         <div className="flex items-center justify-between">
-          <strong className="text-sm">Fuente + paleta</strong>
+          <strong className="text-sm">Source + paleta</strong>
           <span className="rounded-full bg-[#111] px-3 py-1 text-[10px] font-bold text-white">PNG</span>
         </div>
         <div className="mt-4 flex gap-2">
@@ -1371,7 +1371,7 @@ function ImageGenerateVisual() {
         <span className="h-3 self-center rounded-full bg-[#c8d0dc]" />
       </div>
       <div className="mt-6 rounded-xl bg-white p-4 text-sm shadow-sm ring-1 ring-[#e7ecf3]">
-        Extiende fondo cortado
+        Estende bg cortado
       </div>
     </div>
   )
@@ -1383,7 +1383,7 @@ function ShareVisual() {
       <div className="rounded-full bg-white px-5 py-3 text-sm font-bold text-[#9ca3af] ring-1 ring-[#d7dee8]">URL</div>
       <div className="flex items-center gap-3">
         <MaterialIcon name="arrow_forward" className="text-[24px] text-[#006bff]" />
-        <span className="flex-1 rounded-full bg-[#006bff] px-5 py-3 text-center text-sm font-bold text-white">Link corto</span>
+        <span className="flex-1 rounded-full bg-[#006bff] px-5 py-3 text-center text-sm font-bold text-white">Link curto</span>
         <span className="rounded-full bg-[#111] px-5 py-3 text-sm font-bold text-white">Copiar</span>
       </div>
       <div className="mt-2 h-4 overflow-hidden rounded-full bg-[#111]">
@@ -1424,7 +1424,7 @@ function ConvertVisual() {
       </div>
       <AnimatedConversionProgressBar progress={conversionProgress} className="mt-5" />
       <div className="mt-5 grid gap-2 text-xs text-[#657082]">
-        {["source.psd scan", "Texto extract", "Efectos Cortar"].map((item) => (
+        {["source.psd scan", "Extrair texto", "Effects Cortar"].map((item) => (
           <div key={item} className="flex items-center gap-2 rounded bg-white px-3 py-2">
             <MaterialIcon name="check" className="text-[14px] text-[#005bff]" />
             {item}
@@ -1465,7 +1465,7 @@ function ImageFixVisual() {
       </div>
       <div className="rounded-lg border border-[#dbe7ff] bg-[#f8fbff] p-4">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-black text-[#005bff]">DESPUES</span>
+          <span className="text-xs font-black text-[#005bff]">DEPOIS</span>
           <MaterialIcon name="open_in_full" className="text-[16px] text-[#005bff]" />
         </div>
         <div className="mt-5 h-20 rounded bg-white shadow-inner">
@@ -1481,9 +1481,9 @@ function PresetVisual() {
     <div className="rounded-[14px] bg-white p-5 ring-1 ring-[#e7ecf3]">
       <div className="mb-4 flex items-center gap-3">
         <MaterialIcon name="tune" className="text-[20px] text-[#005bff]" />
-        <strong className="text-lg">Reglas guardadas</strong>
+        <strong className="text-lg">Regras salvas</strong>
       </div>
-      {["Limpieza de nombres de capas", "Scan de imagenes faltantes", "Texto extract", "Efectos Cortar"].map((item) => (
+      {["Limpeza de nomes de camada", "Scan de imagem faltando", "Extrair texto", "Effects Cortar"].map((item) => (
         <div key={item} className="flex h-[34px] items-center justify-between text-sm text-[#5f6368]">
           <span>{item}</span>
           <ConversionOptionToggle enabled />
@@ -1537,14 +1537,14 @@ function WorkflowSection() {
     <section className="bg-[#fafafa] px-6 pb-[52px] pt-24 sm:px-10 lg:px-12">
       <div className="mx-auto max-w-[1248px]">
         <div className="text-center">
-          <p className="inline-flex h-10 items-center justify-center text-[13px] font-black leading-5 text-[#0a0a0a]">COMO VA</p>
+          <p className="inline-flex h-10 items-center justify-center text-[13px] font-black leading-5 text-[#0a0a0a]">COMO ROLA</p>
           <h2 className="mt-5 text-[34px] font-black leading-[1.22] text-[#0a0a0a] sm:text-[46px] sm:leading-[56px]">
-            De PSD a
+            De PSD pra
             <br />
-            Figma editable, cero estres
+            Figma editavel, sem stress
           </h2>
           <p className="mt-6 text-[18px] leading-8 text-[#5f6368] sm:text-[22px]">
-            Importa, limpia y aplica solo los fixes que importan.
+            Importa, limpa e aplica so os fixes que importam.
           </p>
         </div>
 
@@ -1593,7 +1593,7 @@ function WorkflowSection() {
               <span className="ml-2 size-2.5 rounded-full bg-[#ffbd2e]" />
               <span className="ml-2 size-2.5 rounded-full bg-[#27c93f]" />
               <span className="ml-5 text-[11px] font-black leading-4 text-white">
-                source.psd&nbsp; -&gt;&nbsp; pigma&nbsp; -&gt;&nbsp; figma listo para team
+                source.psd&nbsp; -&gt;&nbsp; pigma&nbsp; -&gt;&nbsp; figma pronto pro time
               </span>
             </div>
 
@@ -1611,7 +1611,7 @@ function WorkflowSection() {
 
 function WorkflowTransferIndicator() {
   return (
-    <div className="hidden h-[116px] items-center justify-center md:flex" aria-label="Convirtiendo">
+    <div className="hidden h-[116px] items-center justify-center md:flex" aria-label="Convertendo">
       <div className="relative flex h-12 w-full items-center justify-center">
         <span className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-[#d5dde8]" />
         <span className="relative flex size-9 items-center justify-center rounded-full bg-white text-[#005bff] shadow-[0_10px_22px_rgba(15,24,42,0.08)] ring-1 ring-[#dbe7ff]">
@@ -1630,10 +1630,10 @@ function WorkflowLayerPanel({ variant, activeStepIndex }: { variant: "source" | 
   return (
     <div className="h-[306px] rounded-[14px] bg-white px-5 pb-7 pt-6">
       <h3 className="text-[18px] font-black leading-[22px] text-[#0a0a0a]">
-        {isReady ? "figma listo para team" : "source.psd"}
+        {isReady ? "figma pronto pro time" : "source.psd"}
       </h3>
       <p className="mt-0.5 text-xs leading-[18px] text-[#7a7f85]">
-        {isReady ? "editable - compartido - revisado" : "48 capas - efectos mixtos"}
+        {isReady ? "editable · shared · reviewed" : "48 layers · mixed effects"}
       </p>
 
       <div className="mt-5 grid gap-2.5">
@@ -1683,7 +1683,7 @@ function WorkflowLayerPanel({ variant, activeStepIndex }: { variant: "source" | 
             style={{ width: `${Math.max(26, (completedLayerCount / workflowLayerRows.length) * 100)}%` }}
           />
           <span className="relative z-10 flex h-full items-center justify-center text-xs font-bold text-white">
-            Listo para compartir con el team
+            Pronto pra compartilhar com o time
           </span>
         </div>
       ) : null}
@@ -1710,15 +1710,15 @@ function FileImportSection() {
     <section className="bg-white px-6 pb-[62px] pt-[94px] sm:px-10 lg:px-12">
       <div className="mx-auto max-w-[1184px] text-center">
         <p className="inline-flex h-10 items-center justify-center text-[13px] font-black leading-5 text-[#0a0a0a]">
-          CALIDAD DE CONVERSION
+          QUALIDADE DA CONVERSAO
         </p>
         <h2 className="mt-5 text-[34px] font-black leading-[1.22] text-[#0a0a0a] sm:text-[46px] sm:leading-[56px]">
-          No es solo PSD
+          Nao e so PSD
           <br />
-          trae todo el squad de archivos
+          traz o squad inteiro de arquivos
         </h2>
         <p className="mx-auto mt-6 max-w-[960px] text-[17px] leading-[30px] text-[#5f6368] sm:text-[20px]">
-          Importa PSD, AI, EPS, PDF, PPT y SVG, y vuelve capas y texto editables en Figma.
+          Importa PSD, AI, EPS, PDF, PPT e SVG, e deixa camadas e texto editaveis no Figma.
         </p>
 
         <div className="mt-[52px] overflow-hidden rounded-2xl bg-white text-left shadow-[0_14px_40px_rgba(0,0,0,0.04)]">
@@ -1726,12 +1726,12 @@ function FileImportSection() {
             <span className="size-2.5 rounded-full bg-[#ff6b5f]" />
             <span className="ml-2 size-2.5 rounded-full bg-[#ffca4b]" />
             <span className="ml-2 size-2.5 rounded-full bg-[#32d074]" />
-            <span className="ml-8 text-[13px] leading-4">archivos fuente&nbsp; -&gt;&nbsp; pigma&nbsp; -&gt;&nbsp; figma editable</span>
+            <span className="ml-8 text-[13px] leading-4">arquivos source&nbsp; -&gt;&nbsp; pigma&nbsp; -&gt;&nbsp; figma editavel</span>
           </div>
 
           <div className="bg-[#fbfbfb] px-[34px] pb-5 pt-5">
             <div className="flex min-h-[54px] flex-wrap items-center gap-2 rounded-2xl bg-[#f4f5f6] px-6 py-3">
-              <span className="mr-5 text-[10px] font-bold leading-[14px] text-[#5f6368]">IMPORTS SOPORTADOS</span>
+              <span className="mr-5 text-[10px] font-bold leading-[14px] text-[#5f6368]">IMPORTS SUPORTADOS</span>
               {fileTypes.map((type) => (
                 <span
                   key={type}
@@ -1746,14 +1746,14 @@ function FileImportSection() {
               ))}
               <span className="ml-auto inline-flex items-center gap-2 text-[13px] font-bold text-[#111]">
                 <span className="size-2 animate-pulse rounded-full bg-[#006bff]" />
-                Seguimos soltando updates
+                Ainda vem update por ai
               </span>
             </div>
 
             <div className="mt-[22px] grid gap-8 lg:grid-cols-[340px_84px_608px] lg:items-center">
               <div className="h-[206px] rounded-[14px] bg-white p-6">
                 <p className="text-[11px] font-black leading-4 text-[#4d5157]">ANTES</p>
-                <h3 className="mt-1.5 text-[24px] font-black leading-[30px] text-black">archivos fuente</h3>
+                <h3 className="mt-1.5 text-[24px] font-black leading-[30px] text-black">arquivos source</h3>
                 <p className="mt-0.5 text-[13px] leading-[18px] text-[#9aa0a6]">psd · ai · eps · pdf · ppt · svg</p>
                 <div className="mt-4 grid gap-1">
                   {conversionSourceRows.map((row, index) => {
@@ -1773,12 +1773,12 @@ function FileImportSection() {
 
               <div className="hidden h-20 w-[84px] flex-col items-center justify-center gap-2 rounded-full bg-[#fafafa] text-[#005bff] lg:flex">
                 <MaterialIcon name="sync" className="animate-spin text-[26px]" />
-                <span className="text-[9px] font-black leading-none text-[#111]">Convirtiendo</span>
+                <span className="text-[9px] font-black leading-none text-[#111]">Convertendo</span>
               </div>
 
               <div className="h-[206px] rounded-[14px] bg-white p-6">
-                <p className="text-[11px] font-black leading-4 text-[#4f545a]">DESPUES</p>
-                <h3 className="mt-1.5 text-[24px] font-black leading-[30px] text-black">figma editable</h3>
+                <p className="text-[11px] font-black leading-4 text-[#4f545a]">DEPOIS</p>
+                <h3 className="mt-1.5 text-[24px] font-black leading-[30px] text-black">figma editavel</h3>
                 <p className="mt-0.5 text-xs leading-[18px] text-[#737373]">layers · text · images · effects are ready to edit</p>
                 <div className="mt-4 grid grid-cols-1 gap-x-8 gap-y-2 sm:grid-cols-2">
                   {conversionAfterItems.map((item, index) => {
@@ -1833,12 +1833,12 @@ function UseCasesSection() {
       <div className="mx-auto max-w-[1216px]">
         <p className="text-center text-[15px] font-bold text-[#9a9a9a]">CASOS DE USO</p>
         <h2 className="mt-5 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-center text-[32px] font-black leading-[1.25] sm:text-[36px]">
-          <span>Para estos</span>
+          <span>Nesses</span>
           <PigmaLogo className="h-[28px] w-auto brightness-0 invert sm:h-[31px]" />
-          <span>jobs, PIGMA va rapidisimo</span>
+          <span>jobs, PIGMA vai no turbo</span>
         </h2>
         <p className="mt-4 text-center text-[17px] leading-7 text-[#b8b8b8]">
-          15 momentos reales donde PIGMA ahorra scroll, estres y misiones secundarias.
+          15 momentos reais em que PIGMA salva scroll, stress e missao paralela.
         </p>
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
           {useCases.map((item, index) => {
@@ -1887,11 +1887,11 @@ function PricingSection() {
   return (
     <section id="pricing" className="px-6 py-24 sm:px-10 lg:px-12">
       <div className="mx-auto max-w-[1020px] text-center">
-        <p className="text-[13px] font-black text-[#60656b]">PRECIOS</p>
+        <p className="text-[13px] font-black text-[#60656b]">PRECOS</p>
         <h2 className="mt-7 text-[34px] font-black leading-[1.22] sm:text-[40px]">
-          Precio mini
+          Preco leve
           <br />
-          workflow de protagonista
+          workflow modo protagonista
         </h2>
         <div className="mt-12 grid gap-5 text-left md:grid-cols-3">
           {plans.map((plan) => (
@@ -1912,7 +1912,7 @@ function PricingSection() {
               ) : null}
               <div
                 className={`${plan.includedPrefix ? "mt-2" : "mt-5"} mb-7 flex min-h-[132px] flex-wrap content-start gap-1.5`}
-                aria-label={`${plan.name} funciones incluidas`}
+                aria-label={`${plan.name} funcoes inclusas`}
               >
                 {plan.features.map((feature) => (
                   <span
@@ -1933,7 +1933,7 @@ function PricingSection() {
           ))}
         </div>
         <p className="mx-auto mt-8 rounded-lg bg-[#fafafa] px-5 py-3 text-xs text-[#60656b] ring-1 ring-[#e7ecf3]">
-          Precio early basado en el MVP del plugin de Figma; puede cambiar antes del launch.
+          Preco early baseado no MVP do plugin Figma; pode mudar antes do launch.
         </p>
       </div>
     </section>
@@ -1987,7 +1987,7 @@ async function openPaddleCheckout(checkout: PaddleCheckoutConfig) {
     settings: {
       displayMode: "overlay",
       theme: "light",
-      locale: "es",
+      locale: "pt-BR",
       successUrl: checkout.successUrl,
       variant: "one-page",
     },
@@ -2031,7 +2031,7 @@ function PricingPlanButton({ plan }: { plan: PricingPlan }) {
 
       const data = (await response.json().catch(() => null)) as PaddleCheckoutResponse | null
       if (!response.ok || !data?.checkout) {
-        setCheckoutError(data?.error || "Algo fallo al abrir el checkout.")
+        setCheckoutError(data?.error || "Algo deu ruim ao abrir o checkout.")
         setPending(false)
         return
       }
@@ -2039,7 +2039,7 @@ function PricingPlanButton({ plan }: { plan: PricingPlan }) {
       await openPaddleCheckout(data.checkout)
       setPending(false)
     } catch (error) {
-      setCheckoutError(error instanceof Error ? error.message : "Algo fallo al abrir el checkout.")
+      setCheckoutError(error instanceof Error ? error.message : "Algo deu ruim ao abrir o checkout.")
       setPending(false)
     }
   }
@@ -2047,7 +2047,7 @@ function PricingPlanButton({ plan }: { plan: PricingPlan }) {
   return (
     <>
       <button type="button" onClick={startCheckout} disabled={pending} className={className}>
-        {pending ? "Abriendo checkout" : plan.cta}
+        {pending ? "Abrindo checkout" : plan.cta}
       </button>
       {checkoutError ? (
         <p className="mt-3 rounded-lg bg-[#fff4f4] px-3 py-2 text-center text-xs font-bold leading-5 text-[#d92d20] transition group-hover:bg-white/10 group-hover:text-[#ffd6db]">
@@ -2063,18 +2063,18 @@ function FinalCta() {
     <section className="bg-[#050505] px-6 py-20 text-white sm:px-10 lg:px-12">
       <div className="mx-auto flex max-w-[1120px] flex-col items-start justify-between gap-8 md:flex-row md:items-center">
         <div>
-          <p className="text-sm font-bold text-[#9a9a9a]">LISTO</p>
+          <p className="text-sm font-bold text-[#9a9a9a]">PRONTO</p>
           <h2 className="mt-4 text-[32px] font-black leading-[1.2] sm:text-[40px]">
-            PSD rapido.
+            PSD na hora.
             <br />
-            Edits igual de rapidos.
+            Edit tambem fica rapido.
           </h2>
         </div>
         <a
           href="#pricing"
           className="inline-flex h-[52px] items-center justify-center gap-2 rounded-xl bg-[#005bff] px-6 text-[15px] font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0]"
         >
-          Empezar gratis
+          Comecar gratis
           <MaterialIcon name="arrow_forward" className="text-[16px]" />
         </a>
       </div>
@@ -2088,29 +2088,29 @@ function SiteFooter() {
       <div className="mx-auto flex max-w-[1120px] flex-col gap-6 border-t border-white/10 pt-8 text-sm text-white/60 md:flex-row md:items-center md:justify-between">
         <div>
           <PigmaLogo className="h-[18px] w-[100px] brightness-0 invert" />
-          <span>Un plugin que convierte PSD en estructura lista para Figma</span>
+          <span>Um plugin que transforma PSD em estrutura pronta pro Figma</span>
         </div>
         <div className="flex flex-wrap gap-6">
           <a href="#product" className="transition hover:text-white">
-            Producto
+            Produto
           </a>
           <a href="#features" className="transition hover:text-white">
-            Funciones
+            Funcoes
           </a>
           <a href="#pricing" className="transition hover:text-white">
-            Precios
+            Precos
           </a>
           <a href="/login" className="transition hover:text-white">
             Entrar
           </a>
           <a href="/signup" className="transition hover:text-white">
-            Crear cuenta
+            Criar conta
           </a>
           <a href="/terms" className="transition hover:text-white">
-            Terminos
+            Termos
           </a>
           <a href="/privacy" className="transition hover:text-white">
-            Privacidad
+            Privacidade
           </a>
           <a href="/refund-policy" className="transition hover:text-white">
             Reembolsos
