@@ -740,7 +740,7 @@ function HeroWorkspace() {
   return (
     <div
       id="product"
-      className="mt-0 w-full overflow-hidden rounded-2xl bg-white text-left shadow-[0_14px_40px_rgba(0,0,0,0.04)]"
+      className="mt-12 w-full overflow-hidden rounded-2xl bg-white text-left shadow-[0_14px_40px_rgba(0,0,0,0.04)]"
     >
       <div className="flex h-11 items-center gap-2 bg-[#090909] px-5 text-white">
         <span className="size-2.5 rounded-full bg-[#ff6b5a]" />
