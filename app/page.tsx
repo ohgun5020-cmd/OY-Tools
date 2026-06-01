@@ -644,7 +644,7 @@ function PigmaLogo({ className = "" }: { className?: string }) {
 
 function HeroSection() {
   return (
-    <section id="top" className="bg-[#fafafa] px-6 pb-24 pt-0 sm:px-10 lg:px-12">
+    <section id="top" className="bg-white px-6 pb-24 pt-0 sm:px-10 lg:px-12">
       <div className="mx-auto max-w-[1120px] text-center">
         <div className="pointer-events-none relative z-0 mx-auto w-full max-w-[980px] overflow-hidden select-none">
           <video
