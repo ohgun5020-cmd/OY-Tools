@@ -1835,8 +1835,10 @@ function UseCasesSection() {
         <p className="text-center text-[15px] font-bold text-[#9a9a9a]">USE CASES</p>
         <h2 className="mt-5 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-center text-[32px] font-black leading-[1.25] sm:text-[36px]">
           <span>こんな時に</span>
-          <PigmaLogo className="h-[28px] w-auto brightness-0 invert sm:h-[31px]" />
-          <span>PIGMAが速い</span>
+          <span className="inline-flex items-center gap-x-3">
+            <PigmaLogo className="h-[28px] w-auto brightness-0 invert sm:h-[31px]" />
+            <span>が速い</span>
+          </span>
         </h2>
         <p className="mt-4 text-center text-[17px] leading-7 text-[#b8b8b8]">
           作業中に「これ欲しかった」となる15の使いどころ。
