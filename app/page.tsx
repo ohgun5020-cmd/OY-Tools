@@ -689,12 +689,12 @@ function HeroDemoVideo() {
 
 function HeroSection() {
   return (
-    <section id="top" className="bg-white px-6 pb-24 pt-0 sm:px-10 lg:px-12">
-      <div className="mx-auto -mt-[60px] max-w-[1120px] text-center">
-        <div className="pointer-events-none relative z-0 mx-auto w-full max-w-[980px] overflow-hidden select-none">
+    <section id="top" className="bg-white px-6 pb-20 pt-0 sm:px-10 lg:px-12">
+      <div className="mx-auto -mt-12 max-w-[1120px] text-center">
+        <div className="pointer-events-none relative z-0 mx-auto w-[80%] max-w-[784px] overflow-hidden select-none">
           <HeroDemoVideo />
         </div>
-        <div className="relative z-10 -mt-20">
+        <div className="relative z-10 -mt-16">
           <p className="mx-auto mb-7 flex h-10 w-[240px] items-center justify-center gap-2 rounded-[10px] text-[13px] font-black text-[#0a0a0a]">
             <span>PSD EXPORT TO</span>
             <PigmaLogo className="h-[10px] w-auto" />
@@ -740,7 +740,7 @@ function HeroWorkspace() {
   return (
     <div
       id="product"
-      className="mt-12 w-full overflow-hidden rounded-2xl bg-white text-left shadow-[0_14px_40px_rgba(0,0,0,0.04)]"
+      className="mt-10 w-full overflow-hidden rounded-2xl bg-white text-left shadow-[0_14px_40px_rgba(0,0,0,0.04)]"
     >
       <div className="flex h-11 items-center gap-2 bg-[#090909] px-5 text-white">
         <span className="size-2.5 rounded-full bg-[#ff6b5a]" />
