@@ -297,11 +297,11 @@ const workflowSteps = [
 ]
 
 const workflowLayerRows = [
-  { number: "01", label: "Header / nav", color: "bg-[#111]", width: "w-[170px]" },
-  { number: "02", label: "Hero text", color: "bg-[#4b5563]", width: "w-[134px]" },
-  { number: "03", label: "CTA button", color: "bg-[#006bff]", width: "w-[150px]", active: true },
+  { number: "01", label: "ヘッダー / ナビ", color: "bg-[#111]", width: "w-[170px]" },
+  { number: "02", label: "ヒーロー文言", color: "bg-[#4b5563]", width: "w-[134px]" },
+  { number: "03", label: "CTAボタン", color: "bg-[#006bff]", width: "w-[150px]", active: true },
   { number: "04", label: "画像", color: "bg-[#7a828b]", width: "w-[118px]" },
-  { number: "05", label: "Plugin notes", color: "bg-[#a6adb5]", width: "w-[150px]" },
+  { number: "05", label: "プラグインメモ", color: "bg-[#a6adb5]", width: "w-[150px]" },
 ]
 
 const qualityPoints = [
@@ -454,14 +454,14 @@ const plans: PricingPlan[] = [
 const fileTypes = ["PSD", "AI", "EPS", "PDF", "PPT", "SVG"]
 
 const conversionSourceRows = [
-  { label: "Hero copy merged", width: "w-[190px]", color: "bg-[#d8dce0]" },
+  { label: "ヒーロー文言結合", width: "w-[190px]", color: "bg-[#d8dce0]" },
   { label: "テキスト raster 02", width: "w-[172px]", color: "bg-[#d8dce0]" },
   { label: "Layer 144", width: "w-[154px]", color: "bg-[#d8dce0]" },
   { label: "Shadow merged", width: "w-[136px]", color: "bg-[#8c9298]" },
 ]
 
 const conversionAfterItems = [
-  { title: "レイヤー構造を維持", body: "Header / Hero / CTA" },
+  { title: "レイヤー構造を維持", body: "ヘッダー / ヒーロー / CTA" },
   { title: "編集可能テキスト", body: "文字修正OK" },
   { title: "画像と効果を整理", body: "補正ポイントを分離" },
   { title: "プラグイン補正に接続", body: "チェックと整理を即実行" },
@@ -774,10 +774,10 @@ function HeroWorkspace() {
         <span className="size-2.5 rounded-full bg-[#21c55d]" />
         <span className="ml-3 inline-flex items-center gap-2 text-sm">
           <PigmaLogo className="h-[10px] w-auto brightness-0 invert" />
-          export workspace
+          書き出しワークスペース
         </span>
         <span className="ml-auto hidden text-[11px] text-white/80 md:inline">
-          source.fig -&gt; <PigmaLogo className="inline-block h-[8px] w-auto brightness-0 invert" /> -&gt; exported psd
+          source.fig -&gt; <PigmaLogo className="inline-block h-[8px] w-auto brightness-0 invert" /> -&gt; PSD書き出し
         </span>
       </div>
       <div className="grid min-w-0 gap-5 p-7 lg:grid-cols-[300px_1fr_302px]">
@@ -786,7 +786,7 @@ function HeroWorkspace() {
             <MaterialIcon name="description" className="text-[20px]" />
             <strong className="text-sm">source.fig</strong>
           </div>
-          {["Header / Menu", "Hero / テキスト", "Button / CTA", "Effects / Shadow"].map((item) => (
+          {["ヘッダー / メニュー", "ヒーロー / テキスト", "ボタン / CTA", "効果 / 影"].map((item) => (
             <div key={item} className="mt-2 flex items-center gap-3 text-xs text-[#7a7f85]">
               <span className="size-2 rounded-[2px] bg-[#d9dde1]" />
               {item}
@@ -904,7 +904,7 @@ function AiChatSection() {
         <p className="text-center text-[13px] font-black tracking-[0.18em] text-white/45">PLUGIN MENU</p>
         <h2 className="mx-auto mt-5 max-w-[760px] text-center text-[34px] font-black leading-[1.2] sm:text-[46px]">
           <span className="block">よく使うPIGMAツール、</span>
-          <span className="block">ノリよく集合</span>
+          <span className="block">サクッと集合</span>
         </h2>
         <p className="mx-auto mt-5 max-w-[620px] text-center text-[15px] leading-7 text-white/62">
           チェック、整理、補正、共有まで、作業中にそのまま使えるようにまとめました。
@@ -1594,7 +1594,7 @@ function WorkflowSection() {
               <span className="ml-2 size-2.5 rounded-full bg-[#ffbd2e]" />
               <span className="ml-2 size-2.5 rounded-full bg-[#27c93f]" />
               <span className="ml-5 text-[11px] font-black leading-4 text-white">
-                source.psd&nbsp; -&gt;&nbsp; pigma&nbsp; -&gt;&nbsp; team-ready figma
+                source.psd&nbsp; -&gt;&nbsp; pigma&nbsp; -&gt;&nbsp; 共有OK Figma
               </span>
             </div>
 
@@ -1631,10 +1631,10 @@ function WorkflowLayerPanel({ variant, activeStepIndex }: { variant: "source" | 
   return (
     <div className="h-[306px] rounded-[14px] bg-white px-5 pb-7 pt-6">
       <h3 className="text-[18px] font-black leading-[22px] text-[#0a0a0a]">
-        {isReady ? "team-ready figma" : "source.psd"}
+        {isReady ? "共有OK Figma" : "source.psd"}
       </h3>
       <p className="mt-0.5 text-xs leading-[18px] text-[#7a7f85]">
-        {isReady ? "editable · shared · reviewed" : "48 layers · mixed effects"}
+        {isReady ? "編集OK · 共有OK · 確認済み" : "48レイヤー · 効果混在"}
       </p>
 
       <div className="mt-5 grid gap-2.5">
@@ -1727,12 +1727,12 @@ function FileImportSection() {
             <span className="size-2.5 rounded-full bg-[#ff6b5f]" />
             <span className="ml-2 size-2.5 rounded-full bg-[#ffca4b]" />
             <span className="ml-2 size-2.5 rounded-full bg-[#32d074]" />
-            <span className="ml-8 text-[13px] leading-4">source files&nbsp; -&gt;&nbsp; pigma&nbsp; -&gt;&nbsp; editable figma</span>
+            <span className="ml-8 text-[13px] leading-4">元ファイル&nbsp; -&gt;&nbsp; pigma&nbsp; -&gt;&nbsp; 編集できるFigma</span>
           </div>
 
           <div className="bg-[#fbfbfb] px-[34px] pb-5 pt-5">
             <div className="flex min-h-[54px] flex-wrap items-center gap-2 rounded-2xl bg-[#f4f5f6] px-6 py-3">
-              <span className="mr-5 text-[10px] font-bold leading-[14px] text-[#5f6368]">SUPPORTED IMPORTS</span>
+              <span className="mr-5 text-[10px] font-bold leading-[14px] text-[#5f6368]">対応フォーマット</span>
               {fileTypes.map((type) => (
                 <span
                   key={type}
@@ -1754,7 +1754,7 @@ function FileImportSection() {
             <div className="mt-[22px] grid gap-8 lg:grid-cols-[340px_84px_608px] lg:items-center">
               <div className="h-[206px] rounded-[14px] bg-white p-6">
                 <p className="text-[11px] font-black leading-4 text-[#4d5157]">BEFORE</p>
-                <h3 className="mt-1.5 text-[24px] font-black leading-[30px] text-black">source files</h3>
+                <h3 className="mt-1.5 text-[24px] font-black leading-[30px] text-black">元ファイル</h3>
                 <p className="mt-0.5 text-[13px] leading-[18px] text-[#9aa0a6]">psd · ai · eps · pdf · ppt · svg</p>
                 <div className="mt-4 grid gap-1">
                   {conversionSourceRows.map((row, index) => {
@@ -1779,8 +1779,8 @@ function FileImportSection() {
 
               <div className="h-[206px] rounded-[14px] bg-white p-6">
                 <p className="text-[11px] font-black leading-4 text-[#4f545a]">AFTER</p>
-                <h3 className="mt-1.5 text-[24px] font-black leading-[30px] text-black">editable figma</h3>
-                <p className="mt-0.5 text-xs leading-[18px] text-[#737373]">layers · text · images · effects are ready to edit</p>
+                <h3 className="mt-1.5 text-[24px] font-black leading-[30px] text-black">編集できるFigma</h3>
+                <p className="mt-0.5 text-xs leading-[18px] text-[#737373]">レイヤー · テキスト · 画像 · 効果まで編集OK</p>
                 <div className="mt-4 grid grid-cols-1 gap-x-8 gap-y-2 sm:grid-cols-2">
                   {conversionAfterItems.map((item, index) => {
                     const isComplete = index < completedAfterCount

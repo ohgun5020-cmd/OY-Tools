@@ -107,7 +107,7 @@ const featureSlides: FeatureSlideConfig[] = [
     description: "Spot sneaky typos before launch day. No drama.",
     actions: [
       { title: "Typo Check", description: "Find copy slips", icon: "spellcheck", badge: "AI" },
-      { title: "Share Notes", description: "Point fixes out", icon: "rate_review" },
+      { title: "Share Notes", description: "Call out fixes", icon: "rate_review" },
       { title: "Result Panel", description: "Review only hits", icon: "fact_check" },
     ],
     mini: "audit",
@@ -400,7 +400,7 @@ const plans: PricingPlan[] = [
       { label: "3 PSD conversions / month" },
       { label: "Check file structure" },
       { label: "Test small files" },
-      { label: "Save a free account" },
+      { label: "Create a free account" },
     ],
     cta: "Start free",
   },
@@ -1834,7 +1834,7 @@ function UseCasesSection() {
       <div className="mx-auto max-w-[1216px]">
         <p className="text-center text-[15px] font-bold text-[#9a9a9a]">USE CASES</p>
         <h2 className="mt-5 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-center text-[32px] font-black leading-[1.25] sm:text-[36px]">
-          <span>For these,</span>
+          <span>When work gets messy,</span>
           <span className="inline-flex items-center gap-x-3">
             <PigmaLogo className="h-[28px] w-auto brightness-0 invert sm:h-[31px]" />
             <span>moves fast</span>

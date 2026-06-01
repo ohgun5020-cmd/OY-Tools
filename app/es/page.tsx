@@ -99,11 +99,11 @@ type FeatureSlideConfig = {
 const featureSlides: FeatureSlideConfig[] = [
   {
     id: "feature-audit",
-    sectionTitle: ["Typos?", "Fuera antes del launch"],
-    sectionLead: "Detecta erratas en landings y campanas, deja notas y corrige al toque.",
+    sectionTitle: ["¿Typos?", "Fuera antes del launch"],
+    sectionLead: "Detecta erratas en landings y campañas, deja notas y corrige al toque.",
     eyebrow: "GEN Z PICK",
     icon: "check_circle",
-    title: "Revision",
+    title: "Revisión",
     description: "Caza typos escondidos antes del launch. Cero drama.",
     actions: [
       { title: "Check de typos", description: "Pilla fallos de copy", icon: "spellcheck", badge: "IA" },
@@ -114,7 +114,7 @@ const featureSlides: FeatureSlideConfig[] = [
   },
   {
     id: "feature-layer-cleanup",
-    sectionTitle: ["Archivo caos?", "Clean en un clic"],
+    sectionTitle: ["¿Archivo caos?", "Clean en un clic"],
     sectionLead: "Desbloquea capas, suelta componentes y corta frames largos para que el handoff quede editable.",
     eyebrow: "GEN Z PICK",
     icon: "layers",
@@ -129,14 +129,14 @@ const featureSlides: FeatureSlideConfig[] = [
   },
   {
     id: "feature-align",
-    sectionTitle: ["Medios pixeles?", "Todo crispy"],
-    sectionLead: "Alinea pixeles, botones y radios para que todo se vea mas fino.",
+    sectionTitle: ["¿Medios píxeles?", "Todo crispy"],
+    sectionLead: "Alinea píxeles, botones y radios para que todo se vea más fino.",
     eyebrow: "GEN Z PICK",
     icon: "tune",
     title: "Alinear / Fix",
-    description: "Arregla medios pixeles, botones raros y elementos torcidos en un solo flow.",
+    description: "Arregla medios píxeles, botones raros y elementos torcidos en un solo flow.",
     actions: [
-      { title: "Snap de pixeles", description: "Lineas mas nitidas", icon: "grid_4x4" },
+      { title: "Snap de píxeles", description: "Líneas más nítidas", icon: "grid_4x4" },
       { title: "Botones al fit", description: "Ajusta al texto", icon: "fit_screen" },
       { title: "Bordes clean", description: "Radios en batch", icon: "rounded_corner" },
     ],
@@ -144,12 +144,12 @@ const featureSlides: FeatureSlideConfig[] = [
   },
   {
     id: "feature-text",
-    sectionTitle: ["Copy y traduccion", "sin salir del canvas"],
-    sectionLead: "Traduce, corrige typos, resalta texto y ajusta interlinea sin salir del mockup.",
+    sectionTitle: ["Copy y traducción", "sin salir del canvas"],
+    sectionLead: "Traduce, corrige typos, resalta texto y ajusta interlínea sin salir del mockup.",
     eyebrow: "GEN Z PICK",
     icon: "text_fields",
     title: "Texto",
-    description: "Edita copy, traduce, marca y ajusta espaciado directo en el diseno.",
+    description: "Edita copy, traduce, marca y ajusta espaciado directo en el diseño.",
     actions: [
       { title: "Traducir texto", description: "Arma drafts multiidioma", icon: "translate", badge: "IA" },
       { title: "Fix de typos inline", description: "Aplica fixes al toque", icon: "edit_note" },
@@ -166,30 +166,30 @@ const featureSlides: FeatureSlideConfig[] = [
     title: "Fix de imagen",
     description: "Extrae originales, revisa paletas y deja crops clean dentro del canvas.",
     actions: [
-      { title: "Guardar original", description: "Saca el source rapido", icon: "download" },
+      { title: "Guardar original", description: "Saca el source rápido", icon: "download" },
       { title: "Sacar colores", description: "Usar como paleta", icon: "palette" },
-      { title: "Crop al punto", description: "Crop + posicion clean", icon: "crop_free" },
+      { title: "Crop al punto", description: "Crop + posición clean", icon: "crop_free" },
     ],
     mini: "image",
   },
   {
     id: "feature-image-generate",
-    sectionTitle: ["Falta fondo?", "Estira el vibe"],
-    sectionLead: "Extiende imagenes, sube resolucion y saca texto para que el draft se vea mas pro.",
+    sectionTitle: ["¿Falta fondo?", "Estira el vibe"],
+    sectionLead: "Extiende imágenes, sube resolución y saca texto para que el draft se vea más pro.",
     eyebrow: "GEN Z PICK",
     icon: "auto_awesome",
     title: "Imagen IA / Extender",
-    description: "Estira fondos recortados y mejora assets low-res para mockups con mas nivel.",
+    description: "Estira fondos recortados y mejora assets low-res para mockups con más nivel.",
     actions: [
       { title: "Estirar imagen", description: "Extiende fondo cortado", icon: "crop_free", badge: "IA" },
-      { title: "Subir resolucion", description: "Recupera detalle", icon: "high_quality", badge: "IA" },
+      { title: "Subir resolución", description: "Recupera detalle", icon: "high_quality", badge: "IA" },
       { title: "Sacar texto de imagen", description: "Prepara capas de texto", icon: "text_fields", badge: "IA" },
     ],
     mini: "generate",
   },
   {
     id: "feature-share",
-    sectionTitle: ["Links eternos?", "Dejalos cute"],
+    sectionTitle: ["¿Links eternos?", "Déjalos cute"],
     sectionLead: "Limpia URLs largas y links de prototipo antes de mandarlos al chat del cliente.",
     eyebrow: "GEN Z PICK",
     icon: "share",
@@ -204,12 +204,12 @@ const featureSlides: FeatureSlideConfig[] = [
   },
   {
     id: "feature-video",
-    sectionTitle: ["Mockups quietos?", "Con motion brillan"],
-    sectionLead: "Crea motion drafts rapidos con video IA, GIF y conversion APNG.",
+    sectionTitle: ["¿Mockups quietos?", "Con motion brillan"],
+    sectionLead: "Crea motion drafts rápidos con video IA, GIF y conversión APNG.",
     eyebrow: "GEN Z PICK",
     icon: "auto_awesome",
     title: "Motion",
-    description: "Prepara banners animados y mockups short-form con video IA mas GIF/APNG.",
+    description: "Prepara banners animados y mockups short-form con video IA más GIF/APNG.",
     actions: [
       { title: "Video IA", description: "Genera video draft", icon: "movie", badge: "IA" },
       { title: "Video a GIF", description: "Motion ligero para compartir", icon: "gif_box" },
@@ -221,37 +221,37 @@ const featureSlides: FeatureSlideConfig[] = [
 ]
 
 const featureActionDetails: Record<string, string> = {
-  "Check de typos": "Escanea titulos, botones y copy de detalle para detectar typos y frases raras primero.",
-  "Notas para compartir": "Deja notas justo donde diseno o cliente tiene que mirar.",
+  "Check de typos": "Escanea títulos, botones y copy de detalle para detectar typos y frases raras primero.",
+  "Notas para compartir": "Deja notas justo donde diseño o cliente tiene que mirar.",
   "Panel de hits": "Junta hallazgos en un panel para arreglar lo real sin perderte por todo el canvas.",
-  "Desbloquear capas": "Desbloquea capas que frenan edicion y las vuelve trabajables.",
-  "Soltar componentes": "Suelta estructuras llenas de componentes para editar texto e imagenes por separado.",
-  "Cortar frames largos": "Divide paginas largas en secciones manejables para que el archivo no pese mentalmente.",
-  "Snap de pixeles": "Mueve lineas borrosas y cajas de medios pixeles a coordenadas limpias.",
-  "Botones al fit": "Ajusta padding y tamano al label para que los botones dejen de verse raros.",
+  "Desbloquear capas": "Desbloquea capas que frenan edición y las vuelve trabajables.",
+  "Soltar componentes": "Suelta estructuras llenas de componentes para editar texto e imágenes por separado.",
+  "Cortar frames largos": "Divide páginas largas en secciones manejables para que el archivo no pese mentalmente.",
+  "Snap de píxeles": "Mueve líneas borrosas y cajas de medios píxeles a coordenadas limpias.",
+  "Botones al fit": "Ajusta padding y tamaño al label para que los botones dejen de verse raros.",
   "Bordes clean": "Normaliza radios desparejos para que la pantalla se sienta consistente.",
   "Traducir texto": "Mete copy multiidioma en el layout original y deja un draft listo para review.",
-  "Fix de typos inline": "Aplica typos y fixes directo en capas de texto para cortar rondas de revision.",
+  "Fix de typos inline": "Aplica typos y fixes directo en capas de texto para cortar rondas de revisión.",
   "Highlight": "Resalta copy importante o zonas de check para que el review vaya al punto.",
-  "Guardar original": "Saca imagenes embebidas de PSDs o docs para reutilizarlas.",
-  "Sacar colores": "Saca colores clave del mockup y los ordena con la guia de marca.",
-  "Crop al punto": "Ajusta crop y area visible para que el encuadre quede fino.",
-  "Estirar imagen": "Extiende fondos faltantes o imagenes cortadas para banners y paginas largas.",
-  "Subir resolucion": "Mejora imagenes pequenas o borrosas para que funcionen mejor en drafts y shares.",
-  "Sacar texto de imagen": "Saca texto de imagenes y lo prepara como capas editables.",
+  "Guardar original": "Saca imágenes embebidas de PSDs o docs para reutilizarlas.",
+  "Sacar colores": "Saca colores clave del mockup y los ordena con la guía de marca.",
+  "Crop al punto": "Ajusta crop y área visible para que el encuadre quede fino.",
+  "Estirar imagen": "Extiende fondos faltantes o imágenes cortadas para banners y páginas largas.",
+  "Subir resolución": "Mejora imágenes pequeñas o borrosas para que funcionen mejor en drafts y shares.",
+  "Sacar texto de imagen": "Saca texto de imágenes y lo prepara como capas editables.",
   "Link corto": "Acorta URLs largas de Figma o review para que se vean clean en chat y correo.",
-  "Link de prototipo": "Copia links de prototipo rapido para compartir flows clicables.",
-  "Crear QR": "Convierte links de review en QR para abrirlos rapido en movil.",
-  "Video IA": "Convierte drafts estaticos en ejemplos motion o mockups de video.",
-  "Video a GIF": "Convierte video pesado en GIFs faciles de mandar por chat o docs.",
-  "Video a APNG": "Prepara assets APNG con transparencia para diseno.",
-  "Sacar thumbnail": "Elige un frame clave del motion y guardalo como thumbnail.",
+  "Link de prototipo": "Copia links de prototipo rápido para compartir flows clicables.",
+  "Crear QR": "Convierte links de review en QR para abrirlos rápido en móvil.",
+  "Video IA": "Convierte drafts estáticos en ejemplos motion o mockups de video.",
+  "Video a GIF": "Convierte video pesado en GIFs fáciles de mandar por chat o docs.",
+  "Video a APNG": "Prepara assets APNG con transparencia para diseño.",
+  "Sacar thumbnail": "Elige un frame clave del motion y guárdalo como thumbnail.",
 }
 
 const aiActions: ActionItem[] = [
   {
     title: "Check de vibe",
-    description: "Valida direccion rapido",
+    description: "Valida dirección rápido",
     icon: "help_outline",
     primary: true,
     badge: "IA",
@@ -271,14 +271,14 @@ const aiActions: ActionItem[] = [
 const workflowSteps = [
   {
     number: "01",
-    title: "Subelo",
+    title: "Súbelo",
     description: "Importa archivos PSD, AI, EPS, PDF, PPT y SVG.",
     icon: "file_upload",
     active: true,
   },
   {
     number: "02",
-    title: "Dejalo clean",
+    title: "Déjalo clean",
     description: "Ordena capas y texto para editarlos sin drama.",
     icon: "layers",
   },
@@ -290,7 +290,7 @@ const workflowSteps = [
   },
   {
     number: "04",
-    title: "Compartelo rapido",
+    title: "Compártelo rápido",
     description: "Comparte por link y guarda reglas de limpieza repetibles.",
     icon: "share",
   },
@@ -299,15 +299,15 @@ const workflowSteps = [
 const workflowLayerRows = [
   { number: "01", label: "Header / nav", color: "bg-[#111]", width: "w-[170px]" },
   { number: "02", label: "Texto hero", color: "bg-[#4b5563]", width: "w-[134px]" },
-  { number: "03", label: "Boton CTA", color: "bg-[#006bff]", width: "w-[150px]", active: true },
-  { number: "04", label: "Imagenes", color: "bg-[#7a828b]", width: "w-[118px]" },
+  { number: "03", label: "Botón CTA", color: "bg-[#006bff]", width: "w-[150px]", active: true },
+  { number: "04", label: "Imágenes", color: "bg-[#7a828b]", width: "w-[118px]" },
   { number: "05", label: "Notas plugin", color: "bg-[#a6adb5]", width: "w-[150px]" },
 ]
 
 const qualityPoints = [
   { label: "Capas", value: "Grupos y orden clean", icon: "layers" },
   { label: "Texto", value: "Texto editable", icon: "text_fields" },
-  { label: "Imagenes", value: "Fix de imagenes rotas", icon: "image" },
+  { label: "Imágenes", value: "Fix de imágenes rotas", icon: "image" },
   { label: "Efectos", value: "Revisa efectos separados", icon: "auto_fix_high" },
 ]
 
@@ -319,17 +319,17 @@ const useCases: UseCase[] = [
   },
   {
     title: "Limpia archivos de vendors",
-    description: "Cuando el handoff necesita estandar de equipo",
+    description: "Cuando el handoff necesita estándar de equipo",
     icon: "folder_open",
   },
   {
     title: "Cambia banners express",
-    description: "Cuando solo copy e imagenes van con swap rapido",
+    description: "Cuando solo copy e imágenes van con swap rápido",
     icon: "campaign",
   },
   {
-    title: "Rearma paginas de producto",
-    description: "Cuando outputs PSD necesitan corte y edicion",
+    title: "Rearma páginas de producto",
+    description: "Cuando outputs PSD necesitan corte y edición",
     icon: "storefront",
   },
   {
@@ -339,12 +339,12 @@ const useCases: UseCase[] = [
   },
   {
     title: "Detecta piezas faltantes",
-    description: "Cuando texto o imagenes pueden venir rotos",
+    description: "Cuando texto o imágenes pueden venir rotos",
     icon: "check_circle",
   },
   {
     title: "Ordena nombres de capas",
-    description: "Cuando nombres caoticos necesitan claridad",
+    description: "Cuando nombres caóticos necesitan claridad",
     icon: "edit",
   },
   {
@@ -358,18 +358,18 @@ const useCases: UseCase[] = [
     icon: "open_in_full",
   },
   {
-    title: "Saca thumbnails rapido",
-    description: "Cuando un layout necesita varios tamanos",
+    title: "Saca thumbnails rápido",
+    description: "Cuando un layout necesita varios tamaños",
     icon: "grid_view",
   },
   {
     title: "Reedita PPT/PDF",
-    description: "Cuando disenos tipo doc necesitan cambios",
+    description: "Cuando diseños tipo doc necesitan cambios",
     icon: "description",
   },
   {
-    title: "Cambia assets de campana",
-    description: "Cuando copy e imagenes de temporada cambian",
+    title: "Cambia assets de campaña",
+    description: "Cuando copy e imágenes de temporada cambian",
     icon: "shuffle",
   },
   {
@@ -378,8 +378,8 @@ const useCases: UseCase[] = [
     icon: "playlist_add_check",
   },
   {
-    title: "Pide a la IA el angulo del fix",
-    description: "Cuando la pantalla necesita direccion de limpieza",
+    title: "Pide a la IA el enfoque del fix",
+    description: "Cuando la pantalla necesita dirección de limpieza",
     icon: "auto_awesome",
   },
   {
@@ -394,12 +394,12 @@ const plans: PricingPlan[] = [
     key: "free",
     name: "Free",
     price: "$0",
-    description: "Prueba el flow primero. Archivos chicos, cero presion, cero drama.",
+    description: "Prueba el flow primero. Archivos chicos, cero presión, cero drama.",
     features: [
-      { label: "Trial Basic de 7 dias", badge: "HOT" },
+      { label: "Trial Basic de 7 días", badge: "HOT" },
       { label: "3 conversiones PSD / mes" },
       { label: "Revisar estructura del archivo" },
-      { label: "Probar archivos pequenos" },
+      { label: "Probar archivos pequeños" },
       { label: "Guardar cuenta gratis" },
     ],
     cta: "Empezar gratis",
@@ -408,22 +408,22 @@ const plans: PricingPlan[] = [
     key: "basic",
     name: "Basic",
     price: "$2/mo",
-    description: "Los basicos de limpieza para el dia a dia, sin hacerlo pesado.",
+    description: "Los básicos de limpieza para el día a día, sin hacerlo pesado.",
     features: [
       { label: "Desbloquear capas", badge: "HOT" },
       { label: "Cortar frames largos", badge: "HOT" },
       { label: "30 conversiones PSD / mes" },
       { label: "Soltar componentes" },
       { label: "Borrar capas ocultas" },
-      { label: "Quitar todas las guias" },
-      { label: "Fix de pixeles enteros" },
+      { label: "Quitar todas las guías" },
+      { label: "Fix de píxeles enteros" },
       { label: "Botones auto-fit" },
       { label: "Esquinas clean" },
-      { label: "Fix de inclinacion" },
+      { label: "Fix de inclinación" },
       { label: "Highlight de texto" },
-      { label: "Interlinea de texto" },
+      { label: "Interlínea de texto" },
       { label: "Extraer color de imagen" },
-      { label: "Conversion GIF/APNG" },
+      { label: "Conversión GIF/APNG" },
     ],
     cta: "Elegir Basic",
   },
@@ -431,21 +431,21 @@ const plans: PricingPlan[] = [
     key: "pro",
     name: "Pro",
     price: "$5/mo",
-    description: "Basic mas checks IA e imagen avanzada para produccion en modo protagonista.",
+    description: "Basic más checks IA e imagen avanzada para producción en modo protagonista.",
     includedPrefix: "Funciones Basic + IA",
     features: [
       { label: "50 conversiones PSD / mes", badge: "HOT" },
       { label: "Check de typos / fix inline", badge: "NEW" },
       { label: "Traducir texto", badge: "NEW" },
-      { label: "Leer / revisar disenos" },
+      { label: "Leer / revisar diseños" },
       { label: "Check de consistencia visual" },
       { label: "Sacar texto de imagen" },
       { label: "Buscar imagen de referencia" },
-      { label: "Edicion de imagen por prompt" },
+      { label: "Edición de imagen por prompt" },
       { label: "Estirar imagen" },
       { label: "Upscale de imagen" },
       { label: "Upscale de objeto" },
-      { label: "Prep de automatizacion avanzada" },
+      { label: "Prep de automatización avanzada" },
     ],
     cta: "Elegir Pro",
   },
@@ -463,7 +463,7 @@ const conversionSourceRows = [
 const conversionAfterItems = [
   { title: "Mantener estructura de capas", body: "Header / Hero / CTA" },
   { title: "Texto editable", body: "Texto listo para editar" },
-  { title: "Imagenes + efectos clean", body: "Puntos de limpieza separados" },
+  { title: "Imágenes + efectos clean", body: "Puntos de limpieza separados" },
   { title: "Listo para limpieza plugin", body: "Corre checks + limpieza" },
 ]
 
@@ -786,7 +786,7 @@ function HeroWorkspace() {
             <MaterialIcon name="description" className="text-[20px]" />
             <strong className="text-sm">source.fig</strong>
           </div>
-          {["Header / Menu", "Hero / Texto", "Boton / CTA", "Efectos / Shadow"].map((item) => (
+          {["Header / Menu", "Hero / Texto", "Botón / CTA", "Efectos / Shadow"].map((item) => (
             <div key={item} className="mt-2 flex items-center gap-3 text-xs text-[#7a7f85]">
               <span className="size-2 rounded-[2px] bg-[#d9dde1]" />
               {item}
@@ -797,7 +797,7 @@ function HeroWorkspace() {
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-center gap-3">
               <MaterialIcon name="autorenew" className="text-[24px] text-[#0a0a0a]" />
-              <h2 className="text-[22px] font-black leading-none">Export automatico</h2>
+              <h2 className="text-[22px] font-black leading-none">Export automático</h2>
             </div>
             <AnimatedConversionProgressValue progress={conversionProgress} className="text-4xl" />
           </div>
@@ -1136,7 +1136,7 @@ function TextoMiniPreview() {
       <MaterialIcon name="arrow_forward" className="absolute left-[268px] top-[68px] text-[18px] text-[#111]" />
       <div className="absolute left-[291px] top-[50px] grid gap-2">
         <span className="flex h-[18px] w-[58px] items-center justify-center rounded-full bg-[#006bff] text-[8px] font-bold text-white">Traducir</span>
-        <span className="flex h-[18px] w-[58px] items-center justify-center rounded-full bg-[#111] text-[8px] font-bold text-white">Interlinea</span>
+        <span className="flex h-[18px] w-[58px] items-center justify-center rounded-full bg-[#111] text-[8px] font-bold text-white">Interlínea</span>
       </div>
       <div className="absolute left-[367px] top-[43px] h-[66px] w-[201px] rounded-lg border border-[#cfe0ff] bg-white">
         <span className="absolute left-5 top-[13px] text-[7px] font-bold text-[#006bff]">EN</span>
@@ -1325,7 +1325,7 @@ function TextoVisual() {
         <MaterialIcon name="arrow_forward" className="text-[24px] text-[#111]" />
         <div className="grid flex-1 gap-2">
           <span className="rounded-full bg-[#006bff] px-6 py-2 text-sm font-bold text-white">Traducir</span>
-          <span className="rounded-full bg-[#111] px-6 py-2 text-sm font-bold text-white">Interlinea</span>
+          <span className="rounded-full bg-[#111] px-6 py-2 text-sm font-bold text-white">Interlínea</span>
         </div>
       </div>
       <div className="rounded-xl bg-white p-4 shadow-sm ring-1 ring-[#e7ecf3]">
@@ -1424,7 +1424,7 @@ function ConvertVisual() {
       </div>
       <AnimatedConversionProgressBar progress={conversionProgress} className="mt-5" />
       <div className="mt-5 grid gap-2 text-xs text-[#657082]">
-        {["source.psd scan", "Texto extract", "Efectos Cortar"].map((item) => (
+        {["source.psd scan", "Texto extract", "Cortar efectos"].map((item) => (
           <div key={item} className="flex items-center gap-2 rounded bg-white px-3 py-2">
             <MaterialIcon name="check" className="text-[14px] text-[#005bff]" />
             {item}
@@ -1465,7 +1465,7 @@ function ImageFixVisual() {
       </div>
       <div className="rounded-lg border border-[#dbe7ff] bg-[#f8fbff] p-4">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-black text-[#005bff]">DESPUES</span>
+          <span className="text-xs font-black text-[#005bff]">DESPUÉS</span>
           <MaterialIcon name="open_in_full" className="text-[16px] text-[#005bff]" />
         </div>
         <div className="mt-5 h-20 rounded bg-white shadow-inner">
@@ -1483,7 +1483,7 @@ function PresetVisual() {
         <MaterialIcon name="tune" className="text-[20px] text-[#005bff]" />
         <strong className="text-lg">Reglas guardadas</strong>
       </div>
-      {["Limpieza de nombres de capas", "Scan de imagenes faltantes", "Texto extract", "Efectos Cortar"].map((item) => (
+      {["Limpieza de nombres de capas", "Scan de imágenes faltantes", "Texto extract", "Cortar efectos"].map((item) => (
         <div key={item} className="flex h-[34px] items-center justify-between text-sm text-[#5f6368]">
           <span>{item}</span>
           <ConversionOptionToggle enabled />
@@ -1731,7 +1731,7 @@ function FileImportSection() {
 
           <div className="bg-[#fbfbfb] px-[34px] pb-5 pt-5">
             <div className="flex min-h-[54px] flex-wrap items-center gap-2 rounded-2xl bg-[#f4f5f6] px-6 py-3">
-              <span className="mr-5 text-[10px] font-bold leading-[14px] text-[#5f6368]">IMPORTS SOPORTADOS</span>
+              <span className="mr-5 text-[10px] font-bold leading-[14px] text-[#5f6368]">FORMATOS SOPORTADOS</span>
               {fileTypes.map((type) => (
                 <span
                   key={type}
@@ -1777,9 +1777,9 @@ function FileImportSection() {
               </div>
 
               <div className="h-[206px] rounded-[14px] bg-white p-6">
-                <p className="text-[11px] font-black leading-4 text-[#4f545a]">DESPUES</p>
+                <p className="text-[11px] font-black leading-4 text-[#4f545a]">DESPUÉS</p>
                 <h3 className="mt-1.5 text-[24px] font-black leading-[30px] text-black">figma editable</h3>
-                <p className="mt-0.5 text-xs leading-[18px] text-[#737373]">layers · text · images · effects are ready to edit</p>
+                <p className="mt-0.5 text-xs leading-[18px] text-[#737373]">capas · texto · imágenes · efectos listos para editar</p>
                 <div className="mt-4 grid grid-cols-1 gap-x-8 gap-y-2 sm:grid-cols-2">
                   {conversionAfterItems.map((item, index) => {
                     const isComplete = index < completedAfterCount
@@ -1833,10 +1833,10 @@ function UseCasesSection() {
       <div className="mx-auto max-w-[1216px]">
         <p className="text-center text-[15px] font-bold text-[#9a9a9a]">CASOS DE USO</p>
         <h2 className="mt-5 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-center text-[32px] font-black leading-[1.25] sm:text-[36px]">
-          <span>Para esto,</span>
+          <span>Cuando urge,</span>
           <span className="inline-flex items-center gap-x-3">
             <PigmaLogo className="h-[28px] w-auto brightness-0 invert sm:h-[31px]" />
-            <span>va rapidisimo</span>
+            <span>va rapidísimo</span>
           </span>
         </h2>
         <p className="mt-4 text-center text-[17px] leading-7 text-[#b8b8b8]">
@@ -1959,10 +1959,10 @@ function loadPaddle() {
       if (window.Paddle) {
         resolve(window.Paddle)
       } else {
-        reject(new Error("Could not load Paddle.js."))
+        reject(new Error("No se pudo cargar Paddle.js."))
       }
     })
-    script.addEventListener("error", () => reject(new Error("Could not load Paddle.js.")))
+    script.addEventListener("error", () => reject(new Error("No se pudo cargar Paddle.js.")))
 
     if (!existingScript) {
       script.src = "https://cdn.paddle.com/paddle/v2/paddle.js"
@@ -2033,7 +2033,7 @@ function PricingPlanButton({ plan }: { plan: PricingPlan }) {
 
       const data = (await response.json().catch(() => null)) as PaddleCheckoutResponse | null
       if (!response.ok || !data?.checkout) {
-        setCheckoutError(data?.error || "Algo fallo al abrir el checkout.")
+        setCheckoutError(data?.error || "Algo falló al abrir el checkout.")
         setPending(false)
         return
       }
@@ -2041,7 +2041,7 @@ function PricingPlanButton({ plan }: { plan: PricingPlan }) {
       await openPaddleCheckout(data.checkout)
       setPending(false)
     } catch (error) {
-      setCheckoutError(error instanceof Error ? error.message : "Algo fallo al abrir el checkout.")
+      setCheckoutError(error instanceof Error ? error.message : "Algo falló al abrir el checkout.")
       setPending(false)
     }
   }
@@ -2067,9 +2067,9 @@ function FinalCta() {
         <div>
           <p className="text-sm font-bold text-[#9a9a9a]">LISTO</p>
           <h2 className="mt-4 text-[32px] font-black leading-[1.2] sm:text-[40px]">
-            PSD rapido.
+            PSD rápido.
             <br />
-            Edits igual de rapidos.
+            Edits igual de rápidos.
           </h2>
         </div>
         <a
