@@ -402,7 +402,7 @@ const plans: PricingPlan[] = [
       { label: "小さめファイルでテスト" },
       { label: "無料アカウント保存" },
     ],
-    cta: "無料でスタート",
+    cta: "無料スタート",
   },
   {
     key: "basic",
@@ -739,9 +739,9 @@ function HeroSection() {
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
               href="#pricing"
-              className="inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-[#005bff] px-6 text-[15px] font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0] sm:w-[170px]"
+              className="inline-flex h-[52px] w-full items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-[#005bff] px-6 text-[15px] font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0] sm:w-[170px]"
             >
-              無料でスタート
+              無料スタート
               <MaterialIcon name="arrow_forward" className="text-[16px]" />
             </a>
             <a
@@ -2072,9 +2072,9 @@ function FinalCta() {
         </div>
         <a
           href="#pricing"
-          className="inline-flex h-[52px] items-center justify-center gap-2 rounded-xl bg-[#005bff] px-6 text-[15px] font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0]"
+          className="inline-flex h-[52px] items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-[#005bff] px-6 text-[15px] font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0]"
         >
-          無料でスタート
+          無料スタート
           <MaterialIcon name="arrow_forward" className="text-[16px]" />
         </a>
       </div>
