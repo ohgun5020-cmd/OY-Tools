@@ -397,7 +397,7 @@ const plans: PricingPlan[] = [
     description: "Testa o flow primeiro. Arquivo pequeno, risco baixo, zero perrengue.",
     features: [
       { label: "Trial Basic de 7 dias", badge: "HOT" },
-      { label: "3 conversões PSD / dia" },
+      { label: "3 conversões PSD / dia por 7 dias" },
       { label: "Checar estrutura do arquivo" },
       { label: "Testar arquivos pequenos" },
       { label: "Criar conta grátis" },

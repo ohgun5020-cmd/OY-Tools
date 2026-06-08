@@ -397,7 +397,7 @@ const plans: PricingPlan[] = [
     description: "Try the flow first. Small files, low stakes, zero drama.",
     features: [
       { label: "7-day Basic trial", badge: "HOT" },
-      { label: "3 PSD conversions / day" },
+      { label: "3 PSD conversions / day for 7 days" },
       { label: "Check file structure" },
       { label: "Test small files" },
       { label: "Create a free account" },

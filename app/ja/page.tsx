@@ -397,7 +397,7 @@ const plans: PricingPlan[] = [
     description: "まずは気軽にお試し。小さめファイルで流れをサクッと確認。",
     features: [
       { label: "Basic 7日トライアル", badge: "HOT" },
-      { label: "1日3回 PSD変換" },
+      { label: "7日間 1日3回 PSD変換" },
       { label: "ファイル構造チェック" },
       { label: "小さめファイルでテスト" },
       { label: "無料アカウント保存" },

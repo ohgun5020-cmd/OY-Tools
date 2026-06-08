@@ -4,6 +4,7 @@ import path from "node:path"
 import { DatabaseSync } from "node:sqlite"
 
 import { cookies } from "next/headers"
+import { getPlanEntitlement } from "./plan-entitlements"
 
 export const SESSION_COOKIE = "pigma_session"
 const PASSWORD_PREFIX = "scrypt"
@@ -278,8 +279,8 @@ function pad2(value: number) {
   return String(value).padStart(2, "0")
 }
 
-function getPsdQuotaConfig(plan: string): PsdQuotaConfig {
-  const normalizedPlan = String(plan || "free").toLowerCase()
+function getPsdQuotaConfig(user: Pick<AuthUser, "plan" | "createdAt">): PsdQuotaConfig {
+  const normalizedPlan = String(user.plan || "free").toLowerCase()
 
   if (normalizedPlan === "admin") {
     return {
@@ -308,10 +309,21 @@ function getPsdQuotaConfig(plan: string): PsdQuotaConfig {
     }
   }
 
+  const entitlement = getPlanEntitlement(user)
+
+  if (entitlement.basicTrialActive) {
+    return {
+      plan: "free",
+      planLabel: "무료 체험",
+      limit: 3,
+      period: "day",
+    }
+  }
+
   return {
     plan: "free",
-    planLabel: "무료 회원",
-    limit: 3,
+    planLabel: "무료 체험 종료",
+    limit: 0,
     period: "day",
   }
 }
@@ -753,8 +765,8 @@ export function cleanupExpiredPluginConnectionRequests() {
   getDb().prepare("DELETE FROM plugin_connection_requests WHERE expires_at <= ?").run(nowIso())
 }
 
-export function getPsdUsage(user: Pick<AuthUser, "id" | "plan">): PsdUsageState {
-  const quota = getPsdQuotaConfig(user.plan)
+export function getPsdUsage(user: Pick<AuthUser, "id" | "plan" | "createdAt">): PsdUsageState {
+  const quota = getPsdQuotaConfig(user)
   const period = getPsdPeriod(quota.period)
   const row = getDb()
     .prepare("SELECT COALESCE(SUM(amount), 0) AS used FROM psd_usage_events WHERE user_id = ? AND period_key = ?")
@@ -776,7 +788,7 @@ export function getPsdUsage(user: Pick<AuthUser, "id" | "plan">): PsdUsageState 
 }
 
 export function consumePsdUsage(
-  user: Pick<AuthUser, "id" | "plan">,
+  user: Pick<AuthUser, "id" | "plan" | "createdAt">,
   input: { source?: string; idempotencyKey?: string | null } = {},
 ): PsdUsageConsumeResult {
   const database = getDb()
@@ -853,7 +865,7 @@ export function consumePsdUsage(
 }
 
 export function releasePsdUsage(
-  user: Pick<AuthUser, "id" | "plan">,
+  user: Pick<AuthUser, "id" | "plan" | "createdAt">,
   input: { source?: string; idempotencyKey?: string | null } = {},
 ): PsdUsageReleaseResult {
   const database = getDb()
