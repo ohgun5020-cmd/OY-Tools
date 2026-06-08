@@ -397,7 +397,7 @@ const plans: PricingPlan[] = [
     description: "Prueba el flow primero. Archivos chicos, cero presión, cero drama.",
     features: [
       { label: "Trial Basic de 7 días", badge: "HOT" },
-      { label: "3 conversiones PSD / mes" },
+      { label: "3 conversiones PSD / día" },
       { label: "Revisar estructura del archivo" },
       { label: "Probar archivos pequeños" },
       { label: "Guardar cuenta gratis" },
@@ -412,7 +412,7 @@ const plans: PricingPlan[] = [
     features: [
       { label: "Desbloquear capas", badge: "HOT" },
       { label: "Cortar frames largos", badge: "HOT" },
-      { label: "30 conversiones PSD / mes" },
+      { label: "50 conversiones PSD / mes" },
       { label: "Soltar componentes" },
       { label: "Borrar capas ocultas" },
       { label: "Quitar todas las guías" },
@@ -434,7 +434,7 @@ const plans: PricingPlan[] = [
     description: "Basic más checks IA e imagen avanzada para producción en modo protagonista.",
     includedPrefix: "Funciones Basic + IA",
     features: [
-      { label: "50 conversiones PSD / mes", badge: "HOT" },
+      { label: "300 conversiones PSD / mes", badge: "HOT" },
       { label: "Check de typos / fix inline", badge: "NEW" },
       { label: "Traducir texto", badge: "NEW" },
       { label: "Leer / revisar diseños" },

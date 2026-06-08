@@ -2,7 +2,7 @@ import { redirect } from "next/navigation"
 
 import { logoutAction } from "../auth/actions"
 import { isAdminUser } from "@/lib/admin"
-import { getCurrentUser, getUserStats } from "@/lib/auth"
+import { getCurrentUser, getPsdUsage, getUserStats } from "@/lib/auth"
 
 export const dynamic = "force-dynamic"
 export const runtime = "nodejs"
@@ -11,7 +11,7 @@ const planLabels: Record<string, string> = {
   free: "Free",
   basic: "Basic",
   pro: "Pro",
-  admin: "Admin",
+  admin: "관리자",
 }
 
 const statusLabels: Record<string, string> = {
@@ -60,6 +60,29 @@ function formatDate(value: string | null) {
     month: "long",
     day: "numeric",
   }).format(date)
+}
+
+function formatResetDate(value: string) {
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) {
+    return "확인 중"
+  }
+
+  return new Intl.DateTimeFormat("ko-KR", {
+    timeZone: "Asia/Seoul",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(date)
+}
+
+function formatUsageCount(value: number | null) {
+  return value === null ? "무제한" : `${value}회`
+}
+
+function formatPsdPeriod(period: string) {
+  return period === "day" ? "오늘" : "이번 달"
 }
 
 function getStatusTone(status: string) {
@@ -121,16 +144,22 @@ export default async function DashboardPage() {
   }
 
   const stats = getUserStats(user.id)
+  const psdUsage = getPsdUsage(user)
   const joinedAt = formatDate(user.createdAt) || "확인 중"
   const renewsAt = formatDate(user.planRenewsAt)
   const hasBillingProfile = Boolean(user.billingCustomerId || user.billingPortalUrl || process.env.PADDLE_CUSTOMER_PORTAL_URL)
   const hasPaidPlan = user.plan !== "free" || Boolean(user.billingSubscriptionId)
   const nextBillingLabel = renewsAt || (hasPaidPlan ? "Paddle에서 확인" : "무료 플랜")
   const isAdmin = isAdminUser(user)
+  const psdPeriodLabel = formatPsdPeriod(psdUsage.period)
+  const psdRemainingLabel = formatUsageCount(psdUsage.remaining)
+  const psdLimitLabel = formatUsageCount(psdUsage.limit)
+  const psdResetLabel = formatResetDate(psdUsage.resetsAt)
 
   const summaryItems = [
     ["현재 플랜", getPlanLabel(user.plan), "workspace_premium"],
     ["결제 상태", getStatusLabel(user.planStatus), "receipt_long"],
+    ["PSD 남음", psdRemainingLabel, "counter_4"],
     ["로그인 방식", user.provider.toUpperCase(), "verified_user"],
     ["활성 세션", `${stats.activeSessions}개`, "key"],
   ]
@@ -174,7 +203,7 @@ export default async function DashboardPage() {
               이곳에 연결할 예정입니다.
             </p>
 
-            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
               {summaryItems.map(([label, value, icon]) => (
                 <div key={label} className="rounded-xl bg-[#f7f9fc] p-5 ring-1 ring-[#e7ecf3]">
                   <MaterialIcon name={icon} className="text-[22px] text-[#005bff]" />
@@ -217,6 +246,50 @@ export default async function DashboardPage() {
               <MaterialIcon name="south" className="text-[17px]" />
             </a>
           </aside>
+        </section>
+
+        <section
+          id="usage"
+          className="mt-6 rounded-2xl bg-white p-7 shadow-[0_18px_40px_rgba(15,24,42,0.06)] ring-1 ring-[#e7ecf3] sm:p-8"
+        >
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+            <div>
+              <p className="text-sm font-black tracking-[0.18em] text-[#005bff]">PSD USAGE</p>
+              <h2 className="mt-3 text-[30px] font-black sm:text-[38px]">PSD 만들기 사용량</h2>
+              <p className="mt-3 max-w-[620px] text-[15px] leading-7 text-[#60656b]">
+                플러그인에서 PSD 만들기가 성공하면 웹 DB에 1회씩 기록됩니다.
+              </p>
+            </div>
+            <span className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-full bg-[#eef5ff] px-4 text-sm font-black text-[#005bff] ring-1 ring-[#c8ddff]">
+              <MaterialIcon name="database" className="text-[17px]" />
+              웹 기준
+            </span>
+          </div>
+
+          <div className="mt-7 grid gap-4 md:grid-cols-4">
+            <div className="rounded-2xl bg-[#f7f9fc] p-5 ring-1 ring-[#e7ecf3]">
+              <p className="text-xs font-black tracking-[0.14em] text-[#7a828b]">CURRENT MEMBER</p>
+              <p className="mt-3 text-[28px] font-black">{psdUsage.planLabel}</p>
+              <p className="mt-1 text-sm font-bold text-[#60656b]">현재 계정에 적용된 회원 구분입니다.</p>
+            </div>
+            <div className="rounded-2xl bg-[#f7f9fc] p-5 ring-1 ring-[#e7ecf3]">
+              <p className="text-xs font-black tracking-[0.14em] text-[#7a828b]">REMAINING</p>
+              <p className="mt-3 text-[30px] font-black">{psdRemainingLabel}</p>
+              <p className="mt-1 text-sm font-bold text-[#60656b]">
+                {psdUsage.unlimited ? "제한 없이 사용할 수 있습니다." : `${psdPeriodLabel} 기준 ${psdLimitLabel} 중 남은 횟수입니다.`}
+              </p>
+            </div>
+            <div className="rounded-2xl bg-[#f7f9fc] p-5 ring-1 ring-[#e7ecf3]">
+              <p className="text-xs font-black tracking-[0.14em] text-[#7a828b]">USED</p>
+              <p className="mt-3 text-[30px] font-black">{psdUsage.used}회</p>
+              <p className="mt-1 text-sm font-bold text-[#60656b]">{psdPeriodLabel} 사용한 PSD 만들기 횟수입니다.</p>
+            </div>
+            <div className="rounded-2xl bg-[#f7f9fc] p-5 ring-1 ring-[#e7ecf3]">
+              <p className="text-xs font-black tracking-[0.14em] text-[#7a828b]">RESET</p>
+              <p className="mt-3 text-[24px] font-black">{psdResetLabel}</p>
+              <p className="mt-1 text-sm font-bold text-[#60656b]">한국 시간 기준으로 다음 기간이 시작됩니다.</p>
+            </div>
+          </div>
         </section>
 
         <section

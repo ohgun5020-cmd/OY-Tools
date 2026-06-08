@@ -404,7 +404,7 @@ const plans: PricingPlan[] = [
     description: "일단 가볍게 찍먹. 작은 파일로 변환 흐름부터 확인해요.",
     features: [
       { label: "Basic 7일 체험", badge: "HOT" },
-      { label: "월 3회 PSD 변환" },
+      { label: "하루 3회 PSD 변환" },
       { label: "파일 구조 확인" },
       { label: "작은 파일 테스트" },
       { label: "무료 계정 저장" },
@@ -419,7 +419,7 @@ const plans: PricingPlan[] = [
     features: [
       { label: "잠긴 레이어 해제", badge: "HOT" },
       { label: "긴 프레임 나누기", badge: "HOT" },
-      { label: "월 30회 PSD 변환" },
+      { label: "월 50회 PSD 변환" },
       { label: "컴포넌트 해제" },
       { label: "숨긴 레이어 삭제" },
       { label: "가이드 전체 삭제" },
@@ -441,7 +441,7 @@ const plans: PricingPlan[] = [
     description: "Basic 기능에 AI 검수와 고급 이미지 작업까지 얹은 본격 작업용 플랜이에요.",
     includedPrefix: "Basic 기능 + AI까지",
     features: [
-      { label: "월 50회 PSD 변환", badge: "HOT" },
+      { label: "월 300회 PSD 변환", badge: "HOT" },
       { label: "오타 검수/직접 수정", badge: "NEW" },
       { label: "텍스트 번역", badge: "NEW" },
       { label: "디자인 읽기/검수" },

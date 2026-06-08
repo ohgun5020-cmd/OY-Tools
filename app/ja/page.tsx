@@ -397,7 +397,7 @@ const plans: PricingPlan[] = [
     description: "まずは気軽にお試し。小さめファイルで流れをサクッと確認。",
     features: [
       { label: "Basic 7日トライアル", badge: "HOT" },
-      { label: "月3回 PSD変換" },
+      { label: "1日3回 PSD変換" },
       { label: "ファイル構造チェック" },
       { label: "小さめファイルでテスト" },
       { label: "無料アカウント保存" },
@@ -412,7 +412,7 @@ const plans: PricingPlan[] = [
     features: [
       { label: "ロック解除", badge: "HOT" },
       { label: "長いフレーム分割", badge: "HOT" },
-      { label: "月30回 PSD変換" },
+      { label: "月50回 PSD変換" },
       { label: "コンポーネント解除" },
       { label: "非表示レイヤー削除" },
       { label: "ガイド一括削除" },
@@ -434,7 +434,7 @@ const plans: PricingPlan[] = [
     description: "Basic機能にAIチェックと高度な画像作業まで載せた、本気作業向けプラン。",
     includedPrefix: "Basic機能 + AI",
     features: [
-      { label: "月50回 PSD変換", badge: "HOT" },
+      { label: "月300回 PSD変換", badge: "HOT" },
       { label: "誤字チェック/直接修正", badge: "NEW" },
       { label: "テキスト翻訳", badge: "NEW" },
       { label: "デザイン読解/チェック" },

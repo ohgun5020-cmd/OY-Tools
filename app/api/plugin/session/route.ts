@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"
 
 import { getAppUrl } from "@/lib/app-url"
 import { isAdminUser } from "@/lib/admin"
-import { getUserByPluginAccessToken } from "@/lib/auth"
+import { getPsdUsage, getUserByPluginAccessToken } from "@/lib/auth"
 import { getPlanEntitlement } from "@/lib/plan-entitlements"
 
 export const runtime = "nodejs"
@@ -48,12 +48,15 @@ export async function GET(request: Request) {
             createdAt: user.createdAt,
             isAdmin: isAdminUser(user),
             entitlement: getPlanEntitlement(user),
+            psdUsage: getPsdUsage(user),
           }
         : null,
       links: {
         connect: `${appUrl}/plugin/connect`,
         dashboard: `${appUrl}/dashboard`,
         billing: `${appUrl}/dashboard#billing`,
+        psdUsage: `${appUrl}/api/plugin/psd-usage`,
+        psdUsageConsume: `${appUrl}/api/plugin/psd-usage/consume`,
         pricing: `${appUrl}/#pricing`,
         ai: `${appUrl}/api/plugin/ai`,
       },

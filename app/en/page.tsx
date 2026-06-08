@@ -397,7 +397,7 @@ const plans: PricingPlan[] = [
     description: "Try the flow first. Small files, low stakes, zero drama.",
     features: [
       { label: "7-day Basic trial", badge: "HOT" },
-      { label: "3 PSD conversions / month" },
+      { label: "3 PSD conversions / day" },
       { label: "Check file structure" },
       { label: "Test small files" },
       { label: "Create a free account" },
@@ -412,7 +412,7 @@ const plans: PricingPlan[] = [
     features: [
       { label: "Unlock Layers", badge: "HOT" },
       { label: "Split Long Frames", badge: "HOT" },
-      { label: "30 PSD conversions / month" },
+      { label: "50 PSD conversions / month" },
       { label: "Detach Components" },
       { label: "Delete hidden layers" },
       { label: "Remove all guides" },
@@ -434,7 +434,7 @@ const plans: PricingPlan[] = [
     description: "Basic plus AI checks and advanced image work for main-character production.",
     includedPrefix: "Basic features + AI",
     features: [
-      { label: "50 PSD conversions / month", badge: "HOT" },
+      { label: "300 PSD conversions / month", badge: "HOT" },
       { label: "Typo check / inline fix", badge: "NEW" },
       { label: "Translate Text", badge: "NEW" },
       { label: "Read / review designs" },

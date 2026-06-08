@@ -41,9 +41,36 @@ type SessionRow = {
   expires_at: string
 }
 
+type PsdUsagePeriod = "day" | "month"
+
 export type PluginAccessToken = {
   token: string
   expiresAt: string
+}
+
+export type PsdUsageState = {
+  plan: string
+  planLabel: string
+  limit: number | null
+  used: number
+  remaining: number | null
+  period: PsdUsagePeriod
+  periodKey: string
+  resetsAt: string
+  unlimited: boolean
+}
+
+export type PsdUsageConsumeResult = {
+  allowed: boolean
+  duplicate: boolean
+  usage: PsdUsageState
+}
+
+type PsdQuotaConfig = {
+  plan: string
+  planLabel: string
+  limit: number | null
+  period: PsdUsagePeriod
 }
 
 export type PluginConnectionResult =
@@ -178,6 +205,25 @@ function migrate(database: DatabaseSync) {
     );
 
     CREATE INDEX IF NOT EXISTS plugin_connection_requests_expires_at_idx ON plugin_connection_requests(expires_at);
+
+    CREATE TABLE IF NOT EXISTS psd_usage_events (
+      id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL,
+      period_key TEXT NOT NULL,
+      period_type TEXT NOT NULL,
+      plan TEXT NOT NULL,
+      amount INTEGER NOT NULL DEFAULT 1,
+      source TEXT,
+      idempotency_key TEXT,
+      created_at TEXT NOT NULL,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    );
+
+    CREATE INDEX IF NOT EXISTS psd_usage_events_user_period_idx ON psd_usage_events(user_id, period_key);
+    CREATE INDEX IF NOT EXISTS psd_usage_events_created_at_idx ON psd_usage_events(created_at);
+    CREATE UNIQUE INDEX IF NOT EXISTS psd_usage_events_user_idempotency_idx
+      ON psd_usage_events(user_id, idempotency_key)
+      WHERE idempotency_key IS NOT NULL;
   `)
 
   ensureColumn(database, "users", "password_hash", "ALTER TABLE users ADD COLUMN password_hash TEXT")
@@ -211,6 +257,80 @@ function ensureColumn(database: DatabaseSync, table: string, column: string, sql
 
 function nowIso() {
   return new Date().toISOString()
+}
+
+function getKstDateParts(date = new Date()) {
+  const shifted = new Date(date.getTime() + 9 * 60 * 60 * 1000)
+  return {
+    year: shifted.getUTCFullYear(),
+    month: shifted.getUTCMonth() + 1,
+    day: shifted.getUTCDate(),
+  }
+}
+
+function pad2(value: number) {
+  return String(value).padStart(2, "0")
+}
+
+function getPsdQuotaConfig(plan: string): PsdQuotaConfig {
+  const normalizedPlan = String(plan || "free").toLowerCase()
+
+  if (normalizedPlan === "admin") {
+    return {
+      plan: "admin",
+      planLabel: "관리자",
+      limit: null,
+      period: "month",
+    }
+  }
+
+  if (normalizedPlan === "pro") {
+    return {
+      plan: "pro",
+      planLabel: "$5 회원",
+      limit: 300,
+      period: "month",
+    }
+  }
+
+  if (normalizedPlan === "basic") {
+    return {
+      plan: "basic",
+      planLabel: "$2 회원",
+      limit: 50,
+      period: "month",
+    }
+  }
+
+  return {
+    plan: "free",
+    planLabel: "무료 회원",
+    limit: 3,
+    period: "day",
+  }
+}
+
+function getPsdPeriod(period: PsdUsagePeriod, date = new Date()) {
+  const parts = getKstDateParts(date)
+  const month = pad2(parts.month)
+  const day = pad2(parts.day)
+
+  if (period === "day") {
+    return {
+      periodKey: `${parts.year}-${month}-${day}`,
+      resetsAt: new Date(Date.UTC(parts.year, parts.month - 1, parts.day + 1) - 9 * 60 * 60 * 1000).toISOString(),
+    }
+  }
+
+  return {
+    periodKey: `${parts.year}-${month}`,
+    resetsAt: new Date(Date.UTC(parts.year, parts.month, 1) - 9 * 60 * 60 * 1000).toISOString(),
+  }
+}
+
+function sanitizeIdempotencyKey(value: string | null | undefined) {
+  const key = String(value || "").trim()
+  return key ? key.slice(0, 200) : null
 }
 
 function normalizeEmail(email: string) {
@@ -625,6 +745,105 @@ export function getPluginConnectionRequest(requestId: string, secret: string): P
 
 export function cleanupExpiredPluginConnectionRequests() {
   getDb().prepare("DELETE FROM plugin_connection_requests WHERE expires_at <= ?").run(nowIso())
+}
+
+export function getPsdUsage(user: Pick<AuthUser, "id" | "plan">): PsdUsageState {
+  const quota = getPsdQuotaConfig(user.plan)
+  const period = getPsdPeriod(quota.period)
+  const row = getDb()
+    .prepare("SELECT COALESCE(SUM(amount), 0) AS used FROM psd_usage_events WHERE user_id = ? AND period_key = ?")
+    .get(user.id, period.periodKey) as { used: number | null } | undefined
+  const used = Math.max(0, Number(row?.used || 0))
+  const remaining = quota.limit === null ? null : Math.max(0, quota.limit - used)
+
+  return {
+    plan: quota.plan,
+    planLabel: quota.planLabel,
+    limit: quota.limit,
+    used,
+    remaining,
+    period: quota.period,
+    periodKey: period.periodKey,
+    resetsAt: period.resetsAt,
+    unlimited: quota.limit === null,
+  }
+}
+
+export function consumePsdUsage(
+  user: Pick<AuthUser, "id" | "plan">,
+  input: { source?: string; idempotencyKey?: string | null } = {},
+): PsdUsageConsumeResult {
+  const database = getDb()
+  const idempotencyKey = sanitizeIdempotencyKey(input.idempotencyKey)
+  const source = String(input.source || "plugin").trim().slice(0, 80) || "plugin"
+
+  if (idempotencyKey) {
+    const existing = database
+      .prepare("SELECT id FROM psd_usage_events WHERE user_id = ? AND idempotency_key = ? LIMIT 1")
+      .get(user.id, idempotencyKey) as { id: string } | undefined
+
+    if (existing) {
+      return {
+        allowed: true,
+        duplicate: true,
+        usage: getPsdUsage(user),
+      }
+    }
+  }
+
+  const usage = getPsdUsage(user)
+  if (usage.limit !== null && Number(usage.remaining || 0) <= 0) {
+    return {
+      allowed: false,
+      duplicate: false,
+      usage,
+    }
+  }
+
+  try {
+    database
+      .prepare(
+        `
+          INSERT INTO psd_usage_events (
+            id,
+            user_id,
+            period_key,
+            period_type,
+            plan,
+            amount,
+            source,
+            idempotency_key,
+            created_at
+          )
+          VALUES (?, ?, ?, ?, ?, 1, ?, ?, ?)
+        `,
+      )
+      .run(
+        randomUUID(),
+        user.id,
+        usage.periodKey,
+        usage.period,
+        usage.plan,
+        source,
+        idempotencyKey,
+        nowIso(),
+      )
+  } catch (error) {
+    if (idempotencyKey && String(error).toLowerCase().includes("unique")) {
+      return {
+        allowed: true,
+        duplicate: true,
+        usage: getPsdUsage(user),
+      }
+    }
+    throw error
+  }
+
+  return {
+    allowed: true,
+    duplicate: false,
+    usage: getPsdUsage(user),
+  }
 }
 
 export function getUserStats(userId: string) {
