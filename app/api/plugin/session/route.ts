@@ -57,6 +57,7 @@ export async function GET(request: Request) {
         billing: `${appUrl}/dashboard#billing`,
         psdUsage: `${appUrl}/api/plugin/psd-usage`,
         psdUsageConsume: `${appUrl}/api/plugin/psd-usage/consume`,
+        psdUsageRelease: `${appUrl}/api/plugin/psd-usage/release`,
         pricing: `${appUrl}/#pricing`,
         ai: `${appUrl}/api/plugin/ai`,
       },

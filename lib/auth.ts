@@ -66,6 +66,12 @@ export type PsdUsageConsumeResult = {
   usage: PsdUsageState
 }
 
+export type PsdUsageReleaseResult = {
+  released: boolean
+  duplicate: boolean
+  usage: PsdUsageState
+}
+
 type PsdQuotaConfig = {
   plan: string
   planLabel: string
@@ -841,6 +847,75 @@ export function consumePsdUsage(
 
   return {
     allowed: true,
+    duplicate: false,
+    usage: getPsdUsage(user),
+  }
+}
+
+export function releasePsdUsage(
+  user: Pick<AuthUser, "id" | "plan">,
+  input: { source?: string; idempotencyKey?: string | null } = {},
+): PsdUsageReleaseResult {
+  const database = getDb()
+  const idempotencyKey = sanitizeIdempotencyKey(input.idempotencyKey)
+  const source = String(input.source || "plugin-release").trim().slice(0, 80) || "plugin-release"
+
+  if (!idempotencyKey) {
+    return {
+      released: false,
+      duplicate: false,
+      usage: getPsdUsage(user),
+    }
+  }
+
+  const existing = database
+    .prepare("SELECT period_key, period_type, plan FROM psd_usage_events WHERE user_id = ? AND idempotency_key = ? AND amount > 0 LIMIT 1")
+    .get(user.id, idempotencyKey) as { period_key: string; period_type: PsdUsagePeriod; plan: string } | undefined
+
+  if (!existing) {
+    return {
+      released: false,
+      duplicate: false,
+      usage: getPsdUsage(user),
+    }
+  }
+
+  const releaseKey = sanitizeIdempotencyKey(`release:${idempotencyKey}`)
+  if (releaseKey) {
+    const duplicate = database
+      .prepare("SELECT id FROM psd_usage_events WHERE user_id = ? AND idempotency_key = ? LIMIT 1")
+      .get(user.id, releaseKey) as { id: string } | undefined
+
+    if (duplicate) {
+      return {
+        released: true,
+        duplicate: true,
+        usage: getPsdUsage(user),
+      }
+    }
+  }
+
+  database
+    .prepare(
+      `
+        INSERT INTO psd_usage_events (
+          id,
+          user_id,
+          period_key,
+          period_type,
+          plan,
+          amount,
+          source,
+          idempotency_key,
+          created_at
+        )
+        VALUES (?, ?, ?, ?, ?, -1, ?, ?, ?)
+      `,
+    )
+    .run(randomUUID(), user.id, existing.period_key, existing.period_type, existing.plan, source, releaseKey, nowIso())
+
+  return {
+    released: true,
     duplicate: false,
     usage: getPsdUsage(user),
   }
