@@ -13,6 +13,12 @@ const REMEMBER_SESSION_DAYS = 30
 const PLUGIN_TOKEN_DAYS = 365
 const PLUGIN_CONNECTION_MINUTES = 15
 const paidPlanStatuses = new Set(["active", "on_trial", "trialing"])
+const paymentGraceStatuses = new Set(["past_due", "payment_failed"])
+const immediateRevokeStatuses = new Set(["canceled", "refunded", "chargeback", "chargeback_warning"])
+const PAYMENT_GRACE_DAYS = 3
+
+type PaidPlan = "basic" | "pro" | "basic_yearly" | "pro_yearly"
+type ManualPlan = "free" | PaidPlan | "admin"
 
 type UserRow = {
   id: string
@@ -30,6 +36,8 @@ type UserRow = {
   billing_portal_url: string | null
   plan_status: string
   plan_renews_at: string | null
+  pending_plan: string | null
+  pending_plan_effective_at: string | null
   billing_updated_at: string | null
   created_at: string
   updated_at: string
@@ -42,7 +50,19 @@ type SessionRow = {
   expires_at: string
 }
 
-type PsdUsagePeriod = "day" | "month"
+type PsdUsagePeriod = "day" | "month" | "year"
+
+export const PSD_USAGE_POLICY_NOTE =
+  "유료 월간은 월 단위, 유료 연간은 연 단위로 PSD 파일 개수만큼 차감됩니다. 무료 체험 사용분은 유료 한도에 포함되지 않습니다."
+
+export const PSD_USAGE_POLICY_ITEMS = [
+  "월간 Basic/Pro는 이번 달 사용량을 공유하고, 연간 Basic/Pro는 올해 사용량을 공유합니다.",
+  "업그레이드는 즉시 적용하고, 다운그레이드는 다음 결제일부터 적용합니다.",
+  "ZIP으로 PSD 10개가 생성되면 10회 차감합니다.",
+  "PSD가 다운로드 가능 상태가 되지 않으면 예약 차감을 복구합니다.",
+  "결제 실패는 3일 유예, 환불과 차지백은 즉시 회수합니다.",
+  "남은 횟수는 이월되지 않으며 리셋은 한국 시간(KST) 기준입니다.",
+]
 
 export type PluginAccessToken = {
   token: string
@@ -59,6 +79,8 @@ export type PsdUsageState = {
   periodKey: string
   resetsAt: string
   unlimited: boolean
+  policyNote: string
+  policyItems: string[]
 }
 
 export type PsdUsageConsumeResult = {
@@ -166,6 +188,8 @@ function migrate(database: DatabaseSync) {
       billing_portal_url TEXT,
       plan_status TEXT NOT NULL DEFAULT 'free',
       plan_renews_at TEXT,
+      pending_plan TEXT,
+      pending_plan_effective_at TEXT,
       billing_updated_at TEXT,
       created_at TEXT NOT NULL,
       updated_at TEXT NOT NULL
@@ -245,6 +269,8 @@ function migrate(database: DatabaseSync) {
   ensureColumn(database, "users", "billing_portal_url", "ALTER TABLE users ADD COLUMN billing_portal_url TEXT")
   ensureColumn(database, "users", "plan_status", "ALTER TABLE users ADD COLUMN plan_status TEXT NOT NULL DEFAULT 'free'")
   ensureColumn(database, "users", "plan_renews_at", "ALTER TABLE users ADD COLUMN plan_renews_at TEXT")
+  ensureColumn(database, "users", "pending_plan", "ALTER TABLE users ADD COLUMN pending_plan TEXT")
+  ensureColumn(database, "users", "pending_plan_effective_at", "ALTER TABLE users ADD COLUMN pending_plan_effective_at TEXT")
   ensureColumn(database, "users", "billing_updated_at", "ALTER TABLE users ADD COLUMN billing_updated_at TEXT")
   ensureColumn(database, "users", "updated_at", "ALTER TABLE users ADD COLUMN updated_at TEXT")
 
@@ -266,6 +292,62 @@ function nowIso() {
   return new Date().toISOString()
 }
 
+function addDaysIso(date: Date, days: number) {
+  return new Date(date.getTime() + days * 24 * 60 * 60 * 1000).toISOString()
+}
+
+function normalizePlanId(plan: string | null | undefined) {
+  return String(plan || "free").trim().toLowerCase().replace(/[-\s]+/g, "_")
+}
+
+function normalizePaidPlan(plan: string | null | undefined): PaidPlan | null {
+  const normalizedPlan = normalizePlanId(plan)
+  if (normalizedPlan === "basic_yearly" || normalizedPlan === "basic_annual" || normalizedPlan === "basic_year") {
+    return "basic_yearly"
+  }
+  if (normalizedPlan === "pro_yearly" || normalizedPlan === "pro_annual" || normalizedPlan === "pro_year") {
+    return "pro_yearly"
+  }
+  if (normalizedPlan === "basic" || normalizedPlan === "pro") {
+    return normalizedPlan
+  }
+  return null
+}
+
+function getPlanTierValue(plan: string | null | undefined) {
+  const normalizedPlan = normalizePlanId(plan)
+  if (normalizedPlan === "admin") {
+    return 3
+  }
+  const paidPlan = normalizePaidPlan(normalizedPlan)
+  if (paidPlan === "pro" || paidPlan === "pro_yearly") {
+    return 2
+  }
+  if (paidPlan === "basic" || paidPlan === "basic_yearly") {
+    return 1
+  }
+  return 0
+}
+
+function resolvePendingPlan(row: Pick<UserRow, "plan" | "pending_plan" | "pending_plan_effective_at">, now = new Date()) {
+  const rawPendingPlan = String(row.pending_plan || "").trim()
+  if (!rawPendingPlan) {
+    return row.plan
+  }
+
+  const pendingPlan = normalizePlanId(rawPendingPlan)
+  const effectiveAt = row.pending_plan_effective_at ? new Date(row.pending_plan_effective_at) : null
+  if (!effectiveAt || Number.isNaN(effectiveAt.getTime())) {
+    return row.plan
+  }
+
+  return effectiveAt.getTime() <= now.getTime() ? pendingPlan : row.plan
+}
+
+function isManualBillingOverride(row: Pick<UserRow, "billing_provider"> | null | undefined) {
+  return String(row?.billing_provider || "").toLowerCase() === "manual"
+}
+
 function getKstDateParts(date = new Date()) {
   const shifted = new Date(date.getTime() + 9 * 60 * 60 * 1000)
   return {
@@ -280,7 +362,7 @@ function pad2(value: number) {
 }
 
 function getPsdQuotaConfig(user: Pick<AuthUser, "plan" | "createdAt">): PsdQuotaConfig {
-  const normalizedPlan = String(user.plan || "free").toLowerCase()
+  const normalizedPlan = normalizePlanId(user.plan)
 
   if (normalizedPlan === "admin") {
     return {
@@ -291,7 +373,27 @@ function getPsdQuotaConfig(user: Pick<AuthUser, "plan" | "createdAt">): PsdQuota
     }
   }
 
-  if (normalizedPlan === "pro") {
+  const paidPlan = normalizePaidPlan(normalizedPlan)
+
+  if (paidPlan === "pro_yearly") {
+    return {
+      plan: "pro_yearly",
+      planLabel: "$5 연간 회원",
+      limit: 3600,
+      period: "year",
+    }
+  }
+
+  if (paidPlan === "basic_yearly") {
+    return {
+      plan: "basic_yearly",
+      planLabel: "$2 연간 회원",
+      limit: 600,
+      period: "year",
+    }
+  }
+
+  if (paidPlan === "pro") {
     return {
       plan: "pro",
       planLabel: "$5 회원",
@@ -300,7 +402,7 @@ function getPsdQuotaConfig(user: Pick<AuthUser, "plan" | "createdAt">): PsdQuota
     }
   }
 
-  if (normalizedPlan === "basic") {
+  if (paidPlan === "basic") {
     return {
       plan: "basic",
       planLabel: "$2 회원",
@@ -340,6 +442,13 @@ function getPsdPeriod(period: PsdUsagePeriod, date = new Date()) {
     }
   }
 
+  if (period === "year") {
+    return {
+      periodKey: `${parts.year}`,
+      resetsAt: new Date(Date.UTC(parts.year + 1, 0, 1) - 9 * 60 * 60 * 1000).toISOString(),
+    }
+  }
+
   return {
     periodKey: `${parts.year}-${month}`,
     resetsAt: new Date(Date.UTC(parts.year, parts.month, 1) - 9 * 60 * 60 * 1000).toISOString(),
@@ -349,6 +458,14 @@ function getPsdPeriod(period: PsdUsagePeriod, date = new Date()) {
 function sanitizeIdempotencyKey(value: string | null | undefined) {
   const key = String(value || "").trim()
   return key ? key.slice(0, 200) : null
+}
+
+function normalizePsdUsageAmount(value: unknown) {
+  const amount = Number(value)
+  if (!Number.isFinite(amount)) {
+    return 1
+  }
+  return Math.max(1, Math.min(10000, Math.floor(amount)))
 }
 
 function normalizeEmail(email: string) {
@@ -385,7 +502,7 @@ function verifyPassword(password: string, storedHash: string) {
 }
 
 function toUser(row: UserRow): AuthUser {
-  const plan = row.plan || "free"
+  const plan = resolvePendingPlan(row) || "free"
 
   return {
     id: row.id,
@@ -765,12 +882,14 @@ export function cleanupExpiredPluginConnectionRequests() {
   getDb().prepare("DELETE FROM plugin_connection_requests WHERE expires_at <= ?").run(nowIso())
 }
 
-export function getPsdUsage(user: Pick<AuthUser, "id" | "plan" | "createdAt">): PsdUsageState {
+function getPsdUsageWithDatabase(database: DatabaseSync, user: Pick<AuthUser, "id" | "plan" | "createdAt">): PsdUsageState {
   const quota = getPsdQuotaConfig(user)
   const period = getPsdPeriod(quota.period)
-  const row = getDb()
-    .prepare("SELECT COALESCE(SUM(amount), 0) AS used FROM psd_usage_events WHERE user_id = ? AND period_key = ?")
-    .get(user.id, period.periodKey) as { used: number | null } | undefined
+  const row = database
+    .prepare(
+      "SELECT COALESCE(SUM(amount), 0) AS used FROM psd_usage_events WHERE user_id = ? AND period_key = ? AND period_type = ?",
+    )
+    .get(user.id, period.periodKey, quota.period) as { used: number | null } | undefined
   const used = Math.max(0, Number(row?.used || 0))
   const remaining = quota.limit === null ? null : Math.max(0, quota.limit - used)
 
@@ -784,41 +903,52 @@ export function getPsdUsage(user: Pick<AuthUser, "id" | "plan" | "createdAt">): 
     periodKey: period.periodKey,
     resetsAt: period.resetsAt,
     unlimited: quota.limit === null,
+    policyNote: PSD_USAGE_POLICY_NOTE,
+    policyItems: PSD_USAGE_POLICY_ITEMS,
   }
+}
+
+export function getPsdUsage(user: Pick<AuthUser, "id" | "plan" | "createdAt">): PsdUsageState {
+  return getPsdUsageWithDatabase(getDb(), user)
 }
 
 export function consumePsdUsage(
   user: Pick<AuthUser, "id" | "plan" | "createdAt">,
-  input: { source?: string; idempotencyKey?: string | null } = {},
+  input: { source?: string; idempotencyKey?: string | null; amount?: unknown } = {},
 ): PsdUsageConsumeResult {
   const database = getDb()
   const idempotencyKey = sanitizeIdempotencyKey(input.idempotencyKey)
   const source = String(input.source || "plugin").trim().slice(0, 80) || "plugin"
+  const amount = normalizePsdUsageAmount(input.amount)
 
-  if (idempotencyKey) {
-    const existing = database
-      .prepare("SELECT id FROM psd_usage_events WHERE user_id = ? AND idempotency_key = ? LIMIT 1")
-      .get(user.id, idempotencyKey) as { id: string } | undefined
+  database.exec("BEGIN IMMEDIATE")
+  try {
+    if (idempotencyKey) {
+      const existing = database
+        .prepare("SELECT id FROM psd_usage_events WHERE user_id = ? AND idempotency_key = ? LIMIT 1")
+        .get(user.id, idempotencyKey) as { id: string } | undefined
 
-    if (existing) {
-      return {
-        allowed: true,
-        duplicate: true,
-        usage: getPsdUsage(user),
+      if (existing) {
+        const usage = getPsdUsageWithDatabase(database, user)
+        database.exec("COMMIT")
+        return {
+          allowed: true,
+          duplicate: true,
+          usage,
+        }
       }
     }
-  }
 
-  const usage = getPsdUsage(user)
-  if (usage.limit !== null && Number(usage.remaining || 0) <= 0) {
-    return {
-      allowed: false,
-      duplicate: false,
-      usage,
+    const usage = getPsdUsageWithDatabase(database, user)
+    if (usage.limit !== null && Number(usage.remaining || 0) < amount) {
+      database.exec("ROLLBACK")
+      return {
+        allowed: false,
+        duplicate: false,
+        usage,
+      }
     }
-  }
 
-  try {
     database
       .prepare(
         `
@@ -833,7 +963,7 @@ export function consumePsdUsage(
             idempotency_key,
             created_at
           )
-          VALUES (?, ?, ?, ?, ?, 1, ?, ?, ?)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         `,
       )
       .run(
@@ -842,11 +972,23 @@ export function consumePsdUsage(
         usage.periodKey,
         usage.period,
         usage.plan,
+        amount,
         source,
         idempotencyKey,
         nowIso(),
       )
+    const nextUsage = getPsdUsageWithDatabase(database, user)
+    database.exec("COMMIT")
+    return {
+      allowed: true,
+      duplicate: false,
+      usage: nextUsage,
+    }
   } catch (error) {
+    try {
+      database.exec("ROLLBACK")
+    } catch {}
+
     if (idempotencyKey && String(error).toLowerCase().includes("unique")) {
       return {
         allowed: true,
@@ -855,12 +997,6 @@ export function consumePsdUsage(
       }
     }
     throw error
-  }
-
-  return {
-    allowed: true,
-    duplicate: false,
-    usage: getPsdUsage(user),
   }
 }
 
@@ -880,56 +1016,75 @@ export function releasePsdUsage(
     }
   }
 
-  const existing = database
-    .prepare("SELECT period_key, period_type, plan FROM psd_usage_events WHERE user_id = ? AND idempotency_key = ? AND amount > 0 LIMIT 1")
-    .get(user.id, idempotencyKey) as { period_key: string; period_type: PsdUsagePeriod; plan: string } | undefined
-
-  if (!existing) {
-    return {
-      released: false,
-      duplicate: false,
-      usage: getPsdUsage(user),
-    }
-  }
-
   const releaseKey = sanitizeIdempotencyKey(`release:${idempotencyKey}`)
-  if (releaseKey) {
-    const duplicate = database
-      .prepare("SELECT id FROM psd_usage_events WHERE user_id = ? AND idempotency_key = ? LIMIT 1")
-      .get(user.id, releaseKey) as { id: string } | undefined
+  database.exec("BEGIN IMMEDIATE")
+  try {
+    const existing = database
+      .prepare(
+        "SELECT period_key, period_type, plan, amount FROM psd_usage_events WHERE user_id = ? AND idempotency_key = ? AND amount > 0 LIMIT 1",
+      )
+      .get(user.id, idempotencyKey) as
+      | { period_key: string; period_type: PsdUsagePeriod; plan: string; amount: number }
+      | undefined
 
-    if (duplicate) {
+    if (!existing) {
+      const usage = getPsdUsageWithDatabase(database, user)
+      database.exec("ROLLBACK")
       return {
-        released: true,
-        duplicate: true,
-        usage: getPsdUsage(user),
+        released: false,
+        duplicate: false,
+        usage,
       }
     }
-  }
 
-  database
-    .prepare(
-      `
-        INSERT INTO psd_usage_events (
-          id,
-          user_id,
-          period_key,
-          period_type,
-          plan,
-          amount,
-          source,
-          idempotency_key,
-          created_at
-        )
-        VALUES (?, ?, ?, ?, ?, -1, ?, ?, ?)
-      `,
-    )
-    .run(randomUUID(), user.id, existing.period_key, existing.period_type, existing.plan, source, releaseKey, nowIso())
+    if (releaseKey) {
+      const duplicate = database
+        .prepare("SELECT id FROM psd_usage_events WHERE user_id = ? AND idempotency_key = ? LIMIT 1")
+        .get(user.id, releaseKey) as { id: string } | undefined
 
-  return {
-    released: true,
-    duplicate: false,
-    usage: getPsdUsage(user),
+      if (duplicate) {
+        const usage = getPsdUsageWithDatabase(database, user)
+        database.exec("COMMIT")
+        return {
+          released: true,
+          duplicate: true,
+          usage,
+        }
+      }
+    }
+
+    const releaseAmount = -normalizePsdUsageAmount(existing.amount)
+    database
+      .prepare(
+        `
+          INSERT INTO psd_usage_events (
+            id,
+            user_id,
+            period_key,
+            period_type,
+            plan,
+            amount,
+            source,
+            idempotency_key,
+            created_at
+          )
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `,
+      )
+      .run(randomUUID(), user.id, existing.period_key, existing.period_type, existing.plan, releaseAmount, source, releaseKey, nowIso())
+
+    const usage = getPsdUsageWithDatabase(database, user)
+    database.exec("COMMIT")
+    return {
+      released: true,
+      duplicate: false,
+      usage,
+    }
+  } catch (error) {
+    try {
+      database.exec("ROLLBACK")
+    } catch {}
+    throw error
   }
 }
 
@@ -959,7 +1114,7 @@ export function getUserByEmail(email: string) {
   return row ? toUser(row) : null
 }
 
-export function setManualUserPlanByEmail(input: { email: string; plan: "free" | "basic" | "pro" | "admin" }) {
+export function setManualUserPlanByEmail(input: { email: string; plan: ManualPlan }) {
   const normalizedEmail = normalizeEmail(input.email)
   if (!validateEmail(normalizedEmail)) {
     throw authError("사용 가능한 이메일을 입력해주세요.", { email: "사용 가능한 이메일을 입력해주세요." })
@@ -985,10 +1140,12 @@ export function setManualUserPlanByEmail(input: { email: string; plan: "free" | 
         billing_variant_id = NULL,
         billing_portal_url = NULL,
         plan_renews_at = NULL,
+        pending_plan = NULL,
+        pending_plan_effective_at = NULL,
         billing_updated_at = ?,
         updated_at = ?
     WHERE id = ?
-  `).run(input.plan, nextStatus, input.plan === "free" ? null : "manual", timestamp, timestamp, existing.id)
+  `).run(input.plan, nextStatus, "manual", timestamp, timestamp, existing.id)
 
   return getUserById(existing.id)
 }
@@ -1000,16 +1157,50 @@ export function syncBillingSubscription(input: {
   variantId: string | null
   portalUrl: string | null
   status: string
-  plan: "basic" | "pro" | null
+  plan: PaidPlan | null
   renewsAt: string | null
   provider?: string
 }) {
-  const nextPlan = input.plan && paidPlanStatuses.has(input.status) ? input.plan : "free"
+  const database = getDb()
   const timestamp = nowIso()
   const whereSql = input.userId ? "id = ?" : "billing_subscription_id = ?"
   const whereValue = input.userId || input.subscriptionId
+  if (!whereValue) {
+    return
+  }
 
-  getDb().prepare(`
+  const existing = database.prepare(`SELECT * FROM users WHERE ${whereSql}`).get(whereValue) as UserRow | undefined
+  if (!existing || isManualBillingOverride(existing)) {
+    return
+  }
+
+  const status = String(input.status || "inactive").toLowerCase()
+  const incomingPlan = input.plan ? normalizePaidPlan(input.plan) : null
+  const currentPlan = resolvePendingPlan(existing)
+  const currentTier = getPlanTierValue(currentPlan)
+  const incomingTier = getPlanTierValue(incomingPlan)
+  const renewsAt = input.renewsAt || null
+  const renewsAtDate = renewsAt ? new Date(renewsAt) : null
+  const hasFutureRenewal =
+    renewsAtDate instanceof Date && !Number.isNaN(renewsAtDate.getTime()) && renewsAtDate.getTime() > Date.now()
+
+  let nextPlan = incomingPlan && paidPlanStatuses.has(status) ? incomingPlan : "free"
+  let pendingPlan: string | null = null
+  let pendingPlanEffectiveAt: string | null = null
+
+  if (incomingPlan && paidPlanStatuses.has(status) && currentTier > incomingTier && hasFutureRenewal) {
+    nextPlan = normalizePlanId(currentPlan)
+    pendingPlan = incomingPlan
+    pendingPlanEffectiveAt = renewsAt
+  } else if (paymentGraceStatuses.has(status) && currentTier > 0) {
+    nextPlan = normalizePlanId(currentPlan)
+    pendingPlan = "free"
+    pendingPlanEffectiveAt = addDaysIso(new Date(), PAYMENT_GRACE_DAYS)
+  } else if (immediateRevokeStatuses.has(status)) {
+    nextPlan = "free"
+  }
+
+  database.prepare(`
     UPDATE users
     SET plan = ?,
         billing_provider = ?,
@@ -1019,6 +1210,8 @@ export function syncBillingSubscription(input: {
         billing_portal_url = ?,
         plan_status = ?,
         plan_renews_at = ?,
+        pending_plan = ?,
+        pending_plan_effective_at = ?,
         billing_updated_at = ?,
         updated_at = ?
     WHERE ${whereSql}
@@ -1029,8 +1222,10 @@ export function syncBillingSubscription(input: {
     input.subscriptionId,
     input.variantId,
     input.portalUrl,
-    input.status,
-    input.renewsAt,
+    status,
+    renewsAt,
+    pendingPlan,
+    pendingPlanEffectiveAt,
     timestamp,
     timestamp,
     whereValue,

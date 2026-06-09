@@ -55,9 +55,11 @@ export async function POST(request: Request) {
   const body = await readJsonBody(request)
   const idempotencyKey = typeof body.idempotencyKey === "string" ? body.idempotencyKey : null
   const source = typeof body.source === "string" ? body.source : "plugin"
+  const amount = body.amount
   const result = consumePsdUsage(user, {
     idempotencyKey,
     source,
+    amount,
   })
 
   if (!result.allowed) {

@@ -2,7 +2,7 @@ import { redirect } from "next/navigation"
 
 import { logoutAction } from "../auth/actions"
 import { isAdminUser } from "@/lib/admin"
-import { getCurrentUser, getPsdUsage, getUserStats } from "@/lib/auth"
+import { PSD_USAGE_POLICY_ITEMS, PSD_USAGE_POLICY_NOTE, getCurrentUser, getPsdUsage, getUserStats } from "@/lib/auth"
 
 export const dynamic = "force-dynamic"
 export const runtime = "nodejs"
@@ -10,7 +10,9 @@ export const runtime = "nodejs"
 const planLabels: Record<string, string> = {
   free: "Free",
   basic: "Basic",
+  basic_yearly: "Basic 연간",
   pro: "Pro",
+  pro_yearly: "Pro 연간",
   admin: "관리자",
 }
 
@@ -21,8 +23,12 @@ const statusLabels: Record<string, string> = {
   on_trial: "체험 중",
   trialing: "체험 중",
   past_due: "결제 확인 필요",
+  payment_failed: "결제 실패",
   paused: "일시 중지",
   canceled: "취소됨",
+  refunded: "환불됨",
+  chargeback: "차지백",
+  chargeback_warning: "차지백 확인 필요",
 }
 
 function MaterialIcon({ name, className = "" }: { name: string; className?: string }) {
@@ -82,7 +88,13 @@ function formatUsageCount(value: number | null) {
 }
 
 function formatPsdPeriod(period: string) {
-  return period === "day" ? "오늘" : "이번 달"
+  if (period === "day") {
+    return "오늘"
+  }
+  if (period === "year") {
+    return "올해"
+  }
+  return "이번 달"
 }
 
 function getStatusTone(status: string) {
@@ -257,7 +269,7 @@ export default async function DashboardPage() {
               <p className="text-sm font-black tracking-[0.18em] text-[#005bff]">PSD USAGE</p>
               <h2 className="mt-3 text-[30px] font-black sm:text-[38px]">PSD 만들기 사용량</h2>
               <p className="mt-3 max-w-[620px] text-[15px] leading-7 text-[#60656b]">
-                플러그인에서 PSD 만들기가 성공하면 웹 DB에 1회씩 기록됩니다.
+                플러그인에서 PSD 만들기가 성공하면 생성된 PSD 파일 개수만큼 웹 DB에 기록됩니다.
               </p>
             </div>
             <span className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-full bg-[#eef5ff] px-4 text-sm font-black text-[#005bff] ring-1 ring-[#c8ddff]">
@@ -288,6 +300,23 @@ export default async function DashboardPage() {
               <p className="text-xs font-black tracking-[0.14em] text-[#7a828b]">RESET</p>
               <p className="mt-3 text-[24px] font-black">{psdResetLabel}</p>
               <p className="mt-1 text-sm font-bold text-[#60656b]">한국 시간 기준으로 다음 기간이 시작됩니다.</p>
+            </div>
+          </div>
+
+          <div className="mt-5 rounded-2xl bg-[#f7fbff] p-5 ring-1 ring-[#d6e7ff]">
+            <div className="flex items-start gap-3">
+              <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-xl bg-white text-[#005bff] ring-1 ring-[#c8ddff]">
+                <MaterialIcon name="rule" className="text-[18px]" />
+              </span>
+              <div>
+                <p className="text-sm font-black text-[#005bff]">플랜 변경 시 PSD 횟수 정책</p>
+                <p className="mt-2 text-sm font-bold leading-6 text-[#4f5b6b]">{PSD_USAGE_POLICY_NOTE}</p>
+                <ul className="mt-3 grid gap-2 text-sm font-bold leading-6 text-[#60656b] md:grid-cols-3">
+                  {PSD_USAGE_POLICY_ITEMS.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
         </section>

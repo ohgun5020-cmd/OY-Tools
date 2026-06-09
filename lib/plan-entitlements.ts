@@ -19,14 +19,14 @@ export function getBasicTrialDays() {
 }
 
 export function getPlanTier(plan: string | null | undefined): 0 | 1 | 2 | 3 {
-  const value = String(plan || "free").toLowerCase()
+  const value = String(plan || "free").toLowerCase().replace(/[-\s]+/g, "_")
   if (value === "admin") {
     return 3
   }
-  if (value === "pro") {
+  if (value === "pro" || value === "pro_yearly" || value === "pro_annual" || value === "pro_year") {
     return 2
   }
-  if (value === "basic") {
+  if (value === "basic" || value === "basic_yearly" || value === "basic_annual" || value === "basic_year") {
     return 1
   }
   return 0

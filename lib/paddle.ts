@@ -3,11 +3,14 @@ import { createHmac, timingSafeEqual } from "node:crypto"
 import { getAppUrl } from "@/lib/app-url"
 
 export type BillingPlan = "basic" | "pro"
+export type BillingPricePlan = BillingPlan | "basic_yearly" | "pro_yearly"
 export type PaddlePortalAction = "overview" | "update-payment" | "cancel"
 
-const paddlePriceEnv: Record<BillingPlan, string> = {
+const paddlePriceEnv: Record<BillingPricePlan, string> = {
   basic: "PADDLE_BASIC_PRICE_ID",
   pro: "PADDLE_PRO_PRICE_ID",
+  basic_yearly: "PADDLE_BASIC_YEARLY_PRICE_ID",
+  pro_yearly: "PADDLE_PRO_YEARLY_PRICE_ID",
 }
 
 const defaultPaddlePriceIds: Record<BillingPlan, string> = {
@@ -20,6 +23,10 @@ const billingSetupMessage =
 
 export function isBillingPlan(value: unknown): value is BillingPlan {
   return value === "basic" || value === "pro"
+}
+
+export function isBillingPricePlan(value: unknown): value is BillingPricePlan {
+  return isBillingPlan(value) || value === "basic_yearly" || value === "pro_yearly"
 }
 
 export function getPaddleEnvironment() {
@@ -43,13 +50,14 @@ export function getPriceIdForPlan(plan: BillingPlan) {
   return process.env[paddlePriceEnv[plan]] || defaultPaddlePriceIds[plan]
 }
 
-export function getPlanForPriceId(priceId: string | null | undefined): BillingPlan | null {
+export function getPlanForPriceId(priceId: string | null | undefined): BillingPricePlan | null {
   if (!priceId) {
     return null
   }
 
-  for (const plan of Object.keys(paddlePriceEnv) as BillingPlan[]) {
-    if (getPriceIdForPlan(plan) === priceId) {
+  for (const plan of Object.keys(paddlePriceEnv) as BillingPricePlan[]) {
+    const configuredPriceId = process.env[paddlePriceEnv[plan]] || (plan === "basic" || plan === "pro" ? defaultPaddlePriceIds[plan] : "")
+    if (configuredPriceId && configuredPriceId === priceId) {
       return plan
     }
   }

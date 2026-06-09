@@ -5,7 +5,7 @@ import { redirect } from "next/navigation"
 import { getCurrentUser, setManualUserPlanByEmail } from "@/lib/auth"
 import { isAdminUser } from "@/lib/admin"
 
-const allowedPlans = new Set(["free", "basic", "pro", "admin"])
+const allowedPlans = new Set(["free", "basic", "basic_yearly", "pro", "pro_yearly", "admin"])
 
 function redirectWithState(state: Record<string, string>): never {
   const params = new URLSearchParams(state)
@@ -29,7 +29,10 @@ export async function updateManualPlanAction(formData: FormData) {
     redirectWithState({ error: "plan", email, plan: "pro" })
   }
 
-  const updatedUser = setManualUserPlanByEmail({ email, plan: plan as "free" | "basic" | "pro" | "admin" })
+  const updatedUser = setManualUserPlanByEmail({
+    email,
+    plan: plan as "free" | "basic" | "basic_yearly" | "pro" | "pro_yearly" | "admin",
+  })
   if (!updatedUser) {
     redirectWithState({ error: "not-found", email, plan })
   }

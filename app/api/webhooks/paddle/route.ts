@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 
 import { syncBillingSubscription } from "@/lib/auth"
-import { getPlanForPriceId, isBillingPlan, verifyPaddleSignature } from "@/lib/paddle"
+import { getPlanForPriceId, isBillingPricePlan, verifyPaddleSignature, type BillingPricePlan } from "@/lib/paddle"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -57,14 +57,14 @@ function getPlan(data: PaddleWebhook["data"]) {
   }
 
   const planFromCustomData = data?.custom_data?.plan
-  return isBillingPlan(planFromCustomData) ? planFromCustomData : null
+  return isBillingPricePlan(planFromCustomData) ? planFromCustomData : null
 }
 
 function syncSubscriptionAccess(input: {
   data: PaddleWebhook["data"]
   subscriptionId: string | null
   status: string
-  plan?: "basic" | "pro" | null
+  plan?: BillingPricePlan | null
 }) {
   if (!input.subscriptionId) {
     return false

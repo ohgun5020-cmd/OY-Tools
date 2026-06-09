@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic"
 
 const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses"
 const DEFAULT_OPENAI_MODEL = "gpt-4o-mini"
-const DEFAULT_MAX_OUTPUT_TOKENS = 1200
+const DEFAULT_MAX_OUTPUT_TOKENS = 3000
 const HARD_MAX_OUTPUT_TOKENS = 4000
 
 type PluginAiRequest = {
