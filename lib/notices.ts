@@ -23,10 +23,19 @@ export type NoticeItem = {
   locales?: Record<string, Partial<NoticeLocaleContent>>
 }
 
+export type NoticeVersionInfo = {
+  latest: string
+  minimumSupported: string
+  channel: string
+  message: string
+  communityUrl: string
+}
+
 export type NoticePayload = {
   schemaVersion: 1
   updatedAt: string
   defaultLocale: string
+  version: NoticeVersionInfo
   items: NoticeItem[]
 }
 
@@ -80,6 +89,24 @@ function cleanHttpsUrl(value: unknown) {
     return url.protocol === "https:" ? url.toString() : ""
   } catch {
     return ""
+  }
+}
+
+function cleanVersion(value: unknown) {
+  return cleanText(value, 32)
+    .replace(/^v/i, "")
+    .replace(/[^0-9A-Za-z.+_-]/g, "")
+    .slice(0, 32)
+}
+
+function normalizeVersionInfo(value: unknown): NoticeVersionInfo {
+  const source = value && typeof value === "object" && !Array.isArray(value) ? (value as Record<string, unknown>) : {}
+  return {
+    latest: cleanVersion(source.latest || "2.8.0") || "2.8.0",
+    minimumSupported: cleanVersion(source.minimumSupported || "2.8.0") || "2.8.0",
+    channel: cleanText(source.channel || "stable", 24).toLowerCase() || "stable",
+    message: cleanText(source.message, 220),
+    communityUrl: cleanHttpsUrl(source.communityUrl || source.url),
   }
 }
 
@@ -143,6 +170,7 @@ export function createEmptyNoticePayload(): NoticePayload {
     schemaVersion: 1,
     updatedAt: new Date().toISOString(),
     defaultLocale: "en",
+    version: normalizeVersionInfo({}),
     items: [],
   }
 }
@@ -155,6 +183,7 @@ export function normalizeNoticePayload(value: unknown): NoticePayload {
     schemaVersion: 1,
     updatedAt: cleanDate(source.updatedAt),
     defaultLocale: cleanText(source.defaultLocale || "en", 16).toLowerCase() || "en",
+    version: normalizeVersionInfo(source.version),
     items: items
       .filter((item) => item && typeof item === "object" && !Array.isArray(item))
       .map((item) => {

@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react"
 
-import type { NoticeItem, NoticePayload, NoticeSeverity, NoticeType } from "@/lib/notices"
+import type { NoticeItem, NoticePayload, NoticeSeverity, NoticeType, NoticeVersionInfo } from "@/lib/notices"
 
 type NoticeAdminClientProps = {
   initialPayload: NoticePayload
@@ -11,6 +11,13 @@ type NoticeAdminClientProps = {
 
 const noticeTypes: NoticeType[] = ["release", "update", "notice", "maintenance"]
 const noticeSeverities: NoticeSeverity[] = ["info", "success", "warning", "critical"]
+const defaultVersionInfo: NoticeVersionInfo = {
+  latest: "2.8.0",
+  minimumSupported: "2.8.0",
+  channel: "stable",
+  message: "",
+  communityUrl: "https://www.figma.com/community/plugin/1645743599892655504",
+}
 
 function createNoticeDraft(): NoticeItem {
   const timestamp = new Date().toISOString()
@@ -32,7 +39,18 @@ function normalizePayload(payload: NoticePayload): NoticePayload {
     schemaVersion: 1,
     updatedAt: payload.updatedAt || new Date().toISOString(),
     defaultLocale: payload.defaultLocale || "en",
+    version: normalizeVersionInfo(payload.version),
     items: Array.isArray(payload.items) ? payload.items : [],
+  }
+}
+
+function normalizeVersionInfo(version?: Partial<NoticeVersionInfo> | null): NoticeVersionInfo {
+  return {
+    latest: version?.latest || defaultVersionInfo.latest,
+    minimumSupported: version?.minimumSupported || defaultVersionInfo.minimumSupported,
+    channel: version?.channel || defaultVersionInfo.channel,
+    message: version?.message || "",
+    communityUrl: version?.communityUrl || defaultVersionInfo.communityUrl,
   }
 }
 
@@ -58,6 +76,10 @@ function hasVisibleNoticeContent(payload: NoticePayload) {
   )
 }
 
+function hasVersionContent(version: NoticeVersionInfo) {
+  return Boolean(version.latest.trim() || version.minimumSupported.trim() || version.message.trim())
+}
+
 export default function NoticeAdminClient({ initialPayload, noticePublicUrl }: NoticeAdminClientProps) {
   const [payload, setPayload] = useState<NoticePayload>(() => normalizePayload(initialPayload))
   const [selectedId, setSelectedId] = useState(() => initialPayload.items[0]?.id || "")
@@ -68,6 +90,7 @@ export default function NoticeAdminClient({ initialPayload, noticePublicUrl }: N
     () => payload.items.find((item) => item.id === selectedId) || payload.items[0] || null,
     [payload.items, selectedId],
   )
+  const version = normalizeVersionInfo(payload.version)
 
   function updateItem(id: string, next: Partial<NoticeItem>) {
     setPayload((current) => ({
@@ -83,6 +106,13 @@ export default function NoticeAdminClient({ initialPayload, noticePublicUrl }: N
     setStatus("New notice draft added.")
   }
 
+  function updateVersion(next: Partial<NoticeVersionInfo>) {
+    setPayload((current) => ({
+      ...current,
+      version: { ...normalizeVersionInfo(current.version), ...next },
+    }))
+  }
+
   function deleteNotice(id: string) {
     const nextItems = payload.items.filter((item) => item.id !== id)
     setPayload((current) => {
@@ -93,7 +123,11 @@ export default function NoticeAdminClient({ initialPayload, noticePublicUrl }: N
   }
 
   function saveNotices() {
-    if (!hasVisibleNoticeContent(payload) && !window.confirm("Publish with no visible notices? This will hide the notice list in the plugin.")) {
+    if (
+      !hasVisibleNoticeContent(payload) &&
+      !hasVersionContent(payload.version) &&
+      !window.confirm("Publish with no visible notices or version info? This will hide the notice list in the plugin.")
+    ) {
       setStatus("Empty publish cancelled.")
       return
     }
@@ -159,6 +193,58 @@ export default function NoticeAdminClient({ initialPayload, noticePublicUrl }: N
         </a>
         <br />
         Status: {status}
+      </div>
+
+      <div className="mt-5 grid gap-4 rounded-3xl border border-[#e3ebf5] bg-[#fbfdff] p-5">
+        <div>
+          <p className="text-[11px] font-black uppercase tracking-[0.16em] text-[#7d8aa0]">Version status</p>
+          <p className="mt-1 text-sm font-bold text-[#5e6a78]">
+            This updates the Settings footer only. The actual Figma plugin package version still comes from the published plugin build.
+          </p>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <label className="grid gap-2 text-xs font-black tracking-[0.12em] text-[#7a828b]">
+            Latest
+            <input
+              value={version.latest}
+              onChange={(event) => updateVersion({ latest: event.target.value })}
+              className="h-11 rounded-xl border border-[#dfe6ef] bg-white px-3 text-sm font-bold normal-case text-[#111827] outline-none focus:border-[#005bff]"
+            />
+          </label>
+          <label className="grid gap-2 text-xs font-black tracking-[0.12em] text-[#7a828b]">
+            Minimum
+            <input
+              value={version.minimumSupported}
+              onChange={(event) => updateVersion({ minimumSupported: event.target.value })}
+              className="h-11 rounded-xl border border-[#dfe6ef] bg-white px-3 text-sm font-bold normal-case text-[#111827] outline-none focus:border-[#005bff]"
+            />
+          </label>
+          <label className="grid gap-2 text-xs font-black tracking-[0.12em] text-[#7a828b]">
+            Channel
+            <input
+              value={version.channel}
+              onChange={(event) => updateVersion({ channel: event.target.value })}
+              className="h-11 rounded-xl border border-[#dfe6ef] bg-white px-3 text-sm font-bold normal-case text-[#111827] outline-none focus:border-[#005bff]"
+            />
+          </label>
+          <label className="grid gap-2 text-xs font-black tracking-[0.12em] text-[#7a828b]">
+            Community URL
+            <input
+              value={version.communityUrl}
+              onChange={(event) => updateVersion({ communityUrl: event.target.value })}
+              className="h-11 rounded-xl border border-[#dfe6ef] bg-white px-3 text-sm font-bold normal-case text-[#111827] outline-none focus:border-[#005bff]"
+            />
+          </label>
+        </div>
+        <label className="grid gap-2 text-xs font-black tracking-[0.12em] text-[#7a828b]">
+          Footer message
+          <textarea
+            value={version.message}
+            onChange={(event) => updateVersion({ message: event.target.value })}
+            rows={2}
+            className="rounded-xl border border-[#dfe6ef] bg-white px-3 py-3 text-sm font-bold leading-6 normal-case text-[#111827] outline-none focus:border-[#005bff]"
+          />
+        </label>
       </div>
 
       <div className="mt-5 grid gap-5 lg:grid-cols-[240px_1fr]">

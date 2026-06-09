@@ -116,6 +116,13 @@ Notice payload shape:
   "schemaVersion": 1,
   "updatedAt": "2026-06-08T00:00:00.000Z",
   "defaultLocale": "en",
+  "version": {
+    "latest": "2.8.0",
+    "minimumSupported": "2.8.0",
+    "channel": "stable",
+    "message": "Latest public build is available from the Figma Community listing.",
+    "communityUrl": "https://www.figma.com/community/plugin/1645743599892655504"
+  },
   "items": [
     {
       "id": "release-2026-06-08",
