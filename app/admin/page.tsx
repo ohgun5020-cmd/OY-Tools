@@ -1,8 +1,10 @@
 import { notFound, redirect } from "next/navigation"
 
 import { updateManualPlanAction } from "./actions"
+import NoticeAdminClient from "./NoticeAdminClient"
 import { isAdminUser } from "@/lib/admin"
 import { getCurrentUser, getUserByEmail } from "@/lib/auth"
+import { getNoticePublicUrl, readNoticePayload } from "@/lib/notices"
 
 export const dynamic = "force-dynamic"
 export const runtime = "nodejs"
@@ -10,7 +12,9 @@ export const runtime = "nodejs"
 const planLabels: Record<string, string> = {
   free: "Free",
   basic: "Basic",
+  basic_yearly: "Basic Annual",
   pro: "Pro",
+  pro_yearly: "Pro Annual",
   admin: "Admin",
 }
 
@@ -52,6 +56,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const ok = firstParam(params.ok)
   const error = firstParam(params.error)
   const targetUser = targetEmail ? getUserByEmail(targetEmail) : null
+  const noticePayload = await readNoticePayload()
 
   return (
     <main className="min-h-screen bg-[#f6f7f9] px-6 py-8 text-[#050505] sm:px-10">
@@ -85,6 +90,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
           </div>
         ) : null}
 
+        <NoticeAdminClient initialPayload={noticePayload} noticePublicUrl={getNoticePublicUrl()} />
+
         <section className="mt-6 grid gap-6 lg:grid-cols-[1fr_280px]">
           <form
             action={updateManualPlanAction}
@@ -111,7 +118,9 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               >
                 <option value="free">Free</option>
                 <option value="basic">Basic</option>
+                <option value="basic_yearly">Basic Annual</option>
                 <option value="pro">Pro</option>
+                <option value="pro_yearly">Pro Annual</option>
                 <option value="admin">Admin</option>
               </select>
             </label>
