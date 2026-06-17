@@ -124,6 +124,13 @@ export type AuthUser = {
   createdAt: string
 }
 
+export type AdminUserListItem = AuthUser & {
+  psdUsage: PsdUsageState
+  activeSessions: number
+  activePluginTokens: number
+  billingUpdatedAt: string | null
+}
+
 export type GoogleProfile = {
   sub: string
   email: string
@@ -1112,6 +1119,42 @@ export function getUserByEmail(email: string) {
 
   const row = getDb().prepare("SELECT * FROM users WHERE email = ?").get(normalizedEmail) as UserRow | undefined
   return row ? toUser(row) : null
+}
+
+export function listUsersForAdmin(limit = 500): AdminUserListItem[] {
+  const safeLimit = Math.max(1, Math.min(1000, Math.floor(Number(limit) || 500)))
+  const database = getDb()
+  const timestamp = nowIso()
+  const rows = database
+    .prepare(
+      `
+        SELECT *
+        FROM users
+        ORDER BY datetime(created_at) DESC, email ASC
+        LIMIT ?
+      `,
+    )
+    .all(safeLimit) as UserRow[]
+
+  return rows.map((row) => {
+    const user = toUser(row)
+    const activeSessions = database
+      .prepare("SELECT COUNT(*) AS count FROM sessions WHERE user_id = ? AND expires_at > ?")
+      .get(user.id, timestamp) as { count: number } | undefined
+    const activePluginTokens = database
+      .prepare(
+        "SELECT COUNT(*) AS count FROM plugin_tokens WHERE user_id = ? AND revoked_at IS NULL AND expires_at > ?",
+      )
+      .get(user.id, timestamp) as { count: number } | undefined
+
+    return {
+      ...user,
+      psdUsage: getPsdUsageWithDatabase(database, user),
+      activeSessions: Number(activeSessions?.count || 0),
+      activePluginTokens: Number(activePluginTokens?.count || 0),
+      billingUpdatedAt: row.billing_updated_at || null,
+    }
+  })
 }
 
 export function setManualUserPlanByEmail(input: { email: string; plan: ManualPlan }) {
