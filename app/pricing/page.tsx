@@ -14,8 +14,8 @@ const plans = [
     period: "forever",
     description: "일단 가볍게 찍먹. 작은 파일로 변환 흐름부터 확인해요.",
     features: [
-      { label: "Basic 7일 체험", badge: "HOT" },
-      { label: "7일간 하루 3회 PSD 변환" },
+      { label: "무료 PSD 5회", badge: "HOT" },
+      { label: "계정당 총 5회 PSD 변환" },
       { label: "파일 구조 확인" },
       { label: "작은 파일 테스트" },
       { label: "무료 계정 저장" },

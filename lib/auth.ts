@@ -4,7 +4,6 @@ import path from "node:path"
 import { DatabaseSync } from "node:sqlite"
 
 import { cookies } from "next/headers"
-import { getPlanEntitlement } from "./plan-entitlements"
 
 export const SESSION_COOKIE = "pigma_session"
 const PASSWORD_PREFIX = "scrypt"
@@ -16,6 +15,7 @@ const paidPlanStatuses = new Set(["active", "on_trial", "trialing"])
 const paymentGraceStatuses = new Set(["past_due", "payment_failed"])
 const immediateRevokeStatuses = new Set(["canceled", "refunded", "chargeback", "chargeback_warning"])
 const PAYMENT_GRACE_DAYS = 3
+const FREE_PSD_USAGE_LIMIT = 5
 
 type PaidPlan = "basic" | "pro" | "basic_yearly" | "pro_yearly"
 type ManualPlan = "free" | PaidPlan | "admin"
@@ -50,13 +50,14 @@ type SessionRow = {
   expires_at: string
 }
 
-type PsdUsagePeriod = "day" | "month" | "year"
+type PsdUsagePeriod = "lifetime" | "day" | "month" | "year"
 
 export const PSD_USAGE_POLICY_NOTE =
-  "유료 월간은 월 단위, 유료 연간은 연 단위로 PSD 파일 개수만큼 차감됩니다. 무료 체험 사용분은 유료 한도에 포함되지 않습니다."
+  "무료 계정은 계정당 총 5회까지 PSD를 만들 수 있습니다. 유료 월간은 월 단위, 유료 연간은 연 단위로 PSD 파일 개수만큼 차감됩니다."
 
 export const PSD_USAGE_POLICY_ITEMS = [
   "월간 Basic/Pro는 이번 달 사용량을 공유하고, 연간 Basic/Pro는 올해 사용량을 공유합니다.",
+  "무료 계정의 5회 사용량은 계정 전체 기준이며 매일 리셋되지 않습니다.",
   "업그레이드는 즉시 적용하고, 다운그레이드는 다음 결제일부터 적용합니다.",
   "ZIP으로 PSD 10개가 생성되면 10회 차감합니다.",
   "PSD가 다운로드 가능 상태가 되지 않으면 예약 차감을 복구합니다.",
@@ -77,7 +78,7 @@ export type PsdUsageState = {
   remaining: number | null
   period: PsdUsagePeriod
   periodKey: string
-  resetsAt: string
+  resetsAt: string | null
   unlimited: boolean
   policyNote: string
   policyItems: string[]
@@ -418,26 +419,22 @@ function getPsdQuotaConfig(user: Pick<AuthUser, "plan" | "createdAt">): PsdQuota
     }
   }
 
-  const entitlement = getPlanEntitlement(user)
-
-  if (entitlement.basicTrialActive) {
-    return {
-      plan: "free",
-      planLabel: "무료 체험",
-      limit: 3,
-      period: "day",
-    }
-  }
-
   return {
     plan: "free",
-    planLabel: "무료 체험 종료",
-    limit: 0,
-    period: "day",
+    planLabel: "무료 계정",
+    limit: FREE_PSD_USAGE_LIMIT,
+    period: "lifetime",
   }
 }
 
 function getPsdPeriod(period: PsdUsagePeriod, date = new Date()) {
+  if (period === "lifetime") {
+    return {
+      periodKey: "lifetime",
+      resetsAt: null,
+    }
+  }
+
   const parts = getKstDateParts(date)
   const month = pad2(parts.month)
   const day = pad2(parts.day)
@@ -892,11 +889,16 @@ export function cleanupExpiredPluginConnectionRequests() {
 function getPsdUsageWithDatabase(database: DatabaseSync, user: Pick<AuthUser, "id" | "plan" | "createdAt">): PsdUsageState {
   const quota = getPsdQuotaConfig(user)
   const period = getPsdPeriod(quota.period)
-  const row = database
-    .prepare(
-      "SELECT COALESCE(SUM(amount), 0) AS used FROM psd_usage_events WHERE user_id = ? AND period_key = ? AND period_type = ?",
-    )
-    .get(user.id, period.periodKey, quota.period) as { used: number | null } | undefined
+  const row =
+    quota.period === "lifetime"
+      ? (database
+          .prepare("SELECT COALESCE(SUM(amount), 0) AS used FROM psd_usage_events WHERE user_id = ? AND plan = ?")
+          .get(user.id, quota.plan) as { used: number | null } | undefined)
+      : (database
+          .prepare(
+            "SELECT COALESCE(SUM(amount), 0) AS used FROM psd_usage_events WHERE user_id = ? AND period_key = ? AND period_type = ?",
+          )
+          .get(user.id, period.periodKey, quota.period) as { used: number | null } | undefined)
   const used = Math.max(0, Number(row?.used || 0))
   const remaining = quota.limit === null ? null : Math.max(0, quota.limit - used)
 

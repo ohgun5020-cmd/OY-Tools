@@ -34,11 +34,7 @@ PIGMA_ADMIN_EMAILS=ohgun5020@gmail.com
 
 The owner email `ohgun5020@gmail.com` is always allowed, even when additional admin emails are configured.
 
-Free users receive temporary Basic access for seven days by default. Adjust it with:
-
-```bash
-PIGMA_BASIC_TRIAL_DAYS=7
-```
+Free users receive 5 total PSD conversions per account. This quota does not reset daily.
 
 ## Paddle Billing
 

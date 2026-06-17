@@ -13,7 +13,7 @@ type DashboardCopy = {
   dateLocale: string
   planLabels: Record<string, string>
   statusLabels: Record<string, string>
-  periods: Record<"day" | "month" | "year", string>
+  periods: Record<"lifetime" | "day" | "month" | "year", string>
   count: (value: number) => string
   homeLabel: string
   admin: string
@@ -53,6 +53,8 @@ type DashboardCopy = {
     remainingHelp: (period: string, limit: string) => string
     usedHelp: (period: string) => string
     resetHelp: string
+    noReset: string
+    noResetHelp: string
     policyTitle: string
     policyNote: string
     policyItems: string[]
@@ -107,7 +109,7 @@ const dashboardCopy: Record<LocaleCode, DashboardCopy> = {
       chargeback: "차지백",
       chargeback_warning: "차지백 확인 필요",
     },
-    periods: { day: "오늘", month: "이번 달", year: "올해" },
+    periods: { lifetime: "전체 기간", day: "오늘", month: "이번 달", year: "올해" },
     count: (value) => `${value}회`,
     homeLabel: "PIGMA 홈으로 이동",
     admin: "관리자",
@@ -143,10 +145,13 @@ const dashboardCopy: Record<LocaleCode, DashboardCopy> = {
       remainingHelp: (period, limit) => `${period} 기준 ${limit} 중 남은 횟수입니다.`,
       usedHelp: (period) => `${period} 사용한 PSD 만들기 횟수입니다.`,
       resetHelp: "한국 시간 기준으로 다음 기간이 시작됩니다.",
+      noReset: "리셋 없음",
+      noResetHelp: "무료 5회 사용량은 계정 전체 기준입니다.",
       policyTitle: "플랜 변경 시 PSD 횟수 정책",
       policyNote:
-        "유료 월간은 월 단위, 유료 연간은 연 단위로 PSD 파일 개수만큼 차감됩니다. 무료 체험 사용분은 유료 한도에 포함되지 않습니다.",
+        "무료 계정은 총 5회까지 사용할 수 있고, 유료 월간은 월 단위, 유료 연간은 연 단위로 PSD 파일 개수만큼 차감됩니다.",
       policyItems: [
+        "무료 계정의 5회 사용량은 계정 전체 기준이며 매일 리셋되지 않습니다.",
         "월간 Basic/Pro는 이번 달 사용량을 공유하고, 연간 Basic/Pro는 올해 사용량을 공유합니다.",
         "업그레이드는 즉시 적용하고, 다운그레이드는 다음 결제일부터 적용합니다.",
         "ZIP으로 PSD 10개가 생성되면 10회 차감합니다.",
@@ -205,7 +210,7 @@ const dashboardCopy: Record<LocaleCode, DashboardCopy> = {
       chargeback: "Chargeback",
       chargeback_warning: "Chargeback review needed",
     },
-    periods: { day: "today", month: "this month", year: "this year" },
+    periods: { lifetime: "all time", day: "today", month: "this month", year: "this year" },
     count: (value) => `${value} times`,
     homeLabel: "Go to PIGMA home",
     admin: "Admin",
@@ -241,10 +246,13 @@ const dashboardCopy: Record<LocaleCode, DashboardCopy> = {
       remainingHelp: (period, limit) => `Remaining out of ${limit} for ${period}.`,
       usedHelp: (period) => `PSD creation count used ${period}.`,
       resetHelp: "The next period starts on Korea Standard Time.",
+      noReset: "No reset",
+      noResetHelp: "Free usage is counted across the account lifetime.",
       policyTitle: "PSD count policy when plans change",
       policyNote:
-        "Paid monthly plans deduct by month, and paid yearly plans deduct by year. Free trial usage is not included in paid limits.",
+        "Free accounts can create 5 PSDs total. Paid monthly plans deduct by month, and paid yearly plans deduct by year.",
       policyItems: [
+        "The 5 free uses are counted across the account lifetime and do not reset every day.",
         "Monthly Basic/Pro plans share this month's usage, and yearly Basic/Pro plans share this year's usage.",
         "Upgrades apply immediately, and downgrades apply from the next billing date.",
         "If a ZIP generates 10 PSD files, 10 uses are deducted.",
@@ -303,7 +311,7 @@ const dashboardCopy: Record<LocaleCode, DashboardCopy> = {
       chargeback: "チャージバック",
       chargeback_warning: "チャージバック確認が必要",
     },
-    periods: { day: "今日", month: "今月", year: "今年" },
+    periods: { lifetime: "全期間", day: "今日", month: "今月", year: "今年" },
     count: (value) => `${value}回`,
     homeLabel: "PIGMAホームへ移動",
     admin: "管理者",
@@ -339,10 +347,13 @@ const dashboardCopy: Record<LocaleCode, DashboardCopy> = {
       remainingHelp: (period, limit) => `${period}基準で${limit}のうち残っている回数です。`,
       usedHelp: (period) => `${period}に使用したPSD作成回数です。`,
       resetHelp: "次の期間は韓国時間基準で開始されます。",
+      noReset: "リセットなし",
+      noResetHelp: "無料5回分はアカウント全体でカウントされます。",
       policyTitle: "プラン変更時のPSD回数ポリシー",
       policyNote:
-        "有料月間は月単位、有料年間は年単位でPSDファイル数だけ差し引かれます。無料トライアル分は有料上限に含まれません。",
+        "無料アカウントは合計5回までPSDを作成できます。有料月間は月単位、有料年間は年単位でPSDファイル数だけ差し引かれます。",
       policyItems: [
+        "無料アカウントの5回分はアカウント全体基準で、毎日リセットされません。",
         "月間Basic/Proは今月の使用量を共有し、年間Basic/Proは今年の使用量を共有します。",
         "アップグレードは即時適用、ダウングレードは次回決済日から適用されます。",
         "ZIPでPSDが10個生成されると10回分を差し引きます。",
@@ -401,7 +412,7 @@ const dashboardCopy: Record<LocaleCode, DashboardCopy> = {
       chargeback: "Contracargo",
       chargeback_warning: "Revisar contracargo",
     },
-    periods: { day: "hoy", month: "este mes", year: "este año" },
+    periods: { lifetime: "todo el tiempo", day: "hoy", month: "este mes", year: "este año" },
     count: (value) => `${value} veces`,
     homeLabel: "Ir al inicio de PIGMA",
     admin: "Admin",
@@ -437,10 +448,13 @@ const dashboardCopy: Record<LocaleCode, DashboardCopy> = {
       remainingHelp: (period, limit) => `Restante de ${limit} para ${period}.`,
       usedHelp: (period) => `Creaciones PSD usadas ${period}.`,
       resetHelp: "El siguiente periodo empieza según la hora de Corea.",
+      noReset: "Sin reset",
+      noResetHelp: "Los 5 usos gratis se cuentan durante toda la vida de la cuenta.",
       policyTitle: "Política de usos PSD al cambiar de plan",
       policyNote:
-        "Los planes mensuales descuentan por mes y los anuales por año. El uso del free trial no se incluye en el límite pagado.",
+        "Las cuentas gratis pueden crear 5 PSD en total. Los planes mensuales descuentan por mes y los anuales por año.",
       policyItems: [
+        "Los 5 usos gratis se cuentan por cuenta y no se reinician cada día.",
         "Basic/Pro mensual comparte el uso del mes; Basic/Pro anual comparte el uso del año.",
         "Los upgrades se aplican de inmediato y los downgrades desde la próxima fecha de pago.",
         "Si un ZIP genera 10 PSD, se descuentan 10 usos.",
@@ -499,7 +513,7 @@ const dashboardCopy: Record<LocaleCode, DashboardCopy> = {
       chargeback: "Chargeback",
       chargeback_warning: "Revisar chargeback",
     },
-    periods: { day: "hoje", month: "este mês", year: "este ano" },
+    periods: { lifetime: "todo o período", day: "hoje", month: "este mês", year: "este ano" },
     count: (value) => `${value} vezes`,
     homeLabel: "Ir para a home do PIGMA",
     admin: "Admin",
@@ -535,10 +549,13 @@ const dashboardCopy: Record<LocaleCode, DashboardCopy> = {
       remainingHelp: (period, limit) => `Restante de ${limit} para ${period}.`,
       usedHelp: (period) => `Criações PSD usadas ${period}.`,
       resetHelp: "O próximo período começa pelo horário da Coreia.",
+      noReset: "Sem reset",
+      noResetHelp: "Os 5 usos grátis contam pela vida inteira da conta.",
       policyTitle: "Política de usos PSD ao mudar de plano",
       policyNote:
-        "Planos mensais pagos descontam por mês, e planos anuais pagos descontam por ano. O uso do free trial não entra no limite pago.",
+        "Contas grátis podem criar 5 PSDs no total. Planos mensais pagos descontam por mês, e planos anuais pagos descontam por ano.",
       policyItems: [
+        "Os 5 usos grátis contam por conta e não reiniciam todos os dias.",
         "Basic/Pro mensal compartilha o uso do mês; Basic/Pro anual compartilha o uso do ano.",
         "Upgrades aplicam imediatamente, e downgrades aplicam no próximo pagamento.",
         "Se um ZIP gerar 10 PSDs, 10 usos são descontados.",
@@ -612,7 +629,11 @@ function formatDate(value: string | null, copy: DashboardCopy) {
   }).format(date)
 }
 
-function formatResetDate(value: string, copy: DashboardCopy) {
+function formatResetDate(value: string | null, copy: DashboardCopy) {
+  if (!value) {
+    return copy.usage.noReset
+  }
+
   const date = new Date(value)
   if (Number.isNaN(date.getTime())) {
     return copy.unknown
@@ -632,6 +653,9 @@ function formatUsageCount(value: number | null, copy: DashboardCopy) {
 }
 
 function formatPsdPeriod(period: string, copy: DashboardCopy) {
+  if (period === "lifetime") {
+    return copy.periods.lifetime
+  }
   if (period === "day") {
     return copy.periods.day
   }
@@ -727,6 +751,7 @@ export default async function DashboardPage() {
   const psdRemainingLabel = formatUsageCount(psdUsage.remaining, copy)
   const psdLimitLabel = formatUsageCount(psdUsage.limit, copy)
   const psdResetLabel = formatResetDate(psdUsage.resetsAt, copy)
+  const psdResetHelp = psdUsage.period === "lifetime" ? copy.usage.noResetHelp : copy.usage.resetHelp
   const headline = copy.headline(user.name)
 
   const summaryItems = [
@@ -859,7 +884,7 @@ export default async function DashboardPage() {
             <div className="rounded-2xl bg-[#f7f9fc] p-5 ring-1 ring-[#e7ecf3]">
               <p className="text-xs font-black tracking-[0.14em] text-[#7a828b]">{copy.usage.reset}</p>
               <p className="mt-3 text-[24px] font-black">{psdResetLabel}</p>
-              <p className="mt-1 text-sm font-bold text-[#60656b]">{copy.usage.resetHelp}</p>
+              <p className="mt-1 text-sm font-bold text-[#60656b]">{psdResetHelp}</p>
             </div>
           </div>
 
