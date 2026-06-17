@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react"
 
+import { FIGMA_PLUGIN_URL } from "@/lib/links"
+
 type ActionItem = {
   title: string
   description: string
@@ -738,7 +740,9 @@ function HeroSection() {
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
-              href="#pricing"
+              href={FIGMA_PLUGIN_URL}
+              target="_blank"
+              rel="noreferrer"
               className="inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-[#005bff] px-6 text-[15px] font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0] sm:w-[170px]"
             >
               Empezar gratis
@@ -2007,7 +2011,7 @@ function PricingPlanButton({ plan }: { plan: PricingPlan }) {
 
   if (plan.key === "free") {
     return (
-      <a href="/dashboard" className={className}>
+      <a href={FIGMA_PLUGIN_URL} target="_blank" rel="noreferrer" className={className}>
         {plan.cta}
       </a>
     )
@@ -2073,7 +2077,9 @@ function FinalCta() {
           </h2>
         </div>
         <a
-          href="#pricing"
+          href={FIGMA_PLUGIN_URL}
+          target="_blank"
+          rel="noreferrer"
           className="inline-flex h-[52px] items-center justify-center gap-2 rounded-xl bg-[#005bff] px-6 text-[15px] font-bold text-white shadow-[0_10px_14px_rgba(0,91,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#004de0]"
         >
           Empezar gratis

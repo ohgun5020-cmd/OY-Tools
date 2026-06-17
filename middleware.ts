@@ -15,22 +15,23 @@ const SUPPORTED_LOCALES = Object.keys(LOCALE_PATHS) as LocaleCode[]
 export function middleware(request: NextRequest) {
   const selectedLocale = normalizeLocale(request.nextUrl.searchParams.get("lang"))
   if (selectedLocale) {
-    return redirectWithLocale(request, selectedLocale, LOCALE_PATHS[selectedLocale], true)
+    const pathname = shouldUseLocaleHomePath(request.nextUrl.pathname)
+      ? LOCALE_PATHS[selectedLocale]
+      : request.nextUrl.pathname
+    return redirectWithLocale(request, selectedLocale, pathname, true)
   }
 
   const pathLocale = request.nextUrl.pathname === "/" ? null : getLocaleFromPath(request.nextUrl.pathname)
   if (pathLocale) {
-    const response = NextResponse.next()
-    response.cookies.set(LOCALE_COOKIE, pathLocale, {
-      maxAge: 60 * 60 * 24 * 365,
-      path: "/",
-      sameSite: "lax",
-    })
-    return response
+    return nextWithLocale(request, pathLocale)
   }
 
   const cookieLocale = normalizeLocale(request.cookies.get(LOCALE_COOKIE)?.value)
   const browserLocale = cookieLocale || pickLocaleFromAcceptLanguage(request.headers.get("accept-language"))
+  if (request.nextUrl.pathname !== "/") {
+    return nextWithLocale(request, browserLocale)
+  }
+
   return redirectWithLocale(request, browserLocale, LOCALE_PATHS[browserLocale], false)
 }
 
@@ -43,26 +44,42 @@ function redirectWithLocale(request: NextRequest, locale: LocaleCode, pathname: 
   }
 
   if (url.pathname === request.nextUrl.pathname && url.search === request.nextUrl.search) {
-    const response = NextResponse.next()
-    response.cookies.set(LOCALE_COOKIE, locale, {
-      maxAge: 60 * 60 * 24 * 365,
-      path: "/",
-      sameSite: "lax",
-    })
-    return response
+    return nextWithLocale(request, locale)
   }
 
   const response = NextResponse.redirect(url, 307)
+  setLocaleCookie(response, locale)
+  return response
+}
+
+function nextWithLocale(request: NextRequest, locale: LocaleCode) {
+  const requestHeaders = new Headers(request.headers)
+  requestHeaders.set("x-pigma-locale", locale)
+  requestHeaders.set("x-pigma-route-path", request.nextUrl.pathname)
+
+  const response = NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  })
+  setLocaleCookie(response, locale)
+  return response
+}
+
+function setLocaleCookie(response: NextResponse, locale: LocaleCode) {
   response.cookies.set(LOCALE_COOKIE, locale, {
     maxAge: 60 * 60 * 24 * 365,
     path: "/",
     sameSite: "lax",
   })
-  return response
 }
 
 function getLocaleFromPath(pathname: string): LocaleCode | null {
   return SUPPORTED_LOCALES.find((locale) => LOCALE_PATHS[locale] === pathname) || null
+}
+
+function shouldUseLocaleHomePath(pathname: string) {
+  return pathname === "/" || getLocaleFromPath(pathname) !== null
 }
 
 function pickLocaleFromAcceptLanguage(header: string | null): LocaleCode {
@@ -120,5 +137,5 @@ function normalizeLocale(value: string | undefined | null): LocaleCode | null {
 }
 
 export const config = {
-  matcher: ["/", "/en", "/ja", "/es", "/pt-br"],
+  matcher: ["/", "/en", "/ja", "/es", "/pt-br", "/dashboard/:path*"],
 }

@@ -1,16 +1,29 @@
 import type { Metadata } from "next"
+import { headers } from "next/headers"
 import type React from "react"
+
+import {
+  ABSOLUTE_LANGUAGE_ALTERNATES,
+  HTML_LANG,
+  absoluteUrl,
+  buildPigmaMetadata,
+  buildPigmaStructuredData,
+  isLocaleCode,
+  stringifyJsonLd,
+  type LocaleCode,
+} from "@/lib/seo"
 
 import "./globals.css"
 
-export const metadata: Metadata = {
-  title: "PIGMA | PSD to Figma-ready plugin",
-  description: "PSD, PDF, PPTX 원본을 Figma에서 수정할 수 있는 구조로 정리하는 PIGMA 플러그인 랜딩 페이지입니다.",
-}
+export const metadata: Metadata = buildPigmaMetadata("ko", { includeAlternates: false })
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const requestHeaders = await headers()
+  const locale = getLayoutLocale(requestHeaders.get("x-pigma-locale"))
+  const isKoreanHome = locale === "ko" && requestHeaders.get("x-pigma-route-path") === "/"
+
   return (
-    <html lang="ko">
+    <html lang={HTML_LANG[locale]}>
       <head>
         <link rel="preload" href="/fonts/MonaSansExpanded.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://cdn.jsdelivr.net" />
@@ -21,8 +34,25 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
         />
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" />
+        {isKoreanHome ? (
+          <>
+            <link rel="canonical" href={absoluteUrl("/")} />
+            {Object.entries(ABSOLUTE_LANGUAGE_ALTERNATES).map(([hrefLang, href]) => (
+              <link key={hrefLang} rel="alternate" hrefLang={hrefLang} href={href} />
+            ))}
+          </>
+        ) : null}
+        <script
+          id="pigma-structured-data"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: stringifyJsonLd(buildPigmaStructuredData(locale)) }}
+        />
       </head>
       <body>{children}</body>
     </html>
   )
+}
+
+function getLayoutLocale(value: string | null): LocaleCode {
+  return isLocaleCode(value) ? value : "ko"
 }
