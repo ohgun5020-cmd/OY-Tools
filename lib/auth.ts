@@ -916,23 +916,6 @@ export function cleanupExpiredPluginConnectionRequests() {
 function getPsdUsageWithDatabase(database: DatabaseSync, user: Pick<AuthUser, "id" | "plan" | "createdAt">): PsdUsageState {
   const quota = getPsdQuotaConfig(user)
   const period = getPsdPeriod(quota.period)
-  if (quota.freeBetaUnlimited) {
-    return {
-      plan: quota.plan,
-      planLabel: quota.planLabel,
-      limit: null,
-      used: 0,
-      remaining: null,
-      period: quota.period,
-      periodKey: period.periodKey,
-      resetsAt: period.resetsAt,
-      unlimited: true,
-      freeBetaUnlimited: true,
-      policyNote: FREE_BETA_PSD_USAGE_POLICY_NOTE,
-      policyItems: FREE_BETA_PSD_USAGE_POLICY_ITEMS,
-    }
-  }
-
   const row =
     quota.period === "lifetime"
       ? (database
@@ -956,9 +939,9 @@ function getPsdUsageWithDatabase(database: DatabaseSync, user: Pick<AuthUser, "i
     periodKey: period.periodKey,
     resetsAt: period.resetsAt,
     unlimited: quota.limit === null,
-    freeBetaUnlimited: false,
-    policyNote: PSD_USAGE_POLICY_NOTE,
-    policyItems: PSD_USAGE_POLICY_ITEMS,
+    freeBetaUnlimited: quota.freeBetaUnlimited,
+    policyNote: quota.freeBetaUnlimited ? FREE_BETA_PSD_USAGE_POLICY_NOTE : PSD_USAGE_POLICY_NOTE,
+    policyItems: quota.freeBetaUnlimited ? FREE_BETA_PSD_USAGE_POLICY_ITEMS : PSD_USAGE_POLICY_ITEMS,
   }
 }
 
@@ -994,15 +977,6 @@ export function consumePsdUsage(
     }
 
     const usage = getPsdUsageWithDatabase(database, user)
-    if (usage.freeBetaUnlimited) {
-      database.exec("COMMIT")
-      return {
-        allowed: true,
-        duplicate: false,
-        usage,
-      }
-    }
-
     if (usage.limit !== null && Number(usage.remaining || 0) < amount) {
       database.exec("ROLLBACK")
       return {

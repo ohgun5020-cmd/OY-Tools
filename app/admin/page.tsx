@@ -92,7 +92,7 @@ function formatDate(value: string | null | undefined) {
 
 function formatUsage(usage: ReturnType<typeof listUsersForAdmin>[number]["psdUsage"]) {
   if (usage.unlimited) {
-    return "PSD 무제한"
+    return `PSD ${usage.used}회 사용 · 무제한`
   }
   return `PSD ${usage.used}/${usage.limit ?? 0} 사용 · ${usage.remaining ?? 0} 남음`
 }
