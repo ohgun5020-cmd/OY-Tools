@@ -2104,6 +2104,12 @@ function SiteFooter() {
           <span>PSD를 Figma-ready 구조로 바꾸는 플러그인</span>
         </div>
         <div className="flex flex-wrap gap-6">
+          <a href="/psd-export" className="transition hover:text-white">
+            PSD Export
+          </a>
+          <a href="/psd-converter" className="transition hover:text-white">
+            PSD 변환
+          </a>
           <a href="#product" className="transition hover:text-white">
             제품
           </a>

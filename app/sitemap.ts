@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next"
 
 import { ABSOLUTE_LANGUAGE_ALTERNATES, SITE_URL, absoluteUrl } from "@/lib/seo"
 
-const lastModified = new Date("2026-06-17T00:00:00.000Z")
+const lastModified = new Date("2026-06-18T00:00:00.000Z")
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
@@ -56,6 +56,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
       changeFrequency: "monthly",
       priority: 0.7,
+    },
+    {
+      url: absoluteUrl("/psd-export"),
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.95,
+    },
+    {
+      url: absoluteUrl("/psd-converter"),
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.95,
     },
     {
       url: absoluteUrl("/terms"),

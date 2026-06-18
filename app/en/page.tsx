@@ -2100,6 +2100,12 @@ function SiteFooter() {
           <span>A plugin that turns PSD into Figma-ready structure</span>
         </div>
         <div className="flex flex-wrap gap-6">
+          <a href="/psd-export" className="transition hover:text-white">
+            PSD Export
+          </a>
+          <a href="/psd-converter" className="transition hover:text-white">
+            PSD Converter
+          </a>
           <a href="#product" className="transition hover:text-white">
             Product
           </a>

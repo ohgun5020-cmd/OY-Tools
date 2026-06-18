@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { headers } from "next/headers"
+import Script from "next/script"
 import type React from "react"
 
 import {
@@ -48,7 +49,18 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
           dangerouslySetInnerHTML={{ __html: stringifyJsonLd(buildPigmaStructuredData(locale)) }}
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <Script src="https://www.googletagmanager.com/gtag/js?id=AW-18249310477" strategy="afterInteractive" />
+        <Script id="google-ads-tag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-18249310477');
+          `}
+        </Script>
+        {children}
+      </body>
     </html>
   )
 }

@@ -24,6 +24,12 @@ export function SimpleSiteHeader() {
           <PigmaLogo className="h-[18px] w-auto" />
         </a>
         <nav className="flex flex-wrap items-center justify-end gap-x-6 gap-y-2 text-sm font-bold text-[#111]">
+          <a href="/psd-export" className="transition hover:text-[#005bff]">
+            PSD Export
+          </a>
+          <a href="/psd-converter" className="transition hover:text-[#005bff]">
+            PSD 변환
+          </a>
           <a href="/pricing" className="transition hover:text-[#005bff]">
             Pricing
           </a>
@@ -51,6 +57,12 @@ export function SimpleSiteFooter() {
           <p>PSD to Figma-ready conversion and design workflow tools.</p>
         </div>
         <div className="flex flex-wrap gap-x-6 gap-y-2 font-bold">
+          <a href="/psd-export" className="transition hover:text-[#005bff]">
+            PSD Export
+          </a>
+          <a href="/psd-converter" className="transition hover:text-[#005bff]">
+            PSD 변환
+          </a>
           <a href="/pricing" className="transition hover:text-[#005bff]">
             Pricing
           </a>

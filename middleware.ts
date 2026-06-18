@@ -11,6 +11,10 @@ const LOCALE_PATHS: Record<LocaleCode, string> = {
   "pt-br": "/pt-br",
 }
 const SUPPORTED_LOCALES = Object.keys(LOCALE_PATHS) as LocaleCode[]
+const FIXED_LOCALE_PATHS: Record<string, LocaleCode> = {
+  "/psd-export": "en",
+  "/psd-converter": "ko",
+}
 
 export function middleware(request: NextRequest) {
   const selectedLocale = normalizeLocale(request.nextUrl.searchParams.get("lang"))
@@ -24,6 +28,11 @@ export function middleware(request: NextRequest) {
   const pathLocale = request.nextUrl.pathname === "/" ? null : getLocaleFromPath(request.nextUrl.pathname)
   if (pathLocale) {
     return nextWithLocale(request, pathLocale)
+  }
+
+  const fixedLocale = FIXED_LOCALE_PATHS[request.nextUrl.pathname]
+  if (fixedLocale) {
+    return nextWithLocale(request, fixedLocale)
   }
 
   const cookieLocale = normalizeLocale(request.cookies.get(LOCALE_COOKIE)?.value)
@@ -137,5 +146,5 @@ function normalizeLocale(value: string | undefined | null): LocaleCode | null {
 }
 
 export const config = {
-  matcher: ["/", "/en", "/ja", "/es", "/pt-br", "/dashboard/:path*"],
+  matcher: ["/", "/en", "/ja", "/es", "/pt-br", "/psd-export", "/psd-converter", "/dashboard/:path*"],
 }
