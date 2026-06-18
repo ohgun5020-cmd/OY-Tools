@@ -20,8 +20,8 @@ export function PluginConnectClient({ requestId, secret, userEmail, userPlan }: 
   const [connected, setConnected] = useState(false)
   const [message, setMessage] = useState(
     canConnect
-      ? "Approve this browser to connect your web plan to the Pigma plugin."
-      : "Open this page from the Pigma plugin to connect automatically.",
+      ? "Approve this browser to connect your web plan to the PIGER plugin."
+      : "Open this page from the PIGER plugin to connect automatically.",
   )
 
   async function connectPlugin() {
@@ -49,7 +49,7 @@ export function PluginConnectClient({ requestId, secret, userEmail, userPlan }: 
       }
 
       setConnected(true)
-      setMessage("Connected. Return to the Pigma plugin.")
+      setMessage("Connected. Return to the PIGER plugin.")
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Could not connect the plugin.")
     } finally {
@@ -60,11 +60,11 @@ export function PluginConnectClient({ requestId, secret, userEmail, userPlan }: 
   return (
     <section className="mx-auto grid min-h-screen max-w-[920px] content-center gap-6 px-6 py-10 text-[#050505]">
       <a href="/" className="text-sm font-black text-[#005bff]">
-        PIGMA
+        PIGER
       </a>
       <div className="rounded-2xl bg-white p-7 shadow-[0_18px_50px_rgba(15,24,42,0.08)] ring-1 ring-[#e7ecf3] sm:p-9">
         <p className="text-sm font-black tracking-[0.18em] text-[#005bff]">PLUGIN CONNECT</p>
-        <h1 className="mt-4 text-[34px] font-black leading-tight sm:text-[48px]">Connect Pigma plugin</h1>
+        <h1 className="mt-4 text-[34px] font-black leading-tight sm:text-[48px]">Connect PIGER plugin</h1>
         <p className="mt-4 max-w-[680px] text-[15px] font-bold leading-7 text-[#60656b]">
           Account and billing stay on the web. The plugin only receives a limited connection for reading your current plan.
         </p>

@@ -111,7 +111,7 @@ const dashboardCopy: Record<LocaleCode, DashboardCopy> = {
     },
     periods: { lifetime: "전체 기간", day: "오늘", month: "이번 달", year: "올해" },
     count: (value) => `${value}회`,
-    homeLabel: "PIGMA 홈으로 이동",
+    homeLabel: "PIGER 홈으로 이동",
     admin: "관리자",
     logout: "로그아웃",
     workspaceLabel: "WORKSPACE",
@@ -212,7 +212,7 @@ const dashboardCopy: Record<LocaleCode, DashboardCopy> = {
     },
     periods: { lifetime: "all time", day: "today", month: "this month", year: "this year" },
     count: (value) => `${value} times`,
-    homeLabel: "Go to PIGMA home",
+    homeLabel: "Go to PIGER home",
     admin: "Admin",
     logout: "Log out",
     workspaceLabel: "WORKSPACE",
@@ -313,7 +313,7 @@ const dashboardCopy: Record<LocaleCode, DashboardCopy> = {
     },
     periods: { lifetime: "全期間", day: "今日", month: "今月", year: "今年" },
     count: (value) => `${value}回`,
-    homeLabel: "PIGMAホームへ移動",
+    homeLabel: "PIGERホームへ移動",
     admin: "管理者",
     logout: "ログアウト",
     workspaceLabel: "WORKSPACE",
@@ -414,7 +414,7 @@ const dashboardCopy: Record<LocaleCode, DashboardCopy> = {
     },
     periods: { lifetime: "todo el tiempo", day: "hoy", month: "este mes", year: "este año" },
     count: (value) => `${value} veces`,
-    homeLabel: "Ir al inicio de PIGMA",
+    homeLabel: "Ir al inicio de PIGER",
     admin: "Admin",
     logout: "Cerrar sesión",
     workspaceLabel: "WORKSPACE",
@@ -515,7 +515,7 @@ const dashboardCopy: Record<LocaleCode, DashboardCopy> = {
     },
     periods: { lifetime: "todo o período", day: "hoje", month: "este mês", year: "este ano" },
     count: (value) => `${value} vezes`,
-    homeLabel: "Ir para a home do PIGMA",
+    homeLabel: "Ir para a home do PIGER",
     admin: "Admin",
     logout: "Sair",
     workspaceLabel: "WORKSPACE",
@@ -600,8 +600,8 @@ function MaterialIcon({ name, className = "" }: { name: string; className?: stri
   )
 }
 
-function PigmaLogo({ className = "" }: { className?: string }) {
-  return <img src="/assets/pigma-wordmark.svg" alt="PIGMA" className={className} width={100} height={18} />
+function PigerLogo({ className = "" }: { className?: string }) {
+  return <img src="/assets/piger-wordmark.svg" alt="PIGER" className={className} width={100} height={20} />
 }
 
 function getPlanLabel(plan: string, copy: DashboardCopy) {
@@ -767,7 +767,7 @@ export default async function DashboardPage() {
       <div className="mx-auto max-w-[1120px]">
         <header className="flex items-center justify-between rounded-2xl bg-white px-6 py-5 shadow-[0_14px_40px_rgba(15,24,42,0.05)] ring-1 ring-[#e7ecf3]">
           <a href={homeHref} aria-label={copy.homeLabel}>
-            <PigmaLogo className="h-[18px] w-auto" />
+            <PigerLogo className="h-[18px] w-auto" />
           </a>
           <div className="flex items-center gap-3">
             {isAdmin ? (
