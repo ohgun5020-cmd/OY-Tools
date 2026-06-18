@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"
 
 import { getAppUrl } from "@/lib/app-url"
 import { isAdminUser } from "@/lib/admin"
-import { getPluginConnectionRequest } from "@/lib/auth"
+import { getPluginConnectionRequest, getPsdUsage } from "@/lib/auth"
 import { getPlanEntitlement } from "@/lib/plan-entitlements"
 
 export const runtime = "nodejs"
@@ -27,6 +27,9 @@ function webLinks(request: Request) {
     connect: `${appUrl}/plugin/connect`,
     dashboard: `${appUrl}/dashboard`,
     billing: `${appUrl}/dashboard#billing`,
+    psdUsage: `${appUrl}/api/plugin/psd-usage`,
+    psdUsageConsume: `${appUrl}/api/plugin/psd-usage/consume`,
+    psdUsageRelease: `${appUrl}/api/plugin/psd-usage/release`,
     pricing: `${appUrl}/#pricing`,
     ai: `${appUrl}/api/plugin/ai`,
   }
@@ -68,6 +71,7 @@ export async function GET(request: Request) {
         createdAt: result.user.createdAt,
         isAdmin: isAdminUser(result.user),
         entitlement: getPlanEntitlement(result.user),
+        psdUsage: getPsdUsage(result.user),
       },
       links: webLinks(request),
     },

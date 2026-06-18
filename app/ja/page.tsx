@@ -398,8 +398,8 @@ const plans: PricingPlan[] = [
     price: "$0",
     description: "まずは気軽にお試し。小さめファイルで流れをサクッと確認。",
     features: [
-      { label: "無料PSD変換5回", badge: "HOT" },
-      { label: "アカウントごとに合計5回 PSD変換" },
+      { label: "ベータ中はPSD変換無制限", badge: "HOT" },
+      { label: "無料アカウントもベータ中はPSD変換無制限" },
       { label: "ファイル構造チェック" },
       { label: "小さめファイルでテスト" },
       { label: "無料アカウント保存" },

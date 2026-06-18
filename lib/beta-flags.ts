@@ -1,0 +1,1 @@
+export const FREE_ACCOUNT_BETA_PERIOD_ACTIVE = process.env.FREE_ACCOUNT_BETA_PERIOD_ACTIVE !== "false"

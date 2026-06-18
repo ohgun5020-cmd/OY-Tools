@@ -5,6 +5,8 @@ import { DatabaseSync } from "node:sqlite"
 
 import { cookies } from "next/headers"
 
+import { FREE_ACCOUNT_BETA_PERIOD_ACTIVE } from "./beta-flags"
+
 export const SESSION_COOKIE = "pigma_session"
 const PASSWORD_PREFIX = "scrypt"
 const SESSION_HOURS = 8
@@ -54,6 +56,13 @@ type PsdUsagePeriod = "lifetime" | "day" | "month" | "year"
 
 export const PSD_USAGE_POLICY_NOTE =
   "무료 계정은 계정당 총 5회까지 PSD를 만들 수 있습니다. 유료 월간은 월 단위, 유료 연간은 연 단위로 PSD 파일 개수만큼 차감됩니다."
+export const FREE_BETA_PSD_USAGE_POLICY_NOTE = "무료 베타 기간에는 PSD 만들기를 무제한으로 사용할 수 있습니다."
+
+export const FREE_BETA_PSD_USAGE_POLICY_ITEMS = [
+  "베타 기간 동안 무료 계정도 PSD 만들기를 무제한으로 사용할 수 있습니다.",
+  "베타 종료 후 정식 쿼터 정책으로 전환될 수 있습니다.",
+  "PSD가 다운로드 가능 상태가 되지 않으면 예약 차감 대상이 아닙니다.",
+]
 
 export const PSD_USAGE_POLICY_ITEMS = [
   "월간 Basic/Pro는 이번 달 사용량을 공유하고, 연간 Basic/Pro는 올해 사용량을 공유합니다.",
@@ -80,6 +89,7 @@ export type PsdUsageState = {
   periodKey: string
   resetsAt: string | null
   unlimited: boolean
+  freeBetaUnlimited: boolean
   policyNote: string
   policyItems: string[]
 }
@@ -101,6 +111,7 @@ type PsdQuotaConfig = {
   planLabel: string
   limit: number | null
   period: PsdUsagePeriod
+  freeBetaUnlimited: boolean
 }
 
 export type PluginConnectionResult =
@@ -378,6 +389,7 @@ function getPsdQuotaConfig(user: Pick<AuthUser, "plan" | "createdAt">): PsdQuota
       planLabel: "관리자",
       limit: null,
       period: "month",
+      freeBetaUnlimited: false,
     }
   }
 
@@ -389,6 +401,7 @@ function getPsdQuotaConfig(user: Pick<AuthUser, "plan" | "createdAt">): PsdQuota
       planLabel: "$5 연간 회원",
       limit: 3600,
       period: "year",
+      freeBetaUnlimited: false,
     }
   }
 
@@ -398,6 +411,7 @@ function getPsdQuotaConfig(user: Pick<AuthUser, "plan" | "createdAt">): PsdQuota
       planLabel: "$2 연간 회원",
       limit: 600,
       period: "year",
+      freeBetaUnlimited: false,
     }
   }
 
@@ -407,6 +421,7 @@ function getPsdQuotaConfig(user: Pick<AuthUser, "plan" | "createdAt">): PsdQuota
       planLabel: "$5 회원",
       limit: 300,
       period: "month",
+      freeBetaUnlimited: false,
     }
   }
 
@@ -416,6 +431,17 @@ function getPsdQuotaConfig(user: Pick<AuthUser, "plan" | "createdAt">): PsdQuota
       planLabel: "$2 회원",
       limit: 50,
       period: "month",
+      freeBetaUnlimited: false,
+    }
+  }
+
+  if (FREE_ACCOUNT_BETA_PERIOD_ACTIVE) {
+    return {
+      plan: "free",
+      planLabel: "무료 베타",
+      limit: null,
+      period: "lifetime",
+      freeBetaUnlimited: true,
     }
   }
 
@@ -424,6 +450,7 @@ function getPsdQuotaConfig(user: Pick<AuthUser, "plan" | "createdAt">): PsdQuota
     planLabel: "무료 계정",
     limit: FREE_PSD_USAGE_LIMIT,
     period: "lifetime",
+    freeBetaUnlimited: false,
   }
 }
 
@@ -889,6 +916,23 @@ export function cleanupExpiredPluginConnectionRequests() {
 function getPsdUsageWithDatabase(database: DatabaseSync, user: Pick<AuthUser, "id" | "plan" | "createdAt">): PsdUsageState {
   const quota = getPsdQuotaConfig(user)
   const period = getPsdPeriod(quota.period)
+  if (quota.freeBetaUnlimited) {
+    return {
+      plan: quota.plan,
+      planLabel: quota.planLabel,
+      limit: null,
+      used: 0,
+      remaining: null,
+      period: quota.period,
+      periodKey: period.periodKey,
+      resetsAt: period.resetsAt,
+      unlimited: true,
+      freeBetaUnlimited: true,
+      policyNote: FREE_BETA_PSD_USAGE_POLICY_NOTE,
+      policyItems: FREE_BETA_PSD_USAGE_POLICY_ITEMS,
+    }
+  }
+
   const row =
     quota.period === "lifetime"
       ? (database
@@ -912,6 +956,7 @@ function getPsdUsageWithDatabase(database: DatabaseSync, user: Pick<AuthUser, "i
     periodKey: period.periodKey,
     resetsAt: period.resetsAt,
     unlimited: quota.limit === null,
+    freeBetaUnlimited: false,
     policyNote: PSD_USAGE_POLICY_NOTE,
     policyItems: PSD_USAGE_POLICY_ITEMS,
   }
@@ -949,6 +994,15 @@ export function consumePsdUsage(
     }
 
     const usage = getPsdUsageWithDatabase(database, user)
+    if (usage.freeBetaUnlimited) {
+      database.exec("COMMIT")
+      return {
+        allowed: true,
+        duplicate: false,
+        usage,
+      }
+    }
+
     if (usage.limit !== null && Number(usage.remaining || 0) < amount) {
       database.exec("ROLLBACK")
       return {

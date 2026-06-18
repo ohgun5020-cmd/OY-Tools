@@ -34,7 +34,7 @@ PIGMA_ADMIN_EMAILS=ohgun5020@gmail.com
 
 The owner email `ohgun5020@gmail.com` is always allowed, even when additional admin emails are configured.
 
-Free users receive 5 total PSD conversions per account. This quota does not reset daily.
+During the free beta, free users receive unlimited PSD conversions. After beta, the free quota may return to the standard limit.
 
 ## Paddle Billing
 

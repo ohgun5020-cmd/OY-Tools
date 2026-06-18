@@ -5,6 +5,7 @@ import { isAdminUser } from "@/lib/admin"
 import {
   authenticateEmailUser,
   createPluginAccessToken,
+  getPsdUsage,
   getUserById,
   isAuthInputError,
 } from "@/lib/auth"
@@ -28,6 +29,9 @@ function webLinks(request: Request) {
     connect: `${appUrl}/plugin/connect`,
     dashboard: `${appUrl}/dashboard`,
     billing: `${appUrl}/dashboard#billing`,
+    psdUsage: `${appUrl}/api/plugin/psd-usage`,
+    psdUsageConsume: `${appUrl}/api/plugin/psd-usage/consume`,
+    psdUsageRelease: `${appUrl}/api/plugin/psd-usage/release`,
     pricing: `${appUrl}/#pricing`,
     ai: `${appUrl}/api/plugin/ai`,
   }
@@ -72,6 +76,7 @@ export async function POST(request: Request) {
           createdAt: user.createdAt,
           isAdmin: isAdminUser(user),
           entitlement: getPlanEntitlement(user),
+          psdUsage: getPsdUsage(user),
         },
         links: webLinks(request),
       },
