@@ -48,10 +48,11 @@ PADDLE_ENVIRONMENT=production
 PADDLE_WEBHOOK_SECRET=...
 PADDLE_BASIC_PRICE_ID=pri_01ksktfy8dsq6zjj4nq29hwz2x
 PADDLE_PRO_PRICE_ID=pri_01ksktgy40nsef59aed9s4g24p
-PADDLE_CUSTOMER_PORTAL_URL=...
 ```
 
 Give the Paddle API key `customer_portal_session.write` permission so the dashboard can create authenticated customer portal links for payment method updates, invoices, and subscription cancellation.
+
+Do not store a customer-specific Paddle link such as `https://customer-portal.paddle.com/subscriptions/.../cpl_...` in the repo or shared environment variables. Those links are for one subscription/customer session only. Use `PADDLE_API_KEY` so `/api/billing/portal` can generate a fresh customer portal session for the signed-in user.
 
 In Paddle > Checkout > Checkout settings, set the default payment link to your production domain:
 

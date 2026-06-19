@@ -80,6 +80,10 @@ type DashboardCopy = {
     cancelDescription: string
     noSubscriptionTitle: string
     noSubscriptionDescription: string
+    paymentIssueTitle: string
+    paymentIssueDescription: string
+    refundPolicy: string
+    contactSupport: string
     viewPricing: string
   }
 }
@@ -183,6 +187,11 @@ const dashboardCopy: Record<LocaleCode, DashboardCopy> = {
       noSubscriptionTitle: "아직 관리할 구독이 없습니다.",
       noSubscriptionDescription:
         "Basic 또는 Pro를 선택하면 결제 완료 후 이 영역에서 카드 변경과 구독 취소를 직접 처리할 수 있습니다.",
+      paymentIssueTitle: "결제했는데 구독이 보이지 않나요?",
+      paymentIssueDescription:
+        "결제 이메일과 로그인 이메일이 다르거나 Paddle 동기화가 늦어질 수 있습니다. 구매 이메일과 주문번호를 보내주시면 바로 확인하겠습니다.",
+      refundPolicy: "환불 정책 보기",
+      contactSupport: "결제 문의하기",
       viewPricing: "요금제 보기",
     },
   },
@@ -284,6 +293,11 @@ const dashboardCopy: Record<LocaleCode, DashboardCopy> = {
       noSubscriptionTitle: "No subscription to manage yet.",
       noSubscriptionDescription:
         "Choose Basic or Pro, and after checkout you can change cards or cancel directly from this area.",
+      paymentIssueTitle: "Paid but do not see your subscription?",
+      paymentIssueDescription:
+        "The checkout email may differ from your login email, or Paddle sync may be delayed. Send us the purchase email and order number so we can check it.",
+      refundPolicy: "View refund policy",
+      contactSupport: "Contact billing support",
       viewPricing: "See pricing",
     },
   },
@@ -385,6 +399,11 @@ const dashboardCopy: Record<LocaleCode, DashboardCopy> = {
       noSubscriptionTitle: "まだ管理できるサブスクリプションはありません。",
       noSubscriptionDescription:
         "BasicまたはProを選択すると、決済完了後にここでカード変更と解約を直接処理できます。",
+      paymentIssueTitle: "支払い済みなのにサブスクリプションが表示されませんか？",
+      paymentIssueDescription:
+        "購入時のメールとログインメールが異なるか、Paddle同期が遅れている可能性があります。購入メールと注文番号を送っていただければ確認します。",
+      refundPolicy: "返金ポリシーを見る",
+      contactSupport: "決済サポートへ連絡",
       viewPricing: "料金を見る",
     },
   },
@@ -486,6 +505,11 @@ const dashboardCopy: Record<LocaleCode, DashboardCopy> = {
       noSubscriptionTitle: "Aún no hay suscripción que gestionar.",
       noSubscriptionDescription:
         "Elige Basic o Pro y, después del pago, podrás cambiar tarjeta o cancelar desde esta zona.",
+      paymentIssueTitle: "¿Pagaste pero no ves la suscripción?",
+      paymentIssueDescription:
+        "El email de compra puede ser distinto al email de login, o la sincronización de Paddle puede tardar. Envíanos el email de compra y el número de pedido para revisarlo.",
+      refundPolicy: "Ver política de reembolso",
+      contactSupport: "Contactar soporte de pago",
       viewPricing: "Ver precios",
     },
   },
@@ -587,6 +611,11 @@ const dashboardCopy: Record<LocaleCode, DashboardCopy> = {
       noSubscriptionTitle: "Ainda não há assinatura para gerenciar.",
       noSubscriptionDescription:
         "Escolha Basic ou Pro e, depois do pagamento, você poderá trocar cartão ou cancelar por aqui.",
+      paymentIssueTitle: "Pagou, mas não vê a assinatura?",
+      paymentIssueDescription:
+        "O email da compra pode ser diferente do email de login, ou a sincronização da Paddle pode demorar. Envie o email da compra e o número do pedido para conferirmos.",
+      refundPolicy: "Ver política de reembolso",
+      contactSupport: "Contatar suporte de pagamento",
       viewPricing: "Ver preços",
     },
   },
@@ -743,7 +772,7 @@ export default async function DashboardPage() {
   const psdUsage = getPsdUsage(user)
   const joinedAt = formatDate(user.createdAt, copy) || copy.unknown
   const renewsAt = formatDate(user.planRenewsAt, copy)
-  const hasBillingProfile = Boolean(user.billingCustomerId || user.billingPortalUrl || process.env.PADDLE_CUSTOMER_PORTAL_URL)
+  const hasBillingProfile = Boolean(user.billingCustomerId || user.billingPortalUrl)
   const hasPaidPlan = user.plan !== "free" || Boolean(user.billingSubscriptionId)
   const nextBillingLabel = renewsAt || (hasPaidPlan ? copy.paddleCheck : copy.freePlan)
   const isAdmin = isAdminUser(user)
@@ -753,6 +782,9 @@ export default async function DashboardPage() {
   const psdResetLabel = formatResetDate(psdUsage.resetsAt, copy)
   const psdResetHelp = psdUsage.period === "lifetime" ? copy.usage.noResetHelp : copy.usage.resetHelp
   const headline = copy.headline(user.name)
+  const billingSupportHref = `mailto:min.ai.labs@gmail.com?subject=${encodeURIComponent(
+    "PIGER billing support",
+  )}&body=${encodeURIComponent(`Account email: ${user.email}\nPurchase email:\nOrder or invoice number:\n\nIssue:\n`)}`
 
   const summaryItems = [
     [copy.summary.currentPlan, getPlanLabel(user.plan, copy), "workspace_premium"],
@@ -975,13 +1007,35 @@ export default async function DashboardPage() {
               <p className="mt-2 text-sm font-bold leading-6 text-[#60656b]">
                 {copy.billing.noSubscriptionDescription}
               </p>
-              <a
-                href={pricingHref}
-                className="mt-4 inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[#005bff] px-5 text-sm font-black text-white transition hover:-translate-y-0.5 hover:bg-[#004de0]"
-              >
-                {copy.billing.viewPricing}
-                <MaterialIcon name="arrow_forward" className="text-[17px]" />
-              </a>
+              <div className="mt-5 rounded-2xl bg-white p-4 ring-1 ring-[#d6e7ff]">
+                <p className="text-[16px] font-black">{copy.billing.paymentIssueTitle}</p>
+                <p className="mt-2 text-sm font-bold leading-6 text-[#60656b]">
+                  {copy.billing.paymentIssueDescription}
+                </p>
+              </div>
+              <div className="mt-4 flex flex-wrap gap-3">
+                <a
+                  href={pricingHref}
+                  className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[#005bff] px-5 text-sm font-black text-white transition hover:-translate-y-0.5 hover:bg-[#004de0]"
+                >
+                  {copy.billing.viewPricing}
+                  <MaterialIcon name="arrow_forward" className="text-[17px]" />
+                </a>
+                <a
+                  href="/refund-policy"
+                  className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-white px-5 text-sm font-black text-[#005bff] ring-1 ring-[#c8ddff] transition hover:-translate-y-0.5 hover:bg-[#eef5ff]"
+                >
+                  {copy.billing.refundPolicy}
+                  <MaterialIcon name="policy" className="text-[17px]" />
+                </a>
+                <a
+                  href={billingSupportHref}
+                  className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[#050505] px-5 text-sm font-black text-white transition hover:-translate-y-0.5 hover:bg-[#1c1c1c]"
+                >
+                  {copy.billing.contactSupport}
+                  <MaterialIcon name="mail" className="text-[17px]" />
+                </a>
+              </div>
             </div>
           )}
         </section>
