@@ -185,7 +185,8 @@ export function buildPigmaMetadata(locale: LocaleCode, options: MetadataOptions 
       images: [image],
     },
     icons: {
-      icon: [{ url: "/icon.svg", type: "image/svg+xml", sizes: "any" }],
+      icon: [{ url: "/icon.png", type: "image/png", sizes: "128x128" }],
+      apple: [{ url: "/apple-icon.png", type: "image/png", sizes: "128x128" }],
     },
     other: {
       "product:category": "Figma plugin",
