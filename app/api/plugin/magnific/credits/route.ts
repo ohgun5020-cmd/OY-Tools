@@ -5,6 +5,7 @@ import {
   estimatePrecisionCredits,
   getMagnificApiKey,
   getMonthlyCreditLimit,
+  getMonthlyCreditUsedFallback,
   requirePluginAuth,
 } from "@/lib/magnific-plugin"
 
@@ -23,8 +24,8 @@ function monthRange() {
   const start = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1))
   const end = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1))
   return {
-    startDate: start.toISOString(),
-    endDate: end.toISOString(),
+    startDate: start.toISOString().slice(0, 10),
+    endDate: end.toISOString().slice(0, 10),
   }
 }
 
@@ -62,6 +63,7 @@ export async function GET(request: Request) {
   const url = new URL(request.url)
   const apiKey = getMagnificApiKey(request)
   const monthlyLimit = getMonthlyCreditLimit()
+  const usedFallback = getMonthlyCreditUsedFallback()
   const estimatedCredits = estimatePrecisionCredits(
     url.searchParams.get("width"),
     url.searchParams.get("height"),
@@ -73,9 +75,9 @@ export async function GET(request: Request) {
       {
         ok: true,
         configured: false,
-        usedThisMonth: null,
+        usedThisMonth: usedFallback,
         monthlyLimit,
-        remaining: monthlyLimit,
+        remaining: monthlyLimit === null || usedFallback === null ? monthlyLimit : Math.max(0, monthlyLimit - usedFallback),
         estimatedCredits,
         detail: "Magnific API key is not configured.",
       },
@@ -99,16 +101,20 @@ export async function GET(request: Request) {
 
   const payload = (await response.json().catch(() => null)) as unknown
   if (!response.ok) {
+    const fallbackRemaining =
+      monthlyLimit === null || usedFallback === null ? monthlyLimit : Math.max(0, monthlyLimit - usedFallback)
+
     return NextResponse.json(
       {
         ok: true,
         configured: true,
         analyticsAvailable: false,
-        usedThisMonth: null,
+        usedThisMonth: usedFallback,
         monthlyLimit,
-        remaining: monthlyLimit,
+        remaining: fallbackRemaining,
         estimatedCredits,
         detail: `Magnific analytics returned HTTP ${response.status}.`,
+        analyticsError: payload,
       },
       { headers: corsHeaders() },
     )

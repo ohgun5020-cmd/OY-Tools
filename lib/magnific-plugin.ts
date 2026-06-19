@@ -51,8 +51,28 @@ export function getMagnificApiKey(request: Request, body?: { apiKey?: unknown; m
 }
 
 export function getMonthlyCreditLimit() {
-  const value = Number(process.env.MAGNIFIC_MONTHLY_CREDIT_LIMIT || 0)
-  return Number.isFinite(value) && value > 0 ? value : null
+  return parseCreditEnv(process.env.MAGNIFIC_MONTHLY_CREDIT_LIMIT)
+}
+
+export function getMonthlyCreditUsedFallback() {
+  return parseCreditEnv(process.env.MAGNIFIC_USED_CREDITS_THIS_MONTH)
+}
+
+function parseCreditEnv(raw: unknown) {
+  if (typeof raw !== "string" || !raw.trim()) {
+    return null
+  }
+
+  const value = raw.trim().toLowerCase().replace(/\s+/g, "")
+  const multiplier = value.endsWith("k") ? 1000 : 1
+  const withoutSuffix = value.replace(/k$/, "")
+  const normalized =
+    multiplier === 1000
+      ? withoutSuffix.replace(",", ".")
+      : withoutSuffix.replace(/,/g, "")
+  const parsed = Number(normalized)
+
+  return Number.isFinite(parsed) && parsed > 0 ? Math.round(parsed * multiplier) : null
 }
 
 export function getPrecisionCreditsPerMegapixel() {
