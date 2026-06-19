@@ -5,7 +5,7 @@ import { getPlanEntitlement } from "@/lib/plan-entitlements"
 export const MAGNIFIC_API_BASE = "https://api.magnific.com"
 
 export type MagnificAuthResult =
-  | { ok: true; user: AuthUser; entitlement: ReturnType<typeof getPlanEntitlement> }
+  | { ok: true; user: AuthUser | null; entitlement: ReturnType<typeof getPlanEntitlement> | null }
   | { ok: false; response: Response }
 
 export type MagnificTaskData = {
@@ -86,8 +86,16 @@ export function webLinks(request: Request) {
 }
 
 export function requirePluginAuth(request: Request): MagnificAuthResult {
-  const user = getUserByPluginAccessToken(getBearerToken(request))
+  const token = getBearerToken(request)
+  const user = token ? getUserByPluginAccessToken(token) : null
+  const requiresToken = process.env.MAGNIFIC_PLUGIN_REQUIRE_TOKEN === "true"
+  const requiresPro = process.env.MAGNIFIC_PLUGIN_REQUIRE_PRO === "true"
+
   if (!user) {
+    if (!requiresToken) {
+      return { ok: true, user: null, entitlement: null }
+    }
+
     return {
       ok: false,
       response: Response.json(
@@ -98,7 +106,7 @@ export function requirePluginAuth(request: Request): MagnificAuthResult {
   }
 
   const entitlement = getPlanEntitlement(user)
-  if (!entitlement.serverAiEnabled) {
+  if (requiresPro && !entitlement.serverAiEnabled) {
     return {
       ok: false,
       response: Response.json(

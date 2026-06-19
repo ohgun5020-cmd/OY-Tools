@@ -100,8 +100,8 @@ export async function POST(request: Request) {
       task: payload?.data,
       estimatedCredits: estimatePrecisionCredits(body.width, body.height, scaleFactor),
       user: {
-        plan: auth.user.plan,
-        planStatus: auth.user.planStatus,
+        plan: auth.user?.plan || null,
+        planStatus: auth.user?.planStatus || null,
         entitlement: auth.entitlement,
       },
     },
