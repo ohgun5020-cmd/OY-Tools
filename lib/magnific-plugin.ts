@@ -281,3 +281,36 @@ export function normalizeAspectRatio(value: unknown) {
   ])
   return supported.has(ratio) ? ratio : "square_1_1"
 }
+
+export type MagnificEditModel = {
+  key: string
+  label: string
+  endpoint: string
+  provider: "seedream" | "gemini"
+}
+
+const editModels: MagnificEditModel[] = [
+  {
+    key: "seedream-v5-lite-edit",
+    label: "Seedream V5 Lite Edit",
+    endpoint: "/v1/ai/text-to-image/seedream-v5-lite-edit",
+    provider: "seedream",
+  },
+  {
+    key: "seedream-v4-5-edit",
+    label: "Seedream 4.5 Edit",
+    endpoint: "/v1/ai/text-to-image/seedream-v4-5-edit",
+    provider: "seedream",
+  },
+  {
+    key: "gemini-2-5-flash-image-preview",
+    label: "Gemini 2.5 Flash",
+    endpoint: "/v1/ai/gemini-2-5-flash-image-preview",
+    provider: "gemini",
+  },
+]
+
+export function getMagnificEditModel(value: unknown) {
+  const key = typeof value === "string" ? value.trim() : ""
+  return editModels.find((model) => model.key === key) || editModels[0]
+}

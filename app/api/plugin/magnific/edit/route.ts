@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server"
 
 import {
+  cleanImageBase64,
   corsHeaders,
   fetchMagnific,
+  getMagnificEditModel,
   getMagnificApiKey,
   normalizeAspectRatio,
   readMagnificJson,
@@ -17,6 +19,7 @@ type EditRequest = {
   image?: unknown
   prompt?: unknown
   aspectRatio?: unknown
+  model?: unknown
   apiKey?: unknown
   magnificApiKey?: unknown
 }
@@ -53,14 +56,20 @@ export async function POST(request: Request) {
     )
   }
 
-  const magnificResponse = await fetchMagnific("/v1/ai/text-to-image/seedream-v4-5-edit", apiKey, {
+  const model = getMagnificEditModel(body.model)
+  const requestBody: Record<string, unknown> = {
+    prompt,
+    reference_images: model.provider === "gemini" ? [image] : [image],
+  }
+
+  if (model.provider === "seedream") {
+    requestBody.aspect_ratio = normalizeAspectRatio(body.aspectRatio)
+    requestBody.enable_safety_checker = true
+  }
+
+  const magnificResponse = await fetchMagnific(model.endpoint, apiKey, {
     method: "POST",
-    body: JSON.stringify({
-      prompt,
-      reference_images: [image],
-      aspect_ratio: normalizeAspectRatio(body.aspectRatio),
-      enable_safety_checker: true,
-    }),
+    body: JSON.stringify(requestBody),
   })
   const payload = await readMagnificJson(magnificResponse)
 
@@ -71,12 +80,5 @@ export async function POST(request: Request) {
     )
   }
 
-  return NextResponse.json({ ok: true, task: payload?.data }, { headers: corsHeaders() })
-}
-
-function cleanImageBase64(value: unknown) {
-  if (typeof value !== "string") {
-    return ""
-  }
-  return value.replace(/^data:image\/[a-zA-Z0-9.+-]+;base64,/, "").trim()
+  return NextResponse.json({ ok: true, model, task: payload?.data }, { headers: corsHeaders() })
 }
