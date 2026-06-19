@@ -63,6 +63,7 @@ export async function GET(request: Request) {
         magnificCredits: `${appUrl}/api/plugin/magnific/credits`,
         magnificUpscale: `${appUrl}/api/plugin/magnific/upscale`,
         magnificEdit: `${appUrl}/api/plugin/magnific/edit`,
+        magnificRemoveBackground: `${appUrl}/api/plugin/magnific/remove-background`,
       },
     },
     {

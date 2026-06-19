@@ -19,6 +19,12 @@ export type MagnificTaskResponse = {
   [key: string]: unknown
 }
 
+type TempImage = {
+  bytes: Buffer
+  mimeType: string
+  expiresAt: number
+}
+
 export function corsHeaders() {
   return {
     "Access-Control-Allow-Origin": "*",
@@ -39,6 +45,13 @@ export function cleanSecret(value: unknown) {
     return ""
   }
   return value.replace(/^Bearer\s+/i, "").trim()
+}
+
+export function cleanImageBase64(value: unknown) {
+  if (typeof value !== "string") {
+    return ""
+  }
+  return value.replace(/^data:image\/[a-zA-Z0-9.+-]+;base64,/, "").trim()
 }
 
 export function getMagnificApiKey(request: Request, body?: { apiKey?: unknown; magnificApiKey?: unknown }) {
@@ -185,6 +198,60 @@ export async function fetchGeneratedImage(generatedUrl: string) {
     mimeType: contentType.split(";")[0] || "image/png",
     imageBase64: bytes.toString("base64"),
   }
+}
+
+function tempImageStore() {
+  const globalStore = globalThis as typeof globalThis & {
+    __magnificTempImages?: Map<string, TempImage>
+  }
+
+  if (!globalStore.__magnificTempImages) {
+    globalStore.__magnificTempImages = new Map()
+  }
+
+  const now = Date.now()
+  for (const [id, image] of globalStore.__magnificTempImages.entries()) {
+    if (image.expiresAt <= now) {
+      globalStore.__magnificTempImages.delete(id)
+    }
+  }
+
+  return globalStore.__magnificTempImages
+}
+
+export function storeTempImage(input: { imageBase64: unknown; mimeType?: unknown }) {
+  const imageBase64 = cleanImageBase64(input.imageBase64)
+  if (!imageBase64) {
+    return null
+  }
+
+  const bytes = Buffer.from(imageBase64, "base64")
+  if (!bytes.length || bytes.length > 20 * 1024 * 1024) {
+    return null
+  }
+
+  const id = crypto.randomUUID()
+  const mimeType =
+    typeof input.mimeType === "string" && input.mimeType.startsWith("image/")
+      ? input.mimeType
+      : "image/png"
+
+  tempImageStore().set(id, {
+    bytes,
+    mimeType,
+    expiresAt: Date.now() + 10 * 60 * 1000,
+  })
+
+  return id
+}
+
+export function getTempImage(id: string) {
+  const image = tempImageStore().get(id)
+  if (!image || image.expiresAt <= Date.now()) {
+    tempImageStore().delete(id)
+    return null
+  }
+  return image
 }
 
 export function normalizeScaleFactor(value: unknown) {
