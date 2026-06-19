@@ -63,8 +63,18 @@ export async function POST(request: Request) {
   const payload = (await response.json().catch(() => null)) as { url?: string; high_resolution?: string } | null
 
   if (!response.ok || !payload) {
+    const detail =
+      payload && typeof payload === "object" && "message" in payload
+        ? String((payload as { message?: unknown }).message || "")
+        : ""
+
     return NextResponse.json(
-      { error: "Magnific background removal failed.", code: "magnific_request_failed", detail: payload },
+      {
+        error: detail || "Magnific background removal failed.",
+        code: "magnific_request_failed",
+        detail: payload,
+        imageUrl,
+      },
       { status: 502, headers: corsHeaders() },
     )
   }
@@ -84,6 +94,7 @@ export async function POST(request: Request) {
         ok: true,
         result: payload,
         ...image,
+        mimeType: "image/png",
       },
       { headers: corsHeaders() },
     )
