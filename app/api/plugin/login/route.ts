@@ -38,6 +38,7 @@ function webLinks(request: Request) {
     magnificUpscale: `${appUrl}/api/plugin/magnific/upscale`,
     magnificEdit: `${appUrl}/api/plugin/magnific/edit`,
     magnificRemoveBackground: `${appUrl}/api/plugin/magnific/remove-background`,
+    magnificChangeCamera: `${appUrl}/api/plugin/magnific/change-camera`,
   }
 }
 
