@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og"
 
-export const alt = "PIGMA - PSD to Figma and Figma to PSD plugin"
+export const alt = "PIGER - PSD to Figma and Figma to PSD plugin"
 export const size = {
   width: 1200,
   height: 630,
@@ -23,7 +23,7 @@ export default function Image() {
           width: "100%",
         }}
       >
-        <div style={{ color: "#6ea8ff", fontSize: 28, fontWeight: 800, letterSpacing: 3 }}>PIGMA</div>
+        <div style={{ color: "#6ea8ff", fontSize: 28, fontWeight: 800, letterSpacing: 3 }}>PIGER</div>
         <div
           style={{
             fontSize: 76,

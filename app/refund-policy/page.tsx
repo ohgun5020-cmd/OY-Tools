@@ -3,15 +3,15 @@ import type { Metadata } from "next"
 import { PolicyPage } from "../_components/PolicyPage"
 
 export const metadata: Metadata = {
-  title: "Refund Policy | PIGMA",
-  description: "Refund Policy for PIGMA.",
+  title: "Refund Policy | PIGER",
+  description: "Refund Policy for PIGER.",
 }
 
 export default function RefundPolicyPage() {
   return (
     <PolicyPage
       title="Refund Policy"
-      description="This policy explains how refunds and cancellations work for PIGMA subscriptions and digital services."
+      description="This policy explains how refunds and cancellations work for PIGER subscriptions and digital services."
       sections={[
         {
           title: "1. Subscription cancellations",
@@ -27,7 +27,7 @@ export default function RefundPolicyPage() {
           children: (
             <>
               <p>
-                Because PIGMA is a digital SaaS product, completed billing periods are generally non-refundable once the
+                Because PIGER is a digital SaaS product, completed billing periods are generally non-refundable once the
                 service has been made available. We may consider refunds in the following cases:
               </p>
               <ul className="list-disc space-y-2 pl-6">

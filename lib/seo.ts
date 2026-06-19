@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 export type LocaleCode = "ko" | "en" | "ja" | "es" | "pt-br"
 
 export const SITE_URL = "https://oy-tools-production.up.railway.app"
-export const SITE_NAME = "PIGMA"
+export const SITE_NAME = "PIGER"
 
 export const LOCALE_PATHS: Record<LocaleCode, string> = {
   ko: "/",
@@ -48,7 +48,7 @@ export const ABSOLUTE_LANGUAGE_ALTERNATES = {
 } as const
 
 export const SEO_KEYWORDS = [
-  "PIGMA",
+  "PIGER",
   "PSD to Figma",
   "Figma to PSD",
   "PSD converter",
@@ -76,31 +76,31 @@ export const LOCALE_SEO: Record<
   }
 > = {
   ko: {
-    title: "PIGMA | PSD·AI·PDF를 Figma 편집 파일로, Figma를 PSD로",
+    title: "PIGER | PSD·AI·PDF를 Figma 편집 파일로, Figma를 PSD로",
     description:
-      "PIGMA는 PSD, AI, EPS, PDF, PPT, SVG를 Figma에서 편집 가능한 레이어로 정리하고 Figma 작업을 PSD-ready 출력으로 변환하는 플러그인입니다.",
+      "PIGER는 PSD, AI, EPS, PDF, PPT, SVG를 Figma에서 편집 가능한 레이어로 정리하고 Figma 작업을 PSD-ready 출력으로 변환하는 플러그인입니다.",
     path: "/",
   },
   en: {
-    title: "PIGMA | PSD to Figma and Figma to PSD plugin",
+    title: "PIGER | PSD to Figma and Figma to PSD plugin",
     description:
       "Convert PSD, AI, EPS, PDF, PPT, and SVG into editable Figma layers, export Figma work to PSD-ready files, and clean designs with AI checks.",
     path: "/en",
   },
   ja: {
-    title: "PIGMA | PSDをFigma編集データへ、FigmaをPSDへ",
+    title: "PIGER | PSDをFigma編集データへ、FigmaをPSDへ",
     description:
       "PSD、AI、EPS、PDF、PPT、SVGをFigmaで編集しやすいレイヤーに整理し、Figma作業をPSD-readyに書き出すデザインワークフロープラグインです。",
     path: "/ja",
   },
   es: {
-    title: "PIGMA | PSD a Figma y Figma a PSD",
+    title: "PIGER | PSD a Figma y Figma a PSD",
     description:
       "Convierte PSD, AI, EPS, PDF, PPT y SVG en capas editables de Figma, exporta trabajo de Figma a PSD y limpia diseños con checks IA.",
     path: "/es",
   },
   "pt-br": {
-    title: "PIGMA | PSD para Figma e Figma para PSD",
+    title: "PIGER | PSD para Figma e Figma para PSD",
     description:
       "Converta PSD, AI, EPS, PDF, PPT e SVG em camadas editáveis no Figma, exporte Figma para PSD e limpe designs com checks de IA.",
     path: "/pt-br",
@@ -174,7 +174,7 @@ export function buildPigmaMetadata(locale: LocaleCode, options: MetadataOptions 
           url: image,
           width: 1200,
           height: 630,
-          alt: "PIGMA PSD to Figma and Figma to PSD plugin",
+          alt: "PIGER PSD to Figma and Figma to PSD plugin",
         },
       ],
     },
@@ -192,7 +192,7 @@ export function buildPigmaMetadata(locale: LocaleCode, options: MetadataOptions 
       "product:category": "Figma plugin",
       "product:keywords": SEO_KEYWORDS.join(", "),
       "ai:summary":
-        "PIGMA is a Figma plugin and web workflow for PSD to Figma conversion, Figma to PSD export, editable layer cleanup, AI typo checks, and design automation.",
+        "PIGER is a Figma plugin and web workflow for PSD to Figma conversion, Figma to PSD export, editable layer cleanup, AI typo checks, and design automation.",
       "ai:features": FEATURE_LIST.join("; "),
     },
   }

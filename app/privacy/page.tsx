@@ -3,15 +3,15 @@ import type { Metadata } from "next"
 import { PolicyPage } from "../_components/PolicyPage"
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | PIGMA",
-  description: "Privacy Policy for PIGMA.",
+  title: "Privacy Policy | PIGER",
+  description: "Privacy Policy for PIGER.",
 }
 
 export default function PrivacyPage() {
   return (
     <PolicyPage
       title="Privacy Policy"
-      description="This policy explains what information PIGMA collects, how we use it, and the choices you have."
+      description="This policy explains what information PIGER collects, how we use it, and the choices you have."
       sections={[
         {
           title: "1. Information we collect",
@@ -71,7 +71,7 @@ export default function PrivacyPage() {
             <>
               <p>
                 We do not sell your personal information. We share information only with service providers who help us
-                operate PIGMA, such as hosting, authentication, analytics, customer support, and payment processing
+                operate PIGER, such as hosting, authentication, analytics, customer support, and payment processing
                 providers.
               </p>
               <p>

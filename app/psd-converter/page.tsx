@@ -6,15 +6,15 @@ import { SITE_NAME, SITE_URL, absoluteUrl } from "@/lib/seo"
 
 const path = "/psd-converter"
 const pageUrl = absoluteUrl(path)
-const title = "PSD 변환 | PSD를 Figma 편집 레이어로 바꾸는 PIGMA"
+const title = "PSD 변환 | PSD를 Figma 편집 레이어로 바꾸는 PIGER"
 const description =
-  "PIGMA는 PSD 변환, PSD 피그마 변환, Figma PSD export 작업을 위해 레이어, 텍스트, 이미지, 효과를 편집하기 쉬운 구조로 정리하는 Figma 플러그인입니다."
+  "PIGER는 PSD 변환, PSD 피그마 변환, Figma PSD export 작업을 위해 레이어, 텍스트, 이미지, 효과를 편집하기 쉬운 구조로 정리하는 Figma 플러그인입니다."
 
 const faq = [
   {
     question: "PSD 변환을 하면 텍스트와 레이어를 다시 편집할 수 있나요?",
     answer:
-      "PIGMA는 PSD를 Figma에서 다루기 쉬운 구조로 정리하는 데 집중합니다. 파일 상태에 따라 결과는 달라질 수 있지만, 레이어 정리, 텍스트 확인, 이미지와 효과 점검을 통해 편집 가능한 흐름을 만드는 것이 목표입니다.",
+      "PIGER는 PSD를 Figma에서 다루기 쉬운 구조로 정리하는 데 집중합니다. 파일 상태에 따라 결과는 달라질 수 있지만, 레이어 정리, 텍스트 확인, 이미지와 효과 점검을 통해 편집 가능한 흐름을 만드는 것이 목표입니다.",
   },
   {
     question: "PSD를 Figma로 변환한 뒤 다시 PSD export도 가능한가요?",
@@ -24,7 +24,7 @@ const faq = [
   {
     question: "PSD 말고 다른 파일도 변환할 수 있나요?",
     answer:
-      "PIGMA는 PSD뿐 아니라 AI, EPS, PDF, PPT, SVG 파일을 Figma에서 다시 만지기 쉬운 구조로 가져오고 정리하는 워크플로우를 제공합니다.",
+      "PIGER는 PSD뿐 아니라 AI, EPS, PDF, PPT, SVG 파일을 Figma에서 다시 만지기 쉬운 구조로 가져오고 정리하는 워크플로우를 제공합니다.",
   },
 ]
 
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
         url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "PIGMA PSD 변환과 Figma PSD export",
+        alt: "PIGER PSD 변환과 Figma PSD export",
       },
     ],
   },
@@ -78,7 +78,7 @@ const jsonLd = {
         {
           "@type": "ListItem",
           position: 1,
-          name: "PIGMA",
+          name: "PIGER",
           item: SITE_URL,
         },
         {
@@ -147,7 +147,7 @@ export default function PsdConverterPage() {
       }
       description={description}
       primaryCta={{
-        label: "Figma에서 PIGMA 열기",
+        label: "Figma에서 PIGER 열기",
         href: FIGMA_PLUGIN_URL,
         external: true,
       }}
@@ -182,7 +182,7 @@ export default function PsdConverterPage() {
           body: "PSD, AI, EPS, PDF, PPT, SVG 같은 파일을 Figma 작업 흐름으로 가져옵니다.",
         },
         {
-          title: "PIGMA로 구조 정리",
+          title: "PIGER로 구조 정리",
           body: "레이어, 텍스트, 이미지, 효과를 확인하고 불필요한 정리 시간을 줄입니다.",
         },
         {
@@ -194,7 +194,7 @@ export default function PsdConverterPage() {
       comparisonIntro="Google은 사용자가 찾는 문제를 실제로 해결하는 페이지를 이해하려고 합니다. 그래서 이 페이지는 'PSD 변환'이라는 단어만 반복하지 않고, 변환 후 사용자가 무엇을 할 수 있는지까지 설명합니다."
       comparisonItems={[
         "PSD 변환 검색자는 보통 파일을 열고, 수정하고, 다시 전달하는 방법을 찾습니다.",
-        "PIGMA의 장점은 변환 후 레이어와 텍스트를 작업 가능한 구조로 정리하는 데 있습니다.",
+        "PIGER의 장점은 변환 후 레이어와 텍스트를 작업 가능한 구조로 정리하는 데 있습니다.",
         "홈페이지보다 전용 URL이 있으면 제목, 설명, 본문, FAQ를 한 검색 의도에 집중시킬 수 있습니다.",
       ]}
       faq={faq}

@@ -88,7 +88,7 @@ export function AuthScreen({ mode, notice, nextPath }: AuthScreenProps) {
   const isSignup = mode === "signup"
   const next = safeNextPath(nextPath)
   const [state, formAction] = useActionState(isSignup ? signupAction : loginAction, initialState)
-  const title = isSignup ? "PIGMA 시작하기" : "PIGMA 로그인"
+  const title = isSignup ? "PIGER 시작하기" : "PIGER 로그인"
   const description = isSignup
     ? "작업 파일을 연결하고 AI 변환 설정을 바로 저장하세요."
     : "저장된 변환 작업과 팀 리뷰 링크를 이어서 관리하세요."
@@ -97,7 +97,7 @@ export function AuthScreen({ mode, notice, nextPath }: AuthScreenProps) {
     <main className="min-h-screen overflow-x-hidden bg-[#f6f7f9] py-6 text-[#050505] sm:py-8 lg:py-10">
       <div className="mx-auto flex min-h-[calc(100vh-48px)] w-[calc(100vw-40px)] max-w-[1180px] min-w-0 flex-col overflow-hidden rounded-2xl bg-white shadow-[0_24px_80px_rgba(15,24,42,0.08)] ring-1 ring-[#e4e9f1] sm:w-[calc(100vw-64px)] lg:grid lg:w-[calc(100vw-80px)] lg:grid-cols-[0.92fr_1.08fr]">
         <section className="flex min-h-[360px] min-w-0 flex-col justify-between bg-[#050505] p-8 text-white sm:p-10 lg:p-12">
-          <a href="/" className="inline-flex w-fit items-center" aria-label="PIGMA 홈으로 이동">
+          <a href="/" className="inline-flex w-fit items-center" aria-label="PIGER 홈으로 이동">
             <PigmaLogo className="h-[20px] w-auto brightness-0 invert" />
           </a>
 
@@ -109,7 +109,7 @@ export function AuthScreen({ mode, notice, nextPath }: AuthScreenProps) {
               이어서 관리하세요.
             </h1>
             <p className="mt-6 text-[15px] leading-7 text-white/60 sm:text-[16px]">
-              PIGMA 계정으로 변환 상태, 옵션, 리뷰 링크를 한 곳에 모아둘 수 있습니다.
+              PIGER 계정으로 변환 상태, 옵션, 리뷰 링크를 한 곳에 모아둘 수 있습니다.
             </p>
           </div>
 
@@ -196,7 +196,7 @@ export function AuthScreen({ mode, notice, nextPath }: AuthScreenProps) {
                   type="email"
                   name="email"
                   autoComplete="email"
-                  placeholder="hello@pigma.app"
+                  placeholder="hello@piger.app"
                   required
                   className="h-[52px] rounded-xl border border-[#dfe5ee] bg-white px-4 text-[15px] font-medium outline-none transition placeholder:text-[#a2aab5] focus:border-[#005bff] focus:ring-4 focus:ring-[#005bff]/10"
                 />

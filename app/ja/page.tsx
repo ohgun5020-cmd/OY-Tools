@@ -527,7 +527,7 @@ function SiteHeader() {
         <a
           href="#top"
           className="flex items-center text-black"
-          aria-label="PIGMAホーム"
+          aria-label="PIGERホーム"
         >
           <PigmaLogo className="h-[18px] w-auto md:h-[19px]" />
         </a>
@@ -566,7 +566,7 @@ function SiteHeaderAuthenticated() {
   return (
     <header className="sticky top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur-xl">
       <div className="mx-auto flex h-[88px] max-w-[1440px] items-center justify-between px-6 sm:px-10 md:grid md:h-[104px] md:grid-cols-[148px_1fr_auto] lg:px-12">
-        <a href="#top" className="flex items-center text-black" aria-label="PIGMAホーム">
+        <a href="#top" className="flex items-center text-black" aria-label="PIGERホーム">
           <PigmaLogo className="h-[18px] w-auto md:h-[19px]" />
         </a>
 
@@ -731,7 +731,7 @@ function HeroSection() {
             FIG EXPORT TO PSD
           </p>
           <h1 className="mx-auto max-w-[1120px] text-[38px] font-black leading-[1.12] text-black sm:text-[52px] lg:text-[64px]">
-            PIGMAなら
+            PIGERなら
             <br />
             FIGをPSDへ、秒でいい感じ
           </h1>
@@ -907,7 +907,7 @@ function AiChatSection() {
       <div className="mx-auto max-w-[1248px]">
         <p className="text-center text-[13px] font-black tracking-[0.18em] text-white/45">PLUGIN MENU</p>
         <h2 className="mx-auto mt-5 max-w-[760px] text-center text-[34px] font-black leading-[1.2] sm:text-[46px]">
-          <span className="block">よく使うPIGMAツール、</span>
+          <span className="block">よく使うPIGERツール、</span>
           <span className="block">サクッと集合</span>
         </h2>
         <p className="mx-auto mt-5 max-w-[620px] text-center text-[15px] leading-7 text-white/62">
@@ -1598,7 +1598,7 @@ function WorkflowSection() {
               <span className="ml-2 size-2.5 rounded-full bg-[#ffbd2e]" />
               <span className="ml-2 size-2.5 rounded-full bg-[#27c93f]" />
               <span className="ml-5 text-[11px] font-black leading-4 text-white">
-                source.psd&nbsp; -&gt;&nbsp; pigma&nbsp; -&gt;&nbsp; 共有OK Figma
+                source.psd&nbsp; -&gt;&nbsp; piger&nbsp; -&gt;&nbsp; 共有OK Figma
               </span>
             </div>
 
@@ -1731,7 +1731,7 @@ function FileImportSection() {
             <span className="size-2.5 rounded-full bg-[#ff6b5f]" />
             <span className="ml-2 size-2.5 rounded-full bg-[#ffca4b]" />
             <span className="ml-2 size-2.5 rounded-full bg-[#32d074]" />
-            <span className="ml-8 text-[13px] leading-4">元ファイル&nbsp; -&gt;&nbsp; pigma&nbsp; -&gt;&nbsp; 編集できるFigma</span>
+            <span className="ml-8 text-[13px] leading-4">元ファイル&nbsp; -&gt;&nbsp; piger&nbsp; -&gt;&nbsp; 編集できるFigma</span>
           </div>
 
           <div className="bg-[#fbfbfb] px-[34px] pb-5 pt-5">

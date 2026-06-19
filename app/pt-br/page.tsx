@@ -527,7 +527,7 @@ function SiteHeader() {
         <a
           href="#top"
           className="flex items-center text-black"
-          aria-label="Inicio PIGMA"
+          aria-label="Inicio PIGER"
         >
           <PigmaLogo className="h-[18px] w-auto md:h-[19px]" />
         </a>
@@ -566,7 +566,7 @@ function SiteHeaderAuthenticated() {
   return (
     <header className="sticky top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur-xl">
       <div className="mx-auto flex h-[88px] max-w-[1440px] items-center justify-between px-6 sm:px-10 md:grid md:h-[104px] md:grid-cols-[148px_1fr_auto] lg:px-12">
-        <a href="#top" className="flex items-center text-black" aria-label="Inicio PIGMA">
+        <a href="#top" className="flex items-center text-black" aria-label="Inicio PIGER">
           <PigmaLogo className="h-[18px] w-auto md:h-[19px]" />
         </a>
 
@@ -731,7 +731,7 @@ function HeroSection() {
             FIG PRA PSD
           </p>
           <h1 className="mx-auto max-w-[1120px] text-[38px] font-black leading-[1.12] text-black sm:text-[52px] lg:text-[64px]">
-            Com PIGMA
+            Com PIGER
             <br />
             FIG pra PSD, sem perrengue
           </h1>
@@ -907,7 +907,7 @@ function AiChatSection() {
       <div className="mx-auto max-w-[1248px]">
         <p className="text-center text-[13px] font-black tracking-[0.18em] text-white/45">MENU DO PLUGIN</p>
         <h2 className="mx-auto mt-5 max-w-[760px] text-center text-[34px] font-black leading-[1.2] sm:text-[46px]">
-          Ferramentas PIGMA prontas quando o mood muda
+          Ferramentas PIGER prontas quando o mood muda
         </h2>
         <p className="mx-auto mt-5 max-w-[620px] text-center text-[15px] leading-7 text-white/62">
           Checks, limpeza, fixes e share tools onde seu flow ja acontece.
@@ -1597,7 +1597,7 @@ function WorkflowSection() {
               <span className="ml-2 size-2.5 rounded-full bg-[#ffbd2e]" />
               <span className="ml-2 size-2.5 rounded-full bg-[#27c93f]" />
               <span className="ml-5 text-[11px] font-black leading-4 text-white">
-                source.psd&nbsp; -&gt;&nbsp; pigma&nbsp; -&gt;&nbsp; figma pronto pro time
+                source.psd&nbsp; -&gt;&nbsp; piger&nbsp; -&gt;&nbsp; figma pronto pro time
               </span>
             </div>
 
@@ -1730,7 +1730,7 @@ function FileImportSection() {
             <span className="size-2.5 rounded-full bg-[#ff6b5f]" />
             <span className="ml-2 size-2.5 rounded-full bg-[#ffca4b]" />
             <span className="ml-2 size-2.5 rounded-full bg-[#32d074]" />
-            <span className="ml-8 text-[13px] leading-4">arquivos fonte&nbsp; -&gt;&nbsp; pigma&nbsp; -&gt;&nbsp; figma editável</span>
+            <span className="ml-8 text-[13px] leading-4">arquivos fonte&nbsp; -&gt;&nbsp; piger&nbsp; -&gt;&nbsp; figma editável</span>
           </div>
 
           <div className="bg-[#fbfbfb] px-[34px] pb-5 pt-5">
@@ -1844,7 +1844,7 @@ function UseCasesSection() {
           </span>
         </h2>
         <p className="mt-4 text-center text-[17px] leading-7 text-[#b8b8b8]">
-          15 momentos reais em que PIGMA salva scroll, stress e missao paralela.
+          15 momentos reais em que PIGER salva scroll, stress e missao paralela.
         </p>
         <div className="mt-12 grid auto-rows-fr gap-5 sm:grid-cols-2 lg:grid-cols-5">
           {useCases.map((item, index) => {

@@ -20,7 +20,7 @@ export function SimpleSiteHeader() {
   return (
     <header className="border-b border-black/5 bg-white">
       <div className="mx-auto flex h-20 max-w-[1120px] items-center justify-between px-6 sm:px-10">
-        <a href="/" className="inline-flex items-center" aria-label="PIGMA home">
+        <a href="/" className="inline-flex items-center" aria-label="PIGER home">
           <PigmaLogo className="h-[18px] w-auto" />
         </a>
         <nav className="flex flex-wrap items-center justify-end gap-x-6 gap-y-2 text-sm font-bold text-[#111]">
@@ -87,7 +87,7 @@ export function PolicyPage({ title, description, lastUpdated = "May 26, 2026", s
       <SimpleSiteHeader />
       <section className="bg-[#f7f9fc] px-6 py-16 sm:px-10 sm:py-20">
         <div className="mx-auto max-w-[900px]">
-          <p className="text-sm font-black tracking-[0.18em] text-[#005bff]">PIGMA</p>
+          <p className="text-sm font-black tracking-[0.18em] text-[#005bff]">PIGER</p>
           <h1 className="mt-4 text-[38px] font-black leading-tight text-[#050505] sm:text-[56px]">{title}</h1>
           <p className="mt-5 max-w-[720px] text-[17px] leading-8 text-[#60656b]">{description}</p>
           <p className="mt-6 text-sm font-bold text-[#60656b]">Last updated: {lastUpdated}</p>

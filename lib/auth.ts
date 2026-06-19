@@ -647,7 +647,7 @@ export function upsertGoogleUser(profile: GoogleProfile) {
   const timestamp = nowIso()
 
   if (existingByGoogle && existingByEmail && existingByGoogle.id !== existingByEmail.id) {
-    throw authError("Google 계정이 이미 다른 PIGMA 계정과 연결되어 있습니다.", {
+    throw authError("Google 계정이 이미 다른 PIGER 계정과 연결되어 있습니다.", {
       google: "conflict",
     })
   }
@@ -745,7 +745,7 @@ export function cleanupExpiredSessions() {
   getDb().prepare("DELETE FROM sessions WHERE expires_at <= ?").run(nowIso())
 }
 
-export function createPluginAccessToken(userId: string, label = "Pigma plugin"): PluginAccessToken {
+export function createPluginAccessToken(userId: string, label = "Piger plugin"): PluginAccessToken {
   const user = getUserById(userId)
   if (!user) {
     throw authError("User not found.")
@@ -760,7 +760,7 @@ export function createPluginAccessToken(userId: string, label = "Pigma plugin"):
   getDb().prepare(`
     INSERT INTO plugin_tokens (id, user_id, token_hash, label, created_at, expires_at)
     VALUES (?, ?, ?, ?, ?, ?)
-  `).run(randomUUID(), userId, hashToken(token), label.trim() || "Pigma plugin", timestamp, expiresAt)
+  `).run(randomUUID(), userId, hashToken(token), label.trim() || "Piger plugin", timestamp, expiresAt)
 
   return {
     token,

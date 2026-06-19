@@ -3,8 +3,8 @@ import type { Metadata } from "next"
 import { AuthScreen } from "../_components/AuthScreen"
 
 export const metadata: Metadata = {
-  title: "로그인 | PIGMA",
-  description: "PIGMA 계정으로 로그인하고 변환 작업과 리뷰 링크를 이어서 관리하세요.",
+  title: "로그인 | PIGER",
+  description: "PIGER 계정으로 로그인하고 변환 작업과 리뷰 링크를 이어서 관리하세요.",
 }
 
 type LoginPageProps = {
@@ -29,7 +29,7 @@ function getNotice(params: Awaited<LoginPageProps["searchParams"]>) {
   }
 
   if (params.error === "google-account-conflict") {
-    return "이 Google 계정은 이미 다른 PIGMA 계정과 연결되어 있습니다. 기존 계정으로 로그인해 확인해 주세요."
+    return "이 Google 계정은 이미 다른 PIGER 계정과 연결되어 있습니다. 기존 계정으로 로그인해 확인해 주세요."
   }
 
   return undefined

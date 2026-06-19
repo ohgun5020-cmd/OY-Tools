@@ -6,15 +6,15 @@ import { SITE_NAME, SITE_URL, absoluteUrl } from "@/lib/seo"
 
 const path = "/psd-export"
 const pageUrl = absoluteUrl(path)
-const title = "PSD Export for Figma | PIGMA"
+const title = "PSD Export for Figma | PIGER"
 const description =
-  "Export Figma work into PSD-ready files with PIGMA. Clean layers, editable text, images, and effects before sending design work into a Photoshop workflow."
+  "Export Figma work into PSD-ready files with PIGER. Clean layers, editable text, images, and effects before sending design work into a Photoshop workflow."
 
 const faq = [
   {
-    question: "Can I export Figma designs to PSD with PIGMA?",
+    question: "Can I export Figma designs to PSD with PIGER?",
     answer:
-      "PIGMA focuses on preparing Figma work for PSD-ready export by organizing layers, text, images, and effects so the handoff is easier to edit in a Photoshop workflow.",
+      "PIGER focuses on preparing Figma work for PSD-ready export by organizing layers, text, images, and effects so the handoff is easier to edit in a Photoshop workflow.",
   },
   {
     question: "What should I check before a PSD export?",
@@ -24,7 +24,7 @@ const faq = [
   {
     question: "Is this only for PSD files?",
     answer:
-      "No. PIGMA also supports workflows around AI, EPS, PDF, PPT, and SVG imports, then helps turn the result into editable Figma structure before export or review.",
+      "No. PIGER also supports workflows around AI, EPS, PDF, PPT, and SVG imports, then helps turn the result into editable Figma structure before export or review.",
   },
 ]
 
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
         url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "PIGMA PSD export workflow for Figma",
+        alt: "PIGER PSD export workflow for Figma",
       },
     ],
   },
@@ -76,7 +76,7 @@ const jsonLd = {
         {
           "@type": "ListItem",
           position: 1,
-          name: "PIGMA",
+          name: "PIGER",
           item: SITE_URL,
         },
         {
@@ -146,9 +146,9 @@ export default function PsdExportPage() {
       proofPoints={[
         "Targets the exact search intent behind 'psd export' and 'Figma to PSD'.",
         "Explains the real workflow: layer cleanup, editable text, image checks, and export handoff.",
-        "Links directly to the PIGMA Figma plugin so visitors can try the workflow.",
+        "Links directly to the PIGER Figma plugin so visitors can try the workflow.",
       ]}
-      featureTitle="What PIGMA prepares before PSD export"
+      featureTitle="What PIGER prepares before PSD export"
       features={[
         {
           title: "Layer structure",
@@ -171,7 +171,7 @@ export default function PsdExportPage() {
         },
         {
           title: "Run cleanup checks",
-          body: "Use PIGMA to prepare layers, text, images, and common handoff details before export.",
+          body: "Use PIGER to prepare layers, text, images, and common handoff details before export.",
         },
         {
           title: "Send a PSD-ready file",

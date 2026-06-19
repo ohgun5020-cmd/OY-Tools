@@ -3,8 +3,8 @@ import type { Metadata } from "next"
 import { SimpleSiteFooter, SimpleSiteHeader } from "../_components/PolicyPage"
 
 export const metadata: Metadata = {
-  title: "Pricing | PIGMA",
-  description: "PIGMA pricing for PSD to Figma-ready conversion and design workflow tools.",
+  title: "Pricing | PIGER",
+  description: "PIGER pricing for PSD to Figma-ready conversion and design workflow tools.",
 }
 
 const plans = [
@@ -78,7 +78,7 @@ export default function PricingPage() {
       <SimpleSiteHeader />
       <section className="bg-[#f7f9fc] px-6 py-16 sm:px-10 sm:py-20">
         <div className="mx-auto max-w-[1020px] text-center">
-          <p className="text-sm font-black tracking-[0.18em] text-[#005bff]">PIGMA PRICING</p>
+          <p className="text-sm font-black tracking-[0.18em] text-[#005bff]">PIGER PRICING</p>
           <h1 className="mt-4 text-[42px] font-black leading-tight sm:text-[60px]">가격은 가볍게, 기능은 야무지게</h1>
           <p className="mx-auto mt-5 max-w-[720px] text-[17px] leading-8 text-[#60656b]">
             Free는 가볍게 찍먹, Basic은 실무 정리, Pro는 AI 검수와 이미지 작업까지 챙기는 플랜입니다.

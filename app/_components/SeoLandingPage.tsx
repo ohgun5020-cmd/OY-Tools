@@ -45,7 +45,7 @@ type SeoLandingPageProps = {
 }
 
 const defaultPrimaryCta: Cta = {
-  label: "Open PIGMA on Figma",
+  label: "Open PIGER on Figma",
   href: FIGMA_PLUGIN_URL,
   external: true,
 }
@@ -170,7 +170,7 @@ export function SeoLandingPage({
       <section className="px-6 py-12 sm:px-10">
         <div className="mx-auto flex max-w-[1120px] flex-col items-start justify-between gap-5 rounded-lg bg-[#005bff] p-6 text-white sm:p-8 md:flex-row md:items-center">
           <div>
-            <p className="text-sm font-black uppercase tracking-[0.16em] text-white/70">PIGMA</p>
+            <p className="text-sm font-black uppercase tracking-[0.16em] text-white/70">PIGER</p>
             <h2 className="mt-2 text-[26px] font-black leading-tight sm:text-[34px]">Start with one PSD workflow and measure the result.</h2>
           </div>
           <LandingButton cta={primaryCta} inverted />

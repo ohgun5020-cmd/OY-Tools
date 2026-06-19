@@ -59,7 +59,7 @@ export async function POST(request: Request) {
       )
     }
 
-    const token = createPluginAccessToken(user.id, "Pigma plugin login")
+    const token = createPluginAccessToken(user.id, "Piger plugin login")
 
     return NextResponse.json(
       {
