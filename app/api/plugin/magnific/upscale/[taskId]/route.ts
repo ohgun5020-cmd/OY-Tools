@@ -5,6 +5,7 @@ import {
   fetchGeneratedImage,
   fetchMagnific,
   getMagnificApiKey,
+  getMagnificUpscaleModel,
   readMagnificJson,
   requirePluginAuth,
   taskHasImage,
@@ -31,8 +32,10 @@ export async function GET(request: Request, context: { params: { taskId: string 
     )
   }
 
+  const url = new URL(request.url)
+  const model = getMagnificUpscaleModel(url.searchParams.get("model"))
   const taskId = encodeURIComponent(context.params.taskId)
-  const response = await fetchMagnific(`/v1/ai/image-upscaler-precision-v2/${taskId}`, apiKey, { method: "GET" })
+  const response = await fetchMagnific(`${model.endpoint}/${taskId}`, apiKey, { method: "GET" })
   const payload = await readMagnificJson(response)
 
   if (!response.ok) {
@@ -42,8 +45,7 @@ export async function GET(request: Request, context: { params: { taskId: string 
     )
   }
 
-  const result: Record<string, unknown> = { ok: true, task: payload?.data }
-  const url = new URL(request.url)
+  const result: Record<string, unknown> = { ok: true, model, task: payload?.data }
   const generatedUrl = payload?.data?.generated?.[0]
   if (url.searchParams.get("includeImage") === "1" && taskHasImage(payload) && generatedUrl) {
     try {

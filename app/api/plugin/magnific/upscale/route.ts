@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server"
 
 import {
+  cleanImageBase64,
   corsHeaders,
   estimatePrecisionCredits,
   fetchMagnific,
   getMagnificApiKey,
+  getMagnificUpscaleModel,
   normalizePrecisionFlavor,
   normalizeScaleFactor,
   readMagnificJson,
@@ -20,6 +22,7 @@ type UpscaleRequest = {
   mimeType?: unknown
   scaleFactor?: unknown
   flavor?: unknown
+  model?: unknown
   width?: unknown
   height?: unknown
   sharpen?: unknown
@@ -69,17 +72,36 @@ export async function POST(request: Request) {
   }
 
   const scaleFactor = normalizeScaleFactor(body.scaleFactor)
-  const magnificResponse = await fetchMagnific("/v1/ai/image-upscaler-precision-v2", apiKey, {
+  const model = getMagnificUpscaleModel(body.model)
+  const requestBody: Record<string, unknown> = {
+    image,
+    filter_nsfw: false,
+  }
+
+  if (model.provider === "precision-v2") {
+    requestBody.scale_factor = scaleFactor
+    requestBody.flavor = normalizePrecisionFlavor(body.flavor)
+    requestBody.sharpen = clampControl(body.sharpen, 7)
+    requestBody.smart_grain = clampControl(body.smartGrain, 7)
+    requestBody.ultra_detail = clampControl(body.ultraDetail, 30)
+  } else if (model.provider === "precision-v1") {
+    requestBody.sharpen = clampControl(body.sharpen, 50)
+    requestBody.smart_grain = clampControl(body.smartGrain, 7)
+    requestBody.ultra_detail = clampControl(body.ultraDetail, 30)
+  } else {
+    requestBody.scale_factor = `${scaleFactor}x`
+    requestBody.optimized_for = body.flavor === "sublime" ? "art_n_illustration" : "standard"
+    requestBody.prompt = "High quality upscale, preserve the original image, improve detail and clarity."
+    requestBody.creativity = 0
+    requestBody.hdr = 0
+    requestBody.resemblance = 2
+    requestBody.fractality = 0
+    requestBody.engine = "automatic"
+  }
+
+  const magnificResponse = await fetchMagnific(model.endpoint, apiKey, {
     method: "POST",
-    body: JSON.stringify({
-      image,
-      scale_factor: scaleFactor,
-      flavor: normalizePrecisionFlavor(body.flavor),
-      sharpen: clampControl(body.sharpen, 7),
-      smart_grain: clampControl(body.smartGrain, 7),
-      ultra_detail: clampControl(body.ultraDetail, 30),
-      filter_nsfw: false,
-    }),
+    body: JSON.stringify(requestBody),
   })
   const payload = await readMagnificJson(magnificResponse)
 
@@ -97,6 +119,7 @@ export async function POST(request: Request) {
   return NextResponse.json(
     {
       ok: true,
+      model,
       task: payload?.data,
       estimatedCredits: estimatePrecisionCredits(body.width, body.height, scaleFactor),
       user: {
@@ -107,11 +130,4 @@ export async function POST(request: Request) {
     },
     { headers: corsHeaders() },
   )
-}
-
-function cleanImageBase64(value: unknown) {
-  if (typeof value !== "string") {
-    return ""
-  }
-  return value.replace(/^data:image\/[a-zA-Z0-9.+-]+;base64,/, "").trim()
 }

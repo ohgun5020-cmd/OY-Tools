@@ -314,3 +314,36 @@ export function getMagnificEditModel(value: unknown) {
   const key = typeof value === "string" ? value.trim() : ""
   return editModels.find((model) => model.key === key) || editModels[0]
 }
+
+export type MagnificUpscaleModel = {
+  key: string
+  label: string
+  endpoint: string
+  provider: "precision-v2" | "precision-v1" | "creative"
+}
+
+const upscaleModels: MagnificUpscaleModel[] = [
+  {
+    key: "precision-v2",
+    label: "Precision V2",
+    endpoint: "/v1/ai/image-upscaler-precision-v2",
+    provider: "precision-v2",
+  },
+  {
+    key: "precision-v1",
+    label: "Precision V1",
+    endpoint: "/v1/ai/image-upscaler-precision",
+    provider: "precision-v1",
+  },
+  {
+    key: "creative",
+    label: "Creative",
+    endpoint: "/v1/ai/image-upscaler",
+    provider: "creative",
+  },
+]
+
+export function getMagnificUpscaleModel(value: unknown) {
+  const key = typeof value === "string" ? value.trim() : ""
+  return upscaleModels.find((model) => model.key === key) || upscaleModels[0]
+}
