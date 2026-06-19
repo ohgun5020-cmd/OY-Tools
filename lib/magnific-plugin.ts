@@ -63,7 +63,12 @@ function parseCreditEnv(raw: unknown) {
     return null
   }
 
-  const value = raw.trim().toLowerCase().replace(/\s+/g, "")
+  const value = raw
+    .trim()
+    .replace(/^:+/, "")
+    .replace(/^["']|["']$/g, "")
+    .toLowerCase()
+    .replace(/\s+/g, "")
   const multiplier = value.endsWith("k") ? 1000 : 1
   const withoutSuffix = value.replace(/k$/, "")
   const normalized =
