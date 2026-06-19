@@ -529,7 +529,7 @@ function SiteHeader() {
           className="flex items-center text-black"
           aria-label="Inicio PIGMA"
         >
-          <PigmaLogo className="h-[18px] w-[88px] md:h-[19px] md:w-[100px]" />
+          <PigmaLogo className="h-[18px] w-auto md:h-[19px]" />
         </a>
         <nav className="hidden items-center justify-start gap-14 pl-7 text-base font-bold text-[#0a0a0a] md:flex">
           <a href="#product" className="transition hover:text-[#005bff]">
@@ -567,7 +567,7 @@ function SiteHeaderAuthenticated() {
     <header className="sticky top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur-xl">
       <div className="mx-auto flex h-[88px] max-w-[1440px] items-center justify-between px-6 sm:px-10 md:grid md:h-[104px] md:grid-cols-[148px_1fr_auto] lg:px-12">
         <a href="#top" className="flex items-center text-black" aria-label="Inicio PIGMA">
-          <PigmaLogo className="h-[18px] w-[88px] md:h-[19px] md:w-[100px]" />
+          <PigmaLogo className="h-[18px] w-auto md:h-[19px]" />
         </a>
 
         <nav className="hidden items-center justify-start gap-14 pl-7 text-base font-bold text-[#0a0a0a] md:flex">
@@ -665,11 +665,11 @@ function LanguageSwitch({ current }: { current: LocaleCode }) {
 function PigmaLogo({ className = "" }: { className?: string }) {
   return (
     <img
-      src="/assets/pigma-wordmark.svg"
-      alt="PIGMA"
+      src="/assets/piger-wordmark.svg"
+      alt="PIGER"
       className={className}
       width={100}
-      height={18}
+      height={20}
     />
   )
 }
@@ -2095,7 +2095,7 @@ function SiteFooter() {
     <footer className="bg-[#050505] px-6 pb-10 text-white sm:px-10 lg:px-12">
       <div className="mx-auto flex max-w-[1120px] flex-col gap-6 border-t border-white/10 pt-8 text-sm text-white/60 md:flex-row md:items-center md:justify-between">
         <div>
-          <PigmaLogo className="h-[18px] w-[100px] brightness-0 invert" />
+          <PigmaLogo className="h-[18px] w-auto brightness-0 invert" />
           <span>Un plugin que convierte PSD en estructura lista para Figma</span>
         </div>
         <div className="flex flex-wrap gap-6">

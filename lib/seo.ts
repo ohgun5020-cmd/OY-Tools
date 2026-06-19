@@ -213,7 +213,7 @@ export function buildPigmaStructuredData(locale: LocaleCode) {
         url: SITE_URL,
         logo: {
           "@type": "ImageObject",
-          url: absoluteUrl("/assets/pigma-wordmark.svg"),
+          url: absoluteUrl("/assets/piger-wordmark.svg"),
         },
       },
       {

@@ -13,7 +13,7 @@ type PolicyPageProps = {
 }
 
 function PigmaLogo({ className = "" }: { className?: string }) {
-  return <img src="/assets/pigma-wordmark.svg" alt="PIGMA" className={className} width={100} height={18} />
+  return <img src="/assets/piger-wordmark.svg" alt="PIGER" className={className} width={100} height={20} />
 }
 
 export function SimpleSiteHeader() {
