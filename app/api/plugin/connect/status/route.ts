@@ -32,6 +32,9 @@ function webLinks(request: Request) {
     psdUsageRelease: `${appUrl}/api/plugin/psd-usage/release`,
     pricing: `${appUrl}/#pricing`,
     ai: `${appUrl}/api/plugin/ai`,
+    magnificCredits: `${appUrl}/api/plugin/magnific/credits`,
+    magnificUpscale: `${appUrl}/api/plugin/magnific/upscale`,
+    magnificEdit: `${appUrl}/api/plugin/magnific/edit`,
   }
 }
 
