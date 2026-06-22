@@ -41,7 +41,7 @@ During the free beta, free users receive unlimited PSD conversions. After beta, 
 Create Basic and Pro prices in Paddle, then set these variables in Railway:
 
 ```bash
-NEXT_PUBLIC_APP_URL=https://oy-tools-production.up.railway.app
+NEXT_PUBLIC_APP_URL=https://pigerplugin.com
 NEXT_PUBLIC_PADDLE_CLIENT_TOKEN=...
 PADDLE_API_KEY=...
 PADDLE_ENVIRONMENT=production
@@ -57,13 +57,13 @@ Do not store a customer-specific Paddle link such as `https://customer-portal.pa
 In Paddle > Checkout > Checkout settings, set the default payment link to your production domain:
 
 ```text
-https://oy-tools-production.up.railway.app
+https://pigerplugin.com
 ```
 
 Add a Paddle webhook endpoint:
 
 ```text
-https://oy-tools-production.up.railway.app/api/webhooks/paddle
+https://pigerplugin.com/api/webhooks/paddle
 ```
 
 Subscribe it to:

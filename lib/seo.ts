@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 
 export type LocaleCode = "ko" | "en" | "ja" | "es" | "pt-br"
 
-export const SITE_URL = "https://oy-tools-production.up.railway.app"
+export const SITE_URL = "https://pigerplugin.com"
 export const SITE_NAME = "PIGER"
 
 export const LOCALE_PATHS: Record<LocaleCode, string> = {
