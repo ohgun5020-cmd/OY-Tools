@@ -3,6 +3,8 @@ import { NextResponse, type NextRequest } from "next/server"
 type LocaleCode = "ko" | "en" | "ja" | "es" | "pt-br"
 
 const LOCALE_COOKIE = "pigma-locale"
+const LEGACY_HOSTS = new Set(["oy-tools-production.up.railway.app"])
+const CANONICAL_HOST = "pigerplugin.com"
 const LOCALE_PATHS: Record<LocaleCode, string> = {
   ko: "/",
   en: "/en",
@@ -17,6 +19,11 @@ const FIXED_LOCALE_PATHS: Record<string, LocaleCode> = {
 }
 
 export function middleware(request: NextRequest) {
+  const canonicalRedirect = redirectLegacyHost(request)
+  if (canonicalRedirect) {
+    return canonicalRedirect
+  }
+
   const selectedLocale = normalizeLocale(request.nextUrl.searchParams.get("lang"))
   if (selectedLocale) {
     const pathname = shouldUseLocaleHomePath(request.nextUrl.pathname)
@@ -42,6 +49,19 @@ export function middleware(request: NextRequest) {
   }
 
   return redirectWithLocale(request, browserLocale, LOCALE_PATHS[browserLocale], false)
+}
+
+function redirectLegacyHost(request: NextRequest) {
+  const host = request.headers.get("host")?.split(":")[0]?.toLowerCase()
+  if (!host || !LEGACY_HOSTS.has(host)) {
+    return null
+  }
+
+  const url = request.nextUrl.clone()
+  url.protocol = "https:"
+  url.hostname = CANONICAL_HOST
+  url.port = ""
+  return NextResponse.redirect(url, 301)
 }
 
 function redirectWithLocale(request: NextRequest, locale: LocaleCode, pathname: string, cleanLangParam: boolean) {
@@ -146,5 +166,7 @@ function normalizeLocale(value: string | undefined | null): LocaleCode | null {
 }
 
 export const config = {
-  matcher: ["/", "/en", "/ja", "/es", "/pt-br", "/psd-export", "/psd-converter", "/dashboard/:path*"],
+  matcher: [
+    "/((?!api|_next/static|_next/image|assets|fonts|favicon.ico|icon.png|icon.svg|apple-icon.png|opengraph-image|manifest.webmanifest|robots.txt|sitemap.xml|google.*\\.html).*)",
+  ],
 }
