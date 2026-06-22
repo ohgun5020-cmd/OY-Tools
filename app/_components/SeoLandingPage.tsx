@@ -32,6 +32,7 @@ type SeoLandingPageProps = {
   description: string
   primaryCta?: Cta
   secondaryCta?: Cta
+  proofLabel?: string
   proofPoints: string[]
   featureTitle: string
   features: FeatureBlock[]
@@ -42,6 +43,7 @@ type SeoLandingPageProps = {
   comparisonItems: string[]
   faq: FaqItem[]
   jsonLd: unknown
+  finalCtaTitle?: string
 }
 
 const defaultPrimaryCta: Cta = {
@@ -61,6 +63,7 @@ export function SeoLandingPage({
   description,
   primaryCta = defaultPrimaryCta,
   secondaryCta = defaultSecondaryCta,
+  proofLabel = "Search intent fit",
   proofPoints,
   featureTitle,
   features,
@@ -71,6 +74,7 @@ export function SeoLandingPage({
   comparisonItems,
   faq,
   jsonLd,
+  finalCtaTitle = "Start with one PSD workflow and measure the result.",
 }: SeoLandingPageProps) {
   return (
     <main className="min-h-screen bg-white text-[#050505]">
@@ -94,7 +98,7 @@ export function SeoLandingPage({
           </div>
 
           <aside className="rounded-lg bg-white p-6 shadow-[0_18px_45px_rgba(15,24,42,0.08)] ring-1 ring-[#e7ecf3]">
-            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#60656b]">Search intent fit</p>
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#60656b]">{proofLabel}</p>
             <div className="mt-5 grid gap-3">
               {proofPoints.map((point) => (
                 <div key={point} className="flex gap-3 rounded-lg bg-[#f7f9fc] p-3 text-sm font-bold leading-6 text-[#303844]">
@@ -171,7 +175,7 @@ export function SeoLandingPage({
         <div className="mx-auto flex max-w-[1120px] flex-col items-start justify-between gap-5 rounded-lg bg-[#005bff] p-6 text-white sm:p-8 md:flex-row md:items-center">
           <div>
             <p className="text-sm font-black uppercase tracking-[0.16em] text-white/70">PIGER</p>
-            <h2 className="mt-2 text-[26px] font-black leading-tight sm:text-[34px]">Start with one PSD workflow and measure the result.</h2>
+            <h2 className="mt-2 text-[26px] font-black leading-tight sm:text-[34px]">{finalCtaTitle}</h2>
           </div>
           <LandingButton cta={primaryCta} inverted />
         </div>

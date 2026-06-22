@@ -142,6 +142,7 @@ export function buildPigmaMetadata(locale: LocaleCode, options: MetadataOptions 
     publisher: SITE_NAME,
     category: "Design tools",
     classification: "Figma plugin, PSD conversion, AI design workflow",
+    manifest: "/manifest.webmanifest",
     robots: {
       index: true,
       follow: true,
@@ -186,9 +187,13 @@ export function buildPigmaMetadata(locale: LocaleCode, options: MetadataOptions 
     },
     icons: {
       icon: [{ url: "/icon.png", type: "image/png", sizes: "128x128" }],
+      shortcut: [{ url: "/icon.png", type: "image/png", sizes: "128x128" }],
       apple: [{ url: "/apple-icon.png", type: "image/png", sizes: "128x128" }],
     },
     other: {
+      "apple-mobile-web-app-title": SITE_NAME,
+      "msapplication-TileColor": "#005bff",
+      "msapplication-TileImage": "/icon.png",
       "product:category": "Figma plugin",
       "product:keywords": SEO_KEYWORDS.join(", "),
       "ai:summary":
@@ -220,6 +225,7 @@ export function buildPigmaStructuredData(locale: LocaleCode) {
         "@type": "WebSite",
         "@id": `${SITE_URL}/#website`,
         name: SITE_NAME,
+        alternateName: ["Piger"],
         url: SITE_URL,
         inLanguage: Object.values(HTML_LANG),
         publisher: {
