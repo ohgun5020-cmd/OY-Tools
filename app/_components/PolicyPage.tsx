@@ -55,6 +55,16 @@ export function SimpleSiteFooter() {
         <div className="flex flex-col gap-2">
           <PigmaLogo className="h-[18px] w-auto" />
           <p>PSD to Figma-ready conversion and design workflow tools.</p>
+          <p className="max-w-[520px] text-xs leading-5 text-[#8a9096]">
+            PIGER is an independent product and is not affiliated with, endorsed by, or sponsored by Figma,
+            Adobe, or any related companies.
+          </p>
+          <p className="text-xs leading-5 text-[#8a9096]">
+            Support:{" "}
+            <a href="mailto:min.ai.labs@gmail.com" className="font-bold text-[#60656b] transition hover:text-[#005bff]">
+              min.ai.labs@gmail.com
+            </a>
+          </p>
         </div>
         <div className="flex flex-wrap gap-x-6 gap-y-2 font-bold">
           <a href="/psd-export" className="transition hover:text-[#005bff]">
@@ -74,6 +84,9 @@ export function SimpleSiteFooter() {
           </a>
           <a href="/refund-policy" className="transition hover:text-[#005bff]">
             Refund policy
+          </a>
+          <a href="mailto:min.ai.labs@gmail.com" className="transition hover:text-[#005bff]">
+            Contact
           </a>
         </div>
       </div>

@@ -2094,9 +2094,19 @@ function SiteFooter() {
   return (
     <footer className="bg-[#050505] px-6 pb-10 text-white sm:px-10 lg:px-12">
       <div className="mx-auto flex max-w-[1120px] flex-col gap-6 border-t border-white/10 pt-8 text-sm text-white/60 md:flex-row md:items-center md:justify-between">
-        <div>
+        <div className="max-w-[520px]">
           <PigmaLogo className="h-[18px] w-auto brightness-0 invert" />
           <span>Un plugin que convierte PSD en estructura lista para Figma</span>
+          <p className="mt-3 text-xs leading-5 text-white/40">
+            PIGER is an independent product and is not affiliated with, endorsed by, or sponsored by Figma,
+            Adobe, or any related companies.
+          </p>
+          <p className="mt-2 text-xs leading-5 text-white/40">
+            Support:{" "}
+            <a href="mailto:min.ai.labs@gmail.com" className="underline underline-offset-4 transition hover:text-white">
+              min.ai.labs@gmail.com
+            </a>
+          </p>
         </div>
         <div className="flex flex-wrap gap-6">
           <a href="#product" className="transition hover:text-white">
@@ -2122,6 +2132,9 @@ function SiteFooter() {
           </a>
           <a href="/refund-policy" className="transition hover:text-white">
             Reembolsos
+          </a>
+          <a href="mailto:min.ai.labs@gmail.com" className="transition hover:text-white">
+            Contacto
           </a>
         </div>
       </div>
